@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Smartphone, Shield, Lock, CheckCircle, ArrowRight, X, Phone } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 const PAYMENT_METHODS = {
@@ -31,6 +32,8 @@ const PAYMENT_METHODS = {
 export default function PaymentModal({ plan, onClose }) {
   const [tab, setTab] = useState(plan?.defaultMethod || 'orange');
   const [step, setStep] = useState('form'); // form | otp | processing | success
+  const [demoSms, setDemoSms] = useState(false);
+  const navigate = useNavigate();
 
   // Update tab if defaultMethod changes (e.g. clicking different method cards)
   useEffect(() => {
@@ -61,13 +64,17 @@ export default function PaymentModal({ plan, onClose }) {
     if (digits.length < 10) { setError('Please enter a valid Botswana phone number.'); return; }
     if (!agreeTerms) { setError('Please accept the Terms of Service.'); return; }
     setStep('otp');
+    // For demo: Show simulated SMS after 2 seconds
+    setTimeout(() => setDemoSms(true), 1500);
   };
 
   const handleConfirmPayment = (e) => {
     e.preventDefault();
     setError('');
-    if (otp.length < 4) { setError('Please enter a valid code.'); return; }
+    const requiredLength = tab === 'orange' ? 4 : 6;
+    if (otp.length < requiredLength) { setError(`Please enter a valid ${requiredLength}-digit code.`); return; }
     setStep('processing');
+    setDemoSms(false);
     setTimeout(() => {
       if (isLoggedIn) grantSubscription(plan.id || 'monthly');
       setStep('success');
@@ -83,6 +90,47 @@ export default function PaymentModal({ plan, onClose }) {
         exit={{ opacity: 0 }}
         onClick={(e) => e.target === e.currentTarget && step !== 'processing' && onClose()}
       >
+        {/* Demo SMS Notification */}
+        <AnimatePresence>
+          {demoSms && (
+            <motion.div
+              initial={{ y: -100, opacity: 0, x: '-50%' }}
+              animate={{ y: 20, opacity: 1, x: '-50%' }}
+              exit={{ y: -100, opacity: 0, x: '-50%' }}
+              className="demo-sms-notification"
+              style={{
+                position: 'fixed',
+                left: '50%',
+                zIndex: 2000,
+                width: '90%',
+                maxWidth: '400px',
+                background: 'rgba(255,255,255,0.95)',
+                backdropFilter: 'blur(10px)',
+                borderRadius: '16px',
+                padding: '16px',
+                boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
+                border: '1px solid var(--color-border)',
+                display: 'flex',
+                gap: '12px',
+                alignItems: 'center'
+              }}
+            >
+              <div style={{ background: method.color, width: 40, height: 40, borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                <Smartphone size={20} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 2 }}>
+                  <span style={{ fontWeight: 700, fontSize: '13px' }}>{method.name}</span>
+                  <span style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>Now</span>
+                </div>
+                <p style={{ margin: 0, fontSize: '13px', color: 'var(--color-text-secondary)', lineHeight: 1.4 }}>
+                  WP-Payment: Use code <strong style={{ color: 'var(--color-dark)' }}>{tab === 'orange' ? '1234' : '123456'}</strong> to authorise your {plan.name} subscription.
+                </p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <motion.div
           className="modal-content"
           initial={{ scale: 0.92, opacity: 0, y: 24 }}
@@ -108,7 +156,7 @@ export default function PaymentModal({ plan, onClose }) {
 
           <div className="modal-body">
             <AnimatePresence mode="wait">
-              {/* ── SUCCESS ── */}
+              {/* ── SUCCESS ── (Already updated in previous step) */}
               {step === 'success' && (
                 <motion.div
                   key="success"
@@ -116,32 +164,72 @@ export default function PaymentModal({ plan, onClose }) {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                 >
-                  <div className="payment-success-icon">
-                    <CheckCircle size={40} />
+                  <motion.div 
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: 'spring', delay: 0.2 }}
+                    className="payment-success-icon"
+                  >
+                    <CheckCircle size={48} />
+                  </motion.div>
+                  <h3 style={{ marginBottom: 'var(--space-sm)', color: 'var(--color-dark)', fontSize: 'var(--text-2xl)' }}>Payment Successful!</h3>
+                  <div style={{ 
+                    background: 'var(--color-sport-green)', 
+                    color: 'white', 
+                    padding: '4px 12px', 
+                    borderRadius: '20px', 
+                    fontSize: 'var(--text-xs)', 
+                    fontWeight: 700, 
+                    display: 'inline-block',
+                    marginBottom: 'var(--space-lg)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '1px'
+                  }}>
+                    Subscription Active
                   </div>
-                  <h3 style={{ marginBottom: 'var(--space-sm)' }}>Payment Successful!</h3>
-                  <p style={{ color: 'var(--color-text-secondary)', marginBottom: 'var(--space-xl)' }}>
-                    Your <strong>{plan.name}</strong> access has been activated. Enjoy unlimited reading!
+                  
+                  <p style={{ color: 'var(--color-text-secondary)', marginBottom: 'var(--space-xl)', fontSize: 'var(--text-sm)' }}>
+                    Your <strong>{plan.name}</strong> access has been activated. You now have unlimited access to all premium content and E-Papers.
                   </p>
-                  <div className="order-summary">
-                    <div className="order-summary-row" style={{ fontWeight: 700 }}>
+
+                  <div className="receipt-container" style={{ 
+                    background: 'var(--color-bg)', 
+                    borderRadius: 'var(--radius-lg)', 
+                    padding: 'var(--space-lg)', 
+                    marginBottom: 'var(--space-xl)',
+                    border: '1px dashed var(--color-border)',
+                    textAlign: 'left'
+                  }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-md)', borderBottom: '1px solid var(--color-border)', paddingBottom: 'var(--space-sm)' }}>
+                      <span style={{ fontWeight: 600, fontSize: 'var(--text-sm)' }}>Receipt Details</span>
+                      <span style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-xs)' }}>#{Date.now().toString().slice(-8)}</span>
+                    </div>
+                    <div className="order-summary-row" style={{ fontSize: 'var(--text-sm)', marginBottom: 8 }}>
+                      <span>Plan</span>
+                      <span style={{ fontWeight: 600 }}>{plan.name}</span>
+                    </div>
+                    <div className="order-summary-row" style={{ fontSize: 'var(--text-sm)', marginBottom: 8 }}>
                       <span>Amount Paid</span>
-                      <span>{plan.currency}{plan.price}.00</span>
+                      <span style={{ fontWeight: 600 }}>{plan.currency}{plan.price}.00</span>
                     </div>
-                    <div className="order-summary-row">
-                      <span>Method</span>
-                      <span>{method.name}</span>
+                    <div className="order-summary-row" style={{ fontSize: 'var(--text-sm)', marginBottom: 8 }}>
+                      <span>Payment Method</span>
+                      <span style={{ fontWeight: 600 }}>{method.name}</span>
                     </div>
-                    <div className="order-summary-row">
-                      <span>Reference</span>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)' }}>
-                        WP-{Date.now().toString(36).toUpperCase()}
-                      </span>
+                    <div className="order-summary-row" style={{ fontSize: 'var(--text-sm)' }}>
+                      <span>Date</span>
+                      <span style={{ fontWeight: 600 }}>{new Date().toLocaleDateString('en-BW', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
                     </div>
                   </div>
-                  <button className="btn btn-primary btn-block btn-lg" onClick={onClose}>
-                    Start Reading
-                  </button>
+
+                  <div style={{ display: 'flex', gap: 'var(--space-md)' }}>
+                    <button className="btn btn-primary btn-lg btn-block" onClick={() => navigate('/dashboard')}>
+                      Go to Dashboard
+                    </button>
+                    <button className="btn btn-gold btn-lg btn-block" onClick={onClose}>
+                      Start Reading
+                    </button>
+                  </div>
                 </motion.div>
               )}
 
@@ -193,7 +281,7 @@ export default function PaymentModal({ plan, onClose }) {
                         key={m.id}
                         className={`payment-tab ${tab === m.id ? 'active' : ''}`}
                         style={tab === m.id ? { background: m.color, borderColor: m.color } : {}}
-                        onClick={() => { setTab(m.id); setStep('form'); setOtp(''); setError(''); }}
+                        onClick={() => { setTab(m.id); setStep('form'); setOtp(''); setError(''); setDemoSms(false); }}
                         type="button"
                       >
                         <span style={{ fontSize: '1.1rem' }}>{m.icon}</span>
@@ -266,6 +354,7 @@ export default function PaymentModal({ plan, onClose }) {
                           background: method.bg,
                           borderRadius: 'var(--radius-md)',
                           marginBottom: 'var(--space-lg)',
+                          position: 'relative'
                         }}>
                           <Smartphone size={28} style={{ color: method.color, marginBottom: 6 }} />
                           <p style={{ fontWeight: 700, marginBottom: 4 }}>
@@ -277,6 +366,16 @@ export default function PaymentModal({ plan, onClose }) {
                           <p style={{ fontSize: 'var(--text-xs)', color: method.color, fontWeight: 600, marginTop: 6 }}>
                             {phone}
                           </p>
+                          
+                          {!demoSms && (
+                             <button 
+                               type="button"
+                               onClick={() => setDemoSms(true)}
+                               style={{ position: 'absolute', top: 5, right: 5, fontSize: '10px', background: 'rgba(0,0,0,0.05)', border: 'none', borderRadius: 4, padding: '2px 6px', cursor: 'pointer' }}
+                             >
+                               Demo: Resend SMS
+                             </button>
+                          )}
                         </div>
                         <div className="form-group">
                           <label className="form-label">{method.otpLabel}</label>
@@ -290,6 +389,9 @@ export default function PaymentModal({ plan, onClose }) {
                             autoFocus
                             required
                           />
+                          <p style={{ fontSize: '10px', color: 'var(--color-text-muted)', textAlign: 'center', marginTop: 8 }}>
+                            Demo Code: <strong style={{ color: method.color }}>{tab === 'orange' ? '1234' : '123456'}</strong>
+                          </p>
                         </div>
                         <button type="submit" className="btn btn-lg btn-block" style={{ background: method.color, color: '#fff', border: 'none' }}>
                           <Lock size={16} /> Confirm & Pay {plan.currency}{plan.price}.00
@@ -298,7 +400,7 @@ export default function PaymentModal({ plan, onClose }) {
                           type="button"
                           className="btn btn-ghost btn-block"
                           style={{ marginTop: 'var(--space-md)' }}
-                          onClick={() => { setStep('form'); setOtp(''); setError(''); }}
+                          onClick={() => { setStep('form'); setOtp(''); setError(''); setDemoSms(false); }}
                         >
                           ← Change number
                         </button>
