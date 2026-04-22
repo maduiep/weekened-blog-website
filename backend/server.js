@@ -27,46 +27,46 @@ app.get('/api/health', (req, res) => {
 // ========================================
 
 /**
- * Mock endpoint to initiate a DPO Pay transaction
+ * Mock endpoint to initiate a Stripe PaymentIntent
  */
-app.post('/api/payments/dpo/init', (req, res) => {
+app.post('/api/payments/stripe/init', (req, res) => {
   const { amount, currency, plan, email } = req.body;
   
   if (!amount || !currency) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
-  // In a real scenario, this would call the DPO Pay API to create a transaction token
-  // For the prototype, we return a mock token
-  const transactionToken = `DPO_MOCK_TOKEN_${Date.now()}`;
+  // In a real scenario, this would call the Stripe API to create a PaymentIntent
+  // For the prototype, we return a mock client secret
+  const clientSecret = `pi_mock_${Date.now()}_secret_${Math.random().toString(36).substring(7)}`;
   
   res.json({
     success: true,
-    transactionToken,
-    paymentUrl: `https://secure.dpogroup.com/payv3?PTN=${transactionToken}` // Mock URL format
+    clientSecret,
+    publishableKey: 'pk_test_mock_key'
   });
 });
 
 /**
- * Mock endpoint to simulate DPO webhooks
- * DPO sends back the transaction status to the designated webhook URL
+ * Mock endpoint to simulate Stripe webhooks
+ * Stripe sends back the payment event to this endpoint
  */
-app.post('/api/webhooks/dpo', (req, res) => {
-  // Extract transaction details verified via DPO API
-  const { TransactionToken, Status, Amount } = req.body;
+app.post('/api/webhooks/stripe', (req, res) => {
+  // Extract event details from Stripe
+  const { id, type, data } = req.body;
 
-  console.log(`[DPO WEBHOOK] Received for token: ${TransactionToken}, Status: ${Status}`);
+  console.log(`[STRIPE WEBHOOK] Received event: ${type}, ID: ${id}`);
 
-  if (Status === '000' || Status === 'success') {
-    // 1. Verify transaction with DPO
+  if (type === 'payment_intent.succeeded') {
+    // 1. Verify event with Stripe
     // 2. Update user subscription status in DB
     // 3. Grant access or trigger e-book download email
-    console.log('[DPO WEBHOOK] Payment successful!');
+    console.log('[STRIPE WEBHOOK] Payment successful!');
   } else {
-    console.log('[DPO WEBHOOK] Payment failed or pending.');
+    console.log('[STRIPE WEBHOOK] Payment event handled: ' + type);
   }
 
-  res.status(200).send('OK');
+  res.status(200).json({ received: true });
 });
 
 /**

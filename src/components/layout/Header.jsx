@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Search, User, Zap } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, Search, User, Zap, LogOut, Shield } from 'lucide-react';
 import { FacebookIcon, TwitterIcon, InstagramIcon, YoutubeIcon } from '../ui/SocialIcons';
 import { articles } from '../../data/articles';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { isLoggedIn, user, isAdmin, logout } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -17,7 +21,18 @@ export default function Header() {
 
   useEffect(() => {
     setMobileOpen(false);
+    setUserMenuOpen(false);
   }, [location]);
+
+  // Close user menu on outside click
+  useEffect(() => {
+    if (!userMenuOpen) return;
+    const handler = (e) => {
+      if (!e.target.closest('.user-menu-wrapper')) setUserMenuOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [userMenuOpen]);
 
   const navItems = [
     { label: 'Home', path: '/' },
@@ -33,6 +48,12 @@ export default function Header() {
   const today = new Date().toLocaleDateString('en-GB', {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
   });
+
+  const handleLogout = () => {
+    logout();
+    setUserMenuOpen(false);
+    navigate('/');
+  };
 
   return (
     <>
@@ -69,13 +90,59 @@ export default function Header() {
                 <a href="#" aria-label="Instagram"><InstagramIcon /></a>
                 <a href="#" aria-label="YouTube"><YoutubeIcon /></a>
               </div>
-              <Link to="/subscribe" className="btn btn-primary btn-sm">Subscribe</Link>
-              <Link to="/auth" className="btn btn-ghost btn-sm" style={{ display: 'none' }}>
-                <User size={14} /> Sign In
-              </Link>
-              <Link to="/dashboard" className="btn btn-ghost btn-sm">
-                <User size={14} /> My Account
-              </Link>
+
+              {isLoggedIn ? (
+                <div className="user-menu-wrapper">
+                  <button
+                    className="user-avatar-btn"
+                    onClick={() => setUserMenuOpen(v => !v)}
+                    aria-label="Account menu"
+                  >
+                    <div className="user-avatar-circle">
+                      {user?.avatar || user?.name?.charAt(0) || 'U'}
+                    </div>
+                    <span className="user-name-label">{user?.name?.split(' ')[0]}</span>
+                  </button>
+                  {userMenuOpen && (
+                    <div className="user-dropdown">
+                      <div className="user-dropdown-header">
+                        <div className="user-dropdown-name">{user?.name}</div>
+                        <div className="user-dropdown-email">{user?.email}</div>
+                        {user?.isSubscribed && (
+                          <span className="user-sub-badge">
+                            ✓ {user.subscriptionPlan?.charAt(0).toUpperCase() + user.subscriptionPlan?.slice(1)} Subscriber
+                          </span>
+                        )}
+                      </div>
+                      <div className="user-dropdown-divider" />
+                      <Link to="/dashboard" className="user-dropdown-item">
+                        <User size={15} /> My Account
+                      </Link>
+                      {!user?.isSubscribed && (
+                        <Link to="/subscribe" className="user-dropdown-item" style={{ color: 'var(--color-primary)' }}>
+                          ⭐ Subscribe Now
+                        </Link>
+                      )}
+                      {isAdmin && (
+                        <Link to="/admin" className="user-dropdown-item" style={{ color: 'var(--color-opinion-purple)' }}>
+                          <Shield size={15} /> Admin Panel
+                        </Link>
+                      )}
+                      <div className="user-dropdown-divider" />
+                      <button className="user-dropdown-item user-dropdown-logout" onClick={handleLogout}>
+                        <LogOut size={15} /> Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <Link to="/subscribe" className="btn btn-primary btn-sm">Subscribe</Link>
+                  <Link to="/auth" className="btn btn-ghost btn-sm">
+                    <User size={14} /> Sign In
+                  </Link>
+                </>
+              )}
             </div>
           </div>
 
@@ -90,6 +157,13 @@ export default function Header() {
                   {item.label}
                 </Link>
               ))}
+              {/* Mobile-only auth links */}
+              {!isLoggedIn && (
+                <div className="mobile-auth-links">
+                  <Link to="/auth" className="nav-link">Sign In</Link>
+                  <Link to="/auth?tab=signup" className="nav-link" style={{ color: 'var(--color-primary)' }}>Create Account</Link>
+                </div>
+              )}
             </div>
             <div className="nav-right">
               <Link to="/search" className="btn btn-ghost btn-sm">

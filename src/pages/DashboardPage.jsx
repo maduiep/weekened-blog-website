@@ -2,184 +2,223 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, User as UserIcon, CreditCard, Settings, Clock, Star, Download } from 'lucide-react';
 import { articles } from '../data/articles';
+import { useAuth } from '../context/AuthContext';
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState('overview');
+  const { user: authUser } = useAuth();
 
-  // Mock user data
+  // Use real auth user data, fall back to display defaults
   const user = {
-    name: "John Doe",
-    email: "john.doe@example.com",
-    avatar: "J",
-    memberSince: "Jan 12, 2026",
+    name: authUser?.name || 'Reader',
+    email: authUser?.email || '',
+    avatar: authUser?.avatar || authUser?.name?.charAt(0) || 'R',
+    memberSince: authUser?.createdAt ? new Date(authUser.createdAt).toLocaleDateString('en-GB', { month: 'short', day: 'numeric', year: 'numeric' }) : '—',
     subscription: {
-      status: "Active",
-      plan: "Monthly Digital Premium",
-      price: "P60.00",
-      nextBilling: "May 12, 2026"
+      status: authUser?.isSubscribed ? 'Active' : 'Free',
+      plan: authUser?.subscriptionPlan
+        ? authUser.subscriptionPlan.charAt(0).toUpperCase() + authUser.subscriptionPlan.slice(1) + ' Digital Access'
+        : 'No Active Plan',
+      price: authUser?.subscriptionPlan === 'weekly' ? 'P9.00' : authUser?.subscriptionPlan === 'annual' ? 'P330.00' : 'P60.00',
+      nextBilling: authUser?.subscriptionExpiry
+        ? new Date(authUser.subscriptionExpiry).toLocaleDateString('en-GB', { month: 'long', day: 'numeric', year: 'numeric' })
+        : '—',
     },
-    savedArticles: articles.slice(0, 3), // Mock 3 saved articles
+    savedArticles: articles.slice(0, 3),
     ebooks: [
       { id: 'ep-0422', title: '18 April 2026 Publication', date: 'April 18, 2026' },
-      { id: 'ep-0415', title: '11 April 2026 Publication', date: 'April 11, 2026' }
-    ]
+      { id: 'ep-0415', title: '11 April 2026 Publication', date: 'April 11, 2026' },
+    ],
   };
 
+  const tabs = [
+    { id: 'overview',      label: 'Overview',          icon: <UserIcon size={18} /> },
+    { id: 'subscription',  label: 'Plan & Billing',    icon: <CreditCard size={18} /> },
+    { id: 'library',       label: 'My Library',        icon: <BookOpen size={18} /> },
+    { id: 'settings',      label: 'Account Settings',  icon: <Settings size={18} /> },
+  ];
+
   return (
-    <div className="section" style={{ background: 'var(--color-bg-alt)', minHeight: '80vh' }}>
+    <div className="dashboard-page">
       <div className="container">
-        
-        <div className="dashboard-layout" style={{ display: 'grid', gridTemplateColumns: 'minmax(250px, 1fr) 3fr', gap: 'var(--space-2xl)', alignItems: 'start' }}>
-          
-          {/* Sidebar */}
-          <aside className="dashboard-sidebar" style={{ background: '#fff', borderRadius: 'var(--radius-lg)', padding: 'var(--space-xl)', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
-            <div className="user-profile-summary" style={{ textAlign: 'center', marginBottom: 'var(--space-2xl)' }}>
-              <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'var(--color-primary)', color: '#fff', fontSize: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto var(--space-md)' }}>
-                {user.avatar}
-              </div>
-              <h3 style={{ marginBottom: 'var(--space-xs)' }}>{user.name}</h3>
-              <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)' }}>{user.email}</p>
+        <div className="dashboard-layout">
+
+          {/* ── Sidebar ── */}
+          <aside className="dashboard-sidebar">
+            <div className="dashboard-profile">
+              <div className="dashboard-avatar">{user.avatar}</div>
+              <h3 className="dashboard-name">{user.name}</h3>
+              <p className="dashboard-email">{user.email}</p>
+              {authUser?.isSubscribed && (
+                <span className="dashboard-sub-chip">✓ {authUser.subscriptionPlan} subscriber</span>
+              )}
             </div>
 
-            <nav className="dashboard-nav" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
-              <button 
-                onClick={() => setActiveTab('overview')}
-                style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', padding: 'var(--space-md)', background: activeTab === 'overview' ? 'var(--color-bg-alt)' : 'transparent', border: 'none', borderRadius: 'var(--radius-md)', color: activeTab === 'overview' ? 'var(--color-primary)' : 'inherit', fontWeight: activeTab === 'overview' ? 600 : 400, cursor: 'pointer', textAlign: 'left', width: '100%' }}>
-                <UserIcon size={18} /> Overview
-              </button>
-              <button 
-                onClick={() => setActiveTab('subscription')}
-                style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', padding: 'var(--space-md)', background: activeTab === 'subscription' ? 'var(--color-bg-alt)' : 'transparent', border: 'none', borderRadius: 'var(--radius-md)', color: activeTab === 'subscription' ? 'var(--color-primary)' : 'inherit', fontWeight: activeTab === 'subscription' ? 600 : 400, cursor: 'pointer', textAlign: 'left', width: '100%' }}>
-                <CreditCard size={18} /> Plan & Billing
-              </button>
-              <button 
-                onClick={() => setActiveTab('library')}
-                style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', padding: 'var(--space-md)', background: activeTab === 'library' ? 'var(--color-bg-alt)' : 'transparent', border: 'none', borderRadius: 'var(--radius-md)', color: activeTab === 'library' ? 'var(--color-primary)' : 'inherit', fontWeight: activeTab === 'library' ? 600 : 400, cursor: 'pointer', textAlign: 'left', width: '100%' }}>
-                <BookOpen size={18} /> My Library
-              </button>
-              <button 
-                onClick={() => setActiveTab('settings')}
-                style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', padding: 'var(--space-md)', background: activeTab === 'settings' ? 'var(--color-bg-alt)' : 'transparent', border: 'none', borderRadius: 'var(--radius-md)', color: activeTab === 'settings' ? 'var(--color-primary)' : 'inherit', fontWeight: activeTab === 'settings' ? 600 : 400, cursor: 'pointer', textAlign: 'left', width: '100%' }}>
-                <Settings size={18} /> Account Settings
-              </button>
+            {/* Mobile: horizontal tab bar; Desktop: vertical nav */}
+            <nav className="dashboard-nav">
+              {tabs.map(tab => (
+                <button
+                  key={tab.id}
+                  className={`dashboard-nav-btn ${activeTab === tab.id ? 'active' : ''}`}
+                  onClick={() => setActiveTab(tab.id)}
+                >
+                  {tab.icon}
+                  <span>{tab.label}</span>
+                </button>
+              ))}
             </nav>
           </aside>
 
-          {/* Main Content Area */}
-          <main className="dashboard-content" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xl)' }}>
-            
+          {/* ── Main Content ── */}
+          <main className="dashboard-content">
+
+            {/* OVERVIEW */}
             {activeTab === 'overview' && (
               <>
-                <h1 style={{ fontSize: '2rem', marginBottom: 'var(--space-lg)' }}>Welcome back, {user.name.split(' ')[0]}</h1>
-                
-                {/* Stats Grid */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-md)', marginBottom: 'var(--space-md)' }}>
-                  <div style={{ background: '#fff', padding: 'var(--space-xl)', borderRadius: 'var(--radius-lg)', borderLeft: '4px solid var(--color-gold)' }}>
-                    <div style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-xs)' }}>Subscription Status</div>
-                    <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#2ecc71', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#2ecc71' }}></span> {user.subscription.status}
+                <h1 className="dashboard-heading">Welcome back, {user.name.split(' ')[0]}</h1>
+
+                <div className="dashboard-stats">
+                  <div className="dashboard-stat-card" style={{ borderLeft: '4px solid var(--color-gold)' }}>
+                    <div className="dashboard-stat-label">Subscription Status</div>
+                    <div className="dashboard-stat-value" style={{ color: authUser?.isSubscribed ? '#2ecc71' : 'var(--color-text-muted)' }}>
+                      <span className="dashboard-dot" style={{ background: authUser?.isSubscribed ? '#2ecc71' : 'var(--color-border)' }} />
+                      {user.subscription.status}
                     </div>
-                    <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', marginTop: '4px' }}>Renews {user.subscription.nextBilling}</div>
+                    <div className="dashboard-stat-meta">
+                      {authUser?.isSubscribed ? `Renews ${user.subscription.nextBilling}` : 'Subscribe to unlock full access'}
+                    </div>
                   </div>
-                  
-                  <div style={{ background: '#fff', padding: 'var(--space-xl)', borderRadius: 'var(--radius-lg)' }}>
-                    <div style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-xs)' }}>Purchased E-Papers</div>
-                    <div style={{ fontSize: '1.25rem', fontWeight: 700 }}>{user.ebooks.length} Issues</div>
-                    <Link to="/epaper" style={{ fontSize: 'var(--text-xs)', color: 'var(--color-primary)', marginTop: '4px', display: 'inline-block' }}>Browse archive →</Link>
+
+                  <div className="dashboard-stat-card">
+                    <div className="dashboard-stat-label">Purchased E-Papers</div>
+                    <div className="dashboard-stat-value">{user.ebooks.length} Issues</div>
+                    <Link to="/epaper" className="dashboard-stat-link">Browse archive →</Link>
                   </div>
-                  
-                  <div style={{ background: '#fff', padding: 'var(--space-xl)', borderRadius: 'var(--radius-lg)' }}>
-                    <div style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-xs)' }}>Saved Articles</div>
-                    <div style={{ fontSize: '1.25rem', fontWeight: 700 }}>{user.savedArticles.length} Articles</div>
-                    <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', marginTop: '4px' }}>Read later queue</div>
+
+                  <div className="dashboard-stat-card">
+                    <div className="dashboard-stat-label">Saved Articles</div>
+                    <div className="dashboard-stat-value">{user.savedArticles.length} Articles</div>
+                    <div className="dashboard-stat-meta">Read later queue</div>
                   </div>
                 </div>
 
-                {/* Recent Activity */}
-                <div style={{ background: '#fff', borderRadius: 'var(--radius-lg)', padding: 'var(--space-xl)' }}>
-                  <h3 style={{ marginBottom: 'var(--space-lg)' }}>Recent Saved Articles</h3>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
-                    {user.savedArticles.map((article) => (
-                      <div key={article.id} style={{ display: 'flex', gap: 'var(--space-md)', paddingBottom: 'var(--space-md)', borderBottom: '1px solid var(--color-border)' }}>
-                        <img src={article.image} alt="" style={{ width: '80px', height: '60px', objectFit: 'cover', borderRadius: 'var(--radius-sm)' }} />
-                        <div>
-                          <Link to={`/article/${article.id}`} style={{ fontWeight: 600, color: 'var(--color-dark)', textDecoration: 'none', display: 'block', marginBottom: '4px' }}>
+                {/* Recent Saved Articles */}
+                <div className="dashboard-card">
+                  <h3 className="dashboard-card-title">Recent Saved Articles</h3>
+                  <div className="dashboard-article-list">
+                    {user.savedArticles.map(article => (
+                      <div key={article.id} className="dashboard-article-row">
+                        <img src={article.image} alt="" className="dashboard-article-thumb" />
+                        <div className="dashboard-article-info">
+                          <Link to={`/article/${article.id}`} className="dashboard-article-title">
                             {article.title}
                           </Link>
-                          <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <Clock size={12} /> Saved {Math.floor(Math.random() * 5) + 1} days ago
+                          <div className="dashboard-article-meta">
+                            <Clock size={12} /> Saved recently
                           </div>
                         </div>
                       </div>
                     ))}
                   </div>
-                  <button onClick={() => setActiveTab('library')} className="btn btn-ghost" style={{ marginTop: 'var(--space-md)', width: '100%' }}>View All Saved Content</button>
+                  <button onClick={() => setActiveTab('library')} className="btn btn-ghost btn-block" style={{ marginTop: 'var(--space-md)' }}>
+                    View All Saved Content
+                  </button>
                 </div>
+
+                {/* Subscribe CTA if not subscribed */}
+                {!authUser?.isSubscribed && (
+                  <div className="dashboard-cta-card">
+                    <h3>Unlock Full Access</h3>
+                    <p>Subscribe to read unlimited articles, download E-Papers, and get exclusive content.</p>
+                    <Link to="/subscribe" className="btn btn-primary btn-lg">
+                      View Plans & Subscribe
+                    </Link>
+                  </div>
+                )}
               </>
             )}
 
+            {/* PLAN & BILLING */}
             {activeTab === 'subscription' && (
-              <div style={{ background: '#fff', borderRadius: 'var(--radius-lg)', padding: 'var(--space-2xl)' }}>
-                <h2 style={{ marginBottom: 'var(--space-xl)' }}>Plan & Billing</h2>
-                
-                <div style={{ border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', padding: 'var(--space-xl)', marginBottom: 'var(--space-2xl)' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-md)' }}>
+              <div className="dashboard-card">
+                <h2 className="dashboard-card-title">Plan & Billing</h2>
+
+                <div className="dashboard-plan-box">
+                  <div className="dashboard-plan-header">
                     <div>
                       <h3 style={{ color: 'var(--color-primary)' }}>{user.subscription.plan}</h3>
-                      <p style={{ color: 'var(--color-text-muted)' }}>{user.subscription.price} per month</p>
+                      <p style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-sm)' }}>{user.subscription.price} per billing cycle</p>
                     </div>
-                    <span className="badge badge-news" style={{ background: '#e8f8f5', color: '#2ecc71' }}>Active</span>
+                    <span className="badge" style={{ background: authUser?.isSubscribed ? '#e8f8f5' : 'var(--color-bg-alt)', color: authUser?.isSubscribed ? '#2ecc71' : 'var(--color-text-muted)' }}>
+                      {user.subscription.status}
+                    </span>
                   </div>
-                  <div style={{ background: 'var(--color-bg-alt)', padding: 'var(--space-md)', borderRadius: 'var(--radius-sm)', fontSize: 'var(--text-sm)' }}>
-                    Your next charge of <strong>{user.subscription.price}</strong> will be applied to your primary payment method on <strong>{user.subscription.nextBilling}</strong>.
-                  </div>
-                  <div style={{ display: 'flex', gap: 'var(--space-md)', marginTop: 'var(--space-xl)' }}>
-                    <button className="btn btn-primary">Update Payment Method</button>
-                    <button className="btn btn-ghost" style={{ color: 'red' }}>Cancel Subscription</button>
+                  {authUser?.isSubscribed && (
+                    <div className="dashboard-plan-note">
+                      Your next charge of <strong>{user.subscription.price}</strong> is on <strong>{user.subscription.nextBilling}</strong>.
+                    </div>
+                  )}
+                  <div className="dashboard-plan-actions">
+                    {authUser?.isSubscribed
+                      ? <button className="btn btn-primary">Update Payment Method</button>
+                      : <Link to="/subscribe" className="btn btn-primary">Subscribe Now</Link>
+                    }
+                    {authUser?.isSubscribed && (
+                      <button className="btn btn-ghost" style={{ color: 'var(--color-news-red)' }}>Cancel Subscription</button>
+                    )}
                   </div>
                 </div>
 
-                <h3 style={{ marginBottom: 'var(--space-md)' }}>Billing History</h3>
-                <table style={{ width: '100%', fontSize: 'var(--text-sm)', borderCollapse: 'collapse' }}>
-                  <thead>
-                    <tr style={{ borderBottom: '2px solid var(--color-border)', textAlign: 'left' }}>
-                      <th style={{ padding: 'var(--space-sm) 0' }}>Date</th>
-                      <th style={{ padding: 'var(--space-sm) 0' }}>Description</th>
-                      <th style={{ padding: 'var(--space-sm) 0' }}>Amount</th>
-                      <th style={{ padding: 'var(--space-sm) 0' }}>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {['April 12, 2026', 'March 12, 2026', 'February 12, 2026'].map((date, i) => (
-                      <tr key={i} style={{ borderBottom: '1px solid var(--color-border)' }}>
-                        <td style={{ padding: 'var(--space-md) 0', color: 'var(--color-text-muted)' }}>{date}</td>
-                        <td style={{ padding: 'var(--space-md) 0', fontWeight: 500 }}>{user.subscription.plan}</td>
-                        <td style={{ padding: 'var(--space-md) 0' }}>{user.subscription.price}</td>
-                        <td style={{ padding: 'var(--space-md) 0' }}><span style={{ color: '#2ecc71' }}>Paid</span></td>
+                <h3 style={{ margin: 'var(--space-xl) 0 var(--space-md)', fontSize: 'var(--text-lg)' }}>Billing History</h3>
+                <div className="dashboard-table-wrapper">
+                  <table className="dashboard-table">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Status</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {authUser?.isSubscribed
+                        ? ['April 12, 2026', 'March 12, 2026', 'February 12, 2026'].map((date, i) => (
+                            <tr key={i}>
+                              <td style={{ color: 'var(--color-text-muted)' }}>{date}</td>
+                              <td style={{ fontWeight: 500 }}>{user.subscription.plan}</td>
+                              <td>{user.subscription.price}</td>
+                              <td style={{ color: '#2ecc71', fontWeight: 600 }}>Paid</td>
+                            </tr>
+                          ))
+                        : (
+                          <tr><td colSpan={4} style={{ textAlign: 'center', color: 'var(--color-text-muted)', padding: 'var(--space-xl)' }}>No billing history yet</td></tr>
+                        )
+                      }
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
 
+            {/* LIBRARY */}
             {activeTab === 'library' && (
-              <div>
-                <h2 style={{ marginBottom: 'var(--space-lg)' }}>My Library</h2>
-                
-                <div style={{ background: '#fff', borderRadius: 'var(--radius-lg)', padding: 'var(--space-2xl)', marginBottom: 'var(--space-xl)' }}>
-                  <h3 style={{ marginBottom: 'var(--space-lg)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <BookOpen size={20} color="var(--color-primary)" /> E-Papers Collections
+              <>
+                <h2 className="dashboard-heading">My Library</h2>
+
+                <div className="dashboard-card">
+                  <h3 className="dashboard-card-title">
+                    <BookOpen size={20} style={{ color: 'var(--color-primary)', flexShrink: 0 }} />
+                    E-Papers Collection
                   </h3>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 'var(--space-lg)' }}>
+                  <div className="dashboard-ebooks-grid">
                     {user.ebooks.map((ebook, i) => (
-                      <div key={i} style={{ border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', padding: 'var(--space-md)', textAlign: 'center' }}>
-                        <div style={{ background: 'var(--color-bg-alt)', height: '140px', borderRadius: 'var(--radius-sm)', marginBottom: 'var(--space-md)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                           <BookOpen size={40} style={{ opacity: 0.2 }} />
+                      <div key={i} className="dashboard-ebook-card">
+                        <div className="dashboard-ebook-cover">
+                          <BookOpen size={40} style={{ opacity: 0.2 }} />
                         </div>
-                        <h4 style={{ fontSize: '1rem', marginBottom: '4px' }}>{ebook.title}</h4>
-                        <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-md)' }}>Purchased: {ebook.date}</div>
-                        <button className="btn btn-ghost btn-sm btn-block" style={{ border: '1px solid currentColor' }}>
+                        <h4 className="dashboard-ebook-title">{ebook.title}</h4>
+                        <div className="dashboard-ebook-date">Purchased: {ebook.date}</div>
+                        <button className="btn btn-ghost btn-sm btn-block" style={{ border: '1px solid currentColor', marginTop: 'var(--space-sm)' }}>
                           <Download size={14} /> Download PDF
                         </button>
                       </div>
@@ -187,20 +226,19 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                <div style={{ background: '#fff', borderRadius: 'var(--radius-lg)', padding: 'var(--space-2xl)' }}>
-                  <h3 style={{ marginBottom: 'var(--space-lg)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Star size={20} color="var(--color-gold)" /> Saved Articles
+                <div className="dashboard-card">
+                  <h3 className="dashboard-card-title">
+                    <Star size={20} style={{ color: 'var(--color-gold)', flexShrink: 0 }} />
+                    Saved Articles
                   </h3>
-                  <div style={{ display: 'grid', gap: 'var(--space-md)' }}>
-                    {user.savedArticles.map((article) => (
-                      <div key={article.id} style={{ display: 'flex', gap: 'var(--space-md)', paddingBottom: 'var(--space-md)', borderBottom: '1px solid var(--color-border)' }}>
-                        <img src={article.image} alt="" style={{ width: '120px', height: '80px', objectFit: 'cover', borderRadius: 'var(--radius-sm)' }} />
-                        <div>
-                          <Link to={`/category/${article.category}`} style={{ fontSize: 'var(--text-xs)', color: 'var(--color-primary)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600 }}>{article.category}</Link>
-                          <Link to={`/article/${article.id}`} style={{ fontWeight: 600, fontSize: '1.1rem', color: 'var(--color-dark)', textDecoration: 'none', display: 'block', margin: '4px 0' }}>
-                            {article.title}
-                          </Link>
-                          <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <div className="dashboard-article-list">
+                    {user.savedArticles.map(article => (
+                      <div key={article.id} className="dashboard-article-row">
+                        <img src={article.image} alt="" className="dashboard-article-thumb dashboard-article-thumb-lg" />
+                        <div className="dashboard-article-info">
+                          <Link to={`/category/${article.category}`} className="dashboard-article-cat">{article.category}</Link>
+                          <Link to={`/article/${article.id}`} className="dashboard-article-title">{article.title}</Link>
+                          <div className="dashboard-article-meta">
                             <Clock size={12} /> {article.readTime} • Saved recently
                           </div>
                         </div>
@@ -208,51 +246,41 @@ export default function DashboardPage() {
                     ))}
                   </div>
                 </div>
-
-              </div>
+              </>
             )}
 
+            {/* SETTINGS */}
             {activeTab === 'settings' && (
-              <div style={{ background: '#fff', borderRadius: 'var(--radius-lg)', padding: 'var(--space-2xl)' }}>
-                <h2 style={{ marginBottom: 'var(--space-xl)' }}>Account Settings</h2>
-                
-                <form onSubmit={e => e.preventDefault()} style={{ maxWidth: '500px' }}>
-                  <div className="form-group" style={{ marginBottom: 'var(--space-lg)' }}>
+              <div className="dashboard-card">
+                <h2 className="dashboard-card-title">Account Settings</h2>
+                <form onSubmit={e => e.preventDefault()} className="dashboard-settings-form">
+                  <div className="form-group">
                     <label className="form-label">Full Name</label>
                     <input type="text" className="form-input" defaultValue={user.name} />
                   </div>
-                  <div className="form-group" style={{ marginBottom: 'var(--space-lg)' }}>
+                  <div className="form-group">
                     <label className="form-label">Email Address</label>
                     <input type="email" className="form-input" defaultValue={user.email} />
                   </div>
-                  <div className="form-group" style={{ marginBottom: 'var(--space-lg)' }}>
+                  <div className="form-group">
                     <label className="form-label">Phone Number</label>
-                    <input type="tel" className="form-input" placeholder="+267 XXXXXXXX" />
+                    <input type="tel" className="form-input" placeholder="+267 7X XXX XXX" />
                   </div>
 
-                  <h3 style={{ margin: 'var(--space-xl) 0 var(--space-md)' }}>Change Password</h3>
-                  <div className="form-group" style={{ marginBottom: 'var(--space-lg)' }}>
+                  <h3 style={{ margin: 'var(--space-xl) 0 var(--space-md)', fontSize: 'var(--text-lg)' }}>Change Password</h3>
+                  <div className="form-group">
                     <label className="form-label">Current Password</label>
                     <input type="password" className="form-input" />
                   </div>
-                  <div className="form-group" style={{ marginBottom: 'var(--space-lg)' }}>
+                  <div className="form-group">
                     <label className="form-label">New Password</label>
                     <input type="password" className="form-input" />
                   </div>
 
-                  <h3 style={{ margin: 'var(--space-xl) 0 var(--space-md)' }}>Email Preferences</h3>
-                  <label className="form-checkbox" style={{ marginBottom: 'var(--space-sm)' }}>
-                    <input type="checkbox" defaultChecked />
-                    <span>Daily News Briefing</span>
-                  </label>
-                  <label className="form-checkbox" style={{ marginBottom: 'var(--space-sm)' }}>
-                    <input type="checkbox" defaultChecked />
-                    <span>Weekly E-Paper Alerts</span>
-                  </label>
-                  <label className="form-checkbox" style={{ marginBottom: 'var(--space-2xl)' }}>
-                    <input type="checkbox" />
-                    <span>Partner Offers</span>
-                  </label>
+                  <h3 style={{ margin: 'var(--space-xl) 0 var(--space-md)', fontSize: 'var(--text-lg)' }}>Email Preferences</h3>
+                  <label className="form-checkbox"><input type="checkbox" defaultChecked /><span>Daily News Briefing</span></label>
+                  <label className="form-checkbox"><input type="checkbox" defaultChecked /><span>Weekly E-Paper Alerts</span></label>
+                  <label className="form-checkbox" style={{ marginBottom: 'var(--space-xl)' }}><input type="checkbox" /><span>Partner Offers</span></label>
 
                   <button type="submit" className="btn btn-primary btn-lg">Save Settings</button>
                 </form>

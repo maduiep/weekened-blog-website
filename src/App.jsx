@@ -10,6 +10,8 @@ import AuthPage from './pages/AuthPage';
 import ContactPage from './pages/ContactPage';
 import SearchPage from './pages/SearchPage';
 import DashboardPage from './pages/DashboardPage';
+import AdminPage from './pages/AdminPage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
   return (
@@ -33,7 +35,22 @@ export default function App() {
                   <Route path="/epaper" element={<EPaperPage />} />
                   <Route path="/contact" element={<ContactPage />} />
                   <Route path="/search" element={<SearchPage />} />
-                  <Route path="/dashboard" element={<DashboardPage />} />
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <ProtectedRoute>
+                        <DashboardPage />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/admin"
+                    element={
+                      <ProtectedRoute requireAdmin>
+                        <AdminPage />
+                      </ProtectedRoute>
+                    }
+                  />
                 </Routes>
               </main>
               <Footer />
