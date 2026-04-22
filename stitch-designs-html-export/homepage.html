@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Weekend Post | Botswana's Premium News &amp; Magazine</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,700;0,800;1,400;1,900&amp;family=Inter:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-highest": "#e5e2e1",
+                        "primary-container": "#007e97",
+                        "primary-fixed-dim": "#78d3ee",
+                        "on-primary-fixed": "#001f27",
+                        "primary": "#006378",
+                        "surface-bright": "#fcf9f8",
+                        "tertiary-fixed-dim": "#ffb778",
+                        "secondary-container": "#fed977",
+                        "primary-fixed": "#b1ebff",
+                        "surface-tint": "#00677c",
+                        "on-primary-fixed-variant": "#004e5e",
+                        "on-surface": "#1c1b1b",
+                        "secondary-fixed-dim": "#e6c364",
+                        "tertiary": "#874c0a",
+                        "secondary-fixed": "#ffe08f",
+                        "outline-variant": "#bec8cd",
+                        "outline": "#6e797d",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-container": "#f0eded",
+                        "inverse-on-surface": "#f3f0ef",
+                        "inverse-primary": "#78d3ee",
+                        "secondary": "#755b00",
+                        "on-background": "#1c1b1b",
+                        "on-surface-variant": "#3e484c",
+                        "on-tertiary-fixed": "#2e1500",
+                        "surface-container-high": "#eae7e7",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#313030",
+                        "on-secondary-fixed": "#241a00",
+                        "surface-container-low": "#f6f3f2",
+                        "surface": "#fcf9f8",
+                        "on-primary-container": "#f4fbff",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#a46423",
+                        "surface-variant": "#e5e2e1",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#584400",
+                        "on-tertiary-container": "#fff9f6",
+                        "surface-dim": "#dcd9d9",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-container": "#785d00",
+                        "tertiary-fixed": "#ffdcc1",
+                        "background": "#fcf9f8",
+                        "on-secondary": "#ffffff"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        "headline": ["Newsreader", "serif"],
+                        "display": ["Newsreader", "serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .ticker-wrap {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .ticker-content {
+            display: inline-block;
+            animation: ticker 40s linear infinite;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- Breaking News Ticker -->
+<div class="bg-primary-container text-on-primary-container py-2 overflow-hidden sticky top-0 z-[60]">
+<div class="ticker-wrap flex items-center">
+<span class="px-6 font-bold uppercase tracking-widest text-xs border-r border-white/20 z-10 bg-primary-container">Breaking News</span>
+<div class="ticker-content flex space-x-12 items-center">
+<span class="text-sm font-medium italic">Botswana Diamond Exports Surge by 15% in Q3</span>
+<span class="text-sm font-medium italic">Government Unveils New Renewable Energy Initiative for Okavango Delta</span>
+<span class="text-sm font-medium italic">National Football Team Secures Historic Victory in Regional Qualifiers</span>
+<span class="text-sm font-medium italic">Central Bank maintains lending rates amidst stabilizing inflation figures</span>
+</div>
+</div>
+</div>
+<!-- TopAppBar (JSON Anchored) -->
+<header class="bg-surface/80 dark:bg-zinc-950/80 backdrop-blur-xl docked full-width top-0 z-50">
+<div class="flex flex-col items-center w-full px-8 py-4 max-w-screen-2xl mx-auto">
+<div class="flex justify-between items-center w-full mb-6">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:opacity-80 transition-opacity duration-300">search</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:opacity-80 transition-opacity duration-300">account_circle</span>
+</div>
+<div class="font-newsreader italic font-black text-3xl text-zinc-900 dark:text-zinc-50 tracking-tighter">Weekend Post</div>
+<div class="flex gap-4">
+<button class="font-inter uppercase tracking-widest text-xs font-bold text-zinc-600 hover:text-zinc-900 transition-opacity duration-300">Sign In</button>
+<button class="bg-primary-container text-on-primary-container px-6 py-2 font-inter uppercase tracking-widest text-xs font-bold hover:opacity-80 transition-opacity duration-300 active:scale-95 duration-150">Subscribe</button>
+</div>
+</div>
+<nav class="flex gap-8 items-center">
+<a class="text-[#007E97] font-bold border-b-2 border-[#007E97] pb-1 font-inter uppercase tracking-widest text-xs" href="#">Home</a>
+<a class="text-zinc-600 dark:text-zinc-400 font-medium hover:text-zinc-900 dark:hover:text-zinc-100 font-inter uppercase tracking-widest text-xs transition-opacity duration-300" href="#">News</a>
+<a class="text-zinc-600 dark:text-zinc-400 font-medium hover:text-zinc-900 dark:hover:text-zinc-100 font-inter uppercase tracking-widest text-xs transition-opacity duration-300" href="#">Business</a>
+<a class="text-zinc-600 dark:text-zinc-400 font-medium hover:text-zinc-900 dark:hover:text-zinc-100 font-inter uppercase tracking-widest text-xs transition-opacity duration-300" href="#">Sport</a>
+<a class="text-zinc-600 dark:text-zinc-400 font-medium hover:text-zinc-900 dark:hover:text-zinc-100 font-inter uppercase tracking-widest text-xs transition-opacity duration-300" href="#">Opinions</a>
+<a class="text-zinc-600 dark:text-zinc-400 font-medium hover:text-zinc-900 dark:hover:text-zinc-100 font-inter uppercase tracking-widest text-xs transition-opacity duration-300" href="#">Weekend Life</a>
+<a class="text-zinc-600 dark:text-zinc-400 font-medium hover:text-zinc-900 dark:hover:text-zinc-100 font-inter uppercase tracking-widest text-xs transition-opacity duration-300" href="#">E-Paper</a>
+</nav>
+</div>
+</header>
+<main class="max-w-screen-2xl mx-auto px-8">
+<!-- Hero Section -->
+<section class="mt-8 mb-20 relative group overflow-hidden">
+<div class="h-[716px] w-full overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2000ms] ease-out" data-alt="atmospheric wide shot of Gaborone city skyline at twilight with glowing city lights and a deep blue sunset sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_CTdbVdQStKyNXuWJDssqLyqDtlnwD3X446t-aMhejoYoaMh1_T7QySfILHqbx9O0ul0edFH90r3mVG6SE6CzZikGZ3sgsEF026ykKvAYZS52iC_8EpSYnvjON_jD3NvTd9-k_FzFv8RK2fRhQrCHOMAq4KKtWCdiKKI3DefP0o7xA7Zi5YqU9z2ASwZ5ALO2gV9KZnzXqeP5sOjgU7EDu5IGhls-dtL2TWRsE7fHEk8VdtMtHTyNDWHWT5K70YnVVX0GvwEa2V0"/>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-12 lg:p-20">
+<span class="bg-secondary-container text-on-secondary-container text-[10px] uppercase font-bold tracking-widest px-3 py-1 self-start mb-6">Exclusive Investigation</span>
+<h1 class="font-display font-bold text-5xl md:text-7xl text-white max-w-4xl leading-[1.1] mb-6 -tracking-wider">
+                    The Silent Pulse: Inside the Transformation of Botswana's Economic Landscape
+                </h1>
+<p class="text-white/80 font-body text-lg max-w-2xl leading-relaxed mb-8">
+                    An in-depth look at how local entrepreneurship and global tech investments are reshaping the future of Gaborone beyond its traditional diamond heritage.
+                </p>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="professional portrait of a female journalist with dark hair and a confident gaze in a neutral studio setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpwD5cqrV-y7ZMHq_66DW-ZEusyXzMbH2Cq2A2w_7dd3q85BumpEOpFNK3p7tpjWAB0mKFVhBb88U8cxlVCpkAKQc8_wjq-VkEhKrENQOW78cBZ6XqZbglPeFfp66o74t3iaa9VWbM8BZZuQ-zZwNixKAtaUB5ov3IO2YPG7WJXQWA3ERXHe8yg80LG0GsZw4R0a-zm2jMHV3ALOwKjgdVe9r9XPM5br6iTtHUFcjp-f-61cEnGcDLRcD1k43ub31kw7BmqsI2PvQ"/>
+</div>
+<span class="text-white font-medium text-sm">By Thabo Moremi</span>
+</div>
+<span class="text-white/40">•</span>
+<span class="text-white/60 text-sm">October 24, 2024</span>
+</div>
+</div>
+</section>
+<!-- Featured Cards -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-32">
+<div class="flex flex-col gap-6">
+<div class="h-64 overflow-hidden">
+<img class="w-full h-full object-cover hover:scale-110 transition-transform duration-700" data-alt="close up of raw uncut diamonds sparkling under studio lights showing high clarity and sharp edges" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkjLgrppqJ60UaJ7ljbkIJDO1QU35O2SA4hazxJks59AVjeJY1GixojxfU7DWnNzX_M1rqQsGBMDkIka78gayVXFqGk_Ysisr0f894kmLhT3-76Bv-9FVra-QtcEAl4hTwXy5LmdzsRqOs0DExwpxWiWnGespG3cpIqKpExnHFBSttCm7VMMCf07oWqo3ttJS1bdqJt9m4dPZqNPomDwyuEWpvLzH2ZrsxbQV41M3wuDk0gZoWCW1UBISxNMUSIdb-JocjGU-J87I"/>
+</div>
+<div>
+<span class="text-secondary font-bold text-[10px] uppercase tracking-widest mb-2 block">Business</span>
+<h3 class="font-display text-2xl font-bold text-on-surface mb-3 leading-snug">Mining Frontiers: The New Exploration Phase</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-4">New geophysical surveys suggest untapped mineral wealth in the Kgalagadi region.</p>
+</div>
+</div>
+<div class="flex flex-col gap-6">
+<div class="h-64 overflow-hidden">
+<img class="w-full h-full object-cover hover:scale-110 transition-transform duration-700" data-alt="dramatic wide shot of the Okavango Delta at sunset with winding waterways and lush green vegetation" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEaVna2bE0yIB2M33XYUjDNTBMngCE-oXWGkBMKGj0-4uYF5KH_sB3NkLApVN5vfzZ0_Q3vQQNvFXda9rcVtA34_HjZzkIV0kriDYnb5WPsweq5-6DZNAkoeLu_DKk4lZqfNXGcm7bDh6VHNi47yMu1A3ia7gdOOwDZfQG-vOUNKqEOOd9RYoAOVHDJnxwQqWxbm4GpCTCxOyiI6iYP9tfcpsKCM1zQKFbXnnP9OtfXFS2XH6bXjjF3Gj4KPxwXszarAJsudIzjQM"/>
+</div>
+<div>
+<span class="text-secondary font-bold text-[10px] uppercase tracking-widest mb-2 block">Weekend Life</span>
+<h3 class="font-display text-2xl font-bold text-on-surface mb-3 leading-snug">The Delta Diary: A Journey Through Paradise</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-4">Exploring the seasonal shift that brings life back to the Okavango waterways.</p>
+</div>
+</div>
+<div class="flex flex-col gap-6">
+<div class="h-64 overflow-hidden">
+<img class="w-full h-full object-cover hover:scale-110 transition-transform duration-700" data-alt="artistic shot of traditional Botswana basket weaving with intricate geometric patterns and warm earthy tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZkHUjqoiO6tGaseFV4vVvAe36xjJtK5zV4voxFbvF9wrnoD5v-IRQnuBvwLdc898TgrWyLTO9i3ueTSBvLwkX3sS4zl4P5VtCSVCPCpOPvehF2FrK-k7PR4vv7K-tX5Dn240WC-E47koqIaxJ4cmXhlpIieMlY95NlMKzRkOU_ELj5Z5qpE7vc_93qoRgF2BdW54aK3jpxUxdZ_WB-oEhE62BStQwEXqiRHlyzedVGQNHti3PHjqGZggmSh4Bc72xpG-2m3eS56E"/>
+</div>
+<div>
+<span class="text-secondary font-bold text-[10px] uppercase tracking-widest mb-2 block">Arts &amp; Culture</span>
+<h3 class="font-display text-2xl font-bold text-on-surface mb-3 leading-snug">Patterns of History: The Revival of Botswana Craft</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-4">How young designers are incorporating ancestral weaving techniques into modern fashion.</p>
+</div>
+</div>
+</section>
+<!-- Category Columns (Asymmetric Grid) -->
+<section class="grid grid-cols-1 lg:grid-cols-4 gap-16 mb-32 border-t border-outline-variant/20 pt-16">
+<!-- News -->
+<div class="flex flex-col gap-8">
+<div class="flex justify-between items-center border-b-2 border-primary-container pb-2 mb-4">
+<h2 class="font-display text-2xl font-black">News</h2>
+<span class="material-symbols-outlined text-primary-container cursor-pointer">arrow_forward</span>
+</div>
+<div class="space-y-12">
+<article class="group">
+<img class="w-full h-40 object-cover mb-4" data-alt="legal gavel on a wooden desk with a stack of law books in the background in soft focus" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7Va-fgGi8xyKJVfzWYT_fuu9DrUE2C7d6yk2IrT7iuqJV15ZEYq1bW9NdhctlgCJ3dzNWIYVM7xLWYc1oOBMR9pAH-8ibmAUZtSmUp3Wk0PSgDV8Hfrn3wmOGUqaLubtI2cSCohQAnr_ZIHZEI_SIKKFnfx67Uf3WURzQCCQv2z3J3B6Vk-tVz4hQv_obKh_JCxLfcK733COuvxXyNC1ad5nSi3u8iVA_LIvzVro9ooYJYQWTE9t1jkPwlvqdaW1psG483YHoksg"/>
+<h4 class="font-display text-lg font-bold group-hover:text-primary transition-colors mb-2">Constitutional Reform Debate Intensifies</h4>
+<p class="text-xs text-on-surface-variant line-clamp-2">Public hearings across major districts show diverse views on upcoming amendments.</p>
+</article>
+<article class="group border-t border-outline-variant/10 pt-8">
+<h4 class="font-display text-lg font-bold group-hover:text-primary transition-colors mb-2">Major Infrastructure Project Announced for Francistown</h4>
+<p class="text-xs text-on-surface-variant line-clamp-2">A billion-pula investment slated to modernize northern transport hubs.</p>
+</article>
+<article class="group border-t border-outline-variant/10 pt-8">
+<h4 class="font-display text-lg font-bold group-hover:text-primary transition-colors mb-2">Health Ministry Updates National Nutrition Guidelines</h4>
+</article>
+</div>
+</div>
+<!-- Business -->
+<div class="flex flex-col gap-8">
+<div class="flex justify-between items-center border-b-2 border-primary-container pb-2 mb-4">
+<h2 class="font-display text-2xl font-black">Business</h2>
+<span class="material-symbols-outlined text-primary-container cursor-pointer">arrow_forward</span>
+</div>
+<div class="space-y-12">
+<article class="group">
+<img class="w-full h-40 object-cover mb-4" data-alt="modern office building facade with reflective glass windows and architectural sharp lines" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWc8Vx3zM21TyQ0I7AvOpz8brLaRjKe2GBpbiY05fLZOJCpC1RqlbhDRxZL5u72ZpmecJTshmsIRYot41ykmHvsX8HhJM_2GE7AizmZjktownU-LayanToTiy0lKQFp8-ZtUCI7ObAaWhSzevDv0txbYqubWPGnkIPmNKgobUy4-w_CXNkuxXQp-cpl5CzRMgBISm7iNz5tRbCW-N51HV0UKBdeP0X9sRBn-Vs8zvd6SLERb3kdLpU3UlsXOUEYMqkRiL9jMWisDs"/>
+<h4 class="font-display text-lg font-bold group-hover:text-primary transition-colors mb-2">Stock Exchange Reports Record Trading Volumes</h4>
+<p class="text-xs text-on-surface-variant line-clamp-2">Retail investors lead the surge as fintech platforms gain traction in local markets.</p>
+</article>
+<article class="group border-t border-outline-variant/10 pt-8">
+<h4 class="font-display text-lg font-bold group-hover:text-primary transition-colors mb-2">Green Energy Startups Attract Foreign VC Interest</h4>
+<p class="text-xs text-on-surface-variant line-clamp-2">Solar initiatives in the Kalahari region see new funding from European partners.</p>
+</article>
+<article class="group border-t border-outline-variant/10 pt-8">
+<h4 class="font-display text-lg font-bold group-hover:text-primary transition-colors mb-2">Tourism Sector Forecasts Pre-Pandemic Growth levels</h4>
+</article>
+</div>
+</div>
+<!-- Sport -->
+<div class="flex flex-col gap-8">
+<div class="flex justify-between items-center border-b-2 border-primary-container pb-2 mb-4">
+<h2 class="font-display text-2xl font-black">Sport</h2>
+<span class="material-symbols-outlined text-primary-container cursor-pointer">arrow_forward</span>
+</div>
+<div class="space-y-12">
+<article class="group">
+<img class="w-full h-40 object-cover mb-4" data-alt="athlete running on a red track with focus on their feet and motion blur in the background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6udYHLBXT6kz-3VJ-eOHWB8W84oS2GtZUWwtPFlknFHAnwwxTA22GzTU2Rfvo2e39S3IrpsqG-_q0bHsEh9p609hsjxzDyfrKc2kkGLgJDgxY-MtHWCLQJLyaiosSvuBEh-Z69Lyr_p_ql9E0CjE2QpaQZpxZnu7TtQtXvzxnF2Q-996DDnEPV36quRf4B5arTAK0FjPBs6hec7EWgBqG8w_4r2mYHE4pfAZH3pIv37Djt1DYDCoTCoNil3Y1r4otCirW1AYF6so"/>
+<h4 class="font-display text-lg font-bold group-hover:text-primary transition-colors mb-2">Athletics: National Team Eyes Olympic Glory</h4>
+<p class="text-xs text-on-surface-variant line-clamp-2">Sprint squad records impressive times during high-altitude training camp.</p>
+</article>
+<article class="group border-t border-outline-variant/10 pt-8">
+<h4 class="font-display text-lg font-bold group-hover:text-primary transition-colors mb-2">Botswana Premier League Season Preview</h4>
+<p class="text-xs text-on-surface-variant line-clamp-2">Key signings and tactical shifts to watch for in the upcoming title race.</p>
+</article>
+<article class="group border-t border-outline-variant/10 pt-8">
+<h4 class="font-display text-lg font-bold group-hover:text-primary transition-colors mb-2">Young Zebras Secure Spot in Continental Finals</h4>
+</article>
+</div>
+</div>
+<!-- Opinion -->
+<div class="flex flex-col gap-8">
+<div class="flex justify-between items-center border-b-2 border-primary-container pb-2 mb-4">
+<h2 class="font-display text-2xl font-black">Opinions</h2>
+<span class="material-symbols-outlined text-primary-container cursor-pointer">arrow_forward</span>
+</div>
+<div class="space-y-12">
+<article class="bg-surface-container-low p-6 rounded-lg">
+<span class="text-secondary font-bold text-[10px] uppercase tracking-widest mb-3 block">Perspective</span>
+<h4 class="font-display text-lg font-bold mb-4">The Digital Divide: Why Connectivity is a Civil Right</h4>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-zinc-300">
+<img class="w-full h-full object-cover" data-alt="close up of a man's face with glasses and a thoughtful expression in soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABTqNciz2mZLqVbqpQy4cigycOdfB4ChUupR5UFPOWvHbDC_frXW8kfYZuYe1bJ_l03Ov-U0RTEkhB-q8MnsHGodcW1-1aP-bNICSiMQ2VUjROPz5YZIQDRubFLo06EhLpxXuGPR35aV5swQcElWCpLvALdNZLRi9H3rV5Y6bB-6Da5s2_Fc8AVkzwlc7XaY_7tpz6hdBr1fO9a6xat8yO0nbNDC_X7yE2FP4gQvbJOyV4atm1p7744fQdmKtH4q7mcLl9UXFsGmc"/>
+</div>
+<span class="text-xs font-bold">Kabo Sebele</span>
+</div>
+</article>
+<article class="bg-surface-container-low p-6 rounded-lg">
+<span class="text-secondary font-bold text-[10px] uppercase tracking-widest mb-3 block">Analysis</span>
+<h4 class="font-display text-lg font-bold mb-4">Diversification Beyond Diamonds: Are we doing enough?</h4>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-zinc-300">
+<img class="w-full h-full object-cover" data-alt="portrait of a woman in business attire with a warm smile against a blurred office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbp6IsHWHhnCSEW1koEhrAgQP1ErpGY3AM2FD9XcSrW12RbVvfHmUQXh55cbFsUx8Tdqc_BdilJSayKKUCWCZyaEbLaRtQZYg8GF06hUbGC_CfqPJYY9V7bbH-CqMT3p9epqXHbZDIikl2vLAATuNzDlqOz_E2kAtyGm7OxIvkEJr2tXM5PfRxbT6XxcKSlPfL2dUvSsw1gXSfrrnfkoIxobuyWRI4c6Ut5pTa8u-zePNrUB-EO9_-fmLzwlux59dlUe5UouB-xgg"/>
+</div>
+<span class="text-xs font-bold">Dr. Lerato Mokane</span>
+</div>
+</article>
+</div>
+</div>
+</section>
+<!-- Newsletter Section -->
+<section class="bg-zinc-900 rounded-2xl p-12 lg:p-24 flex flex-col lg:flex-row items-center gap-16 mb-32 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-1/2 h-full bg-primary/10 -skew-x-12 transform translate-x-24"></div>
+<div class="flex-1 z-10">
+<h2 class="font-display text-4xl lg:text-6xl font-bold text-white mb-6">Stay Ahead of the Curve.</h2>
+<p class="text-zinc-400 text-lg max-w-md">Join 50,000+ professionals who receive our weekly curated insights into Botswana's economy, politics, and culture.</p>
+</div>
+<div class="flex-1 w-full max-w-md z-10">
+<div class="flex flex-col gap-4">
+<input class="bg-transparent border-b-2 border-zinc-700 focus:border-primary-container text-white py-4 px-0 transition-colors focus:ring-0 text-lg" placeholder="Email Address" type="email"/>
+<button class="bg-primary-container text-on-primary-container font-bold py-5 mt-4 flex items-center justify-center gap-3 group hover:opacity-90 transition-opacity">
+                        JOIN THE INSIDERS
+                        <span class="material-symbols-outlined group-hover:translate-x-2 transition-transform">arrow_right_alt</span>
+</button>
+<p class="text-[10px] text-zinc-500 uppercase tracking-widest text-center mt-4 italic">No spam. Only premium journalism. Unsubscribe anytime.</p>
+</div>
+</div>
+</section>
+<!-- E-Paper Section -->
+<section class="mb-32">
+<div class="flex justify-between items-end mb-12">
+<div>
+<span class="text-secondary font-bold text-[10px] uppercase tracking-widest mb-2 block">Digital Archives</span>
+<h2 class="font-display text-5xl font-bold">Digital Editions</h2>
+</div>
+<button class="text-primary font-bold flex items-center gap-2 group">
+                    View Full Archive
+                    <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">trending_flat</span>
+</button>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] bg-zinc-200 mb-6 shadow-xl group-hover:-translate-y-4 transition-transform duration-500 overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="front cover of a magazine with professional design and clean typography on high quality paper texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqkwEIJMkOChtWbN97ltLN7fYcmq71yAGUlISpKrkRraHFaJRuiV3we7-gtr0JTp23NIprr3RJyAnkSpU1iJ2y36alPFgfIgBKKSJjc77AGg787tFJXZTSDmDDWHwH8Y_cZ_s9fj2hB-KsjJvDo6mBLnqada-bkiKT1UCU8J-TghdRJbChuyw8zugX0wFf05a4PH0p19IAXdbLzGVKChgkBW-2FBcVznjvMRtwnMtZtuYpZ6PMT_Xf0AtKSFL8QBwyn6R30mOK1kI"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="bg-white text-zinc-900 px-4 py-2 text-xs font-bold uppercase tracking-widest">Read Now</span>
+</div>
+</div>
+<p class="font-bold text-sm">Issue #482 | October 2024</p>
+<p class="text-on-surface-variant text-xs">The Innovation Issue</p>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] bg-zinc-200 mb-6 shadow-xl group-hover:-translate-y-4 transition-transform duration-500 overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="lifestyle magazine cover with focus on travel and nature photography in a high end layout" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOImgg2suX213WnbAbzvzRGpDW9cQqHBvufDfG1UocyQXgVi7nEKnMr9zM1380I5oRjTzQQgbY2211s0dgSg2S5V3hh1wRTSYekssyZdnXywutcoVxqMMu4RmhjLrdRwRQtA4NkadRgn2hMdofdXYsQA1XULw81Odo14entMoJkRo97LP3T-gVjv_yz_kGWMYPDsjdUYTY2dl6t9-0X6ZICSfoVpIwtI2eNhEDT4PkzS6rCpgii0oWtT88zStTY3TGq9t78Lmvv_A"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="bg-white text-zinc-900 px-4 py-2 text-xs font-bold uppercase tracking-widest">Read Now</span>
+</div>
+</div>
+<p class="font-bold text-sm">Issue #481 | September 2024</p>
+<p class="text-on-surface-variant text-xs">The Safari Revival</p>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] bg-zinc-200 mb-6 shadow-xl group-hover:-translate-y-4 transition-transform duration-500 overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="minimalist architectural magazine cover showing a modern building with clean lines and neutral colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFF1tJgHFLNcaqNAj1ycHoWnpOMYOFrU82frzZRsaeFpgkCyiN0Rh1-VeCfSj4zyYYY6l0vxhQN_fP6x_vK9rcvngL7CDDjMX1S8B4rS9rjJIjQyXD2iESS_aezm7hQ3be-Kfn4caVmNdhpjLyn27jlodH3UArv8HW3J9jRZKh6ARNkcW7PJXj_od87uYCjqkXw6f2jSTkaQ1HX6YCKcy1F1hNYt5o1B7E3Q6UTXWaoTW5xJkXOKfNpEP2jPaAAEtFJEUPhHb5Zbg"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="bg-white text-zinc-900 px-4 py-2 text-xs font-bold uppercase tracking-widest">Read Now</span>
+</div>
+</div>
+<p class="font-bold text-sm">Issue #480 | August 2024</p>
+<p class="text-on-surface-variant text-xs">Urban Architecture</p>
+</div>
+<div class="group cursor-pointer">
+<div class="aspect-[3/4] bg-zinc-200 mb-6 shadow-xl group-hover:-translate-y-4 transition-transform duration-500 overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="arts and crafts magazine cover featuring colorful traditional textiles and close up weave details" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMen5Huu3sqdjVOy04NIuAHO2cVUGs0kMToQA2Z7qx8oklDLOIOAE5sMdki9FLZlxTUoFl4CT82xJRSPeKGES080rggioob_DBajxsDelg7IsLIYxrb8Vb26cDfBP_Ouo47oGq5A3XgRYJPv4PN-FbblOziNFRPsAWr2qi4stQYp_L1RkAtJv5a0wPtYJQ_Kpduu3ZOXYyrfSNCF18o2pHRJuF_S092OIPMx3oz8rplTAvvN5tiC3p-FqzhvFOATr6DW4LK5orxq8"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="bg-white text-zinc-900 px-4 py-2 text-xs font-bold uppercase tracking-widest">Read Now</span>
+</div>
+</div>
+<p class="font-bold text-sm">Issue #479 | July 2024</p>
+<p class="text-on-surface-variant text-xs">The Textile Revolution</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (JSON Anchored) -->
+<footer class="bg-zinc-900 dark:bg-black w-full py-16 px-8 mt-20">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 max-w-screen-2xl mx-auto">
+<div class="flex flex-col gap-6">
+<div class="font-newsreader text-2xl text-white italic font-black">Weekend Post</div>
+<p class="font-inter text-sm text-zinc-400 leading-relaxed">Dedicated to independent, high-quality journalism that reflects the diverse voice of Botswana. Professionalism with a Digital Soul.</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-zinc-500 hover:text-white cursor-pointer transition-colors">social_leaderboard</span>
+<span class="material-symbols-outlined text-zinc-500 hover:text-white cursor-pointer transition-colors">alternate_email</span>
+<span class="material-symbols-outlined text-zinc-500 hover:text-white cursor-pointer transition-colors">share</span>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<h5 class="text-white font-bold uppercase tracking-widest text-xs mb-4">Sections</h5>
+<a class="text-zinc-500 hover:text-white font-inter text-sm transition-colors" href="#">News</a>
+<a class="text-zinc-500 hover:text-white font-inter text-sm transition-colors" href="#">Business</a>
+<a class="text-zinc-500 hover:text-white font-inter text-sm transition-colors" href="#">Sport</a>
+<a class="text-zinc-500 hover:text-white font-inter text-sm transition-colors" href="#">Opinions</a>
+<a class="text-zinc-500 hover:text-white font-inter text-sm transition-colors" href="#">Weekend Life</a>
+</div>
+<div class="flex flex-col gap-4">
+<h5 class="text-white font-bold uppercase tracking-widest text-xs mb-4">Quick Links</h5>
+<a class="text-zinc-500 hover:text-white font-inter text-sm transition-colors" href="#">About Us</a>
+<a class="text-zinc-500 hover:text-white font-inter text-sm transition-colors" href="#">Contact</a>
+<a class="text-zinc-500 hover:text-white font-inter text-sm transition-colors" href="#">Privacy Policy</a>
+<a class="text-zinc-500 hover:text-white font-inter text-sm transition-colors" href="#">Terms of Service</a>
+<a class="text-zinc-500 hover:text-white font-inter text-sm transition-colors" href="#">Archives</a>
+<a class="text-zinc-500 hover:text-white font-inter text-sm transition-colors" href="#">Advertising</a>
+</div>
+<div class="flex flex-col gap-4">
+<h5 class="text-white font-bold uppercase tracking-widest text-xs mb-4">Contact Info</h5>
+<p class="text-zinc-500 font-inter text-sm">Plot 50361, Block 3, Fairgrounds Financial Centre, Gaborone</p>
+<p class="text-zinc-500 font-inter text-sm">+267 318 0123</p>
+<p class="text-zinc-500 font-inter text-sm">info@weekendpost.co.bw</p>
+</div>
+</div>
+<div class="max-w-screen-2xl mx-auto pt-16 border-t border-zinc-800 mt-16 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="font-inter text-sm text-zinc-500">© 2024 Weekend Post. All rights reserved. Professional Journalism with a Digital Soul.</div>
+<div class="flex gap-6">
+<span class="text-zinc-500 text-xs uppercase tracking-widest hover:text-white transition-colors cursor-pointer">Cookie Policy</span>
+<span class="text-zinc-500 text-xs uppercase tracking-widest hover:text-white transition-colors cursor-pointer">Sustainability Report</span>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Weekend Post | Mobile Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Public+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#78d3ee",
+                        "surface-tint": "#78d3ee",
+                        "surface-dim": "#101416",
+                        "secondary-fixed-dim": "#e6c364",
+                        "surface-container-low": "#181c1e",
+                        "on-tertiary-container": "#fff9f6",
+                        "surface-bright": "#353a3c",
+                        "tertiary-fixed-dim": "#ffb778",
+                        "secondary-fixed": "#ffe08f",
+                        "surface-container-lowest": "#0a0f10",
+                        "background": "#101416",
+                        "primary-fixed": "#b1ebff",
+                        "error-container": "#93000a",
+                        "on-secondary-container": "#fdd977",
+                        "on-background": "#dfe3e5",
+                        "error": "#ffb4ab",
+                        "inverse-on-surface": "#2d3133",
+                        "surface-container-highest": "#313537",
+                        "primary": "#78d3ee",
+                        "outline": "#889297",
+                        "on-primary-fixed": "#001f27",
+                        "on-tertiary-fixed-variant": "#6c3a00",
+                        "on-surface-variant": "#bec8cd",
+                        "surface-container-high": "#262b2c",
+                        "surface-container": "#1c2022",
+                        "inverse-surface": "#dfe3e5",
+                        "primary-container": "#007e97",
+                        "tertiary-container": "#a46423",
+                        "on-secondary-fixed": "#241a00",
+                        "surface": "#101416",
+                        "on-primary-fixed-variant": "#004e5e",
+                        "outline-variant": "#3e484c",
+                        "tertiary-fixed": "#ffdcc1",
+                        "on-secondary-fixed-variant": "#584400",
+                        "on-primary-container": "#f4fbff",
+                        "on-error-container": "#ffdad6",
+                        "secondary-container": "#785d00",
+                        "on-surface": "#dfe3e5",
+                        "on-tertiary-fixed": "#2e1500",
+                        "on-error": "#690005",
+                        "tertiary": "#ffb778",
+                        "on-primary": "#003642",
+                        "on-tertiary": "#4c2700",
+                        "surface-variant": "#313537",
+                        "on-secondary": "#3d2e00",
+                        "inverse-primary": "#00677c",
+                        "secondary": "#e6c364"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Newsreader"],
+                        "display": ["Newsreader"],
+                        "body": ["Public Sans"],
+                        "label": ["Public Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #101416;
+            color: #dfe3e5;
+            font-family: 'Public Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .font-serif { font-family: 'Newsreader', serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface">
+<!-- TopAppBar -->
+<header class="docked full-width top-0 sticky z-40 bg-[#181c1e] bg-opacity-50 backdrop-blur-xl border-none flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-4">
+<button class="text-on-surface hover:text-[#C9A84C] transition-colors duration-300">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="text-2xl font-serif text-[#C9A84C] italic Newsreader tracking-tight">Weekend Post</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="Close-up portrait of a professional man in a dark studio setting with soft directional lighting, editorial style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5JCcwLoPu7LF6NrCqfM79AQstu2Q-00nOgRkIv484Xt2jtFPLcyXSq1T6vxMAklrmzFY1Gg22-6yruem-Yq0JQemwvQXY0CDU1wXp_y0qhfbfHiuGfEbYjagT_bGtu8wm52DlCwg6q9Tk7DGiMBOK_1dHeHT6J3P1cOEEHx60tyRCMcyuml4vFO8-pp27qG3Y5-gFLSbs_KUnNKdCg4ebm35Zbc_rumsc5ZQE-lVcaeU3cO7V05X7LMhEkibYBQiNT8oY4UuQ-RI"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="px-6 py-8 pb-24 space-y-10 max-w-lg mx-auto">
+<!-- Personalized Header -->
+<section>
+<p class="text-tertiary font-label text-[10px] tracking-[0.2em] uppercase mb-1">Premium Member</p>
+<h2 class="text-4xl font-serif italic text-on-surface">Welcome back, John</h2>
+</section>
+<!-- Summary Cards (Bento-lite Layout) -->
+<section class="grid grid-cols-2 gap-4">
+<!-- Subscription Status Card (Full Width) -->
+<div class="col-span-2 bg-surface-container-low p-5 rounded-xl border border-white/5 relative overflow-hidden">
+<div class="flex justify-between items-start mb-4">
+<span class="text-label-md uppercase tracking-wider text-on-surface-variant font-label text-xs">Subscription Status</span>
+<div class="flex items-center gap-2 px-2 py-1 bg-primary-container/20 rounded-full">
+<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#78d3ee]"></span>
+<span class="text-[10px] font-bold text-primary-fixed-dim uppercase tracking-tighter">Premium Active</span>
+</div>
+</div>
+<div class="flex items-end justify-between">
+<div>
+<p class="text-sm text-on-surface-variant leading-relaxed">Your access is valid until <br/><span class="text-on-surface font-semibold">Dec 12, 2024</span></p>
+</div>
+<span class="material-symbols-outlined text-primary-fixed-dim opacity-30 text-4xl" data-icon="verified_user">verified_user</span>
+</div>
+</div>
+<!-- Purchased E-Papers -->
+<div class="bg-surface-container-high p-5 rounded-xl border border-white/5 flex flex-col justify-between aspect-square">
+<span class="text-label-md uppercase tracking-wider text-on-surface-variant font-label text-[10px]">Purchased E-Papers</span>
+<div class="flex items-baseline gap-1">
+<span class="text-5xl font-serif text-[#C9A84C]">2</span>
+<span class="text-xs text-on-surface-variant">Issues</span>
+</div>
+</div>
+<!-- Saved Articles -->
+<div class="bg-surface-container-high p-5 rounded-xl border border-white/5 flex flex-col justify-between aspect-square">
+<span class="text-label-md uppercase tracking-wider text-on-surface-variant font-label text-[10px]">Saved Articles</span>
+<div class="flex items-baseline gap-1">
+<span class="text-5xl font-serif text-primary">3</span>
+<span class="text-xs text-on-surface-variant">Items</span>
+</div>
+</div>
+</section>
+<!-- Recent Saved Articles List -->
+<section class="space-y-6">
+<div class="flex justify-between items-center mb-2">
+<h3 class="text-xl font-serif italic text-on-surface">Recent Saved Articles</h3>
+<a class="text-xs text-secondary font-label uppercase tracking-widest border-b border-secondary/30" href="#">View All</a>
+</div>
+<div class="space-y-8">
+<!-- Article Item 1 -->
+<div class="group flex gap-4 items-start">
+<div class="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden bg-surface-container-highest">
+<img alt="Journalism Visual" class="w-full h-full object-cover" data-alt="Close up of a vintage typewriter on a wooden desk with warm morning sunlight casting soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpcy8EMVg1MU6LT55q0RtaCCCCcIID_fiw-Xoda73VFtcH8uPlCfukrgFVXXfC2H_jx4TRLhT9UkZ65I3V6-c0Yn4wOHEnlbngeYbVDUCUEcQr9RYAqIdXuhB-m9vePBToQJkbhm99lEuiLsg5U-mdKtCkOjkpOY4Id4ew-2KmiJFjzUZ9EYDzUugrxRLrKMA38hTCW32XT7XloN7jDsLnyUHiitlo4d3kNqZHc80mhaJxu67vC6u2uIh_oUO4RgStd1WE8DtvOjQ"/>
+</div>
+<div class="flex flex-col justify-between py-0.5">
+<h4 class="text-lg font-serif leading-snug text-on-surface group-hover:text-primary transition-colors">The Future of Investigative Journalism in the Age of AI</h4>
+<p class="text-[11px] text-on-surface-variant font-label mt-2 uppercase tracking-wide">Saved on Oct 25, 2024</p>
+</div>
+</div>
+<!-- Article Item 2 -->
+<div class="group flex gap-4 items-start">
+<div class="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden bg-surface-container-highest">
+<img alt="Tech Abstract" class="w-full h-full object-cover" data-alt="Digital abstract visualization of data nodes and connecting lines in deep blue and teal tones, cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWYYPWF9o-8jk7SAxtcx8wBoZEpi9OaOdwTBFuy5Qx5SOIzUhq5M-fSjKIE1on8vfeEoSasd7_Eqy5CZtZSIRjJtIJ4RzrjsGEnrzhTOB7UDqoD9xHE2ir0PbsLPUn1YWWkaDvQZcttaTZ1m4rjV1cG8eQIVlom3jujYEoTP0NxX-Z7LeVG714ZCBqiyEhV2exk2vgCSvivLmyqzuQQVDkjRxJogx6I9xn8v2WpIHGJVFx19NDyRRdDPoB4Fr8GP4xT4M2ELrS-uU"/>
+</div>
+<div class="flex flex-col justify-between py-0.5">
+<h4 class="text-lg font-serif leading-snug text-on-surface group-hover:text-primary transition-colors">Global Markets: Why Volatility is the New Standard</h4>
+<p class="text-[11px] text-on-surface-variant font-label mt-2 uppercase tracking-wide">Saved on Oct 24, 2024</p>
+</div>
+</div>
+<!-- Article Item 3 -->
+<div class="group flex gap-4 items-start">
+<div class="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden bg-surface-container-highest">
+<img alt="Landscape Editorial" class="w-full h-full object-cover" data-alt="Majestic snow-capped mountain peak at sunrise with a gradient sky from orange to deep violet, archival photo style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFrD-eTsPL4FjDZFz1FwmtcPbAGd7AVw10y0aOWtKaSoS2I70YCukTwCUFH2lMy-kg1vZURXf27oMqqK6x8YolltkDBS3b1OYPkgs-xkI1DTYw6VnbXIVmfkl_WtUP5E_Q0uX5GTTsZTsXCL2R6NUl2_LVn7eyeTUeuRkNwtNfLFPx-YYgjsVV-yhWnvHtKbYqIrBat2lOb1hAf7-pnVDQ8YBFzfV8kpmbNM2eGMkGaloe9GNxjeqq5pAp8VyGkajJsw5JFypr5XE"/>
+</div>
+<div class="flex flex-col justify-between py-0.5">
+<h4 class="text-lg font-serif leading-snug text-on-surface group-hover:text-primary transition-colors">Climate Shifts: The Retreat of Alpine Glaciers</h4>
+<p class="text-[11px] text-on-surface-variant font-label mt-2 uppercase tracking-wide">Saved on Oct 22, 2024</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- NavigationDrawer (Off-screen/Sidebar Logic via Hidden/Flex) -->
+<!-- In a real app, this would be toggled. For the static design, we represent the drawer as an overlay/state or separate container -->
+<div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 pointer-events-none opacity-0 transition-opacity" id="drawer">
+<aside class="fixed left-0 top-0 h-full flex flex-col p-6 z-50 bg-[#181c1e] dark:bg-[#181c1e] h-full w-72 rounded-r-none border-r border-white/5 shadow-[40px_0_40px_rgba(10,15,16,0.08)]">
+<!-- Header Profile Section -->
+<div class="flex flex-col items-start mb-10 pt-4">
+<div class="w-16 h-16 rounded-full overflow-hidden mb-4 border-2 border-secondary/20">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="Professional profile headshot of a curator, dark background, warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIPTbYRKFlGxd2gbz4nclpIt4DjvwlMLohTXYte4awCnCi_pj5QTnF3bL-__7-fugfjBbLadOjM2cBsX_gC61CcJxeFO4pjACqoQ-LgOnUgvEBMSwGc4a1L5FPlnD1zmHEbEiTt4nQE5oIjSSmZmkuan20zD-srVcjUCd84Zb24KkP8bzcyyZY4G4lCQre3v1aPSKo4Db4puoG1gctve1HYNTYGUF0p34XYJMHuh-gary5t6uAdlMAedzZr9Jg8zgoGJG7Uwso3R0"/>
+</div>
+<h3 class="text-xl font-serif text-[#C9A84C] italic">Alexander Post</h3>
+<p class="text-label-md Public Sans tracking-wide uppercase text-slate-400 text-[10px]">Premium Curator</p>
+<p class="text-[9px] text-slate-500 font-label uppercase mt-1">Since 2021</p>
+</div>
+<!-- Nav Items -->
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-4 py-3 text-[#C9A84C] font-bold border-l-2 border-[#C9A84C] pl-4 font-sans text-label-md Public Sans tracking-wide uppercase text-sm" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="dashboard">dashboard</span>
+<span>Overview</span>
+</a>
+<a class="flex items-center gap-4 py-3 text-slate-400 pl-4 hover:bg-white/5 hover:text-[#007E97] transition-all font-sans text-label-md Public Sans tracking-wide uppercase text-sm" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="auto_stories">auto_stories</span>
+<span>My Library</span>
+</a>
+<a class="flex items-center gap-4 py-3 text-slate-400 pl-4 hover:bg-white/5 hover:text-[#007E97] transition-all font-sans text-label-md Public Sans tracking-wide uppercase text-sm" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="monitoring">monitoring</span>
+<span>Plan &amp; Billing</span>
+</a>
+<a class="flex items-center gap-4 py-3 text-slate-400 pl-4 hover:bg-white/5 hover:text-[#007E97] transition-all font-sans text-label-md Public Sans tracking-wide uppercase text-sm" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="settings">settings</span>
+<span>Account Settings</span>
+</a>
+</nav>
+<!-- Footer Signature -->
+<div class="mt-auto border-t border-white/5 pt-6">
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary"></div>
+<span class="text-[10px] font-serif italic text-on-surface-variant">Curated for Excellence</span>
+</div>
+</div>
+</aside>
+</div>
+<!-- Bottom Action Button (Floating contextually) -->
+<button class="fixed bottom-8 right-6 w-14 h-14 rounded-full bg-gradient-to-br from-primary-container to-primary flex items-center justify-center shadow-2xl z-30 group transition-transform active:scale-90">
+<span class="material-symbols-outlined text-on-primary text-3xl" data-icon="menu_book">menu_book</span>
+</button>
+</body></html>

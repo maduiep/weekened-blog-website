@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Curated Chronicle | Authenticate</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-dim": "#dadad8",
+                      "surface-container": "#eeeeec",
+                      "secondary-fixed": "#d9e3f9",
+                      "secondary-fixed-dim": "#bdc7dc",
+                      "tertiary": "#8f4922",
+                      "on-background": "#1a1c1b",
+                      "on-primary-fixed-variant": "#004f4f",
+                      "on-primary-container": "#f3fffe",
+                      "primary-fixed-dim": "#6fd7d6",
+                      "on-error": "#ffffff",
+                      "on-primary-fixed": "#002020",
+                      "error": "#ba1a1a",
+                      "on-surface": "#1a1c1b",
+                      "inverse-on-surface": "#f1f1ef",
+                      "on-error-container": "#93000a",
+                      "inverse-surface": "#2f3130",
+                      "outline-variant": "#bcc9c8",
+                      "on-secondary": "#ffffff",
+                      "primary-fixed": "#8cf3f3",
+                      "on-surface-variant": "#3d4949",
+                      "surface-tint": "#006a6a",
+                      "primary-container": "#008282",
+                      "tertiary-fixed-dim": "#ffb693",
+                      "tertiary-container": "#ad6038",
+                      "tertiary-fixed": "#ffdbcb",
+                      "on-tertiary-fixed-variant": "#74340f",
+                      "surface-bright": "#f9f9f7",
+                      "on-tertiary-fixed": "#341000",
+                      "surface": "#f9f9f7",
+                      "on-tertiary-container": "#fffbff",
+                      "inverse-primary": "#6fd7d6",
+                      "on-secondary-fixed-variant": "#3d4759",
+                      "error-container": "#ffdad6",
+                      "outline": "#6d7979",
+                      "background": "#f9f9f7",
+                      "secondary-container": "#d6e0f6",
+                      "on-primary": "#ffffff",
+                      "surface-container-low": "#f4f4f2",
+                      "surface-container-highest": "#e2e3e1",
+                      "on-secondary-fixed": "#121c2c",
+                      "primary": "#006767",
+                      "secondary": "#555f71",
+                      "on-secondary-container": "#596376",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container-high": "#e8e8e6",
+                      "on-tertiary": "#ffffff",
+                      "surface-variant": "#e2e3e1"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.375rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "fontFamily": {
+                      "headline": ["Newsreader", "serif"],
+                      "display": ["Newsreader", "serif"],
+                      "body": ["Inter", "sans-serif"],
+                      "label": ["Inter", "sans-serif"]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .serif-italic { font-family: 'Newsreader', serif; font-style: italic; }
+        .inter-label { font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary selection:text-white">
+<!-- TopAppBar as provided in JSON -->
+<nav class="fixed top-0 z-50 bg-[#f9f9f7] dark:bg-slate-900 border-b-0 w-full">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-screen-2xl mx-auto">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#006767] dark:text-[#008B8B] scale-95 active:opacity-80 transition-all cursor-pointer">menu</span>
+</div>
+<h1 class="text-2xl font-serif italic text-[#1a1c1b] dark:text-slate-100">The Curated Chronicle</h1>
+<div class="flex items-center gap-4">
+<span class="inter-label text-xs font-medium text-[#3d4949] dark:text-slate-400 hover:text-[#006767] transition-colors duration-300 cursor-pointer">Archive</span>
+</div>
+</div>
+</nav>
+<main class="min-h-screen pt-16 flex flex-col">
+<!-- Top Section (Sign In) -->
+<section class="flex-1 flex flex-col items-center justify-center px-8 py-12 bg-surface">
+<div class="w-full max-w-md space-y-8">
+<div class="text-center space-y-2">
+<p class="text-xs inter-label text-on-surface-variant">Botswana Ledger</p>
+<h2 class="text-4xl font-display font-bold text-on-surface tracking-tight -mt-1">Sign In</h2>
+<p class="text-sm font-body text-on-surface-variant max-w-[280px] mx-auto">Access the full archive of Weekend Post's investigative insights.</p>
+</div>
+<form class="space-y-6">
+<div class="space-y-4">
+<div class="relative">
+<label class="inter-label text-[10px] font-bold text-on-surface-variant absolute -top-2 left-0" for="email_signin">Email Address</label>
+<input class="w-full bg-surface-container-lowest border-0 border-b border-outline py-3 px-0 focus:ring-0 focus:border-primary focus:border-b-2 transition-all placeholder:text-outline-variant/50 font-body text-on-surface" id="email_signin" placeholder="name@ledger.bw" type="email"/>
+</div>
+<div class="relative">
+<label class="inter-label text-[10px] font-bold text-on-surface-variant absolute -top-2 left-0" for="password_signin">Password</label>
+<input class="w-full bg-surface-container-lowest border-0 border-b border-outline py-3 px-0 focus:ring-0 focus:border-primary focus:border-b-2 transition-all placeholder:text-outline-variant/50 font-body text-on-surface" id="password_signin" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<div class="flex justify-end">
+<a class="text-sm font-body text-on-surface-variant hover:text-primary transition-colors border-b border-transparent hover:border-primary pb-0.5" href="#">Forgot Password?</a>
+</div>
+<button class="w-full bg-primary py-4 text-white font-medium rounded-lg hover:bg-primary-container active:scale-[0.98] transition-all flex items-center justify-center gap-2" type="submit">
+<span class="inter-label text-sm">Sign In</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</form>
+</div>
+</section>
+<!-- Aesthetic Divider / Break -->
+<div class="relative h-24 bg-surface-container-low flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 opacity-10" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDgO9t9DeRiQ5wyp3HcmqbVKLxY2xDrOB1fAgnEnheKrkmVP_KUivjRDrLxFbl6H1f3A07ABaojvKABrB1AOo7Sa_0HgY56zdKbmXUcsFgmP99kdOoagWlPj-DchWiUTgHw6nei0GHaptadkRZlkGxesHD7RJsXxWgk5sN8cZuuPGcE6tyA2LktiB2QYcBGpv0oG1Lrm0Oo63GAei7QJji_JrP_WXy1SxxG79zp4Q5SPUGMDd1ORfbO2yckVVJeY2cTn6A5gw5uNtE');"></div>
+<div class="h-[1px] w-full bg-outline-variant/30"></div>
+<div class="absolute bg-surface-container-low px-6">
+<span class="inter-label text-[10px] font-bold text-on-surface-variant">Membership Tiers</span>
+</div>
+</div>
+<!-- Bottom Section (Create an Account) -->
+<section class="flex-1 flex flex-col items-center justify-center px-8 py-16 bg-surface-container-lowest">
+<div class="w-full max-w-md space-y-8">
+<div class="text-center space-y-2">
+<div class="flex justify-center mb-4">
+<div class="w-12 h-12 bg-primary-container/10 flex items-center justify-center rounded-full">
+<span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings: 'FILL' 1;">newspaper</span>
+</div>
+</div>
+<h2 class="text-3xl font-display font-bold text-on-surface">Create an Account</h2>
+<p class="text-sm font-body text-on-surface-variant">Join the community of informed citizens.</p>
+</div>
+<form class="space-y-6">
+<div class="grid grid-cols-1 gap-6">
+<div class="relative">
+<label class="inter-label text-[10px] font-bold text-on-surface-variant absolute -top-2 left-0" for="full_name">Full Name</label>
+<input class="w-full bg-transparent border-0 border-b border-outline py-3 px-0 focus:ring-0 focus:border-primary focus:border-b-2 transition-all font-body text-on-surface" id="full_name" placeholder="Khumo Mokgweetsi" type="text"/>
+</div>
+<div class="relative">
+<label class="inter-label text-[10px] font-bold text-on-surface-variant absolute -top-2 left-0" for="email_signup">Email Address</label>
+<input class="w-full bg-transparent border-0 border-b border-outline py-3 px-0 focus:ring-0 focus:border-primary focus:border-b-2 transition-all font-body text-on-surface" id="email_signup" placeholder="khumo@example.com" type="email"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="relative">
+<label class="inter-label text-[10px] font-bold text-on-surface-variant absolute -top-2 left-0" for="password_signup">Password</label>
+<input class="w-full bg-transparent border-0 border-b border-outline py-3 px-0 focus:ring-0 focus:border-primary focus:border-b-2 transition-all font-body text-on-surface" id="password_signup" placeholder="••••••••" type="password"/>
+</div>
+<div class="relative">
+<label class="inter-label text-[10px] font-bold text-on-surface-variant absolute -top-2 left-0" for="confirm_password">Confirm</label>
+<input class="w-full bg-transparent border-0 border-b border-outline py-3 px-0 focus:ring-0 focus:border-primary focus:border-b-2 transition-all font-body text-on-surface" id="confirm_password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-lg flex items-start gap-3">
+<input class="mt-1 rounded border-outline-variant text-primary focus:ring-primary" id="terms" type="checkbox"/>
+<label class="text-[11px] leading-relaxed text-on-surface-variant font-body" for="terms">
+                            I agree to the <a class="text-primary underline" href="#">Terms of Service</a> and <a class="text-primary underline" href="#">Privacy Policy</a>. I understand my data remains secure.
+                        </label>
+</div>
+<button class="w-full bg-primary-container text-on-primary-container py-4 font-medium rounded-lg hover:opacity-90 active:scale-[0.98] transition-all" type="submit">
+<span class="inter-label text-sm">Sign Up</span>
+</button>
+</form>
+<div class="text-center pt-4">
+<p class="text-xs text-on-surface-variant italic font-serif">A publication of Weekend Post Botswana</p>
+</div>
+</div>
+</section>
+<!-- Decorative Footer Image / Graphic -->
+<div class="h-64 w-full relative group overflow-hidden">
+<img alt="Newspapers on a table" class="w-full h-full object-cover grayscale opacity-20 group-hover:grayscale-0 group-hover:opacity-40 transition-all duration-700" data-alt="Close-up of vintage newspapers stacked on a wooden table in a dimly lit library with dust motes and warm light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB06gpPO09uQqOeNDqS7IxWRR9dSWIuO0MyhPqVH21uxbMhpdDOrTdc4DnYgoASw2i6VfpmUWv0UoqsiYD6_cT9DOH3MvDY81Xe8o3CQaKug53ah40ZL-VT5CTsPZpySAWPjN9Vvmbqw-wDgmQCZRRqG4X6kLNRxSZpxrLItHLMM7d4-7pMSfzelzpVucsZf3Z0JcldAOLhhdoxXVBMzrITo7sFvzsGTbqqPy4F1kJOJ3uQIDPB9BGBjIkdsF0L153uxCfPEYFvTxA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
+</div>
+</main>
+</body></html>

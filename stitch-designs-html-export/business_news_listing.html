@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Business News | Weekend Post Botswana</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-container": "#007e97",
+                    "surface-container-lowest": "#ffffff",
+                    "outline-variant": "#bec8cd",
+                    "primary-fixed": "#b1ebff",
+                    "tertiary-container": "#a46423",
+                    "on-tertiary-fixed-variant": "#6c3a00",
+                    "on-tertiary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "surface-container": "#f0eded",
+                    "surface-dim": "#dcd9d9",
+                    "secondary-fixed-dim": "#e6c364",
+                    "secondary": "#755b00",
+                    "background": "#fcf9f8",
+                    "error-container": "#ffdad6",
+                    "inverse-on-surface": "#f3f0ef",
+                    "inverse-primary": "#78d3ee",
+                    "tertiary-fixed-dim": "#ffb778",
+                    "inverse-surface": "#313030",
+                    "on-primary-fixed-variant": "#004e5e",
+                    "surface-variant": "#e5e2e1",
+                    "on-background": "#1c1b1b",
+                    "secondary-fixed": "#ffe08f",
+                    "surface": "#fcf9f8",
+                    "secondary-container": "#fed977",
+                    "on-secondary-fixed": "#241a00",
+                    "on-tertiary-fixed": "#2e1500",
+                    "surface-tint": "#00677c",
+                    "primary-fixed-dim": "#78d3ee",
+                    "error": "#ba1a1a",
+                    "tertiary": "#874c0a",
+                    "on-secondary-fixed-variant": "#584400",
+                    "on-secondary-container": "#785d00",
+                    "on-tertiary-container": "#fff9f6",
+                    "on-secondary": "#ffffff",
+                    "surface-bright": "#fcf9f8",
+                    "on-error": "#ffffff",
+                    "on-surface": "#1c1b1b",
+                    "primary": "#006378",
+                    "surface-container-high": "#eae7e7",
+                    "on-error-container": "#93000a",
+                    "surface-container-low": "#f6f3f2",
+                    "tertiary-fixed": "#ffdcc1",
+                    "outline": "#6e797d",
+                    "on-primary-container": "#f4fbff",
+                    "on-surface-variant": "#3e484c",
+                    "on-primary-fixed": "#001f27",
+                    "surface-container-highest": "#e5e2e1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Newsreader"],
+                    "display": ["Newsreader"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #fcf9f8;
+            color: #1c1b1b;
+        }
+        .serif-text { font-family: 'Newsreader', serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl transition-colors duration-300">
+<div class="flex justify-between items-center px-8 py-6 max-w-[1440px] mx-auto">
+<div class="text-2xl font-bold font-['Newsreader'] italic text-[#006378] dark:text-[#007E97]">Weekend Post</div>
+<nav class="hidden md:flex items-center space-x-8">
+<a class="font-['Newsreader'] tracking-tighter leading-tight text-on-surface-variant hover:text-[#006378] pb-1 transition-all duration-300" href="#">Home</a>
+<a class="font-['Newsreader'] tracking-tighter leading-tight text-on-surface-variant hover:text-[#006378] pb-1 transition-all duration-300" href="#">News</a>
+<a class="font-['Newsreader'] tracking-tighter leading-tight text-[#006378] border-b-2 border-[#755b00] pb-1 transition-all duration-300" href="#">Business</a>
+<a class="font-['Newsreader'] tracking-tighter leading-tight text-on-surface-variant hover:text-[#006378] pb-1 transition-all duration-300" href="#">Sport</a>
+<a class="font-['Newsreader'] tracking-tighter leading-tight text-on-surface-variant hover:text-[#006378] pb-1 transition-all duration-300" href="#">Opinions</a>
+</nav>
+<div class="flex items-center space-x-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">search</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:scale-110 transition-transform">account_circle</span>
+</div>
+</div>
+</header>
+<main class="pt-32 max-w-[1440px] mx-auto px-8">
+<!-- Breadcrumbs & Title -->
+<nav class="mb-12">
+<div class="flex items-center space-x-2 text-xs font-label uppercase tracking-widest text-on-surface-variant/60 mb-4">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<span class="text-secondary font-bold">Business</span>
+</div>
+<h1 class="text-6xl md:text-7xl serif-text font-bold tracking-tighter text-on-surface leading-[0.9]">Business News</h1>
+</nav>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+<!-- Main Content Area -->
+<section class="lg:col-span-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-16">
+<!-- Article Card 1 -->
+<article class="group flex flex-col space-y-6">
+<div class="relative aspect-[4/3] overflow-hidden bg-surface-container-low">
+<img alt="Finance" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="high-end stock market charts on a dark digital screen with glowing blue and teal lines reflecting modern finance" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpHii62y9K6OdpLQ4_suwjBRpzIZjF62dp_sKXosnXIBDEHnac-UaqugLeYbjm3MjoNk1zD4kMxOsxfPWnFNfMGgoZs7vYGQsKbBpFw-MhHRNsF4Hj557nFg565Llc9rwa_6HkGlMtppGYEo3emfa_ObanmJmbVHkcz-OrISSmQJzTJUvuOE9KrnpCVrKKcZO7Gtpx0L3mUfgYPd65n_9QRnwWKX9j1KIHQjmHhMQLnDPqVdNal5Fo2xlFY6jLzCY_GoHxBybZDKg"/>
+<span class="absolute top-4 left-4 bg-primary text-on-primary px-3 py-1 text-[10px] font-label font-bold tracking-widest uppercase">Business</span>
+</div>
+<div class="space-y-3">
+<h2 class="text-2xl font-bold serif-text leading-tight group-hover:text-primary transition-colors cursor-pointer">Botswana's Diamond Sector Forecasts Stability Amidst Global Flux</h2>
+<p class="text-on-surface-variant line-clamp-3 leading-relaxed">Economic analysts remain optimistic as state-of-the-art mining techniques and new trade agreements bolster the national export strategy for the coming fiscal quarter.</p>
+<div class="flex items-center pt-4 space-x-3">
+<img alt="Author" class="w-8 h-8 rounded-full grayscale border border-outline-variant" data-alt="portrait of a professional male journalist with glasses in a soft lit studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAycDjw2h8a2ghU7mn_zByXzMPUU-1C1a23aP_OuXav5t7ZhOKWVqNeVsr4mBM3spkr1K5vixTFYkGzy2KhX4RhNIxqq_mwn2vLAj9hmRcNiSZTEtn7IcmgwwOQ6e723EwL_-S5FUczMNX5BGTNmhKKEqC4QgQv6PLHpC8Yb3HFzI74vN2xZvZV_eQz7TjcshsU5vIQ_SfWcCD9scuL9rluIg3zYXoAPBCf5l2HP88OmPaeEKj1_h22pDyTfENajNQ10mdSWusGRsY"/>
+<div class="text-[11px] font-label uppercase tracking-tight">
+<span class="font-bold text-on-surface">Kabelo Molefe</span>
+<span class="text-outline mx-2">•</span>
+<span class="text-on-surface-variant">May 12, 2024</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Article Card 2 -->
+<article class="group flex flex-col space-y-6">
+<div class="relative aspect-[4/3] overflow-hidden bg-surface-container-low">
+<img alt="Corporate" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="minimalist modern corporate office lobby with glass walls and teal accents in soft natural morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCE0kYLXdHciscw74RpeoMjyZT8uvQ4d-r7qwjpm4MIaWFIW_neQpt7KS93rrdF3lscJB7xNIyvfHaJRx1mKO3Wlw4ITL9-QNoradq5gUvc2g8JVmO5zaHnYUcqGjlZydUBEbi4L6LyN7njREL8s8hXo-JsHo7LHOqUCIGDNRk88Nm29OmccaVryJAoMb9fkzJAT4-Vt38U5Jp16k0x4pM_5N6JaKyiUmREmdfkCo_hmduBmUQPVMhIMmCGsHwb7W55BNBusUA6Db8"/>
+<span class="absolute top-4 left-4 bg-secondary text-white px-3 py-1 text-[10px] font-label font-bold tracking-widest uppercase">Business</span>
+</div>
+<div class="space-y-3">
+<h2 class="text-2xl font-bold serif-text leading-tight group-hover:text-primary transition-colors cursor-pointer">SME Grant Programs See Record Applications in Gaborone</h2>
+<p class="text-on-surface-variant line-clamp-3 leading-relaxed">Local entrepreneurs are seizing new government initiatives aimed at diversifying the economy beyond mineral resources through digital innovation.</p>
+<div class="flex items-center pt-4 space-x-3">
+<img alt="Author" class="w-8 h-8 rounded-full grayscale border border-outline-variant" data-alt="portrait of a professional business woman with a friendly expression and natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8T_uDtwFAVnI8p191mCOqWduwuTuJt_4jm1h9sq3ziAjnr99fEyKvaXeDojnQ1wOUdcO5NQX7YalPKOwgbpVBG8aAMHMpKb_ZiXSsw4_Ys1cxwW1IoZmaZ8_98abDETQQlrZewEVsYFer5uJA9AAmFuDvH40-4Of2AZpwRHvJ2Z5DzegWbaN2RUpWyd-2zUXxw9gOExFAm1i65CYVtSS5XkBXpuuM6lfPr0Pl4tLcyB5DZbM7mWUY6amNOGREOxeuMoXNmb60ugQ"/>
+<div class="text-[11px] font-label uppercase tracking-tight">
+<span class="font-bold text-on-surface">Lesedi Tshepo</span>
+<span class="text-outline mx-2">•</span>
+<span class="text-on-surface-variant">May 11, 2024</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Article Card 3 -->
+<article class="group flex flex-col space-y-6">
+<div class="relative aspect-[4/3] overflow-hidden bg-surface-container-low">
+<img alt="Tech" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="digital dashboard with business analytics and golden data visualizations on a sleek workspace setup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRY4RCUb83mxIK120m63nnzD3NVp2kgQt8REFe79xbZL1rwPeSYT-FD14oW7aqTLAVvNmc-c02pvLpYSnSdKlBNrFxPUas6liovBE_ZROfYOx20toUd4ioTaVBubqYjJjiY2bD4YZVHz3Rg43SaWOApGXvgYli83dz2DRzHmBhvro71920yj8ssvXDzMt_o3UIcKRCrrx1SnWt20HF6XsOaKDdKYfsIdSeCYJjSKfN6NrQER5mgNovgBe9dW6Wy_eOiMLwfmLtpCc"/>
+<span class="absolute top-4 left-4 bg-primary text-on-primary px-3 py-1 text-[10px] font-label font-bold tracking-widest uppercase">Business</span>
+</div>
+<div class="space-y-3">
+<h2 class="text-2xl font-bold serif-text leading-tight group-hover:text-primary transition-colors cursor-pointer">The Rise of Fintech: Reshaping Botswana's Banking Landscape</h2>
+<p class="text-on-surface-variant line-clamp-3 leading-relaxed">Mobile banking solutions are reaching remote villages, providing financial inclusion to thousands of previously unbanked citizens across the country.</p>
+<div class="flex items-center pt-4 space-x-3">
+<img alt="Author" class="w-8 h-8 rounded-full grayscale border border-outline-variant" data-alt="close-up of a smiling male professional with short hair and a gray blazer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-bDpU1JvynGFjCUplyqdSp892FlImj1-95NBTNwlxnEv5DxVkUHepnjFXHvidKPFLQEDL3CRLH9GmDXPuD5oP64zX9QjWCgj5jgiXYZEGFHeO2Vo5fXbNUfXf2uZiEwsLJHJr3W8R45TptQSpzfuXj-TVmGnWSZU9Yl_oxc3js_Q5OHRGV4ZLeZL60J8wzd9Sz4xmmgOk7IAXRralZIEVPrffl91KxwTAi9KXNqI5PffXGgd4HnN5QIZgyo0uYqd_Qgarv1r3_MI"/>
+<div class="text-[11px] font-label uppercase tracking-tight">
+<span class="font-bold text-on-surface">Thabo Kenosi</span>
+<span class="text-outline mx-2">•</span>
+<span class="text-on-surface-variant">May 10, 2024</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Article Card 4 -->
+<article class="group flex flex-col space-y-6">
+<div class="relative aspect-[4/3] overflow-hidden bg-surface-container-low">
+<img alt="Energy" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="scenic aerial view of a sustainable solar farm in a desert landscape under a clear blue sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4ZSbaoxWfu6bvyJociozE7MxF4_VU8k2aYE5ESYMFN6VJIcvGNA5AfDb8UbJZ7QkNrhLUhKN8jeDExI96QqY3wq2AOJuPpfMkZ_QAJ7MSxCfyw2T0SOVUA0bneSTK4cqoqrYMBNx5GqBrSbXNBJPcDfptmRtH-1xeBkH3tf7Vkh0SrCMYA_WGcesJ9q7VS2wcmSlMc8HBbwP8q_Bebwt8kX8U97Q5Ek2YIrePFjGRob24iK82w1Im_w5M-yt2yJGvyAOiw5heDN8"/>
+<span class="absolute top-4 left-4 bg-secondary text-white px-3 py-1 text-[10px] font-label font-bold tracking-widest uppercase">Business</span>
+</div>
+<div class="space-y-3">
+<h2 class="text-2xl font-bold serif-text leading-tight group-hover:text-primary transition-colors cursor-pointer">Renewable Energy: A New Frontier for Private Investment</h2>
+<p class="text-on-surface-variant line-clamp-3 leading-relaxed">Major utility companies are opening doors for independent power producers to accelerate the national transition to green energy sources.</p>
+<div class="flex items-center pt-4 space-x-3">
+<img alt="Author" class="w-8 h-8 rounded-full grayscale border border-outline-variant" data-alt="portrait of a confident woman with professional attire and soft office lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9YXOKxEvyCquapJMpnbq70dBK3havbLqTljJ_7Ypr-sACyuZKC5g-IgLDZO_UuLdPtfBNzNIb4C19hIv_gFmar4vEkKvsOfoKyAPVIThJcMZRNa6Me0ZD7ZVjfPlcgUCJnbnldlZNujEEmxt6nBXMQtJ6iXNLc-d4lsoUCbKgKkoYHdOpPIL-Sj8gpf3EXNVb0tqyjALP1BEaMC-LTXb9zftTY5H4Zy1fBQjAyqMQyf-DGHVi5PpTS3cVShOwN_Uip5AAEeTZwwU"/>
+<div class="text-[11px] font-label uppercase tracking-tight">
+<span class="font-bold text-on-surface">Mpho Sekgoma</span>
+<span class="text-outline mx-2">•</span>
+<span class="text-on-surface-variant">May 09, 2024</span>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- Pagination -->
+<div class="mt-20 pt-12 border-t border-outline-variant/20 flex items-center justify-between">
+<button class="flex items-center space-x-2 text-on-surface font-label uppercase text-xs tracking-widest hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">west</span>
+<span>Previous</span>
+</button>
+<div class="flex space-x-4">
+<span class="w-10 h-10 flex items-center justify-center bg-primary text-on-primary font-bold">1</span>
+<a class="w-10 h-10 flex items-center justify-center hover:bg-surface-container-low transition-colors text-on-surface-variant" href="#">2</a>
+<a class="w-10 h-10 flex items-center justify-center hover:bg-surface-container-low transition-colors text-on-surface-variant" href="#">3</a>
+<span class="flex items-center justify-center text-on-surface-variant">...</span>
+</div>
+<button class="flex items-center space-x-2 text-on-surface font-label uppercase text-xs tracking-widest hover:text-primary transition-colors">
+<span>Next</span>
+<span class="material-symbols-outlined text-sm">east</span>
+</button>
+</div>
+</section>
+<!-- Sidebar -->
+<aside class="lg:col-span-4 space-y-16">
+<!-- Search -->
+<div class="space-y-4">
+<h3 class="text-xs font-label uppercase tracking-widest text-secondary font-bold">Search Business</h3>
+<div class="relative group">
+<input class="w-full bg-transparent border-b border-outline-variant focus:border-primary focus:ring-0 px-0 py-3 text-on-surface font-body transition-colors" placeholder="Topics, companies, people..." type="text"/>
+<span class="material-symbols-outlined absolute right-0 top-3 text-outline group-focus-within:text-primary">search</span>
+</div>
+</div>
+<!-- Trending Articles -->
+<div class="space-y-8 bg-surface-container-low p-8">
+<h3 class="text-xs font-label uppercase tracking-widest text-secondary font-bold">Trending Now</h3>
+<div class="space-y-6">
+<div class="flex space-x-4 items-start group">
+<span class="text-4xl serif-text italic text-outline-variant/40 group-hover:text-secondary transition-colors">01</span>
+<div class="space-y-1">
+<h4 class="font-bold leading-snug group-hover:text-primary transition-colors cursor-pointer">New Tourism Tax: What it Means for Operators</h4>
+<span class="text-[10px] text-on-surface-variant font-label uppercase">Economy • 3 min read</span>
+</div>
+</div>
+<div class="flex space-x-4 items-start group">
+<span class="text-4xl serif-text italic text-outline-variant/40 group-hover:text-secondary transition-colors">02</span>
+<div class="space-y-1">
+<h4 class="font-bold leading-snug group-hover:text-primary transition-colors cursor-pointer">Inflation Rates Dip to Three-Year Low</h4>
+<span class="text-[10px] text-on-surface-variant font-label uppercase">Finance • 5 min read</span>
+</div>
+</div>
+<div class="flex space-x-4 items-start group">
+<span class="text-4xl serif-text italic text-outline-variant/40 group-hover:text-secondary transition-colors">03</span>
+<div class="space-y-1">
+<h4 class="font-bold leading-snug group-hover:text-primary transition-colors cursor-pointer">Construction Boom in North-East District</h4>
+<span class="text-[10px] text-on-surface-variant font-label uppercase">Infrastructure • 4 min read</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Newsletter -->
+<div class="bg-primary p-8 text-on-primary space-y-6">
+<div class="space-y-2">
+<h3 class="text-2xl serif-text font-bold leading-tight">Post Business Brief</h3>
+<p class="text-primary-fixed/80 text-sm leading-relaxed">The week's most critical market movements, delivered to your inbox every Friday morning.</p>
+</div>
+<div class="space-y-4">
+<input class="w-full bg-white/10 border-white/20 text-white placeholder-white/50 focus:border-white focus:ring-0 text-sm p-3" placeholder="email@address.com" type="email"/>
+<button class="w-full bg-secondary text-white font-label uppercase tracking-widest text-xs font-bold py-4 hover:bg-secondary/90 transition-colors">Subscribe Now</button>
+</div>
+</div>
+<!-- Tags -->
+<div class="space-y-6">
+<h3 class="text-xs font-label uppercase tracking-widest text-secondary font-bold">Popular Tags</h3>
+<div class="flex flex-wrap gap-2">
+<a class="px-3 py-1 bg-surface-container text-[10px] font-label uppercase tracking-tighter hover:bg-primary hover:text-on-primary transition-colors" href="#">Mining</a>
+<a class="px-3 py-1 bg-surface-container text-[10px] font-label uppercase tracking-tighter hover:bg-primary hover:text-on-primary transition-colors" href="#">Agriculture</a>
+<a class="px-3 py-1 bg-surface-container text-[10px] font-label uppercase tracking-tighter hover:bg-primary hover:text-on-primary transition-colors" href="#">Stock Market</a>
+<a class="px-3 py-1 bg-surface-container text-[10px] font-label uppercase tracking-tighter hover:bg-primary hover:text-on-primary transition-colors" href="#">Gaborone</a>
+<a class="px-3 py-1 bg-surface-container text-[10px] font-label uppercase tracking-tighter hover:bg-primary hover:text-on-primary transition-colors" href="#">Tech Hub</a>
+<a class="px-3 py-1 bg-surface-container text-[10px] font-label uppercase tracking-tighter hover:bg-primary hover:text-on-primary transition-colors" href="#">Trade</a>
+<a class="px-3 py-1 bg-surface-container text-[10px] font-label uppercase tracking-tighter hover:bg-primary hover:text-on-primary transition-colors" href="#">SME</a>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-16 pt-12 pb-8 bg-[#1a1c1e] dark:bg-black">
+<div class="flex flex-col items-center justify-center space-y-8 px-12">
+<div class="text-xl font-['Newsreader'] text-white uppercase tracking-[0.2em] mb-4">Weekend Post</div>
+<nav class="flex flex-wrap justify-center gap-8">
+<a class="font-['Manrope'] text-sm tracking-wide text-gray-400 hover:text-[#755b00] transition-colors" href="#">About Us</a>
+<a class="font-['Manrope'] text-sm tracking-wide text-gray-400 hover:text-[#755b00] transition-colors" href="#">Contact</a>
+<a class="font-['Manrope'] text-sm tracking-wide text-gray-400 hover:text-[#755b00] transition-colors" href="#">Privacy Policy</a>
+<a class="font-['Manrope'] text-sm tracking-wide text-gray-400 hover:text-[#755b00] transition-colors" href="#">Terms of Service</a>
+<a class="font-['Manrope'] text-sm tracking-wide text-gray-400 hover:text-[#755b00] transition-colors" href="#">Archive</a>
+</nav>
+<div class="flex space-x-6 text-gray-400">
+<span class="material-symbols-outlined hover:text-secondary cursor-pointer transition-colors">share</span>
+<span class="material-symbols-outlined hover:text-secondary cursor-pointer transition-colors">mail</span>
+<span class="material-symbols-outlined hover:text-secondary cursor-pointer transition-colors">public</span>
+</div>
+<div class="font-['Manrope'] text-sm tracking-wide text-gray-400 pt-8 border-t border-white/10 w-full text-center">
+                © 2024 Weekend Post Botswana. All rights reserved.
+            </div>
+</div>
+</footer>
+</body></html>

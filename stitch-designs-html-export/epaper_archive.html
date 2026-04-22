@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#690005",
+                        "surface-container-highest": "#353535",
+                        "surface": "#131313",
+                        "on-secondary-fixed": "#241a00",
+                        "tertiary": "#e6c364",
+                        "primary-container": "#007e97",
+                        "surface-container": "#201f1f",
+                        "surface-dim": "#131313",
+                        "surface-container-lowest": "#0e0e0e",
+                        "error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#584400",
+                        "background": "#131313",
+                        "on-primary-fixed-variant": "#004e5e",
+                        "on-secondary": "#3d2e00",
+                        "outline": "#889297",
+                        "on-background": "#e5e2e1",
+                        "outline-variant": "#3e484c",
+                        "tertiary-fixed": "#ffe08f",
+                        "secondary-fixed": "#ffe08f",
+                        "on-tertiary": "#3d2e00",
+                        "surface-container-low": "#1c1b1b",
+                        "primary-fixed-dim": "#78d3ee",
+                        "primary-fixed": "#b1ebff",
+                        "on-tertiary-container": "#503d00",
+                        "surface-bright": "#393939",
+                        "tertiary-container": "#c9a84c",
+                        "on-primary": "#003642",
+                        "surface-container-high": "#2a2a2a",
+                        "on-surface-variant": "#bec8cd",
+                        "secondary-container": "#785d00",
+                        "on-tertiary-fixed": "#241a00",
+                        "error": "#ffb4ab",
+                        "secondary-fixed-dim": "#e6c364",
+                        "inverse-on-surface": "#313030",
+                        "secondary": "#e6c364",
+                        "on-secondary-container": "#fdd977",
+                        "primary": "#78d3ee",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-variant": "#353535",
+                        "on-primary-container": "#f4fbff",
+                        "on-tertiary-fixed-variant": "#584400",
+                        "on-surface": "#e5e2e1",
+                        "on-primary-fixed": "#001f27",
+                        "inverse-primary": "#00677c",
+                        "surface-tint": "#78d3ee",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#e6c364"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Newsreader"],
+                        "display": ["Newsreader"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            font-family: 'Manrope', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopNavBar -->
+<nav class="bg-[#131313]/80 backdrop-blur-xl docked full-width top-0 sticky z-50 shadow-[0_48px_48px_0_rgba(120,211,238,0.06)]">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-screen-2xl mx-auto">
+<div class="font-serif text-3xl font-bold tracking-tighter text-[#e5e2e1]">Weekend Post</div>
+<div class="hidden md:flex items-center gap-8 font-serif text-lg tracking-tight">
+<a class="text-[#e5e2e1]/70 hover:text-[#e5e2e1] transition-colors" href="#">Latest</a>
+<a class="text-[#e5e2e1]/70 hover:text-[#e5e2e1] transition-colors" href="#">News</a>
+<a class="text-[#e5e2e1]/70 hover:text-[#e5e2e1] transition-colors" href="#">Business</a>
+<a class="text-[#e5e2e1]/70 hover:text-[#e5e2e1] transition-colors" href="#">Sport</a>
+<a class="text-[#e5e2e1]/70 hover:text-[#e5e2e1] transition-colors" href="#">Opinions</a>
+<a class="text-[#78d3ee] border-b-2 border-[#007e97] pb-1" href="#">E-Paper</a>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex gap-4 mr-4">
+<button class="hover:bg-[#353535]/50 p-2 rounded-full transition-all duration-300 scale-95 active:scale-90">
+<span class="material-symbols-outlined text-[#e5e2e1]/70">person</span>
+</button>
+<button class="hover:bg-[#353535]/50 p-2 rounded-full transition-all duration-300 scale-95 active:scale-90">
+<span class="material-symbols-outlined text-[#e5e2e1]/70">search</span>
+</button>
+</div>
+<button class="bg-primary-container text-on-primary-container px-6 py-2 font-bold tracking-tight scale-95 active:scale-90 transition-transform">
+                    Subscribe
+                </button>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<header class="bg-[#181818] pt-24 pb-16 px-8 border-b border-outline-variant/15">
+<div class="max-w-screen-2xl mx-auto">
+<div class="flex flex-col gap-4">
+<span class="font-label text-tertiary uppercase tracking-widest text-sm font-bold">The Modern Curator Archive</span>
+<h1 class="font-display text-7xl md:text-8xl font-medium tracking-tighter leading-none text-on-surface">
+                    E-Paper Archive
+                </h1>
+<p class="font-body text-xl text-on-surface-variant max-w-2xl mt-4 leading-relaxed">
+                    Read the Weekend Post digital edition. Explore our curated collection of past publications, preserving the stories that shaped Botswana.
+                </p>
+</div>
+</div>
+</header>
+<main class="max-w-screen-2xl mx-auto px-8 py-20">
+<!-- Featured Latest Edition -->
+<section class="mb-32">
+<h2 class="font-display text-4xl mb-12 italic text-primary">Latest Edition</h2>
+<div class="bg-surface-container-low p-1 rounded-lg overflow-hidden flex flex-col md:flex-row gap-12 group">
+<div class="w-full md:w-5/12 aspect-[3/4] overflow-hidden relative shadow-2xl">
+<img alt="Newspaper cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Modern newspaper cover with clean typography and a striking black and white portrait, editorial layout on thick paper stock" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZhtGg3LTt_0Qww71Fb-ziSVSXY-_Y_O9yHJmeoDidxxBSkKMajwOk1Ru_H3UpWqNkuuk1Pw4o4eWxeF0X1FQ8jXMfos6eTemwyiGR4l9aX3MI5ZBuyFGwM4KZFt1kBPPubRH38B4ShSF5pvEhfmQiTFOOBoxA1ImPdndKHRpXeiEozdVEU3N6APCGUzzXvoT6SvIZT-cD01atvoHWdASM0D0GNdQvf1q_-4Tk18DeZG3qdUV7v6FvJX-_oF1D5AOM0BU4s1uuLAw"/>
+<div class="absolute inset-0 bg-surface-container-low/10 mix-blend-multiply"></div>
+</div>
+<div class="flex-1 flex flex-col justify-center pr-8 py-8">
+<span class="text-secondary font-bold tracking-widest uppercase text-xs mb-4">Volume 14 | No. 42</span>
+<h3 class="font-display text-5xl font-bold mb-6 text-on-surface leading-tight">Edition: October 26, 2024</h3>
+<p class="text-on-surface-variant text-lg mb-10 leading-relaxed max-w-xl">
+                        This week's edition covers the latest geopolitical shifts in Southern Africa, an exclusive investigative report on Botswana's emerging green economy, and our signature weekend lifestyle curation.
+                    </p>
+<div class="flex items-center gap-6">
+<button class="bg-gradient-to-br from-primary-container to-primary text-on-primary px-10 py-4 font-bold flex items-center gap-3 shadow-lg hover:shadow-primary/20 transition-all active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">download</span>
+                            Download PDF
+                        </button>
+<span class="text-on-surface-variant/40 text-sm font-label italic flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">lock</span>
+                            Subscriber Only Access
+                        </span>
+</div>
+</div>
+</div>
+</section>
+<!-- Archive Grid -->
+<section class="mb-32">
+<div class="flex justify-between items-end mb-16">
+<h2 class="font-display text-4xl italic text-on-surface">Past Publications</h2>
+<div class="flex gap-4">
+<button class="p-2 border border-outline-variant/30 hover:border-primary transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+<button class="px-4 py-2 border border-outline-variant/30 hover:bg-surface-container-high transition-colors font-label text-sm uppercase tracking-widest">Year: 2024</button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
+<!-- Card 1 -->
+<div class="group flex flex-col gap-6">
+<div class="aspect-[3/4] bg-surface-container overflow-hidden relative transition-all duration-500 group-hover:-translate-y-2">
+<img alt="Archive cover" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="Editorial magazine cover with dramatic landscape photography and bold minimalist headline text on premium paper" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCg9H8V2-Wuml8iooRugbrUL05BPmcEJcpnyfvjkbszcEKVl9lfEKe8JFurHtJqnHzbmXOPHfy-hpW81ArrNhPcFNxxK2MoUpiF1_H6Dc_jhqAcbeJelDZB-gf31P6LtVniQPS7eNcMjCIC-BTd_IYPMdU2J0Nc1emRUO5580xGiHO4rf73Is3n8sjB34QzrR8sNWr8nblk4VpSE3TJ0geWu9NbMylXp_sx-V7-pp9qJo0uEy1F-4xOI5Te3Jm7KRa2RObXzLuCfwM"/>
+<div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div>
+<p class="text-on-surface font-display text-2xl font-bold mb-4">Oct 19, 2024</p>
+<button class="w-full py-3 flex items-center justify-center gap-2 border border-outline-variant/30 hover:bg-on-surface hover:text-surface transition-all font-bold text-sm uppercase tracking-tighter">
+<span class="material-symbols-outlined text-lg">lock</span>
+                            Download PDF
+                        </button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group flex flex-col gap-6">
+<div class="aspect-[3/4] bg-surface-container overflow-hidden relative transition-all duration-500 group-hover:-translate-y-2">
+<img alt="Archive cover" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="Historical news layout with high contrast photography and archival typography, sepia tones and grain texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBwjJ99mda_Lc1Uv__1DrYWJpJMv66hFJn9O4fRcFHGCwiWXOEMSuH96iWo_SOWaadBzKlqI_XmpdVqgAdIgDdmBM72SEFMICBuON90yf15eZvMPEVNuqVxajewv7dk4qu4A2lI-FgeN_vLz-PCVBGzQUrThJ3D-4Aqt6dOHJMP1cpdEj5nR7yU6SOX2_M6FDsUoMhyf17TlG6VQzDFIr_zP9gHk5ZzTnPgrMlx7s8h24es5dDXgN7xunee9Cxi-X7T23mWHpnJzs"/>
+</div>
+<div>
+<p class="text-on-surface font-display text-2xl font-bold mb-4">Oct 12, 2024</p>
+<button class="w-full py-3 flex items-center justify-center gap-2 border border-outline-variant/30 hover:bg-on-surface hover:text-surface transition-all font-bold text-sm uppercase tracking-tighter">
+<span class="material-symbols-outlined text-lg">lock</span>
+                            Download PDF
+                        </button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group flex flex-col gap-6">
+<div class="aspect-[3/4] bg-surface-container overflow-hidden relative transition-all duration-500 group-hover:-translate-y-2">
+<img alt="Archive cover" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="Close up of a printed page with elegant serif fonts and a wide-angle urban photography subject" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkPXV7e9ovih36XoGkhVRQ7zji8q6a_Xk8t0bBzFP3j3fYmnkFBSlPMDdGMYgjNG4oLiFaOehY_eioQ_NJHJLajQDMnYfaDsss1YtR05k1bNK2JabcqQe6JwVomv-Y-p1yre-7Sft0YARILyHWnCbFv2C-Z1WpjyB4fH3TFH0edL7ZsoukvrgAZG1CWRiFK4Y0OM35BZuSMCqVjpi1Ln-ztSrxxE17QBRpvrMAOgVkKF6XZCKgKL7uGb-qAu47iG6YThPQLXyUXQU"/>
+</div>
+<div>
+<p class="text-on-surface font-display text-2xl font-bold mb-4">Oct 05, 2024</p>
+<button class="w-full py-3 flex items-center justify-center gap-2 border border-outline-variant/30 hover:bg-on-surface hover:text-surface transition-all font-bold text-sm uppercase tracking-tighter">
+<span class="material-symbols-outlined text-lg">lock</span>
+                            Download PDF
+                        </button>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group flex flex-col gap-6">
+<div class="aspect-[3/4] bg-surface-container overflow-hidden relative transition-all duration-500 group-hover:-translate-y-2">
+<img alt="Archive cover" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A desk with various newspapers and coffee, focus on a headline about business trends in soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9TNOZldAkUZZ2oDWhijyc4jEHBbVL6lqp0GKGo5AVbhUCRUPP86A5LypoWNChOvz0EYIs8ygx-B46M0jtYuQEGSo2_vD6yKTKKtUFdDxaSk1NRgmzdjnLj78t_ooyErEUgyuqJleoZzONJSL1U3rjALUE5pU7pqWx4GS66cTqu7E2NRywZBIl7U-9KBn1bbi2P6C2c8z5Es3szV8pvr5nFzSb2PLhP_Ner6dKf5YI6Fff7iPoamx9ninEXMt6bC4yPWr6qT98wiE"/>
+</div>
+<div>
+<p class="text-on-surface font-display text-2xl font-bold mb-4">Sep 28, 2024</p>
+<button class="w-full py-3 flex items-center justify-center gap-2 border border-outline-variant/30 hover:bg-on-surface hover:text-surface transition-all font-bold text-sm uppercase tracking-tighter">
+<span class="material-symbols-outlined text-lg">lock</span>
+                            Download PDF
+                        </button>
+</div>
+</div>
+</div>
+<div class="mt-20 flex justify-center">
+<button class="font-label text-sm uppercase tracking-[0.2em] text-on-surface-variant flex items-center gap-4 hover:text-primary transition-colors">
+                    Load Older Editions
+                    <span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+</section>
+<!-- Subscribe CTA -->
+<section class="relative overflow-hidden bg-surface-container-high py-24 px-12 text-center shadow-2xl">
+<div class="absolute top-0 right-0 w-64 h-64 bg-tertiary-container/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+<div class="absolute bottom-0 left-0 w-64 h-64 bg-primary-container/10 rounded-full blur-3xl -ml-32 -mb-32"></div>
+<div class="relative z-10 max-w-3xl mx-auto flex flex-col items-center">
+<span class="font-label text-tertiary font-bold tracking-[0.3em] uppercase mb-6">Exclusive Access</span>
+<h2 class="font-display text-6xl font-medium mb-8 text-on-surface tracking-tighter">Unlock the Full Archive</h2>
+<p class="font-body text-on-surface-variant text-lg mb-12 leading-relaxed">
+                    Gain unlimited access to over 15 years of Weekend Post history, including investigative reports, long-form features, and special supplements.
+                </p>
+<div class="flex flex-col sm:flex-row gap-6">
+<button class="bg-[#007E97] text-on-primary px-12 py-5 font-bold tracking-tight text-lg shadow-xl hover:bg-[#007E97]/80 transition-all active:scale-95">
+                        Subscribe Now
+                    </button>
+<button class="border border-outline-variant px-12 py-5 font-bold tracking-tight text-lg hover:bg-surface-container-highest transition-all">
+                        View Pricing
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#131313] w-full mt-24 border-t border-[#353535]/15">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 px-12 py-16 w-full max-w-screen-2xl mx-auto">
+<div>
+<div class="font-serif text-2xl italic text-[#78d3ee] mb-8">Weekend Post</div>
+<p class="font-body text-on-surface-variant max-w-sm mb-8 leading-relaxed">
+                    Botswana's premier weekend publication, delivering deep analysis and essential reporting since its inception. The modern archive for a modern nation.
+                </p>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-[#e5e2e1]/50 hover:text-[#78d3ee] cursor-pointer transition-colors">social_leaderboard</span>
+<span class="material-symbols-outlined text-[#e5e2e1]/50 hover:text-[#78d3ee] cursor-pointer transition-colors">public</span>
+<span class="material-symbols-outlined text-[#e5e2e1]/50 hover:text-[#78d3ee] cursor-pointer transition-colors">mail</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div class="flex flex-col gap-4">
+<h4 class="font-sans text-sm tracking-wide uppercase font-bold text-[#007e97]">Company</h4>
+<a class="font-sans text-sm tracking-wide uppercase text-[#e5e2e1]/50 hover:text-[#78d3ee] transition-colors underline-offset-4 hover:underline decoration-[#007e97]" href="#">About Us</a>
+<a class="font-sans text-sm tracking-wide uppercase text-[#e5e2e1]/50 hover:text-[#78d3ee] transition-colors underline-offset-4 hover:underline decoration-[#007e97]" href="#">Contact</a>
+<a class="font-sans text-sm tracking-wide uppercase text-[#e5e2e1]/50 hover:text-[#78d3ee] transition-colors underline-offset-4 hover:underline decoration-[#007e97]" href="#">Archive Help</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-sans text-sm tracking-wide uppercase font-bold text-[#007e97]">Legal</h4>
+<a class="font-sans text-sm tracking-wide uppercase text-[#e5e2e1]/50 hover:text-[#78d3ee] transition-colors underline-offset-4 hover:underline decoration-[#007e97]" href="#">Privacy Policy</a>
+<a class="font-sans text-sm tracking-wide uppercase text-[#e5e2e1]/50 hover:text-[#78d3ee] transition-colors underline-offset-4 hover:underline decoration-[#007e97]" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+<div class="w-full border-t border-[#353535]/15 px-12 py-8 max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-sans text-xs tracking-wide uppercase text-[#e5e2e1]/50">
+                © 2024 Weekend Post Botswana. The Modern Curator Archive.
+            </p>
+<div class="text-[#e5e2e1]/30 text-[10px] tracking-widest uppercase font-bold">
+                Preserving History • Promoting Truth
+            </div>
+</div>
+</footer>
+</body></html>
