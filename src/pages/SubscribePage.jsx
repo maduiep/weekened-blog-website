@@ -4,9 +4,11 @@ import { Check, Shield, Star, HelpCircle, ChevronDown, ChevronUp, Smartphone, Cr
 import PaymentModal from '../components/payment/PaymentModal';
 import { subscriptionPlans } from '../data/articles';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 export default function SubscribePage() {
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get('redirect');
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [openFaq, setOpenFaq] = useState(null);
   const { isLoggedIn, isSubscribed } = useAuth();
@@ -22,7 +24,8 @@ export default function SubscribePage() {
 
   const handlePlanClick = (plan) => {
     if (!isLoggedIn) {
-      navigate('/auth?tab=signup');
+      const authUrl = redirect ? `/auth?tab=signup&redirect=${encodeURIComponent(redirect)}` : '/auth?tab=signup';
+      navigate(authUrl);
       return;
     }
     setSelectedPlan(plan);
@@ -124,7 +127,11 @@ export default function SubscribePage() {
               whileHover={{ scale: 1.04 }} 
               whileTap={{ scale: 0.98 }}
               onClick={() => {
-                if (!isLoggedIn) { navigate('/auth?tab=signup'); return; }
+                if (!isLoggedIn) {
+                  const authUrl = redirect ? `/auth?tab=signup&redirect=${encodeURIComponent(redirect)}` : '/auth?tab=signup';
+                  navigate(authUrl);
+                  return;
+                }
                 const monthlyPlan = subscriptionPlans.find(p => p.id === 'monthly');
                 setSelectedPlan({ ...monthlyPlan, defaultMethod: 'orange' });
               }}
@@ -139,7 +146,11 @@ export default function SubscribePage() {
               whileHover={{ scale: 1.04 }} 
               whileTap={{ scale: 0.98 }}
               onClick={() => {
-                if (!isLoggedIn) { navigate('/auth?tab=signup'); return; }
+                if (!isLoggedIn) {
+                  const authUrl = redirect ? `/auth?tab=signup&redirect=${encodeURIComponent(redirect)}` : '/auth?tab=signup';
+                  navigate(authUrl);
+                  return;
+                }
                 const monthlyPlan = subscriptionPlans.find(p => p.id === 'monthly');
                 setSelectedPlan({ ...monthlyPlan, defaultMethod: 'myzaka' });
               }}
@@ -242,6 +253,7 @@ export default function SubscribePage() {
       {selectedPlan && (
         <PaymentModal
           plan={selectedPlan}
+          redirect={redirect}
           onClose={() => setSelectedPlan(null)}
         />
       )}

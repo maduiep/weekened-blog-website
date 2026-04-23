@@ -1,8 +1,32 @@
-import { Link } from 'react-router-dom';
-import { Download, Lock, FileText } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Download, Lock, FileText, CheckCircle } from 'lucide-react';
 import { ePapers } from '../data/articles';
+import { useAuth } from '../context/AuthContext';
+import { useState } from 'react';
 
 export default function EPaperPage() {
+  const { isSubscribed, isLoggedIn } = useAuth();
+  const navigate = useNavigate();
+  const [downloading, setDownloading] = useState(null);
+
+  const handleDownload = (ep) => {
+    if (!isLoggedIn) {
+      navigate('/auth?tab=signup');
+      return;
+    }
+    if (!isSubscribed) {
+      navigate('/subscribe');
+      return;
+    }
+
+    setDownloading(ep.id);
+    // Simulate download delay
+    setTimeout(() => {
+      setDownloading(null);
+      // In a real app, this would be: window.open(ep.pdfUrl);
+      alert(`Success! ${ep.title} PDF download started.`);
+    }, 1500);
+  };
   return (
     <>
       {/* Page Header */}
@@ -80,15 +104,27 @@ export default function EPaperPage() {
                 PDF to read offline on any device.
               </p>
               <div style={{ display: 'flex', gap: 'var(--space-md)', flexWrap: 'wrap' }}>
-                <Link to="/subscribe" className="btn btn-primary btn-lg">
-                  <Download size={16} /> Download PDF
-                </Link>
-                <Link to="/subscribe" className="btn btn-secondary btn-lg">
-                  Subscribe for Full Access
-                </Link>
+                <button 
+                  onClick={() => handleDownload(ePapers[0])} 
+                  className={`btn btn-lg ${isSubscribed ? 'btn-primary' : 'btn-secondary'}`}
+                  disabled={downloading === ePapers[0].id}
+                >
+                  {downloading === ePapers[0].id ? 'Preparing...' : (
+                    <><Download size={16} /> {isSubscribed ? 'Download PDF' : 'Unlock PDF'}</>
+                  )}
+                </button>
+                {!isSubscribed && (
+                  <Link to="/subscribe" className="btn btn-gold btn-lg">
+                    Subscribe for Full Access
+                  </Link>
+                )}
               </div>
               <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', marginTop: 'var(--space-md)', display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
-                <Lock size={12} /> Available to Monthly and Annual subscribers
+                {isSubscribed ? (
+                  <><CheckCircle size={12} style={{ color: '#2ecc71' }} /> Included with your subscription</>
+                ) : (
+                  <><Lock size={12} /> Available to Monthly and Annual subscribers</>
+                )}
               </p>
             </div>
           </div>
@@ -117,9 +153,15 @@ export default function EPaperPage() {
                 <div className="epaper-card-body">
                   <h4 className="epaper-card-title">{ep.title}</h4>
                   <span className="epaper-card-date">{ep.date}</span>
-                  <Link to="/subscribe" className="btn btn-secondary btn-sm btn-block">
-                    <Lock size={12} /> Subscribe to Read
-                  </Link>
+                  <button 
+                    onClick={() => handleDownload(ep)}
+                    className={`btn btn-sm btn-block ${isSubscribed ? 'btn-primary' : 'btn-secondary'}`}
+                    disabled={downloading === ep.id}
+                  >
+                    {downloading === ep.id ? '...' : (
+                      isSubscribed ? <><Download size={12} /> Download</> : <><Lock size={12} /> Unlock</>
+                    )}
+                  </button>
                 </div>
               </div>
             ))}

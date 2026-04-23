@@ -46,15 +46,15 @@ function saveUsers(users) {
 
 function loadSession() {
   try {
-    const raw = sessionStorage.getItem(SESSION_KEY);
+    const raw = localStorage.getItem(SESSION_KEY);
     if (raw) return JSON.parse(raw);
   } catch (_) {}
   return null;
 }
 
 function saveSession(user) {
-  if (user) sessionStorage.setItem(SESSION_KEY, JSON.stringify(user));
-  else sessionStorage.removeItem(SESSION_KEY);
+  if (user) localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+  else localStorage.removeItem(SESSION_KEY);
 }
 
 // ─── Provider ────────────────────────────────────────────────────────────────

@@ -3111,6 +3111,7 @@ input, textarea, select {
   .header-social { display: none; }
   .header-date { display: none; }
   .mobile-auth-links { display: block; }
+  .header-actions .btn-ghost { display: none; } /* Hide Sign In on mobile as it is in menu */
 
   /* Admin */
   .admin-stats-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-md); }
@@ -3149,7 +3150,7 @@ input, textarea, select {
 }
 
 @media (max-width: 480px) {
-  .admin-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .admin-stats-grid { grid-template-columns: 1fr; }
   .admin-filter-pills { display: none; }
   .grid-4 { grid-template-columns: 1fr; }
   .paywall-pricing { gap: var(--space-xs); }
@@ -3157,6 +3158,8 @@ input, textarea, select {
 
   /* Hero */
   .hero-section { height: 320px; }
+  .header-logo { font-size: var(--text-xl); }
+  .header-top { padding: var(--space-sm) 0; }
   .hero-title { font-size: var(--text-2xl); }
   h1 { font-size: var(--text-3xl); }
   h2 { font-size: var(--text-2xl); }

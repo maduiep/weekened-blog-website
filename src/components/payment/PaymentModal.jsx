@@ -29,7 +29,7 @@ const PAYMENT_METHODS = {
   },
 };
 
-export default function PaymentModal({ plan, onClose }) {
+export default function PaymentModal({ plan, onClose, redirect }) {
   const [tab, setTab] = useState(plan?.defaultMethod || 'orange');
   const [step, setStep] = useState('form'); // form | otp | processing | success
   const [demoSms, setDemoSms] = useState(false);
@@ -44,6 +44,9 @@ export default function PaymentModal({ plan, onClose }) {
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [error, setError] = useState('');
   const { grantSubscription, isLoggedIn } = useAuth();
+  
+  const isArticle = redirect && redirect.startsWith('/article/');
+  const successRedirect = redirect || '/article/1';
 
   const method = PAYMENT_METHODS[tab];
 
@@ -226,8 +229,8 @@ export default function PaymentModal({ plan, onClose }) {
                     <button className="btn btn-primary btn-lg btn-block" onClick={() => navigate('/dashboard')}>
                       Go to Dashboard
                     </button>
-                    <button className="btn btn-gold btn-lg btn-block" onClick={onClose}>
-                      Start Reading
+                    <button className="btn btn-gold btn-lg btn-block" onClick={() => { onClose(); navigate(successRedirect); }}>
+                      {isArticle ? 'Continue Reading' : 'Start Reading'}
                     </button>
                   </div>
                 </motion.div>

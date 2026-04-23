@@ -6,7 +6,20 @@ import { useAuth } from '../context/AuthContext';
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState('overview');
-  const { user: authUser } = useAuth();
+  const { user: authUser, isSubscribed } = useAuth();
+  const [downloading, setDownloading] = useState(null);
+
+  const handleDownload = (ebook) => {
+    if (!isSubscribed) {
+      alert('Subscription required to download E-Papers.');
+      return;
+    }
+    setDownloading(ebook.id);
+    setTimeout(() => {
+      setDownloading(null);
+      alert(`Success! ${ebook.title} PDF download started.`);
+    }, 1500);
+  };
 
   // Use real auth user data, fall back to display defaults
   const user = {
@@ -218,8 +231,13 @@ export default function DashboardPage() {
                         </div>
                         <h4 className="dashboard-ebook-title">{ebook.title}</h4>
                         <div className="dashboard-ebook-date">Purchased: {ebook.date}</div>
-                        <button className="btn btn-ghost btn-sm btn-block" style={{ border: '1px solid currentColor', marginTop: 'var(--space-sm)' }}>
-                          <Download size={14} /> Download PDF
+                        <button 
+                          onClick={() => handleDownload(ebook)}
+                          disabled={downloading === ebook.id}
+                          className="btn btn-ghost btn-sm btn-block" 
+                          style={{ border: '1px solid currentColor', marginTop: 'var(--space-sm)' }}
+                        >
+                          {downloading === ebook.id ? 'Preparing...' : <><Download size={14} /> Download PDF</>}
                         </button>
                       </div>
                     ))}

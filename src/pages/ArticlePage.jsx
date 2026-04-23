@@ -55,10 +55,11 @@ export default function ArticlePage() {
   const isBlurred = !hasFullAccess && allContent.length > freeCount;
 
   const handleSubscribeClick = () => {
+    const redirectParam = encodeURIComponent(`/article/${id}`);
     if (!isLoggedIn) {
-      navigate('/auth');
+      navigate(`/auth?redirect=${redirectParam}`);
     } else {
-      navigate('/subscribe');
+      navigate(`/subscribe?redirect=${redirectParam}`);
     }
   };
 
@@ -128,10 +129,10 @@ export default function ArticlePage() {
                           You've read {freeCount} free paragraphs. Sign up to read more or subscribe for full unlimited access.
                         </p>
                         <div style={{ display: 'flex', gap: 'var(--space-md)', justifyContent: 'center', flexWrap: 'wrap' }}>
-                          <button className="btn btn-primary btn-lg" onClick={() => navigate('/auth?tab=signup')}>
+                          <button className="btn btn-primary btn-lg" onClick={() => navigate(`/auth?tab=signup&redirect=${encodeURIComponent(`/article/${id}`)}`)}>
                             Create Free Account
                           </button>
-                          <button className="btn btn-ghost btn-lg" onClick={() => navigate('/auth')}>
+                          <button className="btn btn-ghost btn-lg" onClick={() => navigate(`/auth?redirect=${encodeURIComponent(`/article/${id}`)}`)}>
                             Sign In
                           </button>
                         </div>
@@ -154,7 +155,7 @@ export default function ArticlePage() {
                           >
                             Subscribe Now — P60/month
                           </button>
-                          <Link to="/subscribe" className="btn btn-ghost btn-lg">
+                          <Link to={`/subscribe?redirect=${encodeURIComponent(`/article/${id}`)}`} className="btn btn-ghost btn-lg">
                             View All Plans <ArrowRight size={16} />
                           </Link>
                         </div>
@@ -229,6 +230,7 @@ export default function ArticlePage() {
       {showPayment && selectedPlan && (
         <PaymentModal
           plan={selectedPlan}
+          redirect={`/article/${id}`}
           onClose={() => { setShowPayment(false); setSelectedPlan(null); }}
         />
       )}

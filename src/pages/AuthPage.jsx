@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 
 export default function AuthPage() {
   const [searchParams] = useSearchParams();
+  const redirect = searchParams.get('redirect');
   const [tab, setTab] = useState(searchParams.get('tab') === 'signup' ? 'signup' : 'signin');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -35,7 +36,7 @@ export default function AuthPage() {
     setLoading(true);
     try {
       await login(signInData.email, signInData.password);
-      navigate(-1);
+      navigate(redirect || '/', { replace: true });
     } catch (err) {
       setError(err.message);
     } finally {
@@ -58,7 +59,8 @@ export default function AuthPage() {
     try {
       await signup(signUpData.name, signUpData.email, signUpData.password);
       setSuccess('Account created! Redirecting…');
-      setTimeout(() => navigate('/subscribe'), 1200);
+      const subUrl = redirect ? `/subscribe?redirect=${encodeURIComponent(redirect)}` : '/subscribe';
+      setTimeout(() => navigate(subUrl), 1200);
     } catch (err) {
       setError(err.message);
     } finally {
