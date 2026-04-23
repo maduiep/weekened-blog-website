@@ -195,15 +195,8 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                     Your <strong>{plan.name}</strong> access has been activated. You now have unlimited access to all premium content and E-Papers.
                   </p>
 
-                  <div className="receipt-container" style={{ 
-                    background: 'var(--color-bg)', 
-                    borderRadius: 'var(--radius-lg)', 
-                    padding: 'var(--space-lg)', 
-                    marginBottom: 'var(--space-xl)',
-                    border: '1px dashed var(--color-border)',
-                    textAlign: 'left'
-                  }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-md)', borderBottom: '1px solid var(--color-border)', paddingBottom: 'var(--space-sm)' }}>
+                  <div className="payment-receipt">
+                    <div className="payment-receipt-header">
                       <span style={{ fontWeight: 600, fontSize: 'var(--text-sm)' }}>Receipt Details</span>
                       <span style={{ color: 'var(--color-text-muted)', fontSize: 'var(--text-xs)' }}>#{Date.now().toString().slice(-8)}</span>
                     </div>
@@ -225,7 +218,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', gap: 'var(--space-md)' }}>
+                  <div className="payment-success-actions">
                     <button className="btn btn-primary btn-lg btn-block" onClick={() => navigate('/dashboard')}>
                       Go to Dashboard
                     </button>

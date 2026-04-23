@@ -2802,6 +2802,44 @@ input, textarea, select {
   display: block;
 }
 
+.payment-receipt {
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-xl);
+  border: 1px dashed var(--color-border);
+  text-align: left;
+}
+
+.payment-receipt-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-sm);
+}
+
+.payment-success-actions {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 480px) {
+  .payment-receipt {
+    padding: var(--space-md) !important;
+  }
+  .payment-success-actions {
+    flex-direction: column !important;
+    gap: var(--space-sm) !important;
+    width: 100% !important;
+  }
+  .payment-success-actions .btn {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+}
+
 /* ========================================
    Search — Tag Pills
    ======================================== */
@@ -3150,7 +3188,9 @@ input, textarea, select {
 }
 
 @media (max-width: 480px) {
-  .admin-stats-grid { grid-template-columns: 1fr; }
+  .admin-header { flex-direction: column !important; align-items: flex-start !important; }
+  .admin-stats-grid { grid-template-columns: 1fr !important; }
+  .admin-stat-card { padding: var(--space-lg) !important; }
   .admin-filter-pills { display: none; }
   .grid-4 { grid-template-columns: 1fr; }
   .paywall-pricing { gap: var(--space-xs); }
@@ -3164,6 +3204,11 @@ input, textarea, select {
   h1 { font-size: var(--text-3xl); }
   h2 { font-size: var(--text-2xl); }
   h3 { font-size: var(--text-xl); }
+  
+  .dashboard-stats { grid-template-columns: 1fr !important; }
+  .dashboard-stat-card { padding: var(--space-lg) !important; }
+  .dashboard-card { padding: var(--space-lg) !important; }
+  .dashboard-layout { grid-template-columns: 1fr !important; }
 
   /* Article */
   .article-page-title { font-size: var(--text-2xl); }
@@ -3192,8 +3237,9 @@ input, textarea, select {
   .payment-method-card { min-width: 100%; padding: var(--space-lg); }
   .btn-lg { padding: 10px 18px; font-size: var(--text-sm); }
   .user-dropdown { min-width: 180px; }
-  .admin-stats-grid { grid-template-columns: 1fr 1fr; gap: var(--space-sm); }
+  .admin-stats-grid { grid-template-columns: 1fr; gap: var(--space-sm); }
   .admin-stat-card { padding: var(--space-md); }
+  .dashboard-stats { grid-template-columns: 1fr; }
   .trust-indicators { flex-direction: column; gap: var(--space-sm); }
   .paywall-card { padding: var(--space-lg) var(--space-md); }
   .share-bar { flex-wrap: wrap; }
@@ -3600,7 +3646,7 @@ input, textarea, select {
     gap: var(--space-lg);
   }
   .dashboard-stats {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 }
 
