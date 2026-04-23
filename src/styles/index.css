@@ -3720,6 +3720,7 @@ input, textarea, select {
     padding: 10px 16px;
     font-size: 12px;
     white-space: nowrap;
+    width: auto !important;
     flex: 0 0 auto; /* Allow items to keep their size and scroll */
     border-radius: var(--radius-full);
     border: 1px solid var(--color-border);
