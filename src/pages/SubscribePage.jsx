@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Shield, Star, HelpCircle, ChevronDown, ChevronUp, Smartphone, CreditCard, Info, Landmark } from 'lucide-react';
+import { Check, Shield, Star, HelpCircle, ChevronDown, ChevronUp, Smartphone, CreditCard, Info, Landmark, X, Copy } from 'lucide-react';
 import PaymentModal from '../components/payment/PaymentModal';
 import { subscriptionPlans } from '../data/articles';
 import { useAuth } from '../context/AuthContext';
@@ -11,6 +11,7 @@ export default function SubscribePage() {
   const redirect = searchParams.get('redirect');
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [openFaq, setOpenFaq] = useState(null);
+  const [showDirectInstructions, setShowDirectInstructions] = useState(false);
   const { isLoggedIn, isSubscribed } = useAuth();
   const navigate = useNavigate();
 
@@ -157,8 +158,24 @@ export default function SubscribePage() {
               }}
               style={{ cursor: 'pointer', borderTop: '4px solid var(--color-primary)', position: 'relative' }}
             >
-              <div style={{ position: 'absolute', top: 12, right: 12, color: 'var(--color-primary)' }} title="Click for instructions">
-                <Info size={18} />
+              <div 
+                style={{ 
+                  position: 'absolute', 
+                  top: 0, 
+                  right: 0, 
+                  padding: '16px',
+                  color: 'var(--color-primary)', 
+                  zIndex: 10,
+                  cursor: 'help'
+                }} 
+                title="Click for instructions"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  setShowDirectInstructions(true);
+                }}
+              >
+                <Info size={20} />
               </div>
               <div className="payment-method-icon" style={{ background: 'rgba(0,126,151,0.1)', color: 'var(--color-primary)' }}>
                 <Landmark size={32} />
@@ -255,14 +272,74 @@ export default function SubscribePage() {
         </div>
       </section>
 
+      {/* Direct Deposit Instructions Modal */}
+      <AnimatePresence>
+        {showDirectInstructions && (
+          <motion.div 
+            className="modal-backdrop" 
+            onClick={() => setShowDirectInstructions(false)} 
+            style={{ zIndex: 3000 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div 
+              className="modal-content" 
+              onClick={e => e.stopPropagation()}
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              style={{ maxWidth: '400px', padding: 'var(--space-2xl)' }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-lg)' }}>
+                <h3 style={{ fontSize: 'var(--text-xl)', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-primary)', margin: 0 }}>
+                  <Landmark size={24} /> Payment Instructions
+                </h3>
+                <button onClick={() => setShowDirectInstructions(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-muted)' }}>
+                  <X size={24} />
+                </button>
+              </div>
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', marginBottom: 'var(--space-xl)', lineHeight: 1.5 }}>
+                Please use the following bank details to make a transfer or EFT. You will need to upload your proof of payment when completing your subscription.
+              </p>
+              <div style={{ background: '#f8fafc', padding: 'var(--space-lg)', borderRadius: 'var(--radius-lg)', fontSize: 'var(--text-sm)', border: '1px solid var(--color-border)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #e2e8f0' }}>
+                  <span style={{ color: 'var(--color-text-muted)' }}>Bank</span>
+                  <strong style={{ color: 'var(--color-dark)' }}>First National Bank (FNB)</strong>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #e2e8f0' }}>
+                  <span style={{ color: 'var(--color-text-muted)' }}>Account Name</span>
+                  <strong style={{ color: 'var(--color-dark)' }}>Weekend Post (Pty) Ltd</strong>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #e2e8f0' }}>
+                  <span style={{ color: 'var(--color-text-muted)' }}>Account Number</span>
+                  <strong style={{ color: 'var(--color-dark)' }}>6288 4567 123</strong>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0' }}>
+                  <span style={{ color: 'var(--color-text-muted)' }}>Branch Code</span>
+                  <strong style={{ color: 'var(--color-dark)' }}>281467 (Main)</strong>
+                </div>
+              </div>
+              <button 
+                className="btn btn-primary btn-block btn-lg" 
+                style={{ marginTop: 'var(--space-xl)' }}
+                onClick={() => setShowDirectInstructions(false)}
+              >
+                Got it
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Payment Modal */}
       {selectedPlan && (
-        <PaymentModal
-          plan={selectedPlan}
+        <PaymentModal 
+          plan={selectedPlan} 
+          onClose={() => setSelectedPlan(null)} 
           redirect={redirect}
-          onClose={() => setSelectedPlan(null)}
         />
       )}
-    </>
+    </div>
   );
 }
