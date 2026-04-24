@@ -16,7 +16,7 @@ export default function SubscribePage() {
 
   const faqs = [
     { q: 'Can I cancel my subscription at any time?', a: 'Yes, you can cancel your subscription at any time from your account settings. Your access will continue until the end of your current billing period.' },
-    { q: 'What payment methods are accepted?', a: 'We accept Orange Money (Botswana\'s #1 mobile wallet) and MyZaka by Mascom. Both methods are secure and widely used across Botswana.' },
+    { q: 'What payment methods are accepted?', a: 'We accept Flutterwave (Cards & Mobile Money), Tingg, Orange Money, and MyZaka by Mascom. All methods are secure and widely used across the region.' },
     { q: 'Do I get access to E-Papers with my subscription?', a: 'Monthly and Annual subscribers get full access to all E-Paper editions. Weekly subscribers can upgrade anytime to access E-Papers.' },
     { q: 'Can I share my subscription?', a: 'Each subscription is for individual use. We offer group and corporate subscriptions — contact us at editor@weekendpost.co.bw for details.' },
     { q: 'How do I download E-books?', a: 'Annual subscribers can download E-books directly from the E-Paper section. After a successful payment, the PDF will be saved to your device automatically.' },
@@ -133,14 +133,55 @@ export default function SubscribePage() {
                   return;
                 }
                 const monthlyPlan = subscriptionPlans.find(p => p.id === 'monthly');
+                setSelectedPlan({ ...monthlyPlan, defaultMethod: 'flutterwave' });
+              }}
+              style={{ cursor: 'pointer', borderTop: '4px solid #F5A623' }}
+            >
+              <div className="payment-method-icon" style={{ background: 'rgba(245,166,35,0.1)', color: '#F5A623' }}><img src="/flutterwave.png" alt="Flutterwave" style={{ width: 48, height: 48, borderRadius: '8px' }} /></div>
+              <div className="payment-method-name">Flutterwave</div>
+              <div className="payment-method-desc">Africa's #1 gateway — Cards, Bank & Wallets</div>
+            </motion.div>
+
+            <motion.div 
+              className="payment-method-card" 
+              whileHover={{ scale: 1.04 }} 
+              whileTap={{ scale: 0.98 }}
+              onClick={() => {
+                if (!isLoggedIn) {
+                  const authUrl = redirect ? `/auth?tab=signup&redirect=${encodeURIComponent(redirect)}` : '/auth?tab=signup';
+                  navigate(authUrl);
+                  return;
+                }
+                const monthlyPlan = subscriptionPlans.find(p => p.id === 'monthly');
+                setSelectedPlan({ ...monthlyPlan, defaultMethod: 'tingg' });
+              }}
+              style={{ cursor: 'pointer' }}
+            >
+              <div className="payment-method-icon" style={{ background: 'rgba(0,166,81,0.1)', color: '#00A651' }}><img src="/tingg.png" alt="Tingg" style={{ width: 48, height: 48, borderRadius: '8px' }} /></div>
+              <div className="payment-method-name">Tingg</div>
+              <div className="payment-method-desc">Secure unified payments via any network</div>
+            </motion.div>
+
+            <motion.div 
+              className="payment-method-card" 
+              whileHover={{ scale: 1.04 }} 
+              whileTap={{ scale: 0.98 }}
+              onClick={() => {
+                if (!isLoggedIn) {
+                  const authUrl = redirect ? `/auth?tab=signup&redirect=${encodeURIComponent(redirect)}` : '/auth?tab=signup';
+                  navigate(authUrl);
+                  return;
+                }
+                const monthlyPlan = subscriptionPlans.find(p => p.id === 'monthly');
                 setSelectedPlan({ ...monthlyPlan, defaultMethod: 'orange' });
               }}
               style={{ cursor: 'pointer' }}
             >
-              <div className="payment-method-icon" style={{ background: 'rgba(255,102,0,0.1)', color: '#FF6600', fontSize: '2rem' }}><img src="/orange-money.png" alt="Orange Money" style={{ width: 48, height: 48, borderRadius: '50%' }} /></div>
+              <div className="payment-method-icon" style={{ background: 'rgba(255,102,0,0.1)', color: '#FF6600' }}><img src="/orange-money.png" alt="Orange Money" style={{ width: 48, height: 48, borderRadius: '50%' }} /></div>
               <div className="payment-method-name">Orange Money</div>
               <div className="payment-method-desc">Botswana's #1 mobile wallet — 78% market share</div>
             </motion.div>
+
             <motion.div 
               className="payment-method-card" 
               whileHover={{ scale: 1.04 }} 
@@ -156,7 +197,7 @@ export default function SubscribePage() {
               }}
               style={{ cursor: 'pointer' }}
             >
-              <div className="payment-method-icon" style={{ background: 'rgba(123,45,139,0.1)', color: '#7B2D8B', fontSize: '2rem' }}><img src="/myzaka.png" alt="MyZaka" style={{ width: 48, height: 48, borderRadius: '20%' }} /></div>
+              <div className="payment-method-icon" style={{ background: 'rgba(123,45,139,0.1)', color: '#7B2D8B' }}><img src="/myzaka.png" alt="MyZaka" style={{ width: 48, height: 48, borderRadius: '20%' }} /></div>
               <div className="payment-method-name">MyZaka (Mascom)</div>
               <div className="payment-method-desc">Mascom mobile wallet — pay from any network</div>
             </motion.div>

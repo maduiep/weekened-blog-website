@@ -5,6 +5,28 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 const PAYMENT_METHODS = {
+  flutterwave: {
+    id: 'flutterwave',
+    name: 'Flutterwave',
+    desc: 'Africa\'s #1 payment gateway — Cards, Bank Transfer & Mobile Money',
+    icon: <img src="/flutterwave.png" alt="Flutterwave" style={{ width: 24, height: 24, borderRadius: '4px' }} />,
+    color: '#F5A623',
+    bg: 'rgba(245,166,35,0.08)',
+    placeholder: 'Card Number or Mobile Number',
+    otpLabel: 'Verification Code',
+    otpHint: 'An OTP will be sent to your registered device for authorisation.',
+  },
+  tingg: {
+    id: 'tingg',
+    name: 'Tingg',
+    desc: 'Cellulant\'s unified payment gateway — pay from any network',
+    icon: <img src="/tingg.png" alt="Tingg" style={{ width: 24, height: 24, borderRadius: '4px' }} />,
+    color: '#00A651',
+    bg: 'rgba(0,166,81,0.08)',
+    placeholder: '+267 7X XXX XXX',
+    otpLabel: 'Tingg Code',
+    otpHint: 'Enter the verification code sent by Tingg to complete payment.',
+  },
   orange: {
     id: 'orange',
     name: 'Orange Money',
@@ -30,7 +52,7 @@ const PAYMENT_METHODS = {
 };
 
 export default function PaymentModal({ plan, onClose, redirect }) {
-  const [tab, setTab] = useState(plan?.defaultMethod || 'orange');
+  const [tab, setTab] = useState(plan?.defaultMethod || 'flutterwave');
   const [step, setStep] = useState('form'); // form | otp | processing | success
   const [demoSms, setDemoSms] = useState(false);
   const navigate = useNavigate();
