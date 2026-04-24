@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Shield, Star, HelpCircle, ChevronDown, ChevronUp, Smartphone, CreditCard } from 'lucide-react';
+import { Check, Shield, Star, HelpCircle, ChevronDown, ChevronUp, Smartphone, CreditCard, Info, Landmark } from 'lucide-react';
 import PaymentModal from '../components/payment/PaymentModal';
 import { subscriptionPlans } from '../data/articles';
 import { useAuth } from '../context/AuthContext';
