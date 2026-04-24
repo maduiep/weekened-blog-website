@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Smartphone, Shield, Lock, CheckCircle, ArrowRight, X, Phone } from 'lucide-react';
+import { Smartphone, Shield, Lock, CheckCircle, ArrowRight, X, Phone, Info, Upload, Landmark, AlertCircle, Copy, FileText } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
@@ -8,7 +8,7 @@ const PAYMENT_METHODS = {
   flutterwave: {
     id: 'flutterwave',
     name: 'Flutterwave',
-    desc: 'Africa\'s #1 payment gateway — Cards, Bank Transfer & Mobile Money',
+    desc: 'Instant online payment via Cards, Bank Transfer & Mobile Money',
     icon: <img src="/flutterwave.png" alt="Flutterwave" style={{ width: 24, height: 24, borderRadius: '4px' }} />,
     color: '#F5A623',
     bg: 'rgba(245,166,35,0.08)',
@@ -16,56 +16,41 @@ const PAYMENT_METHODS = {
     otpLabel: 'Verification Code',
     otpHint: 'An OTP will be sent to your registered device for authorisation.',
   },
-  tingg: {
-    id: 'tingg',
-    name: 'Tingg',
-    desc: 'Cellulant\'s unified payment gateway — pay from any network',
-    icon: <img src="/tingg.png" alt="Tingg" style={{ width: 24, height: 24, borderRadius: '4px' }} />,
-    color: '#00A651',
-    bg: 'rgba(0,166,81,0.08)',
-    placeholder: '+267 7X XXX XXX',
-    otpLabel: 'Tingg Code',
-    otpHint: 'Enter the verification code sent by Tingg to complete payment.',
-  },
-  orange: {
-    id: 'orange',
-    name: 'Orange Money',
-    desc: 'Botswana\'s #1 mobile wallet — 78% market share',
-    icon: <img src="/orange-money.png" alt="Orange Money" style={{ width: 24, height: 24, borderRadius: '50%' }} />,
-    color: '#FF6600',
-    bg: 'rgba(255,102,0,0.08)',
-    placeholder: '+267 7X XXX XXX',
-    otpLabel: 'Orange Money PIN',
-    otpHint: 'Enter your 4-digit Orange Money PIN to authorise this payment.',
-  },
-  myzaka: {
-    id: 'myzaka',
-    name: 'MyZaka (Mascom)',
-    desc: 'Mascom\'s mobile wallet — pay from any network',
-    icon: <img src="/myzaka.png" alt="MyZaka" style={{ width: 24, height: 24, borderRadius: '20%' }} />,
-    color: '#7B2D8B',
-    bg: 'rgba(123,45,139,0.08)',
-    placeholder: '+267 7X XXX XXX',
-    otpLabel: 'MyZaka OTP',
-    otpHint: 'An OTP will be sent to your Mascom-registered number.',
+  direct: {
+    id: 'direct',
+    name: 'Direct Deposit',
+    desc: 'Pay via Bank Transfer / EFT — Manual verification required',
+    icon: <Landmark size={22} />,
+    color: '#007E97',
+    bg: 'rgba(0,126,151,0.08)',
+    bankInfo: {
+      bank: 'First National Bank (FNB)',
+      accName: 'Weekend Post (Pty) Ltd',
+      accNum: '6288 4567 123',
+      branch: '281467 (Main Branch)',
+      ref: 'WP-' + Math.random().toString(36).substr(2, 6).toUpperCase()
+    }
   },
 };
 
 export default function PaymentModal({ plan, onClose, redirect }) {
   const [tab, setTab] = useState(plan?.defaultMethod || 'flutterwave');
-  const [step, setStep] = useState('form'); // form | otp | processing | success
+  const [step, setStep] = useState('form'); // form | otp | processing | success | upload
   const [demoSms, setDemoSms] = useState(false);
+  const [proofFile, setProofFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef(null);
   const navigate = useNavigate();
+  const { grantSubscription, isLoggedIn } = useAuth();
 
-  // Update tab if defaultMethod changes (e.g. clicking different method cards)
   useEffect(() => {
     if (plan?.defaultMethod) setTab(plan.defaultMethod);
   }, [plan?.defaultMethod]);
+
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [error, setError] = useState('');
-  const { grantSubscription, isLoggedIn } = useAuth();
   
   const isArticle = redirect && redirect.startsWith('/article/');
   const successRedirect = redirect || '/article/1';
@@ -82,22 +67,51 @@ export default function PaymentModal({ plan, onClose, redirect }) {
     return v;
   };
 
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text);
+  };
+
   const handleSendOtp = (e) => {
     e.preventDefault();
     setError('');
-    const digits = phone.replace(/\D/g, '');
-    if (digits.length < 10) { setError('Please enter a valid Botswana phone number.'); return; }
+    if (tab === 'flutterwave') {
+      const digits = phone.replace(/\D/g, '');
+      if (digits.length < 10) { setError('Please enter a valid Botswana phone number.'); return; }
+    }
     if (!agreeTerms) { setError('Please accept the Terms of Service.'); return; }
-    setStep('otp');
-    // For demo: Show simulated SMS after 2 seconds
-    setTimeout(() => setDemoSms(true), 1500);
+    
+    if (tab === 'direct') {
+      setStep('upload');
+    } else {
+      setStep('otp');
+      setTimeout(() => setDemoSms(true), 1500);
+    }
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setProofFile(file);
+    }
+  };
+
+  const handleSubmitProof = () => {
+    if (!proofFile) { setError('Please upload a proof of payment.'); return; }
+    setUploading(true);
+    setTimeout(() => {
+      setStep('processing');
+      setUploading(false);
+      setTimeout(() => {
+        if (isLoggedIn) grantSubscription(plan.id || 'monthly');
+        setStep('success');
+      }, 2000);
+    }, 1500);
   };
 
   const handleConfirmPayment = (e) => {
     e.preventDefault();
     setError('');
-    const requiredLength = tab === 'orange' ? 4 : 6;
-    if (otp.length < requiredLength) { setError(`Please enter a valid ${requiredLength}-digit code.`); return; }
+    if (otp.length < 6) { setError(`Please enter a valid 6-digit code.`); return; }
     setStep('processing');
     setDemoSms(false);
     setTimeout(() => {
@@ -149,7 +163,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                   <span style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>Now</span>
                 </div>
                 <p style={{ margin: 0, fontSize: '13px', color: 'var(--color-text-secondary)', lineHeight: 1.4 }}>
-                  WP-Payment: Use code <strong style={{ color: 'var(--color-dark)' }}>{tab === 'orange' ? '1234' : '123456'}</strong> to authorise your {plan.name} subscription.
+                  WP-Payment: Use code <strong style={{ color: 'var(--color-dark)' }}>123456</strong> to authorise your {plan.name} subscription.
                 </p>
               </div>
             </motion.div>
@@ -164,7 +178,6 @@ export default function PaymentModal({ plan, onClose, redirect }) {
           transition={{ type: 'spring', damping: 26, stiffness: 320 }}
           onClick={e => e.stopPropagation()}
         >
-          {/* Header */}
           <div className="modal-header">
             <div>
               <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 2 }}>Complete Payment</h3>
@@ -181,7 +194,6 @@ export default function PaymentModal({ plan, onClose, redirect }) {
 
           <div className="modal-body">
             <AnimatePresence mode="wait">
-              {/* ── SUCCESS ── (Already updated in previous step) */}
               {step === 'success' && (
                 <motion.div
                   key="success"
@@ -210,11 +222,14 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                     textTransform: 'uppercase',
                     letterSpacing: '1px'
                   }}>
-                    Subscription Active
+                    {tab === 'direct' ? 'Verification Pending' : 'Subscription Active'}
                   </div>
                   
                   <p style={{ color: 'var(--color-text-secondary)', marginBottom: 'var(--space-xl)', fontSize: 'var(--text-sm)' }}>
-                    Your <strong>{plan.name}</strong> access has been activated. You now have unlimited access to all premium content and E-Papers.
+                    {tab === 'direct' 
+                      ? 'Your proof of payment has been uploaded. Our team will verify it shortly and activate your access.'
+                      : `Your ${plan.name} access has been activated. You now have unlimited access to all premium content and E-Papers.`
+                    }
                   </p>
 
                   <div className="payment-receipt">
@@ -251,7 +266,6 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                 </motion.div>
               )}
 
-              {/* ── PROCESSING ── */}
               {step === 'processing' && (
                 <motion.div
                   key="processing"
@@ -276,10 +290,8 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                 </motion.div>
               )}
 
-              {/* ── FORM / OTP ── */}
-              {(step === 'form' || step === 'otp') && (
-                <motion.div key="form-otp" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                  {/* Order Summary */}
+              {(step === 'form' || step === 'otp' || step === 'upload') && (
+                <motion.div key="main-flow" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                   <div className="order-summary">
                     <div className="order-summary-title">Order Summary</div>
                     <div className="order-summary-row">
@@ -292,23 +304,23 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                     </div>
                   </div>
 
-                  {/* Payment Method Tabs */}
-                  <div className="payment-tabs">
-                    {Object.values(PAYMENT_METHODS).map(m => (
-                      <button
-                        key={m.id}
-                        className={`payment-tab ${tab === m.id ? 'active' : ''}`}
-                        style={tab === m.id ? { background: m.color, borderColor: m.color } : {}}
-                        onClick={() => { setTab(m.id); setStep('form'); setOtp(''); setError(''); setDemoSms(false); }}
-                        type="button"
-                      >
-                        <span style={{ fontSize: '1.1rem' }}>{m.icon}</span>
-                        <span className="payment-tab-name">{m.name}</span>
-                      </button>
-                    ))}
-                  </div>
+                  {step === 'form' && (
+                    <div className="payment-tabs" style={{ gridTemplateColumns: '1fr 1fr' }}>
+                      {Object.values(PAYMENT_METHODS).map(m => (
+                        <button
+                          key={m.id}
+                          className={`payment-tab ${tab === m.id ? 'active' : ''}`}
+                          style={tab === m.id ? { background: m.color, borderColor: m.color } : {}}
+                          onClick={() => { setTab(m.id); setStep('form'); setError(''); setProofFile(null); }}
+                          type="button"
+                        >
+                          <span style={{ fontSize: '1.1rem' }}>{m.icon}</span>
+                          <span className="payment-tab-name">{m.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
 
-                  {/* Method Card */}
                   <div className="payment-method-info" style={{ background: method.bg, borderColor: method.color + '33' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', marginBottom: 4 }}>
                       <span style={{ fontSize: '1.3rem' }}>{method.icon}</span>
@@ -317,116 +329,146 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                     <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-secondary)', margin: 0 }}>{method.desc}</p>
                   </div>
 
-                  {/* Error */}
-                  {error && (
-                    <div className="payment-error">
-                      {error}
-                    </div>
-                  )}
+                  {error && <div className="payment-error">{error}</div>}
 
                   <AnimatePresence mode="wait">
-                    {step === 'form' ? (
+                    {step === 'form' && (
                       <motion.form
-                        key="phone-form"
+                        key="form"
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: 10 }}
                         onSubmit={handleSendOtp}
                       >
-                        <div className="form-group">
-                          <label className="form-label">
-                            <Phone size={14} style={{ display: 'inline', marginRight: 4 }} />
-                            Mobile Number
-                          </label>
-                          <input
-                            type="tel"
-                            className="form-input"
-                            placeholder={method.placeholder}
-                            value={phone}
-                            onChange={e => setPhone(formatPhone(e.target.value))}
-                            required
-                          />
-                          <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', marginTop: 6 }}>
-                            Enter the number registered with {method.name}
-                          </p>
-                        </div>
+                        {tab === 'flutterwave' ? (
+                          <div className="form-group">
+                            <label className="form-label"><Phone size={14} style={{ display: 'inline', marginRight: 4 }} /> Mobile Number</label>
+                            <input
+                              type="tel"
+                              className="form-input"
+                              placeholder={method.placeholder}
+                              value={phone}
+                              onChange={e => setPhone(formatPhone(e.target.value))}
+                              required
+                            />
+                          </div>
+                        ) : (
+                          <div style={{ background: '#fff', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', padding: 'var(--space-md)', marginBottom: 'var(--space-lg)' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: method.color, marginBottom: '12px' }}>
+                              <Info size={18} />
+                              <span style={{ fontWeight: 700, fontSize: 'var(--text-sm)' }}>Payment Instructions</span>
+                            </div>
+                            <div style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-secondary)' }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid #f0f0f0' }}>
+                                <span>Bank:</span> <strong>{method.bankInfo.bank}</strong>
+                              </div>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid #f0f0f0' }}>
+                                <span>Account:</span> <strong>{method.bankInfo.accNum}</strong>
+                              </div>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid #f0f0f0' }}>
+                                <span>Branch:</span> <strong>{method.bankInfo.branch}</strong>
+                              </div>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', marginTop: '4px', background: 'rgba(0,0,0,0.02)', padding: '8px', borderRadius: '4px' }}>
+                                <span>Reference:</span> 
+                                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                  <strong style={{ color: 'var(--color-dark)' }}>{method.bankInfo.ref}</strong>
+                                  <button type="button" onClick={() => copyToClipboard(method.bankInfo.ref)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: method.color }}><Copy size={12} /></button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                        
                         <label className="form-checkbox" style={{ marginBottom: 'var(--space-xl)' }}>
                           <input type="checkbox" checked={agreeTerms} onChange={e => setAgreeTerms(e.target.checked)} />
-                          <span>I agree to the <a href="#" style={{ color: 'var(--color-primary)' }}>Terms of Service</a> and authorise this payment</span>
+                          <span>I agree to the <a href="#" style={{ color: 'var(--color-primary)' }}>Terms of Service</a></span>
                         </label>
+                        
                         <button type="submit" className="btn btn-primary btn-lg btn-block" style={{ background: method.color, borderColor: method.color }}>
-                          Send {tab === 'orange' ? 'Payment Request' : 'OTP'} <ArrowRight size={16} />
+                          {tab === 'direct' ? 'I Have Made the Payment' : 'Proceed to Payment'} <ArrowRight size={16} />
                         </button>
                       </motion.form>
-                    ) : (
+                    )}
+
+                    {step === 'otp' && (
                       <motion.form
-                        key="otp-form"
+                        key="otp"
                         initial={{ opacity: 0, x: 10 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -10 }}
                         onSubmit={handleConfirmPayment}
                       >
-                        <div style={{
-                          textAlign: 'center',
-                          padding: 'var(--space-lg)',
-                          background: method.bg,
-                          borderRadius: 'var(--radius-md)',
-                          marginBottom: 'var(--space-lg)',
-                          position: 'relative'
-                        }}>
+                        <div style={{ textAlign: 'center', padding: 'var(--space-lg)', background: method.bg, borderRadius: 'var(--radius-md)', marginBottom: 'var(--space-lg)' }}>
                           <Smartphone size={28} style={{ color: method.color, marginBottom: 6 }} />
-                          <p style={{ fontWeight: 700, marginBottom: 4 }}>
-                            {tab === 'orange' ? 'Check your phone' : 'OTP Sent!'}
-                          </p>
-                          <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-secondary)', margin: 0 }}>
-                            {method.otpHint}
-                          </p>
-                          <p style={{ fontSize: 'var(--text-xs)', color: method.color, fontWeight: 600, marginTop: 6 }}>
-                            {phone}
-                          </p>
-                          
-                          {!demoSms && (
-                             <button 
-                               type="button"
-                               onClick={() => setDemoSms(true)}
-                               style={{ position: 'absolute', top: 5, right: 5, fontSize: '10px', background: 'rgba(0,0,0,0.05)', border: 'none', borderRadius: 4, padding: '2px 6px', cursor: 'pointer' }}
-                             >
-                               Demo: Resend SMS
-                             </button>
-                          )}
+                          <p style={{ fontWeight: 700, marginBottom: 4 }}>OTP Sent!</p>
+                          <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-secondary)', margin: 0 }}>{method.otpHint}</p>
+                          <p style={{ fontSize: 'var(--text-xs)', color: method.color, fontWeight: 600, marginTop: 6 }}>{phone}</p>
                         </div>
                         <div className="form-group">
                           <label className="form-label">{method.otpLabel}</label>
                           <input
                             type="text"
                             className="form-input"
-                            placeholder={tab === 'orange' ? '● ● ● ●' : '● ● ● ● ● ●'}
+                            placeholder="● ● ● ● ● ●"
                             value={otp}
-                            onChange={e => setOtp(e.target.value.replace(/\D/g, '').slice(0, tab === 'orange' ? 4 : 6))}
+                            onChange={e => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
                             style={{ textAlign: 'center', fontSize: 'var(--text-2xl)', letterSpacing: '10px', fontFamily: 'var(--font-mono)' }}
                             autoFocus
                             required
                           />
-                          <p style={{ fontSize: '10px', color: 'var(--color-text-muted)', textAlign: 'center', marginTop: 8 }}>
-                            Demo Code: <strong style={{ color: method.color }}>{tab === 'orange' ? '1234' : '123456'}</strong>
-                          </p>
                         </div>
                         <button type="submit" className="btn btn-lg btn-block" style={{ background: method.color, color: '#fff', border: 'none' }}>
-                          <Lock size={16} /> Confirm & Pay {plan.currency}{plan.price}.00
+                          <Lock size={16} /> Confirm Payment
                         </button>
-                        <button
-                          type="button"
-                          className="btn btn-ghost btn-block"
-                          style={{ marginTop: 'var(--space-md)' }}
-                          onClick={() => { setStep('form'); setOtp(''); setError(''); setDemoSms(false); }}
-                        >
-                          ← Change number
+                        <button type="button" className="btn btn-ghost btn-block" onClick={() => setStep('form')} style={{ marginTop: 'var(--space-md)' }}>
+                          ← Go back
                         </button>
                       </motion.form>
                     )}
+
+                    {step === 'upload' && (
+                      <motion.div
+                        key="upload"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        style={{ textAlign: 'center' }}
+                      >
+                        <div style={{ padding: 'var(--space-xl)', border: '2px dashed var(--color-border)', borderRadius: 'var(--radius-lg)', background: '#fafafa', cursor: 'pointer', marginBottom: 'var(--space-lg)' }} onClick={() => fileInputRef.current.click()}>
+                          <input type="file" ref={fileInputRef} onChange={handleFileUpload} style={{ display: 'none' }} accept="image/*,.pdf" />
+                          {proofFile ? (
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                              <FileText size={40} style={{ color: method.color, marginBottom: '12px' }} />
+                              <strong style={{ fontSize: 'var(--text-sm)', color: 'var(--color-dark)' }}>{proofFile.name}</strong>
+                              <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)' }}>{(proofFile.size / 1024).toFixed(1)} KB</span>
+                              <button type="button" onClick={(e) => { e.stopPropagation(); setProofFile(null); }} style={{ marginTop: '12px', fontSize: 'var(--text-xs)', color: 'var(--color-news-red)', background: 'none', border: 'none', cursor: 'pointer' }}>Remove file</button>
+                            </div>
+                          ) : (
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                              <Upload size={40} style={{ color: 'var(--color-text-muted)', marginBottom: '12px' }} />
+                              <strong style={{ fontSize: 'var(--text-sm)', color: 'var(--color-dark)' }}>Upload Proof of Payment</strong>
+                              <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', margin: '4px 0 0' }}>Click to select a photo of your receipt or PDF</p>
+                            </div>
+                          )}
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px', background: 'rgba(0,126,151,0.05)', borderRadius: '8px', marginBottom: 'var(--space-xl)', textAlign: 'left' }}>
+                          <AlertCircle size={16} style={{ color: method.color, flexShrink: 0 }} />
+                          <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-secondary)', margin: 0 }}>
+                            Please ensure the <strong>Reference</strong> is visible on your proof.
+                          </p>
+                        </div>
+
+                        <button className="btn btn-primary btn-lg btn-block" disabled={!proofFile || uploading} onClick={handleSubmitProof} style={{ background: method.color, borderColor: method.color }}>
+                          {uploading ? 'Uploading...' : 'Submit for Verification'}
+                        </button>
+                        <button type="button" className="btn btn-ghost btn-block" onClick={() => setStep('form')} style={{ marginTop: 'var(--space-md)' }}>
+                          ← View Instructions
+                        </button>
+                      </motion.div>
+                    )}
                   </AnimatePresence>
 
-                  {/* Trust badges */}
                   <div className="trust-indicators" style={{ marginTop: 'var(--space-lg)' }}>
                     <span className="trust-indicator"><Shield size={13} /> Secure</span>
                     <span className="trust-indicator"><Lock size={13} /> Encrypted</span>
