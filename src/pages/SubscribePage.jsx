@@ -340,6 +340,6 @@ export default function SubscribePage() {
           redirect={redirect}
         />
       )}
-    </div>
+    </>
   );
 }
