@@ -310,12 +310,28 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                         <button
                           key={m.id}
                           className={`payment-tab ${tab === m.id ? 'active' : ''}`}
-                          style={tab === m.id ? { background: m.color, borderColor: m.color } : {}}
+                          style={{
+                            ...(tab === m.id ? { background: m.color, borderColor: m.color } : {}),
+                            position: 'relative'
+                          }}
                           onClick={() => { setTab(m.id); setStep('form'); setError(''); setProofFile(null); }}
                           type="button"
                         >
                           <span style={{ fontSize: '1.1rem' }}>{m.icon}</span>
                           <span className="payment-tab-name">{m.name}</span>
+                          {m.id === 'direct' && (
+                            <div style={{ 
+                              position: 'absolute', 
+                              top: 6, 
+                              right: 6, 
+                              opacity: tab === m.id ? 1 : 0.5,
+                              background: tab === m.id ? 'rgba(255,255,255,0.2)' : 'transparent',
+                              borderRadius: '50%',
+                              padding: '2px'
+                            }}>
+                              <Info size={10} color={tab === m.id ? '#fff' : m.color} />
+                            </div>
+                          )}
                         </button>
                       ))}
                     </div>

@@ -155,8 +155,11 @@ export default function SubscribePage() {
                 const monthlyPlan = subscriptionPlans.find(p => p.id === 'monthly');
                 setSelectedPlan({ ...monthlyPlan, defaultMethod: 'direct' });
               }}
-              style={{ cursor: 'pointer', borderTop: '4px solid var(--color-primary)' }}
+              style={{ cursor: 'pointer', borderTop: '4px solid var(--color-primary)', position: 'relative' }}
             >
+              <div style={{ position: 'absolute', top: 12, right: 12, color: 'var(--color-primary)' }} title="Click for instructions">
+                <Info size={18} />
+              </div>
               <div className="payment-method-icon" style={{ background: 'rgba(0,126,151,0.1)', color: 'var(--color-primary)' }}>
                 <Landmark size={32} />
               </div>
