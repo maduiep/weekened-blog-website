@@ -18,7 +18,7 @@ export default function ArticlePage() {
   const [viewCount, setViewCount] = useState(0);
   const [likes, setLikes] = useState(Math.floor(Math.random() * 100) + 50);
   const [isLiked, setIsLiked] = useState(false);
-  const { isLoggedIn, isSubscribed, isAdmin } = useAuth();
+  const { isLoggedIn, isSubscribed, isAdmin, user: authUser } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => { 
@@ -68,10 +68,11 @@ export default function ArticlePage() {
 
   const FREE_LIMIT = 3;
   const isOverLimit = !isSubscribed && !isAdmin && viewCount > FREE_LIMIT;
+  const isPremiumGate = article.isPremium && !isSubscribed && !isAdmin;
   const hasFullAccess = isAdmin || isSubscribed;
   const freeCount = isLoggedIn ? 3 : 2;
-  const visibleContent = hasFullAccess ? allContent : allContent.slice(0, freeCount);
-  const isBlurred = (!hasFullAccess && allContent.length > freeCount) || isOverLimit;
+  const visibleContent = (hasFullAccess || !article.isPremium) ? allContent : allContent.slice(0, 1); // Only 1 paragraph for premium gate
+  const isBlurred = isPremiumGate || isOverLimit;
 
   const quickPlan = { id: 'monthly', name: 'Monthly Access', price: 60, currency: 'P', period: '/month' };
 
@@ -155,9 +156,28 @@ export default function ArticlePage() {
             <div className="article-content-column">
               <div className="article-body" style={{ fontSize: 'var(--text-lg)', lineHeight: 1.8, color: '#334155' }}>
                 {!isOverLimit ? (
-                  visibleContent.map((paragraph, i) => (
-                    <p key={i} style={{ marginBottom: '1.5rem' }}>{paragraph}</p>
-                  ))
+                  <div style={{ position: 'relative' }}>
+                    {visibleContent.map((paragraph, i) => (
+                      <p key={i} style={{ marginBottom: '1.5rem' }}>{paragraph}</p>
+                    ))}
+                    {isLoggedIn && (
+                      <div className="digital-watermark" style={{ 
+                        position: 'absolute', 
+                        top: '10%', 
+                        left: '5%', 
+                        opacity: 0.05, 
+                        fontSize: '12px', 
+                        pointerEvents: 'none', 
+                        userSelect: 'none',
+                        transform: 'rotate(-45deg)',
+                        whiteSpace: 'nowrap',
+                        color: 'var(--color-dark)',
+                        zIndex: 5
+                      }}>
+                        Licensed to: {authUser?.uid} | {authUser?.email} | DO NOT REDISTRIBUTE
+                      </div>
+                    )}
+                  </div>
                 ) : (
                   <div className="limit-reached" style={{ padding: 'var(--space-2xl)', background: 'var(--color-bg-alt)', borderRadius: 'var(--radius-xl)', textAlign: 'center', border: '1px solid var(--color-border)', marginBottom: 'var(--space-xl)' }}>
                     <AlertCircle size={48} style={{ color: 'var(--color-primary)', marginBottom: 'var(--space-md)' }} />

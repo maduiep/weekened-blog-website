@@ -25,8 +25,8 @@ export default function SolutionsPage() {
   ];
 
   const premiumReports = [
-    { title: 'Mining Sector Outlook 2024', price: 'P2,400', tag: 'High Value', image: 'https://images.unsplash.com/photo-1579546678183-a94ad1488e39?auto=format&fit=crop&q=80&w=400' },
-    { title: 'Botswana Fintech Report', price: 'P1,800', tag: 'Bestseller', image: 'https://images.unsplash.com/photo-1551288049-bbda38a109ad?auto=format&fit=crop&q=80&w=400' },
+    { title: 'Mining Sector Outlook 2024', price: 'P2,400', tag: 'High Value', image: '/reports/mining_report.png' },
+    { title: 'Botswana Fintech Report', price: 'P1,800', tag: 'Bestseller', image: '/reports/fintech_report.png' },
     { title: 'Commercial Real Estate', price: 'P3,100', tag: 'New', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=400' },
   ];
 

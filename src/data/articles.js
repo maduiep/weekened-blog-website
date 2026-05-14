@@ -10,6 +10,7 @@ export const articles = [
     image: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800&q=80",
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4", // Demo video
     featured: true,
+    isPremium: true, // Premium article
     content: [
       "Global oil prices have dipped to their lowest levels in recent months, offering temporary relief to consumers and businesses in Botswana. However, energy analysts are warning that this reprieve may be short-lived as fundamental supply-side constraints continue to build beneath the surface.",
       "The current price decline has been driven by a combination of weaker-than-expected demand from major economies and a brief surge in output from several OPEC+ members. Brent crude fell below $65 per barrel last week, marking a significant retreat from the highs seen earlier this year.",
@@ -29,6 +30,7 @@ export const articles = [
     readTime: "6 min read",
     image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80",
     featured: true,
+    isPremium: true,
     content: [
       "Non-performing loans in Botswana's banking sector have reached P8 billion, according to the Bank of Botswana's latest Financial Stability Report — a figure that has sent ripples of concern through the financial industry.",
       "The surge represents a 23% increase from the previous reporting period and reflects the growing financial strain on both households and businesses in the post-pandemic economic landscape.",
@@ -46,6 +48,7 @@ export const articles = [
     readTime: "7 min read",
     image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=800&q=80",
     featured: false,
+    isPremium: false, // Free article
     isSponsored: true, // Sponsored tag
     content: [
       "Botswana's economic outlook has dimmed further as international financial institutions slash growth forecasts amid an extended slump in the global diamond market.",

@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function EPaperPage() {
-  const { isSubscribed, isLoggedIn } = useAuth();
+  const { isSubscribed, isLoggedIn, user: authUser } = useAuth();
   const navigate = useNavigate();
   const [downloading, setDownloading] = useState(null);
   const [selectedYear, setSelectedYear] = useState('2024');
@@ -168,6 +168,11 @@ export default function EPaperPage() {
                   <span style={{ color: 'var(--color-text-muted)' }}>Page Count</span>
                   <strong style={{ fontWeight: 700 }}>48 Pages</strong>
                 </div>
+                {isLoggedIn && (
+                  <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid var(--color-border)', fontSize: '10px', color: 'var(--color-news-red)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <CheckCircle size={10} /> LICENSED TO: {authUser?.uid}
+                  </div>
+                )}
               </div>
 
               <div style={{ display: 'flex', gap: 'var(--space-md)', flexWrap: 'wrap' }}>

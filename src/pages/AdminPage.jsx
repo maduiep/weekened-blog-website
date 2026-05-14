@@ -11,9 +11,15 @@ const PLAN_COLORS = {
 };
 
 const RANGE_COLORS = {
-  monthly: 'var(--color-primary)',
-  weekly: 'var(--color-gold)',
-  daily: 'var(--color-sport-green)',
+  monthly: '#007e97', // Deep Teal
+  weekly: '#f39c12',  // Vibrant Orange/Gold
+  daily: '#27ae60',   // Emerald Green
+};
+
+const RANGE_BG = {
+  monthly: 'rgba(0, 126, 151, 0.1)',
+  weekly: 'rgba(243, 156, 18, 0.1)',
+  daily: 'rgba(39, 174, 96, 0.1)',
 };
 
 export default function AdminPage() {
@@ -228,9 +234,17 @@ export default function AdminPage() {
                       <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px', height: '100%', justifyContent: 'flex-end', zIndex: 1 }}>
                         <motion.div 
                           initial={{ height: 0 }}
-                          animate={{ height: `${(item.value / maxValue) * 100}%` }}
+                          animate={{ height: `${Math.max(5, (item.value / (maxValue || 1)) * 100)}%` }}
                           transition={{ type: 'spring', damping: 20, stiffness: 100, delay: i * 0.05 }}
-                          style={{ width: '100%', background: `linear-gradient(to top, ${RANGE_COLORS[timeRange]}, ${RANGE_COLORS[timeRange]}dd)`, borderRadius: '6px 6px 2px 2px', position: 'relative' }} 
+                          style={{ 
+                            width: '100%', 
+                            background: RANGE_COLORS[timeRange], 
+                            borderRadius: '6px 6px 0 0', 
+                            position: 'relative',
+                            boxShadow: `0 4px 15px -2px ${RANGE_COLORS[timeRange]}66`,
+                            display: 'block',
+                            minHeight: '10px'
+                          }} 
                           className="bar-hover"
                         >
                           <div className="bar-tooltip" style={{ position: 'absolute', top: '-45px', left: '50%', transform: 'translateX(-50%)', background: 'var(--color-dark)', color: 'white', padding: '8px 12px', borderRadius: '8px', fontSize: '10px', fontWeight: 700, whiteSpace: 'nowrap', opacity: 0, transition: 'opacity 0.2s', pointerEvents: 'none', boxShadow: 'var(--shadow-md)', zIndex: 10 }}>
