@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
-import { ArrowRight, Mail } from 'lucide-react';
+import { ArrowRight, Mail, TrendingUp, ShieldCheck } from 'lucide-react';
 import ArticleCard from '../components/articles/ArticleCard';
+import AdPlacement from '../components/ui/AdPlacement';
 import { articles, getArticlesByCategory, getCategoryInfo, categories } from '../data/articles';
 
 export default function CategoryPage() {
@@ -15,15 +16,19 @@ export default function CategoryPage() {
   return (
     <>
       {/* Page Header */}
-      <div className="page-header">
+      <div className="page-header" style={{ position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0.05, background: 'var(--color-primary)', pointerEvents: 'none' }} />
         <div className="container">
           <div className="breadcrumb">
             <Link to="/">Home</Link>
             <span className="sep">/</span>
             <span>{catInfo?.name || slug}</span>
           </div>
-          <h1>{catInfo?.name || slug}</h1>
-          <p>Latest stories and updates from our {catInfo?.name?.toLowerCase() || slug} desk.</p>
+          <h1 style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            {catInfo?.name || slug}
+            {slug === 'business' && <TrendingUp size={24} color="var(--color-primary)" />}
+          </h1>
+          <p>Premium {catInfo?.name?.toLowerCase() || slug} coverage and commercial insights for Botswana.</p>
         </div>
       </div>
 
@@ -38,6 +43,9 @@ export default function CategoryPage() {
                   <ArticleCard key={article.id} article={article} large />
                 ))}
               </div>
+              
+              <AdPlacement type="banner" label="Partner Content" />
+
               <div className="grid-3">
                 {allArticles.slice(2, 8).map(article => (
                   <ArticleCard key={article.id} article={article} />
@@ -56,17 +64,27 @@ export default function CategoryPage() {
 
             {/* Sidebar */}
             <aside className="sidebar">
-              {/* Search */}
+              {/* Commercial Search */}
               <div className="sidebar-widget">
-                <h4 className="sidebar-widget-title">Search</h4>
+                <h4 className="sidebar-widget-title">Search Insights</h4>
                 <div className="search-input-wrapper" style={{ margin: 0 }}>
-                  <input type="text" placeholder="Search articles..." className="form-input" style={{ paddingLeft: '16px', borderRadius: 'var(--radius-md)' }} />
+                  <input type="text" placeholder="Keywords, industries..." className="form-input" style={{ paddingLeft: '16px', borderRadius: 'var(--radius-md)' }} />
                 </div>
               </div>
 
+              {/* Secure Subscription Prompt */}
+              <div className="sidebar-widget" style={{ background: 'var(--color-primary)', color: 'white', borderRadius: 'var(--radius-lg)', padding: 'var(--space-xl)', textAlign: 'center' }}>
+                <ShieldCheck size={32} style={{ margin: '0 auto var(--space-md)', color: 'var(--color-gold)' }} />
+                <h4 style={{ color: 'white', border: 'none', padding: 0, marginBottom: 'var(--space-sm)' }}>Support Quality Journalism</h4>
+                <p style={{ fontSize: '12px', opacity: 0.9, marginBottom: 'var(--space-lg)' }}>Get unlimited access to premium business analysis and E-Paper editions.</p>
+                <Link to="/subscribe" className="btn btn-gold btn-block btn-sm">Join Now</Link>
+              </div>
+
+              <AdPlacement type="sidebar" />
+
               {/* Trending */}
               <div className="sidebar-widget">
-                <h4 className="sidebar-widget-title">Trending Now</h4>
+                <h4 className="sidebar-widget-title">Trending in Botswana</h4>
                 {trending.map((article, i) => (
                   <div key={article.id} className="trending-item">
                     <span className="trending-number">0{i + 1}</span>
@@ -80,43 +98,12 @@ export default function CategoryPage() {
                 ))}
               </div>
 
-              {/* Newsletter */}
-              <div className="sidebar-widget" style={{ background: 'var(--color-dark)', borderColor: 'var(--color-dark)' }}>
-                <h4 className="sidebar-widget-title" style={{ color: 'var(--color-white)', borderBottomColor: 'var(--color-primary)' }}>
-                  Newsletter
-                </h4>
-                <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-lg)' }}>
-                  Get daily updates delivered to your inbox.
-                </p>
-                <form onSubmit={e => e.preventDefault()}>
-                  <input type="email" placeholder="Your email" className="form-input" style={{ marginBottom: 'var(--space-md)', background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: '#fff' }} />
-                  <button type="submit" className="btn btn-primary btn-block btn-sm">
-                    <Mail size={14} /> Subscribe
-                  </button>
-                </form>
-              </div>
-
               {/* Tags */}
               <div className="sidebar-widget">
-                <h4 className="sidebar-widget-title">Popular Tags</h4>
+                <h4 className="sidebar-widget-title">Market Tags</h4>
                 <div className="tags-list">
                   {tags.map(tag => (
                     <Link key={tag} to={`/search?q=${tag}`} className="tag-pill">{tag}</Link>
-                  ))}
-                </div>
-              </div>
-
-              {/* Categories */}
-              <div className="sidebar-widget">
-                <h4 className="sidebar-widget-title">Categories</h4>
-                <div className="footer-links">
-                  {categories.filter(c => c.slug !== 'epaper').map(cat => (
-                    <Link key={cat.slug} to={`/category/${cat.slug}`} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <span>{cat.name}</span>
-                      <span style={{ color: 'var(--color-text-muted)' }}>
-                        {getArticlesByCategory(cat.slug).length}
-                      </span>
-                    </Link>
                   ))}
                 </div>
               </div>

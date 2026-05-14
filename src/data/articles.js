@@ -8,6 +8,7 @@ export const articles = [
     date: "April 22, 2026",
     readTime: "5 min read",
     image: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800&q=80",
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4", // Demo video
     featured: true,
     content: [
       "Global oil prices have dipped to their lowest levels in recent months, offering temporary relief to consumers and businesses in Botswana. However, energy analysts are warning that this reprieve may be short-lived as fundamental supply-side constraints continue to build beneath the surface.",
@@ -45,6 +46,7 @@ export const articles = [
     readTime: "7 min read",
     image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=800&q=80",
     featured: false,
+    isSponsored: true, // Sponsored tag
     content: [
       "Botswana's economic outlook has dimmed further as international financial institutions slash growth forecasts amid an extended slump in the global diamond market.",
       "The International Monetary Fund (IMF) has revised its GDP growth projection for Botswana to 3.1% from an earlier estimate of 4.2%, citing prolonged weakness in rough diamond demand.",
@@ -62,6 +64,7 @@ export const articles = [
     readTime: "4 min read",
     image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80",
     featured: false,
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
     content: [
       "BOCONGO has formally submitted its concerns regarding the proposed Constitutional Court Bill, calling for extensive public consultation before the legislation proceeds to Parliament.",
       "The organization argues that the current draft contains provisions that could compromise the independence of the proposed court, particularly around the appointment process for judges.",
@@ -152,7 +155,7 @@ export const articles = [
     author: "Admin",
     date: "April 19, 2026",
     readTime: "4 min read",
-    image: "/images/pep_talk.png",
+    image: "https://images.unsplash.com/photo-1493612276216-ee3925520721?w=800&q=80",
     featured: false,
     content: [
       "There comes a time in every nation's journey when the gap between political rhetoric and lived reality becomes impossible to ignore.",
@@ -167,7 +170,7 @@ export const articles = [
     author: "Tefo Motsamai",
     date: "April 18, 2026",
     readTime: "6 min read",
-    image: "/images/economy.png",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
     featured: false,
     content: [
       "For decades, the sparkle of diamonds has blinded us to the necessity of true economic diversification.",
@@ -182,7 +185,7 @@ export const articles = [
     author: "Lesedi Kabelo",
     date: "April 17, 2026",
     readTime: "5 min read",
-    image: "/images/sports.png",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
     featured: false,
     content: [
       "You cannot build world champions on dust and promises. The current state of our sporting facilities is a national embarrassment.",
@@ -219,6 +222,7 @@ export const articles = [
       "The series features never-before-seen archival footage and interviews with those closest to the iconic South African political figure."
     ]
   }
+
 ];
 
 export const categories = [

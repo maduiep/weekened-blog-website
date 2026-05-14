@@ -108,19 +108,19 @@ export default function ContactPage() {
               marginTop: 'var(--space-xl)',
               borderRadius: 'var(--radius-lg)',
               overflow: 'hidden',
-              height: '220px',
-              background: 'linear-gradient(135deg, var(--color-bg), var(--color-border))',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'var(--color-text-muted)',
-              fontSize: 'var(--text-sm)',
+              height: '300px',
+              background: 'var(--color-bg)',
+              border: '1px solid var(--color-border)',
             }}>
-              <div style={{ textAlign: 'center' }}>
-                <MapPin size={32} style={{ marginBottom: 'var(--space-sm)', opacity: 0.4 }} />
-                <br />
-                Kgale Mews, Gaborone
-              </div>
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3640.4851433604313!2d25.903004875348393!3d-24.693121578431872!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e9508535f29e92b%3A0xc3c5f49f57f5c531!2sKgale%20Mews%2C%20Gaborone!5e0!3m2!1sen!2sbw!4v1715610000000!5m2!1sen!2sbw" 
+                width="100%" 
+                height="100%" 
+                style={{ border: 0 }} 
+                allowFullScreen="" 
+                loading="lazy" 
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
             </div>
           </div>
         </div>

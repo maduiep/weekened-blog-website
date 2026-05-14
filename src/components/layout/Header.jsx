@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, Search, User, Zap, LogOut, Shield } from 'lucide-react';
+import { Menu, X, Search, User, Zap, LogOut, Shield, Briefcase } from 'lucide-react';
 import { FacebookIcon, TwitterIcon, InstagramIcon, YoutubeIcon } from '../ui/SocialIcons';
 import { articles } from '../../data/articles';
 import { useAuth } from '../../context/AuthContext';
@@ -42,6 +42,7 @@ export default function Header() {
     { label: 'Opinions', path: '/category/opinion' },
     { label: 'Weekend Life', path: '/category/lifestyle' },
     { label: 'E-Paper', path: '/epaper' },
+    { label: 'Solutions', path: '/solutions' },
   ];
 
   const breakingNews = articles.slice(0, 4);
