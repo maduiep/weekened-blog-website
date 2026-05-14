@@ -288,7 +288,10 @@ export default function ArticlePage() {
                     >
                       <ThumbsUp size={18} fill={isLiked ? 'currentColor' : 'none'} /> {likes}
                     </button>
-                    <button style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, color: 'var(--color-text-muted)', fontWeight: 600, fontSize: '14px' }}>
+                    <button 
+                      onClick={() => document.getElementById('comments-section').scrollIntoView({ behavior: 'smooth' })}
+                      style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, color: 'var(--color-text-muted)', fontWeight: 600, fontSize: '14px' }}
+                    >
                       <MessageCircle size={18} /> 12 Comments
                     </button>
                   </div>
@@ -297,7 +300,9 @@ export default function ArticlePage() {
                     <button className="share-btn-pill"><Bookmark size={16} /> Save</button>
                   </div>
                 </div>
-                <CommentSection isSubscribed={isSubscribed} isLoggedIn={isLoggedIn} user={authUser} />
+                <div id="comments-section">
+                  <CommentSection isSubscribed={isSubscribed} isLoggedIn={isLoggedIn} user={authUser} />
+                </div>
               </div>
             </div>
 
