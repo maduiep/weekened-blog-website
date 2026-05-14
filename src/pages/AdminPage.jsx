@@ -49,23 +49,33 @@ export default function AdminPage() {
     return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
   };
 
-  // Mock Analytics Data
+  // Mock Analytics Data with timeframe support
+  const [timeRange, setTimeRange] = useState('monthly');
+  
+  const totalSubscribers = subscribers.length;
+  
   const analyticsData = {
-    revenue: [
-      { month: 'Jan', value: 4500, count: 75 },
-      { month: 'Feb', value: 5200, count: 88 },
-      { month: 'Mar', value: 4800, count: 82 },
-      { month: 'Apr', value: 6100, count: 104 },
-      { month: 'May', value: 7500, count: 128 },
+    monthly: [
+      { label: 'Jan', value: 4500, count: 75 },
+      { label: 'Feb', value: 5200, count: 88 },
+      { label: 'Mar', value: 4800, count: 82 },
+      { label: 'Apr', value: 6100, count: 104 },
+      { label: 'May', value: 7500, count: totalSubscribers }, // Automated linked value
     ],
-    growth: [
-      { day: 'Mon', value: 12 },
-      { day: 'Tue', value: 19 },
-      { day: 'Wed', value: 15 },
-      { day: 'Thu', value: 22 },
-      { day: 'Fri', value: 30 },
-      { day: 'Sat', value: 25 },
-      { day: 'Sun', value: 18 },
+    weekly: [
+      { label: 'Week 1', value: 1200, count: 15 },
+      { label: 'Week 2', value: 1800, count: 22 },
+      { label: 'Week 3', value: 1500, count: 18 },
+      { label: 'Week 4', value: 2100, count: 28 },
+    ],
+    daily: [
+      { label: 'Mon', value: 300, count: 4 },
+      { label: 'Tue', value: 450, count: 6 },
+      { label: 'Wed', value: 380, count: 5 },
+      { label: 'Thu', value: 520, count: 8 },
+      { label: 'Fri', value: 600, count: 10 },
+      { label: 'Sat', value: 400, count: 5 },
+      { label: 'Sun', value: 350, count: 4 },
     ],
     conversionFunnel: [
       { stage: 'Site Visits', count: 15400, percent: 100, color: 'var(--color-primary)' },
@@ -79,6 +89,9 @@ export default function AdminPage() {
       { title: 'Sports Infrastructure Letdown', views: '8.2K', engagement: '78%', revenue: 'P750' },
     ]
   };
+
+  const activeChartData = analyticsData[timeRange];
+  const maxValue = Math.max(...activeChartData.map(d => d.value));
 
   return (
     <div className="admin-page" style={{ background: '#f8fafc', minHeight: '100vh' }}>
@@ -174,19 +187,63 @@ export default function AdminPage() {
             <motion.div key="analytics" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'var(--space-xl)', marginBottom: 'var(--space-xl)' }}>
                 {/* Revenue Breakdown */}
-                <div className="admin-card" style={{ background: 'white', padding: 'var(--space-2xl)', borderRadius: 'var(--radius-xl)', border: '1px solid var(--color-border)' }}>
-                  <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-xl)', display: 'flex', alignItems: 'center', gap: 8 }}><TrendingUp size={18} color="var(--color-sport-green)" /> Revenue Breakdown</h3>
-                  <div style={{ display: 'flex', alignItems: 'flex-end', height: '200px', gap: '16px' }}>
-                    {analyticsData.revenue.map((item, i) => (
-                      <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <div style={{ width: '100%', height: `${(item.value / 8000) * 100}%`, background: 'var(--color-primary)', borderRadius: '6px', position: 'relative' }} className="bar-hover">
-                          <div className="bar-tooltip" style={{ position: 'absolute', top: '-40px', left: '50%', transform: 'translateX(-50%)', background: 'var(--color-dark)', color: 'white', padding: '6px 10px', borderRadius: '6px', fontSize: '10px', fontWeight: 700, whiteSpace: 'nowrap', opacity: 0, transition: 'opacity 0.2s' }}>
-                            P{item.value} / {item.count} subs
+                <div className="admin-card" style={{ background: 'white', padding: 'var(--space-2xl)', borderRadius: 'var(--radius-xl)', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-xl)' }}>
+                    <div>
+                      <h3 style={{ fontSize: 'var(--text-lg)', margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <TrendingUp size={18} color="var(--color-sport-green)" /> Revenue Breakdown
+                      </h3>
+                      <p style={{ fontSize: '11px', color: 'var(--color-text-muted)', marginTop: 4 }}>Live financial performance and subscriber growth.</p>
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 10 }}>
+                      <div style={{ display: 'flex', background: '#f1f5f9', padding: '3px', borderRadius: '8px' }}>
+                        {['monthly', 'weekly', 'daily'].map(range => (
+                          <button 
+                            key={range}
+                            onClick={() => setTimeRange(range)}
+                            style={{ padding: '4px 12px', border: 'none', borderRadius: '6px', background: timeRange === range ? 'white' : 'transparent', color: timeRange === range ? 'var(--color-primary)' : 'var(--color-text-muted)', fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', cursor: 'pointer', transition: 'all 0.2s', boxShadow: timeRange === range ? '0 1px 3px rgba(0,0,0,0.1)' : 'none' }}
+                          >
+                            {range.charAt(0)}
+                          </button>
+                        ))}
+                      </div>
+                      <button className="btn btn-sm" style={{ padding: '4px 10px', fontSize: '10px', background: 'var(--color-primary)', color: 'white' }} onClick={() => showToast('Financial report downloading...', 'success')}>
+                        <Download size={12} /> Export Report
+                      </button>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'flex-end', height: '240px', gap: '12px', padding: '20px 0 10px', position: 'relative', borderBottom: '1px solid #f1f5f9' }}>
+                    {/* Y-Axis Guideline */}
+                    <div style={{ position: 'absolute', left: 0, right: 0, top: '20px', borderTop: '1px dashed #f1f5f9', zIndex: 0 }} />
+                    <div style={{ position: 'absolute', left: 0, right: 0, top: '50%', borderTop: '1px dashed #f1f5f9', zIndex: 0 }} />
+                    
+                    {activeChartData.map((item, i) => (
+                      <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px', height: '100%', justifyContent: 'flex-end', zIndex: 1 }}>
+                        <motion.div 
+                          initial={{ height: 0 }}
+                          animate={{ height: `${(item.value / maxValue) * 100}%` }}
+                          transition={{ type: 'spring', damping: 20, stiffness: 100, delay: i * 0.05 }}
+                          style={{ width: '100%', background: 'linear-gradient(to top, var(--color-primary), var(--color-primary-light))', borderRadius: '6px 6px 2px 2px', position: 'relative' }} 
+                          className="bar-hover"
+                        >
+                          <div className="bar-tooltip" style={{ position: 'absolute', top: '-45px', left: '50%', transform: 'translateX(-50%)', background: 'var(--color-dark)', color: 'white', padding: '8px 12px', borderRadius: '8px', fontSize: '10px', fontWeight: 700, whiteSpace: 'nowrap', opacity: 0, transition: 'opacity 0.2s', pointerEvents: 'none', boxShadow: 'var(--shadow-md)', zIndex: 10 }}>
+                            <div style={{ color: 'var(--color-primary-light)', marginBottom: 2 }}>P{item.value.toLocaleString()}</div>
+                            <div style={{ opacity: 0.8 }}>{item.count} Subscribers</div>
+                            <div style={{ position: 'absolute', bottom: '-4px', left: '50%', transform: 'translateX(-50%)', borderLeft: '4px solid transparent', borderRight: '4px solid transparent', borderTop: '4px solid var(--color-dark)' }} />
                           </div>
-                        </div>
-                        <span style={{ fontSize: '11px', color: 'var(--color-text-muted)', textAlign: 'center', fontWeight: 600 }}>{item.month}</span>
+                        </motion.div>
+                        <span style={{ fontSize: '10px', color: 'var(--color-text-muted)', textAlign: 'center', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.5 }}>{item.label}</span>
                       </div>
                     ))}
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginTop: '16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '10px', color: 'var(--color-text-muted)', fontWeight: 600 }}>
+                      <div style={{ width: 8, height: 8, background: 'var(--color-primary)', borderRadius: '2px' }} /> Revenue (Pula)
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '10px', color: 'var(--color-text-muted)', fontWeight: 600 }}>
+                      <div style={{ width: 8, height: 8, background: '#cbd5e1', borderRadius: '2px' }} /> Growth Index
+                    </div>
                   </div>
                 </div>
 
