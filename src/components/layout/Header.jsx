@@ -159,10 +159,14 @@ export default function Header() {
                 </Link>
               ))}
               {/* Mobile-only auth links */}
-              {!isLoggedIn && (
-                <div className="mobile-auth-links">
-                  <Link to="/auth" className="nav-link">Sign In</Link>
-                  <Link to="/auth?tab=signup" className="nav-link" style={{ color: 'var(--color-primary)' }}>Create Account</Link>
+              {!isLoggedIn ? (
+                <div className="mobile-auth-links" style={{ marginTop: 'var(--space-xl)', display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+                  <Link to="/auth" className="btn btn-ghost btn-block">Sign In</Link>
+                  <Link to="/subscribe" className="btn btn-primary btn-block">Subscribe Now</Link>
+                </div>
+              ) : (
+                <div className="mobile-auth-links" style={{ marginTop: 'var(--space-xl)' }}>
+                  <button className="btn btn-ghost btn-block" onClick={handleLogout}>Sign Out</button>
                 </div>
               )}
             </div>

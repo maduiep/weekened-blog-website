@@ -9,6 +9,76 @@ import AdPlacement from '../components/ui/AdPlacement';
 import { getArticleById, articles, getCategoryInfo } from '../data/articles';
 import { useAuth } from '../context/AuthContext';
 
+function CommentSection({ isSubscribed, isLoggedIn, user }) {
+  const [comments, setComments] = useState([
+    { id: 1, user: 'Mpho Molefe', text: 'This is a very insightful analysis of the mining sector. We need more of this.', date: '2 hours ago', likes: 5 },
+    { id: 2, user: 'Kabelo J.', text: 'Interesting point about the supply constraints. I wonder how it affects local SMEs.', date: '5 hours ago', likes: 2 }
+  ]);
+  const [newComment, setNewComment] = useState('');
+
+  const handlePost = () => {
+    if (!newComment.trim()) return;
+    const comment = {
+      id: Date.now(),
+      user: user?.name || 'Anonymous',
+      text: newComment,
+      date: 'Just now',
+      likes: 0
+    };
+    setComments([comment, ...comments]);
+    setNewComment('');
+  };
+
+  return (
+    <div className="comment-section" style={{ marginTop: 'var(--space-3xl)', padding: 'var(--space-xl)', background: 'var(--color-bg-alt)', borderRadius: 'var(--radius-xl)', border: '1px solid var(--color-border)' }}>
+      <h3 style={{ fontSize: 'var(--text-xl)', marginBottom: 'var(--space-lg)', display: 'flex', alignItems: 'center', gap: 8 }}>
+        <MessageCircle size={20} color="var(--color-primary)" /> Join the Conversation
+      </h3>
+
+      {!isSubscribed ? (
+        <div style={{ textAlign: 'center', padding: 'var(--space-xl)', background: 'white', borderRadius: 'var(--radius-lg)', border: '1px dashed var(--color-primary)', marginBottom: 'var(--space-xl)' }}>
+          <Lock size={24} color="var(--color-primary)" style={{ marginBottom: 12 }} />
+          <h4 style={{ marginBottom: 8 }}>Subscriber Exclusive</h4>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', marginBottom: 16 }}>Only subscribers can post comments. Join our community to share your thoughts.</p>
+          <Link to="/subscribe" className="btn btn-primary btn-sm">Subscribe to Comment</Link>
+        </div>
+      ) : (
+        <div style={{ marginBottom: 'var(--space-xl)' }}>
+          <textarea 
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="What are your thoughts?"
+            style={{ width: '100%', minHeight: '100px', padding: '12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border)', marginBottom: '12px', resize: 'vertical', fontSize: 'var(--text-sm)' }}
+          />
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <button className="btn btn-primary" onClick={handlePost} disabled={!newComment.trim()}>Post Comment</button>
+          </div>
+        </div>
+      )}
+
+      <div className="comments-list" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-lg)' }}>
+        {comments.map(c => (
+          <div key={c.id} style={{ display: 'flex', gap: 12 }}>
+            <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--color-primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, flexShrink: 0 }}>
+              {c.user.charAt(0)}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                <span style={{ fontWeight: 700, fontSize: '13px' }}>{c.user}</span>
+                <span style={{ fontSize: '11px', color: 'var(--color-text-muted)' }}>{c.date}</span>
+              </div>
+              <p style={{ fontSize: '13px', color: 'var(--color-text)', lineHeight: 1.5, marginBottom: 8 }}>{c.text}</p>
+              <button style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'none', border: 'none', color: 'var(--color-text-muted)', fontSize: '11px', cursor: 'pointer' }}>
+                <ThumbsUp size={12} /> {c.likes}
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function ArticlePage() {
   const { id } = useParams();
   const article = getArticleById(id);
@@ -226,7 +296,7 @@ export default function ArticlePage() {
                     <button className="share-btn-pill"><Share2 size={16} /> Share</button>
                     <button className="share-btn-pill"><Bookmark size={16} /> Save</button>
                   </div>
-                </div>
+                <CommentSection isSubscribed={isSubscribed} isLoggedIn={isLoggedIn} user={authUser} />
               </div>
             </div>
 

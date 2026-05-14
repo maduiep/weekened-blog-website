@@ -125,28 +125,25 @@ export default function AdminPage() {
 
       <div className="container" style={{ padding: 'var(--space-2xl) 0' }}>
         {/* Page Header */}
-        <div className="admin-header" style={{ marginBottom: 'var(--space-3xl)', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 'var(--space-xl)' }}>
-          <div>
+        <div className="admin-header" style={{ marginBottom: 'var(--space-2xl)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 'var(--space-lg)' }}>
+          <div style={{ minWidth: '280px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-              <div style={{ width: '40px', height: '40px', background: 'var(--color-primary)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+              <div style={{ width: '40px', height: '40px', background: 'var(--color-primary)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', flexShrink: 0 }}>
                 <LayoutDashboard size={20} />
               </div>
               <div>
                 <span style={{ fontSize: '10px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 1.5, color: 'var(--color-primary)' }}>
                   Platform Control
                 </span>
-                <h1 style={{ fontSize: 'var(--text-3xl)', margin: 0 }}>Business Overview</h1>
+                <h1 style={{ fontSize: 'var(--text-2xl)', margin: 0 }}>Business Overview</h1>
               </div>
             </div>
-            <p style={{ color: 'var(--color-text-secondary)', fontSize: 'var(--text-sm)', margin: 0 }}>
-              Performance monitoring for <span style={{ color: 'var(--color-dark)', fontWeight: 700 }}>{adminUser?.email}</span>
-            </p>
           </div>
-          <div style={{ display: 'flex', gap: 'var(--space-md)' }}>
-            <button className="btn btn-ghost btn-sm" style={{ background: 'white' }} onClick={() => showToast('Report generation started...', 'success')}>
+          <div style={{ display: 'flex', gap: 'var(--space-md)', width: '100%', maxWidth: '400px' }}>
+            <button className="btn btn-ghost btn-sm btn-block" style={{ background: 'white' }} onClick={() => showToast('Report generation started...', 'success')}>
               <Download size={14} /> Export CSV
             </button>
-            <Link to="/" className="btn btn-primary btn-sm">View Website</Link>
+            <Link to="/" className="btn btn-primary btn-sm btn-block">View Site</Link>
           </div>
         </div>
 
@@ -197,9 +194,9 @@ export default function AdminPage() {
         <AnimatePresence mode="wait">
           {activeTab === 'analytics' ? (
             <motion.div key="analytics" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'var(--space-xl)', marginBottom: 'var(--space-xl)' }}>
+              <div className="admin-analytics-grid">
                 {/* Revenue Breakdown */}
-                <div className="admin-card" style={{ background: 'white', padding: 'var(--space-2xl)', borderRadius: 'var(--radius-xl)', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
+                <div className="admin-card" style={{ background: 'white', padding: 'var(--space-xl)', borderRadius: 'var(--radius-xl)', border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-sm)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-xl)' }}>
                     <div>
                       <h3 style={{ fontSize: 'var(--text-lg)', margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -416,6 +413,13 @@ export default function AdminPage() {
       </div>
 
       <style>{`
+        .admin-analytics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-xl); margin-bottom: var(--space-xl); }
+        @media (max-width: 600px) {
+          .admin-analytics-grid { grid-template-columns: 1fr; }
+          .admin-header { text-align: center; justify-content: center; }
+          .admin-header > div { width: 100%; display: flex; justify-content: center; }
+          .admin-header h1 { font-size: var(--text-xl); }
+        }
         .bar-hover:hover .bar-tooltip { opacity: 1 !important; }
         .admin-table { width: 100%; border-collapse: collapse; }
         .admin-table th { text-align: left; padding: 16px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--color-text-muted); border-bottom: 1px solid var(--color-border); }
