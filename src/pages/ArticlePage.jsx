@@ -296,6 +296,7 @@ export default function ArticlePage() {
                     <button className="share-btn-pill"><Share2 size={16} /> Share</button>
                     <button className="share-btn-pill"><Bookmark size={16} /> Save</button>
                   </div>
+                </div>
                 <CommentSection isSubscribed={isSubscribed} isLoggedIn={isLoggedIn} user={authUser} />
               </div>
             </div>

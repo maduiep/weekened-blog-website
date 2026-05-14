@@ -49,6 +49,7 @@ export default function DashboardPage() {
     { id: 'subscription',  label: 'Plan & Billing',    icon: <CreditCard size={18} /> },
     { id: 'library',       label: 'My Library',        icon: <BookOpen size={18} /> },
     { id: 'settings',      label: 'Account Settings',  icon: <Settings size={18} /> },
+    { id: 'api',           label: 'Developer API',     icon: <Database size={18} /> },
   ];
 
   return (
@@ -336,6 +337,53 @@ export default function DashboardPage() {
               </div>
             )}
 
+            {/* API ACCESS */}
+            {activeTab === 'api' && (
+              <div className="dashboard-card">
+                <h2 className="dashboard-card-title">API Integration</h2>
+                <p style={{ color: 'var(--color-text-secondary)', marginBottom: 'var(--space-xl)' }}>
+                  Access our core application APIs for custom enterprise integrations. Your API key provides access to our live newsroom data, financial insights, and user analytics endpoints.
+                </p>
+                
+                <div style={{ background: 'var(--color-bg-alt)', padding: 'var(--space-lg)', borderRadius: 'var(--radius-lg)', marginBottom: 'var(--space-xl)', border: '1px solid var(--color-border)' }}>
+                  <h3 style={{ fontSize: 'var(--text-md)', marginBottom: 'var(--space-sm)' }}>Your API Key</h3>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <input 
+                      type="text" 
+                      className="form-input" 
+                      readOnly 
+                      value={authUser?.isSubscribed ? `sk_live_${authUser.uid || 'demo'}_${Math.random().toString(36).substr(2, 9)}` : '••••••••••••••••••••••••••••••••'} 
+                      style={{ flex: 1, fontFamily: 'monospace', fontSize: '14px', background: 'white' }}
+                    />
+                    <button className="btn btn-primary" onClick={() => alert('API Key Copied!')} disabled={!authUser?.isSubscribed}>
+                      Copy Key
+                    </button>
+                  </div>
+                  {!authUser?.isSubscribed && (
+                    <p style={{ fontSize: '12px', color: 'var(--color-news-red)', marginTop: '8px' }}>* Premium subscription required to generate live API keys.</p>
+                  )}
+                </div>
+
+                <h3 style={{ fontSize: 'var(--text-md)', marginBottom: 'var(--space-md)' }}>Available Endpoints</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)' }}>
+                    <span style={{ background: 'var(--color-sport-green)', color: 'white', padding: '2px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: 'bold' }}>GET</span>
+                    <code style={{ fontSize: '13px', color: 'var(--color-primary)' }}>/api/v1/news/latest</code>
+                    <span style={{ marginLeft: 'auto', fontSize: '12px', color: 'var(--color-text-muted)' }}>Fetch live updates</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)' }}>
+                    <span style={{ background: 'var(--color-sport-green)', color: 'white', padding: '2px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: 'bold' }}>GET</span>
+                    <code style={{ fontSize: '13px', color: 'var(--color-primary)' }}>/api/v1/market/reports</code>
+                    <span style={{ marginLeft: 'auto', fontSize: '12px', color: 'var(--color-text-muted)' }}>Corporate insights</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)' }}>
+                    <span style={{ background: 'var(--color-gold)', color: 'white', padding: '2px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: 'bold' }}>POST</span>
+                    <code style={{ fontSize: '13px', color: 'var(--color-primary)' }}>/api/v1/users/auth</code>
+                    <span style={{ marginLeft: 'auto', fontSize: '12px', color: 'var(--color-text-muted)' }}>SSO verification</span>
+                  </div>
+                </div>
+              </div>
+            )}
           </main>
         </div>
       </div>

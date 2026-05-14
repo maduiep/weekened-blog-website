@@ -64,13 +64,15 @@ export default function Header() {
           <Zap size={14} />
           Breaking
         </div>
-        <div className="ticker-content">
-          {[...breakingNews, ...breakingNews].map((article, i) => (
-            <span className="ticker-item" key={i}>
-              <span className="ticker-dot" />
-              <Link to={`/article/${article.id}`}>{article.title}</Link>
-            </span>
-          ))}
+        <div style={{ flex: 1, overflow: 'hidden', height: '100%', display: 'flex', alignItems: 'center' }}>
+          <div className="ticker-content">
+            {[...breakingNews, ...breakingNews].map((article, i) => (
+              <span className="ticker-item" key={i}>
+                <span className="ticker-dot" />
+                <Link to={`/article/${article.id}`}>{article.title}</Link>
+              </span>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -160,7 +162,7 @@ export default function Header() {
               ))}
               {/* Mobile-only auth links */}
               {!isLoggedIn ? (
-                <div className="mobile-auth-links" style={{ marginTop: 'var(--space-xl)', display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+                <div className="mobile-auth-links" style={{ marginTop: 'var(--space-xl)', flexDirection: 'column', gap: 'var(--space-md)' }}>
                   <Link to="/auth" className="btn btn-ghost btn-block">Sign In</Link>
                   <Link to="/subscribe" className="btn btn-primary btn-block">Subscribe Now</Link>
                 </div>

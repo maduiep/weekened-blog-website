@@ -79,23 +79,36 @@ export default function AdPlacement({ type = 'banner', label = 'Advertisement' }
         </AnimatePresence>
 
         {type === 'banner' ? (
-          <div className="ad-banner" style={{ padding: 'var(--space-lg)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 'var(--space-xl)', textAlign: 'center' }}>
+          <div className="ad-banner" style={{ 
+            padding: 'var(--space-2xl)', 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between', 
+            flexWrap: 'wrap', 
+            gap: 'var(--space-xl)', 
+            textAlign: 'left',
+            background: 'linear-gradient(to right, rgba(0,0,0,0.85), rgba(0,0,0,0.2)), url("https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=1200&q=80")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            color: 'white',
+            minHeight: '160px'
+          }}>
             <div style={{ flex: 1, minWidth: '200px' }}>
-              <h3 style={{ margin: '0 0 4px', fontSize: 'var(--text-lg)', color: 'var(--color-primary)' }}>Scale Your Brand in Botswana</h3>
-              <p style={{ margin: 0, fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)' }}>Reach Botswana's top decision-makers with premium placements.</p>
+              <h3 style={{ margin: '0 0 8px', fontSize: 'var(--text-2xl)', color: 'white', textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>Scale Your Brand in Botswana</h3>
+              <p style={{ margin: 0, fontSize: 'var(--text-md)', color: 'rgba(255,255,255,0.9)', textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}>Reach Botswana's top decision-makers with premium digital placements.</p>
             </div>
-            <button className="btn btn-sm btn-gold" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              Contact Sales <ExternalLink size={14} />
+            <button className="btn btn-lg btn-gold" style={{ display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}>
+              Contact Sales <ExternalLink size={16} />
             </button>
           </div>
         ) : (
-          <div className="ad-sidebar" style={{ padding: 'var(--space-xl)', display: 'flex', flexDirection: 'column', gap: '16px', textAlign: 'center' }}>
-            <h4 style={{ margin: 0, color: 'var(--color-dark)' }}>FNB Business Solutions</h4>
-            <div style={{ width: '100%', height: '140px', background: 'linear-gradient(45deg, #007E97, #00AEEF)', borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 800, fontSize: 'var(--text-xl)' }}>
-              FNB
+          <div className="ad-sidebar" style={{ padding: '0', display: 'flex', flexDirection: 'column', textAlign: 'center', background: 'white' }}>
+            <div style={{ width: '100%', height: '220px', backgroundImage: 'url("https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80")', backgroundSize: 'cover', backgroundPosition: 'center' }} />
+            <div style={{ padding: 'var(--space-lg)' }}>
+              <h4 style={{ margin: '0 0 8px', color: 'var(--color-dark)', fontSize: 'var(--text-lg)' }}>FNB Business Solutions</h4>
+              <p style={{ margin: '0 0 16px', fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)' }}>Empowering your business journey with smart banking tools and dedicated support.</p>
+              <button className="btn btn-sm btn-primary" style={{ width: '100%' }}>Switch to FNB</button>
             </div>
-            <p style={{ margin: 0, fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)' }}>Empowering your business journey with smart banking tools.</p>
-            <button className="btn btn-sm btn-primary">Switch to FNB</button>
           </div>
         )}
       </div>

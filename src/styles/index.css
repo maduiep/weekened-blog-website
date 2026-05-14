@@ -3165,7 +3165,7 @@ select.form-input {
   .user-name-label { display: none; }
   .header-social { display: none; }
   .header-date { display: none; }
-  .mobile-auth-links { display: block; }
+  .mobile-auth-links { display: flex; }
   .header-actions .btn-ghost { display: none; } /* Hide Sign In on mobile as it is in menu */
 
   /* Admin */

@@ -15,6 +15,9 @@ import ContactPage from './pages/ContactPage';
 import SearchPage from './pages/SearchPage';
 import DashboardPage from './pages/DashboardPage';
 import AdminPage from './pages/AdminPage';
+import CareersPage from './pages/CareersPage';
+import TendersPage from './pages/TendersPage';
+import LegalPage from './pages/LegalPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
@@ -105,6 +108,12 @@ export default function App() {
                   <Route path="/solutions" element={<SolutionsPage />} />
                   <Route path="/contact" element={<ContactPage />} />
                   <Route path="/search" element={<SearchPage />} />
+                  <Route path="/careers" element={<CareersPage />} />
+                  <Route path="/tenders" element={<TendersPage />} />
+                  <Route path="/privacy" element={<LegalPage />} />
+                  <Route path="/terms" element={<LegalPage />} />
+                  <Route path="/refund" element={<LegalPage />} />
+                  <Route path="/cookies" element={<LegalPage />} />
                   <Route
                     path="/dashboard"
                     element={

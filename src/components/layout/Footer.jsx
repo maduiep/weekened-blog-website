@@ -53,19 +53,19 @@ export default function Footer() {
             <div className="footer-links">
               <Link to="/contact">Contact Us</Link>
               <Link to="/subscribe">Subscribe</Link>
-              <Link to="#">Advertise</Link>
-              <Link to="#">Careers</Link>
-              <Link to="#">Tenders & Jobs</Link>
+              <Link to="/solutions">Advertise</Link>
+              <Link to="/careers">Careers</Link>
+              <Link to="/tenders">Tenders & Jobs</Link>
             </div>
           </div>
 
           <div>
             <h4 className="footer-heading">Legal</h4>
             <div className="footer-links">
-              <Link to="#">Privacy Policy</Link>
-              <Link to="#">Terms of Service</Link>
-              <Link to="#">Refund Policy</Link>
-              <Link to="#">Cookie Policy</Link>
+              <Link to="/privacy">Privacy Policy</Link>
+              <Link to="/terms">Terms of Service</Link>
+              <Link to="/refund">Refund Policy</Link>
+              <Link to="/cookies">Cookie Policy</Link>
             </div>
           </div>
         </div>
@@ -73,8 +73,8 @@ export default function Footer() {
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} Weekend Post. All Rights Reserved.</span>
           <div className="footer-bottom-links">
-            <Link to="#">Privacy</Link>
-            <Link to="#">Terms</Link>
+            <Link to="/privacy">Privacy</Link>
+            <Link to="/terms">Terms</Link>
             <Link to="#">Sitemap</Link>
           </div>
         </div>

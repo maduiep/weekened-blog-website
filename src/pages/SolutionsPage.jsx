@@ -25,8 +25,8 @@ export default function SolutionsPage() {
   ];
 
   const premiumReports = [
-    { title: 'Mining Sector Outlook 2024', price: 'P2,400', tag: 'High Value', image: '/reports/mining_report.png' },
-    { title: 'Botswana Fintech Report', price: 'P1,800', tag: 'Bestseller', image: '/reports/fintech_report.png' },
+    { title: 'Mining Sector Outlook 2024', price: 'P2,400', tag: 'High Value', image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=400' },
+    { title: 'Botswana Fintech Report', price: 'P1,800', tag: 'Bestseller', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=400' },
     { title: 'Commercial Real Estate', price: 'P3,100', tag: 'New', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=400' },
   ];
 
@@ -39,7 +39,7 @@ export default function SolutionsPage() {
   return (
     <div className="solutions-page">
       {/* Hero */}
-      <section className="page-header" style={{ background: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1600")', backgroundSize: 'cover', backgroundPosition: 'center', color: 'white', padding: 'var(--space-4xl) 0', textAlign: 'center', minHeight: '400px', display: 'flex', alignItems: 'center' }}>
+      <section className="page-header" style={{ background: 'linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url("https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1600")', backgroundSize: 'cover', backgroundPosition: 'center', color: 'white', padding: 'var(--space-4xl) 0', textAlign: 'center', minHeight: '400px', display: 'flex', alignItems: 'center' }}>
         <div className="container">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }} 
@@ -52,7 +52,7 @@ export default function SolutionsPage() {
             initial={{ opacity: 0 }} 
             animate={{ opacity: 1 }} 
             transition={{ delay: 0.2 }}
-            style={{ fontSize: 'var(--text-xl)', color: 'white', fontWeight: 500, maxWidth: '750px', margin: 'var(--space-md) auto 0', textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}
+            style={{ fontSize: 'var(--text-xl)', color: 'white', fontWeight: 500, maxWidth: '750px', margin: 'var(--space-md) auto 0', textShadow: '0 4px 15px rgba(0,0,0,1)', background: 'rgba(0,0,0,0.3)', padding: 'var(--space-md) var(--space-lg)', borderRadius: 'var(--radius-lg)', backdropFilter: 'blur(4px)' }}
           >
             Beyond reporting: We provide the data, audience, and platforms that drive Botswana's commercial future.
           </motion.p>
