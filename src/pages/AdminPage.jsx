@@ -10,6 +10,12 @@ const PLAN_COLORS = {
   annual: 'var(--color-gold)',
 };
 
+const RANGE_COLORS = {
+  monthly: 'var(--color-primary)',
+  weekly: 'var(--color-gold)',
+  daily: 'var(--color-sport-green)',
+};
+
 export default function AdminPage() {
   const { getAllUsers, revokeSubscription, user: adminUser } = useAuth();
   const [activeTab, setActiveTab] = useState('analytics'); // Default to analytics for "WOW" factor
@@ -224,11 +230,11 @@ export default function AdminPage() {
                           initial={{ height: 0 }}
                           animate={{ height: `${(item.value / maxValue) * 100}%` }}
                           transition={{ type: 'spring', damping: 20, stiffness: 100, delay: i * 0.05 }}
-                          style={{ width: '100%', background: 'linear-gradient(to top, var(--color-primary), var(--color-primary-light))', borderRadius: '6px 6px 2px 2px', position: 'relative' }} 
+                          style={{ width: '100%', background: `linear-gradient(to top, ${RANGE_COLORS[timeRange]}, ${RANGE_COLORS[timeRange]}dd)`, borderRadius: '6px 6px 2px 2px', position: 'relative' }} 
                           className="bar-hover"
                         >
                           <div className="bar-tooltip" style={{ position: 'absolute', top: '-45px', left: '50%', transform: 'translateX(-50%)', background: 'var(--color-dark)', color: 'white', padding: '8px 12px', borderRadius: '8px', fontSize: '10px', fontWeight: 700, whiteSpace: 'nowrap', opacity: 0, transition: 'opacity 0.2s', pointerEvents: 'none', boxShadow: 'var(--shadow-md)', zIndex: 10 }}>
-                            <div style={{ color: 'var(--color-primary-light)', marginBottom: 2 }}>P{item.value.toLocaleString()}</div>
+                            <div style={{ color: RANGE_COLORS[timeRange], marginBottom: 2, filter: 'brightness(1.5)' }}>P{item.value.toLocaleString()}</div>
                             <div style={{ opacity: 0.8 }}>{item.count} Subscribers</div>
                             <div style={{ position: 'absolute', bottom: '-4px', left: '50%', transform: 'translateX(-50%)', borderLeft: '4px solid transparent', borderRight: '4px solid transparent', borderTop: '4px solid var(--color-dark)' }} />
                           </div>
@@ -239,10 +245,10 @@ export default function AdminPage() {
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginTop: '16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '10px', color: 'var(--color-text-muted)', fontWeight: 600 }}>
-                      <div style={{ width: 8, height: 8, background: 'var(--color-primary)', borderRadius: '2px' }} /> Revenue (Pula)
+                      <div style={{ width: 8, height: 8, background: RANGE_COLORS[timeRange], borderRadius: '2px' }} /> Revenue (Pula)
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '10px', color: 'var(--color-text-muted)', fontWeight: 600 }}>
-                      <div style={{ width: 8, height: 8, background: '#cbd5e1', borderRadius: '2px' }} /> Growth Index
+                      <div style={{ width: 8, height: 8, background: '#cbd5e1', borderRadius: '2px' }} /> Baseline
                     </div>
                   </div>
                 </div>
