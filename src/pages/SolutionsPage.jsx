@@ -153,6 +153,100 @@ export default function SolutionsPage() {
         </div>
       </section>
 
+      {/* Future Integrations Roadmap */}
+      <section className="section section-alt" style={{ background: 'linear-gradient(135deg, #f0f4f8 0%, #e8ecf1 100%)' }}>
+        <div className="container">
+          <div className="section-header" style={{ justifyContent: 'center', borderBottom: 'none' }}>
+            <h2 className="section-title"><Globe size={24} style={{ color: 'var(--color-primary)', marginRight: 12 }} /> Future System Integrations</h2>
+          </div>
+          <p style={{ textAlign: 'center', color: 'var(--color-text-secondary)', maxWidth: '650px', margin: '0 auto var(--space-2xl)', fontSize: 'var(--text-md)', lineHeight: 1.7 }}>
+            Weekend Post is built for interoperability. Our platform is designed to seamlessly integrate with existing enterprise systems and future technology partners.
+          </p>
+
+          <div className="grid-3" style={{ gap: 'var(--space-xl)' }}>
+            {[
+              {
+                icon: <FileText size={28} />,
+                title: 'WordPress CMS Migration',
+                desc: 'Full editorial migration to WordPress with custom theme, plugin ecosystem, and headless API for future mobile apps.',
+                status: 'In Progress',
+                statusColor: '#F5A623',
+              },
+              {
+                icon: <BarChart size={28} />,
+                title: 'ERP & SAP Integration',
+                desc: 'Connect revenue, subscriptions, and advertiser billing directly to SAP or Oracle ERP for automated financial reconciliation.',
+                status: 'Planned Q3 2026',
+                statusColor: 'var(--color-primary)',
+              },
+              {
+                icon: <Smartphone size={28} />,
+                title: 'SMS & USSD Gateway',
+                desc: 'Mobile-first payment confirmations, breaking news alerts, and subscription management via Orange/Mascom USSD channels.',
+                status: 'Planned Q4 2026',
+                statusColor: 'var(--color-primary)',
+              },
+              {
+                icon: <Shield size={28} />,
+                title: 'Enterprise SSO / SAML',
+                desc: 'Single sign-on integration for corporate clients via Azure AD, Okta, or Google Workspace for seamless team access.',
+                status: 'Planned Q3 2026',
+                statusColor: 'var(--color-primary)',
+              },
+              {
+                icon: <Globe size={28} />,
+                title: 'Social Media & Analytics',
+                desc: 'Auto-publish to Facebook, X (Twitter), and LinkedIn. Consolidated social analytics dashboard for editors.',
+                status: 'Planned Q4 2026',
+                statusColor: 'var(--color-primary)',
+              },
+              {
+                icon: <Smartphone size={28} />,
+                title: 'Native Mobile Apps',
+                desc: 'iOS and Android apps with offline reading, push notifications, and biometric-secured login for subscribers.',
+                status: 'Planned 2027',
+                statusColor: '#94a3b8',
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                style={{
+                  background: 'white',
+                  padding: 'var(--space-xl)',
+                  borderRadius: 'var(--radius-xl)',
+                  border: '1px solid var(--color-border)',
+                  boxShadow: 'var(--shadow-sm)',
+                  position: 'relative',
+                }}
+              >
+                <div style={{
+                  position: 'absolute',
+                  top: 'var(--space-md)',
+                  right: 'var(--space-md)',
+                  background: item.statusColor,
+                  color: 'white',
+                  fontSize: '9px',
+                  fontWeight: 800,
+                  padding: '3px 8px',
+                  borderRadius: '4px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                }}>
+                  {item.status}
+                </div>
+                <div style={{ color: 'var(--color-primary)', marginBottom: 'var(--space-md)' }}>{item.icon}</div>
+                <h4 style={{ fontSize: 'var(--text-md)', marginBottom: 'var(--space-sm)' }}>{item.title}</h4>
+                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', lineHeight: 1.6 }}>{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Contact CTA */}
       <section className="section" style={{ paddingBottom: 'var(--space-4xl)' }}>
         <div className="container">

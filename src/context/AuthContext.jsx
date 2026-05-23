@@ -111,13 +111,23 @@ export function AuthProvider({ children }) {
         activeSessions[session.uid] === session.activeSessionId;
       if (fresh && isValidSession) {
         const { password: _, ...safe } = fresh;
-        setUser(safe);
+        setUser((current) => {
+          if (
+            current?.uid === safe.uid &&
+            current?.activeSessionId === safe.activeSessionId
+          ) {
+            return current;
+          }
+          return safe;
+        });
       } else {
         saveSession(null);
       }
     }
     setLoading(false);
+  }, []);
 
+  useEffect(() => {
     const handleStorage = (e) => {
       if (e.key !== ACTIVE_SESSIONS_KEY) return;
       const activeSessions = loadActiveSessions();
@@ -134,11 +144,13 @@ export function AuthProvider({ children }) {
 
   // ── login ──────────────────────────────────────────────────────────────────
   const login = useCallback(async (email, password) => {
+    const normalizedEmail = email.trim().toLowerCase();
+    const normalizedPassword = password.trim();
     const users = loadUsers();
     const idx = users.findIndex(
       (u) =>
-        u.email.toLowerCase() === email.toLowerCase() &&
-        u.password === password,
+        u.email.toLowerCase() === normalizedEmail &&
+        u.password === normalizedPassword,
     );
     if (idx === -1) throw new Error("Invalid email or password.");
 
@@ -154,32 +166,31 @@ export function AuthProvider({ children }) {
 
   // ── signup ─────────────────────────────────────────────────────────────────
   const signup = useCallback(async (name, email, password) => {
+    const normalizedEmail = email.trim().toLowerCase();
+    const normalizedPassword = password.trim();
     const users = loadUsers();
-    if (users.find((u) => u.email.toLowerCase() === email.toLowerCase())) {
+    if (users.find((u) => u.email.toLowerCase() === normalizedEmail)) {
       throw new Error("An account with this email already exists.");
     }
     const uid = `user-${Date.now()}`;
-    const sessionId = acquireSession(uid);
     const newUser = {
       uid,
       name: name.trim(),
-      email: email.trim().toLowerCase(),
-      password,
+      email: normalizedEmail,
+      password: normalizedPassword,
       isAdmin: false,
       isSubscribed: false,
       subscriptionPlan: null,
       subscriptionExpiry: null,
       subscriptionTier: null,
       purchasedStories: [],
-      activeSessionId: sessionId,
+      activeSessionId: null,
       createdAt: new Date().toISOString(),
       avatar: name.trim().charAt(0).toUpperCase(),
     };
     const updated = [...users, newUser];
     saveUsers(updated);
     const { password: _, ...safe } = newUser;
-    setUser(safe);
-    saveSession(safe);
     return safe;
   }, []);
 

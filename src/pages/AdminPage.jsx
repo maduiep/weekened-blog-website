@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Users,
@@ -54,6 +54,8 @@ export default function AdminPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [toast, setToast] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalType, setModalType] = useState(null);
 
   const allUsers = getAllUsers();
   const subscribers = allUsers.filter((u) => u.isSubscribed);
@@ -94,6 +96,35 @@ export default function AdminPage() {
 
   // Mock Analytics Data with timeframe support
   const [timeRange, setTimeRange] = useState("monthly");
+  const [activeReaders, setActiveReaders] = useState(0);
+
+  // Track active readers using the same key as AuthContext
+  useEffect(() => {
+    const KEY = "wp_active_sessions";
+    const read = () => {
+      try {
+        const raw = localStorage.getItem(KEY);
+        const obj = raw ? JSON.parse(raw) : {};
+        setActiveReaders(Object.keys(obj).length);
+      } catch (e) {
+        setActiveReaders(0);
+      }
+    };
+
+    read();
+
+    const onStorage = (e) => {
+      if (e.key && e.key !== KEY) return;
+      read();
+    };
+    window.addEventListener("storage", onStorage);
+
+    const poll = setInterval(read, 10000);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      clearInterval(poll);
+    };
+  }, []);
 
   const totalSubscribers = subscribers.length;
   const corporateSubs = subscribers.filter(
@@ -325,6 +356,13 @@ export default function AdminPage() {
               color: "var(--color-sport-green)",
             },
             {
+              icon: <Eye size={20} />,
+              label: "Active Readers",
+              value: activeReaders,
+              change: "+0%",
+              color: "var(--color-opinion-purple)",
+            },
+            {
               icon: <ShieldCheck size={20} />,
               label: "Enterprise Licenses",
               value: `${corporateSubs + enterpriseSubs}`,
@@ -479,8 +517,16 @@ export default function AdminPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <div className="admin-analytics-grid">
-                {/* Revenue Breakdown */}
+              <div
+                className="admin-analytics-grid"
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gridTemplateRows: "auto 1fr",
+                  gap: "var(--space-xl)",
+                }}
+              >
+                {/* Revenue Breakdown (top-left) */}
                 <div
                   className="admin-card"
                   style={{
@@ -489,6 +535,8 @@ export default function AdminPage() {
                     borderRadius: "var(--radius-xl)",
                     border: "1px solid var(--color-border)",
                     boxShadow: "var(--shadow-sm)",
+                    gridColumn: "1 / 2",
+                    gridRow: "1 / 2",
                   }}
                 >
                   <div
@@ -777,6 +825,8 @@ export default function AdminPage() {
                     padding: "var(--space-2xl)",
                     borderRadius: "var(--radius-xl)",
                     border: "1px solid var(--color-border)",
+                    gridColumn: "2 / 3",
+                    gridRow: "1 / 2",
                   }}
                 >
                   <h3
@@ -798,11 +848,18 @@ export default function AdminPage() {
                       gap: "16px",
                     }}
                   >
-                    <div
+                    <button
+                      onClick={() => {
+                        setModalType("average");
+                        setModalOpen(true);
+                      }}
                       style={{
                         background: "var(--color-bg-alt)",
                         borderRadius: "16px",
                         padding: "20px",
+                        textAlign: "left",
+                        border: "none",
+                        cursor: "pointer",
                       }}
                     >
                       <span
@@ -827,12 +884,19 @@ export default function AdminPage() {
                       >
                         Based on recent subscriber feedback.
                       </div>
-                    </div>
-                    <div
+                    </button>
+                    <button
+                      onClick={() => {
+                        setModalType("nps");
+                        setModalOpen(true);
+                      }}
                       style={{
                         background: "var(--color-bg-alt)",
                         borderRadius: "16px",
                         padding: "20px",
+                        textAlign: "left",
+                        border: "none",
+                        cursor: "pointer",
                       }}
                     >
                       <span
@@ -857,12 +921,19 @@ export default function AdminPage() {
                       >
                         Trending {feedbackData.sentimentTrend} month-over-month.
                       </div>
-                    </div>
-                    <div
+                    </button>
+                    <button
+                      onClick={() => {
+                        setModalType("positive");
+                        setModalOpen(true);
+                      }}
                       style={{
                         background: "var(--color-bg-alt)",
                         borderRadius: "16px",
                         padding: "20px",
+                        textAlign: "left",
+                        border: "none",
+                        cursor: "pointer",
                       }}
                     >
                       <span
@@ -878,12 +949,19 @@ export default function AdminPage() {
                       <strong style={{ fontSize: "2rem" }}>
                         {feedbackData.positiveMentions}
                       </strong>
-                    </div>
-                    <div
+                    </button>
+                    <button
+                      onClick={() => {
+                        setModalType("response");
+                        setModalOpen(true);
+                      }}
                       style={{
                         background: "var(--color-bg-alt)",
                         borderRadius: "16px",
                         padding: "20px",
+                        textAlign: "left",
+                        border: "none",
+                        cursor: "pointer",
                       }}
                     >
                       <span
@@ -899,7 +977,7 @@ export default function AdminPage() {
                       <strong style={{ fontSize: "2rem" }}>
                         {feedbackData.responseRate}
                       </strong>
-                    </div>
+                    </button>
                   </div>
                 </div>
 
@@ -911,6 +989,10 @@ export default function AdminPage() {
                     padding: "var(--space-2xl)",
                     borderRadius: "var(--radius-xl)",
                     border: "1px solid var(--color-border)",
+                    gridColumn: "1 / -1",
+                    gridRow: "2 / 3",
+                    height: "100%",
+                    overflow: "visible",
                   }}
                 >
                   <h3
@@ -969,6 +1051,185 @@ export default function AdminPage() {
                 </div>
               </div>
 
+              {/* Feedback Modal */}
+              <AnimatePresence>
+                {modalOpen && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    style={{
+                      position: "fixed",
+                      inset: 0,
+                      background: "rgba(0,0,0,0.45)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      zIndex: 2000,
+                      padding: "24px",
+                    }}
+                    onClick={() => setModalOpen(false)}
+                  >
+                    <motion.div
+                      initial={{ scale: 0.98 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0.98 }}
+                      style={{
+                        background: "white",
+                        borderRadius: "12px",
+                        width: "min(900px,100%)",
+                        maxHeight: "80vh",
+                        overflow: "auto",
+                        padding: "20px",
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          marginBottom: 12,
+                        }}
+                      >
+                        <h3 style={{ margin: 0, fontSize: "18px" }}>
+                          {modalType === "average" && "Average Rating Details"}
+                          {modalType === "nps" && "NPS Score Breakdown"}
+                          {modalType === "positive" && "Positive Mentions"}
+                          {modalType === "response" && "Response Rate"}
+                        </h3>
+                        <button
+                          className="btn btn-ghost"
+                          onClick={() => setModalOpen(false)}
+                        >
+                          Close
+                        </button>
+                      </div>
+                      <div>
+                        {modalType === "average" && (
+                          <div>
+                            <p>Average score over time:</p>
+                            <svg
+                              width="100%"
+                              height="120"
+                              viewBox="0 0 400 120"
+                            >
+                              <polyline
+                                fill="none"
+                                stroke="#0b7285"
+                                strokeWidth="3"
+                                points="0,90 60,70 120,50 180,60 240,40 300,30 360,35"
+                              />
+                            </svg>
+                          </div>
+                        )}
+                        {modalType === "nps" && (
+                          <div>
+                            <p>NPS distribution:</p>
+                            <svg
+                              width="100%"
+                              height="120"
+                              viewBox="0 0 400 120"
+                            >
+                              <rect
+                                x="10"
+                                y="30"
+                                width="100"
+                                height="50"
+                                fill="#f6c85f"
+                              />
+                              <rect
+                                x="120"
+                                y="20"
+                                width="120"
+                                height="60"
+                                fill="#0b7285"
+                              />
+                              <rect
+                                x="250"
+                                y="45"
+                                width="120"
+                                height="35"
+                                fill="#d3d3d3"
+                              />
+                            </svg>
+                          </div>
+                        )}
+                        {modalType === "positive" && (
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: 16,
+                              alignItems: "center",
+                            }}
+                          >
+                            <svg
+                              width="120"
+                              height="120"
+                              viewBox="0 0 42 42"
+                              style={{ flex: "none" }}
+                            >
+                              <circle
+                                r="15.9155"
+                                cx="21"
+                                cy="21"
+                                fill="#f1f5f9"
+                              />
+                              <circle
+                                r="15.9155"
+                                cx="21"
+                                cy="21"
+                                fill="transparent"
+                                stroke="#0b7285"
+                                strokeWidth="6"
+                                strokeDasharray="82 18"
+                                strokeDashoffset="25"
+                                transform="rotate(-90 21 21)"
+                              />
+                            </svg>
+                            <div>
+                              <p
+                                style={{
+                                  margin: 0,
+                                  fontWeight: 700,
+                                  fontSize: 24,
+                                }}
+                              >
+                                {feedbackData.positiveMentions}
+                              </p>
+                              <p style={{ marginTop: 8 }}>
+                                Share of positive mentions in recent responses.
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                        {modalType === "response" && (
+                          <div>
+                            <p>Response rate progress:</p>
+                            <div
+                              style={{
+                                background: "#f1f5f9",
+                                borderRadius: 8,
+                                height: 18,
+                                overflow: "hidden",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  width: feedbackData.responseRate,
+                                  height: "100%",
+                                  background: "#0b7285",
+                                }}
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               <div
                 className="admin-card"
                 style={{
@@ -996,62 +1257,8 @@ export default function AdminPage() {
                       gap: 8,
                     }}
                   >
-                    <Database size={18} color="var(--color-primary)" /> Future
-                    Integrations
-                  </h3>
-                  <span
-                    style={{
-                      fontSize: "11px",
-                      color: "var(--color-text-muted)",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.1em",
-                    }}
-                  >
-                    Roadmap
-                  </span>
-                </div>
-                <p
-                  style={{
-                    margin: 0,
-                    color: "var(--color-text-secondary)",
-                    lineHeight: 1.8,
-                  }}
-                >
-                  This platform is ready for future connected systems, with a
-                  clear path for CRM, CMS, payment gateway, and newsroom API
-                  integrations. Corporate clients can be onboarded with
-                  multi-tier licensing and dedicated data feeds.
-                </p>
-              </div>
-
-              {/* Content Value Report */}
-              <div
-                className="admin-card"
-                style={{
-                  background: "white",
-                  padding: "var(--space-2xl)",
-                  borderRadius: "var(--radius-xl)",
-                  border: "1px solid var(--color-border)",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: "var(--space-xl)",
-                  }}
-                >
-                  <h3
-                    style={{
-                      margin: 0,
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 8,
-                    }}
-                  >
-                    <Database size={18} color="var(--color-primary)" /> Content
-                    Value Report
+                    <Database size={18} color="var(--color-primary)" /> Top
+                    Content Performance
                   </h3>
                   <button className="btn btn-ghost btn-sm">Full Report</button>
                 </div>
