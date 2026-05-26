@@ -46,7 +46,7 @@ export default function AuthPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLoggedIn) navigate("/", { replace: true });
+    if (isLoggedIn) navigate(redirect || "/", { replace: true });
   }, [isLoggedIn, navigate]);
 
   useEffect(() => {
@@ -81,12 +81,6 @@ export default function AuthPage() {
   const handleSignUp = async (e) => {
     e.preventDefault();
     setError("");
-
-    // Unique User Validation (Simulation)
-    if (signUpData.email.includes("taken")) {
-      setError("This email address is already registered. Please sign in.");
-      return;
-    }
 
     if (signUpData.password.trim() !== signUpData.confirm.trim()) {
       setError("Passwords do not match.");
