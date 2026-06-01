@@ -24,3 +24,10 @@ dist-ssr
 *.sw?
 
 .vercel
+
+# Sensitive files and Prompts
+impl_prompt_template.md
+review_prompt_impl.md
+DEMO_SCRIPT.md
+.env
+.env.*
