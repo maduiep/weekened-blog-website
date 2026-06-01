@@ -148,7 +148,7 @@ export default function HomePage() {
                       <p style={{ fontSize: '13px', margin: 0, lineHeight: 1.4, color: 'var(--color-dark)', fontWeight: 600 }}>{update.text}</p>
                     </div>
                   ))}
-                  <button className="btn btn-ghost btn-sm btn-block" style={{ marginTop: '12px', fontSize: '11px' }}>Full Coverage Archive</button>
+                  <Link to="/news" className="btn btn-ghost btn-sm btn-block" style={{ marginTop: '12px', fontSize: '11px', textAlign: 'center', display: 'block' }}>Full Coverage Archive</Link>
                 </div>
               </div>
 
