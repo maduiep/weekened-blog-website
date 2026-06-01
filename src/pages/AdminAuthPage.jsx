@@ -154,8 +154,13 @@ export default function AdminAuthPage() {
       {/* Form Side */}
       <div className="auth-form-container">
         <div className="auth-form">
-          <div className="auth-tabs" style={{ display: 'flex', justifyContent: 'center' }}>
-            <h3 style={{ margin: 0, padding: 'var(--space-md) 0' }}>Staff Login</h3>
+          <div
+            className="auth-tabs"
+            style={{ display: "flex", justifyContent: "center" }}
+          >
+            <h3 style={{ margin: 0, padding: "var(--space-md) 0" }}>
+              Staff Login
+            </h3>
           </div>
 
           <motion.form
@@ -245,11 +250,30 @@ export default function AdminAuthPage() {
               type="submit"
               className="btn btn-primary btn-lg btn-block"
               disabled={loading}
-              style={{ marginTop: "var(--space-md)", background: "var(--color-dark)" }}
+              style={{
+                marginTop: "var(--space-md)",
+                background: "var(--color-dark)",
+              }}
             >
               {loading ? "Authenticating..." : "Sign In to Dashboard"}
             </button>
           </motion.form>
+
+          <div
+            style={{
+              marginTop: "var(--space-md)",
+              padding: "14px 16px",
+              borderRadius: "16px",
+              background: "rgba(0, 126, 151, 0.08)",
+              border: "1px solid rgba(0, 126, 151, 0.15)",
+              color: "var(--color-dark)",
+              fontSize: "13px",
+              lineHeight: 1.6,
+            }}
+          >
+            <strong>Demo Admin:</strong> admin@weekendpost.co.bw /{" "}
+            <strong>Admin@1234</strong>
+          </div>
 
           {/* Alerts */}
           <div style={{ marginTop: "var(--space-lg)" }}>
