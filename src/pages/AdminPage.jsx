@@ -21,6 +21,7 @@ import {
   Settings,
   Database,
   FileText,
+  Mail,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import CMSEditor from "../components/admin/CMSEditor";
