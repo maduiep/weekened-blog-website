@@ -556,9 +556,26 @@ export default function AdminPage() {
               display: "flex",
               alignItems: "center",
               gap: 8,
+              position: "relative"
             }}
           >
             <Mail size={16} /> User Requests
+            {contactMessages.filter(m => m.status === 'Unread').length > 0 && (
+              <span style={{
+                position: 'absolute',
+                top: '-4px',
+                right: '-4px',
+                background: 'var(--color-news-red)',
+                color: 'white',
+                fontSize: '10px',
+                fontWeight: 'bold',
+                padding: '2px 6px',
+                borderRadius: '10px',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+              }}>
+                {contactMessages.filter(m => m.status === 'Unread').length}
+              </span>
+            )}
           </button>
           <button
             onClick={() => setActiveTab("users")}
