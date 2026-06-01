@@ -6,8 +6,13 @@ export default function ArticleCard({ article, large = false, horizontal = false
 
   return (
     <div className={`article-card ${large ? 'article-card-large' : ''} ${horizontal ? 'article-card-horizontal' : ''}`}>
-      <div className="article-card-image">
-        <img src={article.image} alt={article.title} loading="lazy" />
+      <div className="article-card-image" style={{ background: 'var(--color-bg-alt)' }}>
+        <img 
+          src={article.image || 'https://images.unsplash.com/photo-1586339949916-3e9ed920624c?w=800&q=80'} 
+          alt={article.title} 
+          loading="lazy" 
+          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+        />
         {catInfo && (
           <Link to={`/category/${article.category}`} className={`badge ${catInfo.badge}`}>
             {catInfo.name}
@@ -15,16 +20,16 @@ export default function ArticleCard({ article, large = false, horizontal = false
         )}
       </div>
       <div className="article-card-body">
-        <h3 className="article-card-title">
+        <h3 className="article-card-title" style={{ fontFamily: 'var(--font-headline)' }}>
           <Link to={`/article/${article.id}`}>{article.title}</Link>
         </h3>
-        <p className="article-card-excerpt">{article.excerpt}</p>
+        {article.excerpt && <p className="article-card-excerpt">{article.excerpt}</p>}
         <div className="article-card-meta">
-          <span className="author">{article.author}</span>
-          <span className="dot" />
-          <span>{article.date}</span>
-          <span className="dot" />
-          <span>{article.readTime}</span>
+          {article.author && <span className="author">{article.author}</span>}
+          {article.author && article.date && <span className="dot" />}
+          {article.date && <span>{article.date}</span>}
+          {article.date && article.readTime && <span className="dot" />}
+          {article.readTime && <span>{article.readTime}</span>}
         </div>
       </div>
     </div>

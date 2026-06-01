@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import ReactMarkdown from 'react-markdown';
 import {
   Clock,
   User,
@@ -337,19 +339,33 @@ export default function ArticlePage() {
   const related = articles
     .filter((a) => a.id !== article.id && a.category === article.category)
     .slice(0, 3);
-  const allContent = article.content || [];
+  const isMarkdown = typeof article.content === 'string';
+  const allContent = isMarkdown ? article.content : (article.content || []);
 
   const FREE_LIMIT = 3;
   const isOverLimit =
     !hasArticleAccess(article.id) && !isAdmin && viewCount > FREE_LIMIT;
   const hasFullAccess = isAdmin || hasArticleAccess(article.id);
   const isPremiumGate = article.isPremium && !hasArticleAccess(article.id);
-  const visibleContent =
-    hasFullAccess || !article.isPremium ? allContent : allContent.slice(0, 1); // Only 1 paragraph for premium gate
+  
+  let visibleContent;
+  if (isMarkdown) {
+    visibleContent = (hasFullAccess || !article.isPremium) ? allContent : allContent.substring(0, 300) + '...';
+  } else {
+    visibleContent = (hasFullAccess || !article.isPremium) ? allContent : allContent.slice(0, 1);
+  }
   const isBlurred = isPremiumGate || isOverLimit;
 
   return (
     <>
+      <Helmet>
+        <title>{article.title} | Weekend Post</title>
+        <meta name="description" content={article.summary || article.title} />
+        <meta property="og:title" content={article.title} />
+        <meta property="og:description" content={article.summary || article.title} />
+        {article.image && <meta property="og:image" content={article.image} />}
+      </Helmet>
+
       {/* Premium Reading Progress Bar */}
       <div
         className="reading-progress"
@@ -639,11 +655,17 @@ export default function ArticlePage() {
               >
                 {!isOverLimit ? (
                   <div style={{ position: "relative" }}>
-                    {visibleContent.map((paragraph, i) => (
-                      <p key={i} style={{ marginBottom: "1.5rem" }}>
-                        {paragraph}
-                      </p>
-                    ))}
+                    {isMarkdown ? (
+                      <div className="article-content markdown-preview" style={{ fontSize: '18px', lineHeight: 1.8 }}>
+                        <ReactMarkdown>{visibleContent}</ReactMarkdown>
+                      </div>
+                    ) : (
+                      visibleContent.map((paragraph, i) => (
+                        <p key={i} style={{ marginBottom: "1.5rem" }}>
+                          {paragraph}
+                        </p>
+                      ))
+                    )}
                     {isLoggedIn && (
                       <div
                         className="digital-watermark"

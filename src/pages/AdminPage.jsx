@@ -18,9 +18,13 @@ import {
   Filter,
   Download,
   LayoutDashboard,
+  Settings,
   Database,
+  FileText,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import CMSEditor from "../components/admin/CMSEditor";
+import AdminManagement from "../components/admin/AdminManagement";
 import { Link } from "react-router-dom";
 
 const PLAN_COLORS = {
@@ -540,6 +544,50 @@ export default function AdminPage() {
             }}
           >
             <Users size={16} /> Customers
+          </button>
+          <button
+            onClick={() => setActiveTab("cms")}
+            style={{
+              padding: "8px 20px",
+              borderRadius: "8px",
+              border: "none",
+              background: activeTab === "cms" ? "white" : "transparent",
+              color:
+                activeTab === "cms"
+                  ? "var(--color-primary)"
+                  : "var(--color-text-muted)",
+              fontWeight: 700,
+              cursor: "pointer",
+              transition: "all 0.2s",
+              fontSize: "13px",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <FileText size={16} /> CMS / Articles
+          </button>
+          <button
+            onClick={() => setActiveTab("admins")}
+            style={{
+              padding: "8px 20px",
+              borderRadius: "8px",
+              border: "none",
+              background: activeTab === "admins" ? "white" : "transparent",
+              color:
+                activeTab === "admins"
+                  ? "var(--color-primary)"
+                  : "var(--color-text-muted)",
+              fontWeight: 700,
+              cursor: "pointer",
+              transition: "all 0.2s",
+              fontSize: "13px",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <ShieldCheck size={16} /> Admin Roles
           </button>
           <button
             onClick={() => setActiveTab("logs")}
@@ -1689,6 +1737,26 @@ export default function AdminPage() {
                   </table>
                 </div>
               </div>
+            </motion.div>
+          )}
+          {activeTab === "cms" && (
+            <motion.div
+              key="cms"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <CMSEditor />
+            </motion.div>
+          )}
+          {activeTab === "admins" && (
+            <motion.div
+              key="admins"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <AdminManagement />
             </motion.div>
           )}
           {activeTab === "logs" && (

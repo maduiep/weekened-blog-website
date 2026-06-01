@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Check,
@@ -68,6 +69,12 @@ export default function SubscribePage() {
 
   return (
     <>
+      <Helmet>
+        <title>Subscribe & Premium Access | Weekend Post</title>
+        <meta name="description" content="Subscribe to Weekend Post for premium business analysis, E-Paper editions, and unlimited access to Botswana's top news." />
+        <meta property="og:title" content="Subscribe to Weekend Post" />
+      </Helmet>
+
       {/* Hero */}
       <section className="subscribe-hero">
         <div className="container">

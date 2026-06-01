@@ -659,7 +659,7 @@ export default function EPaperPage() {
               <Link to="/solutions" className="btn btn-primary btn-lg">
                 Enterprise Solutions
               </Link>
-              <Link to="/contact" className="btn btn-ghost btn-lg">
+              <Link to="/contact" className="btn btn-ghost btn-lg" style={{ color: "white" }}>
                 Request a Demo
               </Link>
             </div>

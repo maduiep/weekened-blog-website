@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, ChevronRight, ArrowRight, Mail, Play, Shield, Globe, Award, Target, Zap, Clock, TrendingUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ArticleCard from '../components/articles/ArticleCard';

@@ -1,4 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { ArrowRight, Mail, TrendingUp, ShieldCheck } from 'lucide-react';
 import ArticleCard from '../components/articles/ArticleCard';
 import AdPlacement from '../components/ui/AdPlacement';
@@ -15,6 +16,12 @@ export default function CategoryPage() {
 
   return (
     <>
+      <Helmet>
+        <title>{catInfo?.name || slug} News | Weekend Post</title>
+        <meta name="description" content={`Premium ${catInfo?.name?.toLowerCase() || slug} coverage and commercial insights for Botswana.`} />
+        <meta property="og:title" content={`${catInfo?.name || slug} - Weekend Post`} />
+      </Helmet>
+
       {/* Page Header */}
       <div className="page-header" style={{ position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0.05, background: 'var(--color-primary)', pointerEvents: 'none' }} />

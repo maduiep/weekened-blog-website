@@ -1,4 +1,4 @@
-export const articles = [
+const defaultArticles = [
   {
     id: 1,
     title: "Oil price dip masks looming supply issues",
@@ -513,12 +513,29 @@ export const paymentMethods = [
 ];
 
 
+export const articles = (() => {
+  if (typeof window !== 'undefined') {
+    const local = JSON.parse(localStorage.getItem('wp_local_articles') || '[]');
+    // Auto-migrate any articles created with the old schema
+    const migratedLocal = local.map(a => ({
+      ...a,
+      image: a.image || a.image_url,
+      excerpt: a.excerpt || a.summary,
+      author: a.author || 'Admin',
+      date: a.date || (a.published_at ? new Date(a.published_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'Today'),
+      readTime: a.readTime || '3 min read'
+    }));
+    return [...migratedLocal, ...defaultArticles];
+  }
+  return defaultArticles;
+})();
+
 export function getArticlesByCategory(categorySlug) {
   return articles.filter((a) => a.category === categorySlug);
 }
 
 export function getArticleById(id) {
-  return articles.find((a) => a.id === Number(id));
+  return articles.find((a) => String(a.id) === String(id));
 }
 
 export function getFeaturedArticles() {
