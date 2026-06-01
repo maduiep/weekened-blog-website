@@ -25,6 +25,11 @@ export default function App() {
   const location = useLocation();
   const [showShortcutTip, setShowShortcutTip] = useState(false);
 
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   // Global Keyboard Shortcuts
   useEffect(() => {
     const handleKeyDown = (e) => {
