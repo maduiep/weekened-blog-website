@@ -19,10 +19,11 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
-import { paymentMethods } from "../../data/articles";
+import { getPaymentMethods } from "../../utils/settings";
 
 export default function PaymentModal({ plan, onClose, redirect }) {
-  const [tab, setTab] = useState(plan?.defaultMethod || paymentMethods[0].id);
+  const [paymentMethods, setPaymentMethods] = useState(getPaymentMethods());
+  const [tab, setTab] = useState(plan?.defaultMethod || getPaymentMethods()[0]?.id);
   const [step, setStep] = useState("form"); // form | otp | processing | success | upload
   const [demoSms, setDemoSms] = useState(false);
   const [proofFile, setProofFile] = useState(null);

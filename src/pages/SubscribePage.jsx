@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -16,11 +16,19 @@ import {
   Copy,
 } from "lucide-react";
 import PaymentModal from "../components/payment/PaymentModal";
-import { subscriptionPlans, paymentMethods } from "../data/articles";
+import { getSubscriptionPlans, getPaymentMethods } from "../utils/settings";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function SubscribePage() {
+  const [subscriptionPlans, setSubscriptionPlans] = useState(getSubscriptionPlans());
+  const [paymentMethods, setPaymentMethods] = useState(getPaymentMethods());
+
+  useEffect(() => {
+    setSubscriptionPlans(getSubscriptionPlans());
+    setPaymentMethods(getPaymentMethods());
+  }, []);
+
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get("redirect");
   const [selectedPlan, setSelectedPlan] = useState(null);
@@ -559,7 +567,7 @@ export default function SubscribePage() {
                     Account Name
                   </span>
                   <strong style={{ color: "var(--color-dark)" }}>
-                    Weekend Post (Pty) Ltd
+                    {paymentMethods.find(m => m.type === 'bank-transfer')?.bankDetails?.accountName || 'Weekend Post (Pty) Ltd'}
                   </strong>
                 </div>
                 <div
@@ -588,7 +596,7 @@ export default function SubscribePage() {
                     Branch Code
                   </span>
                   <strong style={{ color: "var(--color-dark)" }}>
-                    281467 (Main)
+                    {paymentMethods.find(m => m.type === 'bank-transfer')?.bankDetails?.branchCode || '281467 (Main)'}
                   </strong>
                 </div>
               </div>

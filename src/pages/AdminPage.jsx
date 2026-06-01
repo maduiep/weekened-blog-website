@@ -26,6 +26,7 @@ import {
 import { useAuth } from "../context/AuthContext";
 import CMSEditor from "../components/admin/CMSEditor";
 import AdminManagement from "../components/admin/AdminManagement";
+import PlatformSettings from "../components/admin/PlatformSettings";
 import { Link } from "react-router-dom";
 
 const PLAN_COLORS = {
@@ -643,6 +644,28 @@ export default function AdminPage() {
             }}
           >
             <ShieldCheck size={16} /> Admin Roles
+          </button>
+          <button
+            onClick={() => setActiveTab("settings")}
+            style={{
+              padding: "8px 20px",
+              borderRadius: "8px",
+              border: "none",
+              background: activeTab === "settings" ? "white" : "transparent",
+              color:
+                activeTab === "settings"
+                  ? "var(--color-primary)"
+                  : "var(--color-text-muted)",
+              fontWeight: 700,
+              cursor: "pointer",
+              transition: "all 0.2s",
+              fontSize: "13px",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <Settings size={16} /> Platform Settings
           </button>
           <button
             onClick={() => setActiveTab("logs")}
@@ -1753,6 +1776,16 @@ export default function AdminPage() {
               exit={{ opacity: 0 }}
             >
               <AdminManagement />
+            </motion.div>
+          )}
+          {activeTab === "settings" && (
+            <motion.div
+              key="settings"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <PlatformSettings />
             </motion.div>
           )}
           {activeTab === "logs" && (
