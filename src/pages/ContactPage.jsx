@@ -1,7 +1,35 @@
-import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
+import { useState } from 'react';
+import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newMessage = {
+      id: crypto.randomUUID(),
+      ...formData,
+      date: new Date().toISOString(),
+      status: 'Unread'
+    };
+
+    const existing = JSON.parse(localStorage.getItem('wp_contact_messages') || '[]');
+    localStorage.setItem('wp_contact_messages', JSON.stringify([newMessage, ...existing]));
+
+    setSubmitted(true);
+    setFormData({ name: '', email: '', subject: '', message: '' });
+    
+    // Reset success message after 5 seconds
+    setTimeout(() => setSubmitted(false), 5000);
+  };
+
   return (
     <>
       {/* Page Header */}
@@ -25,37 +53,75 @@ export default function ContactPage() {
           {/* Contact Form */}
           <div>
             <h3 style={{ marginBottom: 'var(--space-xl)' }}>Send Us a Message</h3>
-            <form onSubmit={e => e.preventDefault()}>
-              <div className="form-row">
-                <div className="form-group">
-                  <label className="form-label">Full Name</label>
-                  <input type="text" className="form-input" placeholder="Your name" required />
+            
+            {submitted ? (
+              <div style={{ background: 'rgba(39, 174, 96, 0.1)', border: '1px solid var(--color-sport-green)', padding: 'var(--space-xl)', borderRadius: 'var(--radius-lg)', textAlign: 'center' }}>
+                <CheckCircle size={48} color="var(--color-sport-green)" style={{ margin: '0 auto var(--space-md)' }} />
+                <h4 style={{ color: 'var(--color-sport-green)', marginBottom: 'var(--space-sm)' }}>Message Sent Successfully!</h4>
+                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', margin: 0 }}>
+                  Thank you for reaching out. Our team will review your message and get back to you shortly.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label className="form-label">Full Name</label>
+                    <input 
+                      type="text" 
+                      className="form-input" 
+                      placeholder="Your name" 
+                      required 
+                      value={formData.name}
+                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Email</label>
+                    <input 
+                      type="email" 
+                      className="form-input" 
+                      placeholder="you@example.com" 
+                      required 
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    />
+                  </div>
                 </div>
                 <div className="form-group">
-                  <label className="form-label">Email</label>
-                  <input type="email" className="form-input" placeholder="you@example.com" required />
+                  <label className="form-label">Subject</label>
+                  <select 
+                    className="form-input" 
+                    required
+                    value={formData.subject}
+                    onChange={(e) => setFormData({...formData, subject: e.target.value})}
+                  >
+                    <option value="">Select a subject</option>
+                    <option value="News Tip">News Tip</option>
+                    <option value="Advertising Inquiry">Advertising Inquiry</option>
+                    <option value="Subscription Support">Subscription Support</option>
+                    <option value="General Feedback">General Feedback</option>
+                    <option value="Partnership">Partnership</option>
+                    <option value="Other">Other</option>
+                  </select>
                 </div>
-              </div>
-              <div className="form-group">
-                <label className="form-label">Subject</label>
-                <select className="form-input">
-                  <option value="">Select a subject</option>
-                  <option>News Tip</option>
-                  <option>Advertising Inquiry</option>
-                  <option>Subscription Support</option>
-                  <option>General Feedback</option>
-                  <option>Partnership</option>
-                  <option>Other</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label className="form-label">Message</label>
-                <textarea className="form-input" rows={6} placeholder="Your message..." style={{ resize: 'vertical', minHeight: '140px' }} required />
-              </div>
-              <button type="submit" className="btn btn-primary btn-lg">
-                <Send size={16} /> Send Message
-              </button>
-            </form>
+                <div className="form-group">
+                  <label className="form-label">Message</label>
+                  <textarea 
+                    className="form-input" 
+                    rows={6} 
+                    placeholder="Your message..." 
+                    style={{ resize: 'vertical', minHeight: '140px' }} 
+                    required 
+                    value={formData.message}
+                    onChange={(e) => setFormData({...formData, message: e.target.value})}
+                  />
+                </div>
+                <button type="submit" className="btn btn-primary btn-lg">
+                  <Send size={16} /> Send Message
+                </button>
+              </form>
+            )}
           </div>
 
           {/* Contact Info */}

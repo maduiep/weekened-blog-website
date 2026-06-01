@@ -63,6 +63,8 @@ export default function AdminPage() {
   const [toast, setToast] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
+  const [contactMessages, setContactMessages] = useState([]);
+  const [selectedMessage, setSelectedMessage] = useState(null);
 
   const allUsers = getAllUsers();
   const subscribers = allUsers.filter((u) => u.isSubscribed);
@@ -143,10 +145,21 @@ export default function AdminPage() {
     };
     calcRevenue();
 
+    const readMessages = () => {
+      try {
+        const msgs = JSON.parse(localStorage.getItem('wp_contact_messages') || '[]');
+        setContactMessages(msgs);
+      } catch (e) {
+        setContactMessages([]);
+      }
+    };
+    readMessages();
+
     const onStorage = (e) => {
-      if (e.key && e.key !== KEY) return;
+      if (e.key && e.key !== KEY && e.key !== 'wp_transactions' && e.key !== 'wp_contact_messages') return;
       read();
       calcRevenue();
+      readMessages();
     };
     window.addEventListener("storage", onStorage);
 
@@ -491,14 +504,16 @@ export default function AdminPage() {
 
         {/* Tab Navigation */}
         <div
+          className="admin-tabs"
           style={{
             display: "flex",
             gap: "var(--space-md)",
-            background: "#e2e8f0",
-            padding: "4px",
+            background: "rgba(0,0,0,0.03)",
+            padding: "8px",
             borderRadius: "12px",
             width: "fit-content",
             marginBottom: "var(--space-xl)",
+            flexWrap: "wrap",
           }}
         >
           <button
@@ -522,6 +537,28 @@ export default function AdminPage() {
             }}
           >
             <BarChart2 size={16} /> Insights
+          </button>
+          <button
+            onClick={() => setActiveTab("messages")}
+            style={{
+              padding: "8px 20px",
+              borderRadius: "8px",
+              border: "none",
+              background: activeTab === "messages" ? "white" : "transparent",
+              color:
+                activeTab === "messages"
+                  ? "var(--color-primary)"
+                  : "var(--color-text-muted)",
+              fontWeight: 700,
+              cursor: "pointer",
+              transition: "all 0.2s",
+              fontSize: "13px",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <Mail size={16} /> User Requests
           </button>
           <button
             onClick={() => setActiveTab("users")}
@@ -1201,6 +1238,7 @@ export default function AdminPage() {
                           {modalType === "nps" && "NPS Score Breakdown"}
                           {modalType === "positive" && "Positive Mentions"}
                           {modalType === "response" && "Response Rate"}
+                          {modalType === "messageDetail" && "User Request Detail"}
                         </h3>
                         <button
                           className="btn btn-ghost"
@@ -1325,6 +1363,43 @@ export default function AdminPage() {
                                   background: "#0b7285",
                                 }}
                               />
+                            </div>
+                          </div>
+                        )}
+                        {modalType === "messageDetail" && selectedMessage && (
+                          <div style={{ color: "var(--color-text-muted)", fontSize: "14px", lineHeight: 1.6 }}>
+                            <div style={{ marginBottom: "var(--space-md)" }}>
+                              <strong>From:</strong> {selectedMessage.name} &lt;{selectedMessage.email}&gt;
+                              <br />
+                              <strong>Date:</strong> {formatDate(selectedMessage.date)}
+                              <br />
+                              <strong>Subject:</strong> {selectedMessage.subject}
+                              <br />
+                              <strong>Status:</strong> {selectedMessage.status}
+                            </div>
+                            <div style={{ background: "rgba(0,0,0,0.03)", padding: "var(--space-md)", borderRadius: "8px", border: "1px solid var(--color-border)", minHeight: "100px", whiteSpace: "pre-wrap" }}>
+                              {selectedMessage.message}
+                            </div>
+                            <div style={{ marginTop: "var(--space-lg)", display: "flex", justifyContent: "flex-end" }}>
+                              {selectedMessage.status !== "Resolved" && (
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={() => {
+                                    const msgs = [...contactMessages];
+                                    const idx = msgs.findIndex(m => m.id === selectedMessage.id);
+                                    if (idx !== -1) {
+                                      msgs[idx].status = "Resolved";
+                                      setContactMessages(msgs);
+                                      localStorage.setItem('wp_contact_messages', JSON.stringify(msgs));
+                                      showToast("Message marked as resolved!");
+                                      setModalOpen(false);
+                                    }
+                                  }}
+                                  style={{ background: "var(--color-sport-green)", border: "none" }}
+                                >
+                                  Mark as Resolved
+                                </button>
+                              )}
                             </div>
                           </div>
                         )}
@@ -1733,6 +1808,124 @@ export default function AdminPage() {
                           </td>
                         </tr>
                       ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </motion.div>
+          )}
+          {activeTab === "messages" && (
+            <motion.div
+              key="messages"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <div
+                className="admin-card"
+                style={{
+                  background: "white",
+                  padding: "var(--space-2xl)",
+                  borderRadius: "var(--radius-xl)",
+                  border: "1px solid var(--color-border)",
+                  boxShadow: "var(--shadow-sm)",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: "var(--space-xl)",
+                  }}
+                >
+                  <h3 style={{ margin: 0, color: "var(--color-dark)" }}>
+                    User Requests
+                  </h3>
+                </div>
+
+                <div className="table-responsive" style={{ overflowX: "auto" }}>
+                  <table
+                    className="admin-table"
+                    style={{ width: "100%", borderCollapse: "collapse" }}
+                  >
+                    <thead>
+                      <tr
+                        style={{
+                          background: "var(--color-bg)",
+                          borderBottom: "1px solid var(--color-border)",
+                        }}
+                      >
+                        <th style={{ padding: "var(--space-md)", textAlign: "left", fontSize: "12px", color: "var(--color-text-muted)", textTransform: "uppercase", letterSpacing: "0.5px" }}>Date</th>
+                        <th style={{ padding: "var(--space-md)", textAlign: "left", fontSize: "12px", color: "var(--color-text-muted)", textTransform: "uppercase", letterSpacing: "0.5px" }}>User</th>
+                        <th style={{ padding: "var(--space-md)", textAlign: "left", fontSize: "12px", color: "var(--color-text-muted)", textTransform: "uppercase", letterSpacing: "0.5px" }}>Subject</th>
+                        <th style={{ padding: "var(--space-md)", textAlign: "center", fontSize: "12px", color: "var(--color-text-muted)", textTransform: "uppercase", letterSpacing: "0.5px" }}>Status</th>
+                        <th style={{ padding: "var(--space-md)", textAlign: "right", fontSize: "12px", color: "var(--color-text-muted)", textTransform: "uppercase", letterSpacing: "0.5px" }}>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {contactMessages.length === 0 ? (
+                        <tr>
+                          <td colSpan="5" style={{ padding: "var(--space-2xl)", textAlign: "center", color: "var(--color-text-muted)" }}>
+                            No user requests found.
+                          </td>
+                        </tr>
+                      ) : (
+                        contactMessages.map((msg) => (
+                          <tr
+                            key={msg.id}
+                            style={{ borderBottom: "1px solid var(--color-border)" }}
+                          >
+                            <td style={{ padding: "var(--space-md)", fontSize: "14px", color: "var(--color-text-muted)" }}>
+                              {formatDate(msg.date)}
+                            </td>
+                            <td style={{ padding: "var(--space-md)" }}>
+                              <div style={{ fontWeight: 600, color: "var(--color-dark)", fontSize: "14px" }}>{msg.name}</div>
+                              <div style={{ fontSize: "12px", color: "var(--color-text-muted)" }}>{msg.email}</div>
+                            </td>
+                            <td style={{ padding: "var(--space-md)", fontSize: "14px" }}>
+                              {msg.subject}
+                            </td>
+                            <td style={{ padding: "var(--space-md)", textAlign: "center" }}>
+                              <span
+                                style={{
+                                  padding: "4px 10px",
+                                  borderRadius: "100px",
+                                  fontSize: "11px",
+                                  fontWeight: 600,
+                                  background: msg.status === "Resolved" ? "rgba(39,174,96,0.1)" : "rgba(243,156,18,0.1)",
+                                  color: msg.status === "Resolved" ? "var(--color-sport-green)" : "var(--color-gold)",
+                                }}
+                              >
+                                {msg.status}
+                              </span>
+                            </td>
+                            <td style={{ padding: "var(--space-md)", textAlign: "right" }}>
+                              <button
+                                className="admin-action-btn"
+                                title="Full Detail"
+                                onClick={() => {
+                                  setSelectedMessage(msg);
+                                  setModalType("messageDetail");
+                                  setModalOpen(true);
+                                }}
+                                style={{
+                                  background: "rgba(0,126,151,0.05)",
+                                  color: "var(--color-primary)",
+                                  fontWeight: 600,
+                                  fontSize: "12px",
+                                  padding: "6px 12px",
+                                  borderRadius: "6px",
+                                  border: "none",
+                                  cursor: "pointer"
+                                }}
+                              >
+                                Full Detail
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                      )}
                     </tbody>
                   </table>
                 </div>
