@@ -11,8 +11,10 @@ export const articles = [
     image:
       "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800&q=80",
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4", // Demo video
+    videoDuration: "2:34",
     featured: true,
     isPremium: true, // Premium article
+    price: 25,
     content: [
       "Global oil prices have dipped to their lowest levels in recent months, offering temporary relief to consumers and businesses in Botswana. However, energy analysts are warning that this reprieve may be short-lived as fundamental supply-side constraints continue to build beneath the surface.",
       "The current price decline has been driven by a combination of weaker-than-expected demand from major economies and a brief surge in output from several OPEC+ members. Brent crude fell below $65 per barrel last week, marking a significant retreat from the highs seen earlier this year.",
@@ -35,6 +37,7 @@ export const articles = [
       "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80",
     featured: true,
     isPremium: true,
+    price: 25,
     content: [
       "Non-performing loans in Botswana's banking sector have reached P8 billion, according to the Bank of Botswana's latest Financial Stability Report — a figure that has sent ripples of concern through the financial industry.",
       "The surge represents a 23% increase from the previous reporting period and reflects the growing financial strain on both households and businesses in the post-pandemic economic landscape.",
@@ -57,6 +60,8 @@ export const articles = [
     featured: false,
     isPremium: false, // Free article
     isSponsored: true, // Sponsored tag
+    price: 0,
+    price: 0,
     content: [
       "Botswana's economic outlook has dimmed further as international financial institutions slash growth forecasts amid an extended slump in the global diamond market.",
       "The International Monetary Fund (IMF) has revised its GDP growth projection for Botswana to 3.1% from an earlier estimate of 4.2%, citing prolonged weakness in rough diamond demand.",
@@ -77,6 +82,8 @@ export const articles = [
       "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80",
     featured: false,
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+    videoDuration: "1:48",
+    price: 15,
     content: [
       "BOCONGO has formally submitted its concerns regarding the proposed Constitutional Court Bill, calling for extensive public consultation before the legislation proceeds to Parliament.",
       "The organization argues that the current draft contains provisions that could compromise the independence of the proposed court, particularly around the appointment process for judges.",
@@ -96,6 +103,9 @@ export const articles = [
     image:
       "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800&q=80",
     featured: false,
+    videoUrl: "https://www.w3schools.com/html/movie.mp4",
+    videoDuration: "3:15",
+    price: 15,
     content: [
       "Gaborone came alive this weekend as over 2,000 young runners participated in the annual Absa Summer Kids Marathon, making it the largest children's athletic event in Botswana's history.",
       "The event, which has grown steadily since its inception five years ago, saw children aged 5 to 15 compete in various categories along a scenic route through the capital's central district.",
@@ -114,6 +124,10 @@ export const articles = [
     image:
       "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&q=80",
     featured: false,
+    isPremium: true,
+    price: 25,
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+    videoDuration: "4:02",
     content: [
       "The Botswana Football Association has set its sights on the biggest prize in world football with an audacious ten-year plan to qualify for the FIFA World Cup by 2036.",
       "The strategic blueprint, unveiled at a press conference in Gaborone, outlines investments in youth development, coaching infrastructure, and grassroots programs.",
@@ -131,6 +145,7 @@ export const articles = [
     image:
       "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80",
     featured: false,
+    price: 15,
     content: [
       "A Botswana Zebras squad member has been deported after immigration authorities raised concerns about the validity of travel documents used to enter the country.",
       "The incident has raised questions about the vetting processes within the BFA's administrative systems.",
@@ -148,6 +163,10 @@ export const articles = [
     image:
       "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=800&q=80",
     featured: false,
+    isPremium: true,
+    price: 25,
+    videoUrl: "https://www.w3schools.com/html/movie.mp4",
+    videoDuration: "2:10",
     content: [
       "The unexpected diplomatic breakthrough between the United States and Iran is poised to reshape global commodity markets, with analysts scrambling to identify the winners and losers.",
       "For Botswana, the deal's impact on energy prices could provide economic relief, though the potential increase in Iranian mineral exports may create new competitive pressures.",
@@ -165,6 +184,8 @@ export const articles = [
     image:
       "https://images.unsplash.com/photo-1589994965851-a8f479c573a9?w=800&q=80",
     featured: false,
+    isPremium: true,
+    price: 25,
     content: [
       "Legal proceedings in one of Botswana's most closely-watched cases have hit a new procedural hurdle as the defendant's legal team mounts a constitutional challenge.",
       "The application argues that the prosecution has violated several provisions of the Bill of Rights, including protections against unreasonable delay and the right to a fair hearing.",
@@ -182,6 +203,7 @@ export const articles = [
     image:
       "https://images.unsplash.com/photo-1493612276216-ee3925520721?w=800&q=80",
     featured: false,
+    price: 15,
     content: [
       "There comes a time in every nation's journey when the gap between political rhetoric and lived reality becomes impossible to ignore.",
       "Botswana finds itself at precisely such a crossroads, where the promises of transformation must be measured against the daily experiences of ordinary citizens.",
@@ -199,6 +221,7 @@ export const articles = [
     image:
       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
     featured: false,
+    price: 15,
     content: [
       "For decades, the sparkle of diamonds has blinded us to the necessity of true economic diversification.",
       "We must aggressively pivot towards tech, finance, and logistics if we want to secure a prosperous future for the next generation of Batswana.",
@@ -216,6 +239,7 @@ export const articles = [
     image:
       "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
     featured: false,
+    price: 15,
     content: [
       "You cannot build world champions on dust and promises. The current state of our sporting facilities is a national embarrassment.",
       "If we are serious about Vision 2036, then infrastructure investment must be prioritized immediately.",
@@ -234,6 +258,7 @@ export const articles = [
     image:
       "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80",
     featured: false,
+    price: 15,
     content: [
       "The much-anticipated Ikageng public works programme has officially commenced across multiple districts, bringing hope of employment to thousands of Batswana.",
       "However, uncertainty over the wage payment timeline has tempered initial enthusiasm, with many participants expressing concern about when they will receive their first paycheck.",
@@ -251,6 +276,9 @@ export const articles = [
     image:
       "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=800&q=80",
     featured: false,
+    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+    videoDuration: "5:30",
+    price: 15,
     content: [
       "Netflix has released a sweeping documentary series exploring the tumultuous life of Winnie Madikizela-Mandela, drawing both praise and debate across the continent.",
       "The series features never-before-seen archival footage and interviews with those closest to the iconic South African political figure.",
@@ -402,6 +430,88 @@ export const subscriptionPlans = [
     ],
   },
 ];
+
+export const paymentMethods = [
+  {
+    id: 'myzaka',
+    name: 'Mascom MyZaka',
+    provider: 'Mascom Wireless',
+    icon: '📱',
+    color: '#00A651',
+    description: "Pay with Botswana's most popular mobile wallet",
+    instructions: 'Approve payment via MyZaka USSD menu',
+    ussdCode: '*167#',
+    type: 'mobile-money',
+    active: true,
+  },
+  {
+    id: 'orange-money',
+    name: 'Orange Money',
+    provider: 'Orange Botswana',
+    icon: '🟠',
+    color: '#FF6600',
+    description: 'Pay with your Orange Money wallet',
+    instructions: 'Dial *145# to approve payment',
+    ussdCode: '*145#',
+    type: 'mobile-money',
+    active: true,
+  },
+  {
+    id: 'smega',
+    name: 'BTC Smega',
+    provider: 'BTC (Botswana Telecom)',
+    icon: '📲',
+    color: '#1A237E',
+    description: 'Pay with your BTC Smega mobile wallet',
+    instructions: 'Dial *173# to approve payment',
+    ussdCode: '*173#',
+    type: 'mobile-money',
+    active: true,
+  },
+  {
+    id: 'flutterwave',
+    name: 'Flutterwave',
+    provider: 'Flutterwave',
+    icon: '💳',
+    color: '#F5A623',
+    description: 'Instant online payment via Card',
+    instructions: 'Enter your card securely',
+    type: 'card',
+    active: true,
+  },
+  {
+    id: 'bank-transfer',
+    name: 'Direct Bank Transfer',
+    provider: 'FNB / Stanbic / Absa / Standard Chartered',
+    icon: '🏦',
+    color: '#2E7D32',
+    description: 'Pay via direct bank transfer or EFT',
+    instructions: 'Transfer to our bank account and upload proof of payment',
+    bankDetails: {
+      bankName: 'First National Bank Botswana',
+      accountName: 'Weekend Post (Pty) Ltd',
+      accountNumber: '62845710093',
+      branchCode: '282267',
+      branchName: 'Gaborone Main',
+      swiftCode: 'FIABORONE',
+      reference: 'WP-SUB-{userId}',
+    },
+    type: 'bank-transfer',
+    active: true,
+  },
+  {
+    id: 'paypal',
+    name: 'PayPal',
+    provider: 'PayPal',
+    icon: '🅿️',
+    color: '#00457C',
+    description: 'Pay internationally with your PayPal account',
+    instructions: 'You will be redirected to PayPal to complete your purchase',
+    type: 'redirect',
+    active: true,
+  }
+];
+
 
 export function getArticlesByCategory(categorySlug) {
   return articles.filter((a) => a.category === categorySlug);

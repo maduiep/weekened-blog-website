@@ -29,8 +29,8 @@
   --color-text-light: #CCCCCC;
 
   /* Typography */
-  --font-headline: 'PT Serif', Georgia, 'Times New Roman', serif;
-  --font-body: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-headline: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'Roboto Mono', 'Courier New', monospace;
 
   /* Font Sizes */
@@ -64,12 +64,12 @@
   --radius-full: 9999px;
 
   /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
-  --shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.16);
-  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.12);
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.05);
+  --shadow-card-hover: 0 12px 32px rgba(0, 0, 0, 0.1);
 
   /* Transitions */
   --transition-fast: 150ms ease;
@@ -139,6 +139,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: 1.25;
   color: var(--color-dark);
+  font-variant-numeric: lining-nums;
 }
 
 h1 { font-size: var(--text-5xl); }
@@ -625,9 +626,14 @@ input, textarea, select {
   font-family: var(--font-headline);
   font-size: var(--text-lg);
   font-weight: 700;
-  line-height: 1.3;
+  line-height: 1.35;
   margin-bottom: var(--space-sm);
   color: var(--color-dark);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: calc(1.35 * 1.125rem * 2); /* Force 2 lines */
 }
 
 .article-card-title a {
@@ -819,7 +825,7 @@ input, textarea, select {
    Category Section
    ======================================== */
 .section {
-  padding: var(--space-3xl) 0;
+  padding: var(--space-4xl) 0;
 }
 
 .section-alt {
@@ -843,6 +849,7 @@ input, textarea, select {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
+  font-variant-numeric: lining-nums;
 }
 
 .section-title .title-accent {
@@ -1661,12 +1668,13 @@ input, textarea, select {
 }
 
 .pricing-amount {
-  font-family: var(--font-headline);
+  font-family: var(--font-body);
   font-size: var(--text-5xl);
-  font-weight: 700;
+  font-weight: 800;
   color: var(--color-dark);
   line-height: 1;
   margin-bottom: var(--space-xs);
+  letter-spacing: -1px;
 }
 
 .pricing-amount .currency {

@@ -18,6 +18,10 @@ export default function DashboardPage() {
   const { user: authUser, isSubscribed } = useAuth();
   const [downloading, setDownloading] = useState(null);
 
+  const transactions = JSON.parse(localStorage.getItem('wp_transactions') || '[]')
+    .filter(t => t.email === authUser?.email || !t.email)
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+
   const handleDownload = (ebook) => {
     if (!isSubscribed) {
       alert("Subscription required to download E-Papers.");
@@ -507,13 +511,28 @@ export default function DashboardPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {authUser?.isSubscribed ? (
+                      {transactions.length > 0 ? (
+                        transactions.map((t, i) => (
+                          <tr key={i}>
+                            <td style={{ color: "var(--color-text-muted)" }}>
+                              {new Date(t.date).toLocaleDateString()}
+                            </td>
+                            <td style={{ fontWeight: 500 }}>
+                              {t.planName || t.type}
+                            </td>
+                            <td>{t.amount || user.subscription.price}</td>
+                            <td style={{ color: "#2ecc71", fontWeight: 600 }}>
+                              {t.status || 'Paid'}
+                            </td>
+                          </tr>
+                        ))
+                      ) : authUser?.isSubscribed ? (
                         [
                           "April 12, 2026",
                           "March 12, 2026",
                           "February 12, 2026",
                         ].map((date, i) => (
-                          <tr key={i}>
+                          <tr key={`mock-${i}`}>
                             <td style={{ color: "var(--color-text-muted)" }}>
                               {date}
                             </td>
@@ -758,7 +777,7 @@ export default function DashboardPage() {
                       }
                       style={{
                         flex: 1,
-                        fontFamily: "monospace",
+                        fontFamily: "var(--font-mono)",
                         fontSize: "14px",
                         background: "white",
                       }}

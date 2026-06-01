@@ -1,10 +1,41 @@
+import { useState, useEffect, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, Megaphone, Activity } from "lucide-react";
+import { getRotatingPopupAd, canShowPopupAd, recordPopupShown, trackAdImpression, trackAdClick } from '../../data/adInventory';
+import { useNavigate } from "react-router-dom";
 
 export default function AdPopup({ open, onClose }) {
+  const [ad, setAd] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (open) {
+      if (!canShowPopupAd()) {
+        onClose();
+        return;
+      }
+      const popupAd = getRotatingPopupAd();
+      setAd(popupAd);
+      recordPopupShown();
+      trackAdImpression(popupAd.id);
+    }
+  }, [open, onClose]);
+
+  const handleCtaClick = useCallback(() => {
+    if (ad) {
+      trackAdClick(ad.id);
+      navigate(ad.ctaUrl);
+    }
+    onClose();
+  }, [ad, navigate, onClose]);
+
+  if (!ad && open) return null;
+
+  const accentColor = ad?.color || "var(--color-primary)";
+
   return (
     <AnimatePresence>
-      {open && (
+      {open && ad && (
         <motion.div
           className="ad-popup-backdrop"
           initial={{ opacity: 0 }}
@@ -52,7 +83,7 @@ export default function AdPopup({ open, onClose }) {
                     alignItems: "center",
                     gap: "8px",
                     marginBottom: "12px",
-                    color: "var(--color-primary)",
+                    color: accentColor,
                     fontWeight: 800,
                     textTransform: "uppercase",
                     letterSpacing: "0.15em",
@@ -69,7 +100,7 @@ export default function AdPopup({ open, onClose }) {
                     color: "var(--color-dark)",
                   }}
                 >
-                  Boost your campaign with native placements and video ads.
+                  {ad.title}
                 </h3>
                 <p
                   style={{
@@ -79,8 +110,7 @@ export default function AdPopup({ open, onClose }) {
                     fontSize: "var(--text-sm)",
                   }}
                 >
-                  Weekend Post branded advertorials and contextual video placements
-                  help you reach decision makers across business, politics, and tech.
+                  {ad.description}
                 </p>
               </div>
               <button
@@ -122,7 +152,7 @@ export default function AdPopup({ open, onClose }) {
                       color: "var(--color-text-muted)",
                     }}
                   >
-                    Looking for higher ROI?
+                    Sponsored by {ad.advertiser}
                   </p>
                   <strong
                     style={{
@@ -131,14 +161,14 @@ export default function AdPopup({ open, onClose }) {
                       fontSize: "var(--text-lg)",
                     }}
                   >
-                    Advertise on the Weekend Post network.
+                    {ad.title}
                   </strong>
                 </div>
                 <div
                   style={{
                     width: "60px",
                     height: "60px",
-                    background: "var(--color-primary)",
+                    background: accentColor,
                     borderRadius: "16px",
                     display: "grid",
                     placeItems: "center",
@@ -150,10 +180,10 @@ export default function AdPopup({ open, onClose }) {
               </div>
               <button
                 className="btn btn-primary btn-lg"
-                style={{ width: "100%" }}
-                onClick={onClose}
+                style={{ width: "100%", background: accentColor, borderColor: accentColor }}
+                onClick={handleCtaClick}
               >
-                Learn More
+                {ad.cta}
               </button>
             </div>
           </motion.div>

@@ -19,67 +19,17 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
-const PAYMENT_METHODS = {
-  flutterwave: {
-    id: "flutterwave",
-    name: "Instant Gateway",
-    desc: "Pay via Cards, Bank Transfer & Mobile Money (Secure & Instant)",
-    icon: (
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Flutterwave_Logo.png/640px-Flutterwave_Logo.png"
-        alt="Flutterwave"
-        style={{ width: 24, height: 24, objectFit: "contain" }}
-      />
-    ),
-    color: "#F5A623",
-    bg: "rgba(245,166,35,0.08)",
-    placeholder: "Card Number or Mobile Number",
-    otpLabel: "Verification Code",
-    otpHint: "A secure OTP will be sent to your device for authorisation.",
-  },
-  betway: {
-    id: "betway",
-    name: "Betway Pay",
-    desc: "Pay through Betway’s local gateway for Botswana customers.",
-    icon: (
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Betway_Logo.svg/640px-Betway_Logo.svg.png"
-        alt="Betway"
-        style={{ width: 24, height: 24, objectFit: "contain" }}
-      />
-    ),
-    color: "#089C44",
-    bg: "rgba(8,156,68,0.08)",
-    placeholder: "Betway Account or Mobile Number",
-    otpLabel: "Payment Code",
-    otpHint: "A secure payment confirmation code will be sent via Betway.",
-  },
-  direct: {
-    id: "direct",
-    name: "Bank EFT",
-    desc: "Pay via Direct Deposit / EFT — Manual verification required",
-    icon: <Landmark size={22} />,
-    color: "#007E97",
-    bg: "rgba(0,126,151,0.08)",
-    bankInfo: {
-      bank: "First National Bank (FNB)",
-      accName: "Weekend Post (Pty) Ltd",
-      accNum: "6288 4567 123",
-      branch: "281467 (Main Branch)",
-      ref: "WP-" + Math.random().toString(36).substr(2, 6).toUpperCase(),
-    },
-  },
-};
+import { paymentMethods } from "../../data/articles";
 
 export default function PaymentModal({ plan, onClose, redirect }) {
-  const [tab, setTab] = useState(plan?.defaultMethod || "flutterwave");
+  const [tab, setTab] = useState(plan?.defaultMethod || paymentMethods[0].id);
   const [step, setStep] = useState("form"); // form | otp | processing | success | upload
   const [demoSms, setDemoSms] = useState(false);
   const [proofFile, setProofFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
-  const { grantSubscription, isLoggedIn } = useAuth();
+  const { user, grantSubscription, isLoggedIn } = useAuth();
 
   useEffect(() => {
     if (plan?.defaultMethod) setTab(plan.defaultMethod);
@@ -95,7 +45,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
     plan?.id === "storypass" || plan?.id?.startsWith("story:");
   const successRedirect = redirect || "/article/1";
 
-  const method = PAYMENT_METHODS[tab];
+  const method = paymentMethods.find(m => m.id === tab) || paymentMethods[0];
 
   const formatPhone = (v) => {
     const digits = v.replace(/\D/g, "").slice(0, 11);
@@ -119,22 +69,10 @@ export default function PaymentModal({ plan, onClose, redirect }) {
   const handleSendOtp = async (e) => {
     e.preventDefault();
     setError("");
-    if (tab === "flutterwave" || tab === "betway") {
-      const digits = phone.replace(/\D/g, "");
-      if (digits.length < 10) {
-        setError("Please enter a valid phone number.");
-        return;
-      }
-    }
-    if (!agreeTerms) {
-      setError("Please accept the Terms of Service.");
-      return;
-    }
-
-    if (tab === "betway") {
+    if (method.type === 'mobile-money') {
       try {
         const response = await fetch(
-          "http://localhost:3001/api/payments/betway/init",
+          "http://localhost:3001/api/payments/mobile-money/init",
           {
             method: "POST",
             headers: {
@@ -142,23 +80,43 @@ export default function PaymentModal({ plan, onClose, redirect }) {
             },
             body: JSON.stringify({
               amount: plan.price,
-              reference: plan.id,
+              provider: method.id,
               phone,
             }),
           },
         );
         const data = await response.json();
         if (!response.ok) {
-          throw new Error(data.error || "Betway initialization failed.");
+          throw new Error(data.error || "Initialization failed.");
         }
-        setError(`Betway session initialized: ${data.paymentSession}`);
+        setError("");
       } catch (err) {
         setError(err.message);
         return;
       }
-    }
+      setStep("otp");
+      setTimeout(() => setDemoSms(true), 1500);
+    } else if (method.type === "redirect") {
+      setStep("processing");
+      setTimeout(() => {
+        // Log transaction
+        const transactions = JSON.parse(localStorage.getItem('wp_transactions') || '[]');
+        transactions.push({
+          id: `TXN-${Date.now().toString().slice(-6)}`,
+          date: new Date().toISOString(),
+          email: user?.email,
+          planId: plan.id,
+          planName: isStoryPurchase ? 'One-Story Pass' : plan.name,
+          amount: plan.price,
+          status: 'Paid',
+          method: method.name
+        });
+        localStorage.setItem('wp_transactions', JSON.stringify(transactions));
 
-    if (tab === "direct") {
+        if (isLoggedIn) grantSubscription(plan.id || "monthly");
+        setStep("success");
+      }, 2000);
+    } else if (method.type === "bank-transfer") {
       setStep("upload");
     } else {
       setStep("otp");
@@ -187,19 +145,49 @@ export default function PaymentModal({ plan, onClose, redirect }) {
     }, 1500);
   };
 
-  const handleConfirmPayment = (e) => {
+  const handleConfirmPayment = async (e) => {
     e.preventDefault();
     setError("");
     if (otp.length < 6) {
       setError(`Invalid verification code.`);
       return;
     }
+    
+    if (method.type === 'mobile-money') {
+      try {
+        const response = await fetch("http://localhost:3001/api/payments/mobile-money/verify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ provider: method.id, phone, otp }),
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error);
+      } catch (err) {
+        setError(err.message);
+        return;
+      }
+    }
+    
     setStep("processing");
     setDemoSms(false);
     setTimeout(() => {
+      // Log transaction
+      const transactions = JSON.parse(localStorage.getItem('wp_transactions') || '[]');
+      transactions.push({
+        id: `TXN-${Date.now().toString().slice(-6)}`,
+        date: new Date().toISOString(),
+        email: user?.email,
+        planId: plan.id,
+        planName: isStoryPurchase ? 'One-Story Pass' : plan.name,
+        amount: plan.price,
+        status: 'Paid',
+        method: method.name
+      });
+      localStorage.setItem('wp_transactions', JSON.stringify(transactions));
+
       if (isLoggedIn) grantSubscription(plan.id || "monthly");
       setStep("success");
-    }, 2500);
+    }, 2000);
   };
 
   return (
@@ -369,7 +357,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                       textTransform: "uppercase",
                     }}
                   >
-                    {tab === "direct"
+                    {method.type === "bank-transfer"
                       ? "Verification Pending"
                       : "Subscription Active"}
                   </div>
@@ -406,7 +394,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                     >
                       <span>Secure Ref</span>
                       <span style={{ fontWeight: 600 }}>
-                        {method.bankInfo?.ref || "N/A"}
+                        {method.bankDetails?.reference || "N/A"}
                       </span>
                     </div>
                   </div>
@@ -477,7 +465,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                         marginBottom: "var(--space-xl)",
                       }}
                     >
-                      {Object.values(PAYMENT_METHODS).map((m) => (
+                      {paymentMethods.map((m) => (
                         <button
                           key={m.id}
                           className={`payment-tab ${tab === m.id ? "active" : ""}`}
@@ -500,7 +488,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                             setError("");
                           }}
                         >
-                          <span style={{ opacity: tab === m.id ? 1 : 0.6 }}>
+                          <span style={{ opacity: tab === m.id ? 1 : 0.6, fontSize: '24px' }}>
                             {m.icon}
                           </span>
                           <span
@@ -522,7 +510,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
 
                   <div
                     style={{
-                      background: method.bg,
+                      background: `${method.color}11`,
                       borderRadius: "12px",
                       padding: "16px",
                       marginBottom: "var(--space-lg)",
@@ -547,7 +535,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                         color: "var(--color-dark)",
                       }}
                     >
-                      {method.desc}
+                      {method.description}
                     </p>
                   </div>
 
@@ -573,18 +561,24 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                   <AnimatePresence mode="wait">
                     {step === "form" && (
                       <motion.form key="form" onSubmit={handleSendOtp}>
-                        {tab === "flutterwave" ? (
+                        {method.type === "redirect" ? (
+                          <div style={{ textAlign: "center", padding: "20px" }}>
+                            <p style={{ color: "var(--color-text-muted)", fontSize: "14px" }}>
+                              {method.instructions}
+                            </p>
+                          </div>
+                        ) : method.type !== "bank-transfer" ? (
                           <div className="form-group">
                             <label className="form-label">
-                              Phone or Card ID
+                              {method.type === 'card' ? 'Card Number' : 'Phone Number'}
                             </label>
                             <input
                               type="tel"
                               className="form-input"
-                              placeholder={method.placeholder}
+                              placeholder={method.type === 'card' ? 'XXXX XXXX XXXX XXXX' : 'Enter mobile number'}
                               value={phone}
                               onChange={(e) =>
-                                setPhone(formatPhone(e.target.value))
+                                setPhone(method.type === 'card' ? e.target.value : formatPhone(e.target.value))
                               }
                               required
                             />
@@ -608,7 +602,18 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                               }}
                             >
                               <span>Bank:</span>{" "}
-                              <strong>{method.bankInfo.bank}</strong>
+                              <strong>{method.bankDetails.bankName}</strong>
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                marginBottom: 8,
+                                fontSize: "12px",
+                              }}
+                            >
+                              <span>Account Name:</span>{" "}
+                              <strong>{method.bankDetails.accountName}</strong>
                             </div>
                             <div
                               style={{
@@ -619,7 +624,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                               }}
                             >
                               <span>Account:</span>{" "}
-                              <strong>{method.bankInfo.accNum}</strong>
+                              <strong>{method.bankDetails.accountNumber}</strong>
                             </div>
                             <div
                               style={{
@@ -641,12 +646,12 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                                   gap: 4,
                                 }}
                               >
-                                {method.bankInfo.ref}{" "}
+                                {method.bankDetails.reference}{" "}
                                 <Copy
                                   size={12}
                                   style={{ cursor: "pointer" }}
                                   onClick={() =>
-                                    copyToClipboard(method.bankInfo.ref)
+                                    copyToClipboard(method.bankDetails.reference)
                                   }
                                 />
                               </span>
@@ -698,7 +703,9 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                             borderColor: method.color,
                           }}
                         >
-                          {tab === "direct"
+                          {method.type === "redirect"
+                            ? `Proceed to ${method.name}`
+                            : method.type === "bank-transfer"
                             ? "I Have Paid"
                             : isStoryPurchase
                               ? "Buy Story"
@@ -733,7 +740,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                               color: "var(--color-text-muted)",
                             }}
                           >
-                            Enter the 6-digit code sent to your device.
+                            {method.instructions || "Enter the 6-digit code sent to your device."}
                           </p>
                         </div>
                         <input

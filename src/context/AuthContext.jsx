@@ -142,6 +142,35 @@ export function AuthProvider({ children }) {
     return () => window.removeEventListener("storage", handleStorage);
   }, [user]);
 
+  // Heartbeat to keep server session alive
+  useEffect(() => {
+    if (!user) return;
+    const session = JSON.parse(localStorage.getItem('wp_session') || '{}');
+    if (!session.activeSessionId) return;
+
+    const sendHeartbeat = async () => {
+      try {
+        const res = await fetch('http://localhost:3001/api/sessions/heartbeat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sessionId: session.activeSessionId })
+        });
+        const data = await res.json();
+        if (!data.valid) {
+          // Another device logged in — force logout
+          logout();
+          window.alert('You have been logged out because your account was accessed from another device.');
+        }
+      } catch (e) {
+        // Backend offline, continue with localStorage-only enforcement
+      }
+    };
+
+    sendHeartbeat();
+    const interval = setInterval(sendHeartbeat, 30000);
+    return () => clearInterval(interval);
+  }, [user]);
+
   // ── login ──────────────────────────────────────────────────────────────────
   const login = useCallback(async (email, password) => {
     const normalizedEmail = email.trim().toLowerCase();
@@ -157,6 +186,21 @@ export function AuthProvider({ children }) {
     const sessionId = acquireSession(users[idx].uid);
     users[idx] = { ...users[idx], activeSessionId: sessionId };
     saveUsers(users);
+
+    // Register session with backend for cross-device enforcement
+    try {
+      await fetch('http://localhost:3001/api/sessions/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: users[idx].uid,
+          deviceInfo: navigator.userAgent.substring(0, 100),
+          sessionId: sessionId
+        })
+      });
+    } catch (e) {
+      console.log('Backend session sync skipped (offline mode)');
+    }
 
     const { password: _, ...safe } = users[idx];
     setUser(safe);
@@ -302,6 +346,24 @@ export function AuthProvider({ children }) {
   const hasArticleAccess = useCallback(
     (articleId) => {
       if (!user) return false;
+
+      // Check subscription expiry
+      const userData = user;
+      if (userData.subscriptionPlan && userData.subscriptionExpiry) {
+        const expiry = new Date(userData.subscriptionExpiry);
+        if (expiry < new Date()) {
+          // Subscription has expired — revoke it
+          const users = JSON.parse(localStorage.getItem('wp_users') || '[]');
+          const idx = users.findIndex(u => u.uid === userData.uid);
+          if (idx !== -1) {
+            users[idx].subscriptionPlan = null;
+            users[idx].subscriptionExpiry = null;
+            localStorage.setItem('wp_users', JSON.stringify(users));
+          }
+          // Fall through to check purchasedStories
+        }
+      }
+
       if (user.isAdmin || user.isSubscribed) return true;
       return (user.purchasedStories || []).includes(Number(articleId));
     },
@@ -312,6 +374,80 @@ export function AuthProvider({ children }) {
   const getAllUsers = useCallback(() => {
     return loadUsers().map(({ password: _, ...safe }) => safe);
   }, []);
+
+  const getAdminLogs = useCallback(() => {
+    return JSON.parse(localStorage.getItem('wp_admin_logs') || '[]');
+  }, []);
+
+  const logAdminAction = useCallback((action, targetUid, targetName, details) => {
+    const logs = JSON.parse(localStorage.getItem('wp_admin_logs') || '[]');
+    logs.unshift({
+      id: 'LOG-' + Date.now(),
+      timestamp: new Date().toISOString(),
+      adminUid: user?.uid || 'SYSTEM',
+      adminName: user?.name || 'System',
+      action,
+      targetUid,
+      targetName,
+      details
+    });
+    localStorage.setItem('wp_admin_logs', JSON.stringify(logs));
+  }, [user]);
+
+  const assignRole = useCallback((uid, role) => {
+    const users = loadUsers();
+    const idx = users.findIndex((u) => u.uid === uid);
+    if (idx === -1) return;
+    const targetName = users[idx].name;
+    users[idx].isAdmin = role === 'admin';
+    saveUsers(users);
+    logAdminAction(role === 'admin' ? 'PROMOTED_TO_ADMIN' : 'DEMOTED_TO_USER', uid, targetName, `Role changed to ${role}`);
+    if (user?.uid === uid) {
+      const { password: _, ...safe } = users[idx];
+      setUser(safe);
+      saveSession(safe);
+    }
+  }, [user, logAdminAction]);
+
+  const updateUser = useCallback((uid, updates) => {
+    const users = loadUsers();
+    const idx = users.findIndex((u) => u.uid === uid);
+    if (idx === -1) return;
+    users[idx] = { ...users[idx], ...updates };
+    saveUsers(users);
+    if (user?.uid === uid) {
+      const { password: _, ...safe } = users[idx];
+      setUser(safe);
+      saveSession(safe);
+    }
+  }, [user]);
+
+  const deleteUser = useCallback((uid) => {
+    let users = loadUsers();
+    const targetUser = users.find(u => u.uid === uid);
+    if (targetUser) {
+        logAdminAction('DELETED_USER', uid, targetUser.name, `Account deleted`);
+    }
+    users = users.filter((u) => u.uid !== uid);
+    saveUsers(users);
+    if (user?.uid === uid) {
+      logout();
+    }
+  }, [user, logout, logAdminAction]);
+
+  const getTransactionHistory = () => {
+    return JSON.parse(localStorage.getItem('wp_transactions') || '[]');
+  };
+
+  const recordTransaction = (transaction) => {
+    const transactions = JSON.parse(localStorage.getItem('wp_transactions') || '[]');
+    transactions.unshift({
+      ...transaction,
+      id: 'TXN-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6),
+      timestamp: new Date().toISOString(),
+    });
+    localStorage.setItem('wp_transactions', JSON.stringify(transactions));
+  };
 
   const value = {
     user,
@@ -326,7 +462,13 @@ export function AuthProvider({ children }) {
     revokeSubscription,
     disconnectUser,
     getAllUsers,
+    getAdminLogs,
+    assignRole,
+    updateUser,
+    deleteUser,
     hasArticleAccess,
+    getTransactionHistory,
+    recordTransaction,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

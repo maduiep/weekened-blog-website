@@ -73,7 +73,7 @@ export default function HomePage() {
       </section>
 
       {/* Commercial Solution Banner & Live Ticker */}
-      <section className="commercial-banner" style={{ background: 'var(--color-primary)', color: 'white', padding: 'var(--space-xl) 0', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+      <section className="commercial-banner" style={{ background: 'linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%)', color: 'white', padding: 'var(--space-2xl) 0', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 'var(--space-xl)' }}>
             <div style={{ flex: '1', minWidth: '280px' }}>
@@ -104,7 +104,7 @@ export default function HomePage() {
                 <h2 className="section-title"><span className="title-accent" /> Top Stories</h2>
                 <Link to="/category/news" className="section-link">View All <ArrowRight size={16} /></Link>
               </div>
-              <div className="grid-2" style={{ gap: 'var(--space-xl)' }}>
+              <div className="grid-2" style={{ gap: 'var(--space-2xl)' }}>
                 {articles.slice(0, 4).map(article => (
                   <ArticleCard key={article.id} article={article} />
                 ))}
@@ -120,7 +120,7 @@ export default function HomePage() {
                   <h2 className="section-title"><span className="title-accent" style={{ background: 'var(--color-business-blue)' }} /> Business Intelligence</h2>
                   <Link to="/category/business" className="section-link">More Business <ArrowRight size={16} /></Link>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xl)' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2xl)' }}>
                   {businessArticles.slice(0, 3).map(article => (
                     <ArticleCard key={article.id} article={article} horizontal />
                   ))}

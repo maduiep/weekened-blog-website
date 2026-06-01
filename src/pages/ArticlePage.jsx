@@ -248,13 +248,23 @@ export default function ArticlePage() {
   const storyPassPlan = {
     id: `story:${article?.id}`,
     name: "One-Story Pass",
-    price: 15,
+    price: article?.price || 15,
     currency: "P",
     period: "/story",
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    if (article) {
+      // Track total article views
+      const totalViews = parseInt(localStorage.getItem('wp_total_article_views') || '0');
+      localStorage.setItem('wp_total_article_views', (totalViews + 1).toString());
+      // Track per-article views
+      const articleViews = JSON.parse(localStorage.getItem('wp_article_views') || '{}');
+      articleViews[article.id] = (articleViews[article.id] || 0) + 1;
+      localStorage.setItem('wp_article_views', JSON.stringify(articleViews));
+    }
 
     // Freemium View Tracking
     if (!isSubscribed && !isAdmin) {
@@ -269,7 +279,7 @@ export default function ArticlePage() {
       }
       setViewCount(views[monthKey].length);
     }
-  }, [id, isSubscribed, isAdmin]);
+  }, [id, isSubscribed, isAdmin, article]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -513,6 +523,11 @@ export default function ArticlePage() {
                 >
                   <source src={article.videoUrl} type="video/mp4" />
                 </video>
+                {article.videoDuration && (
+                  <span style={{ position: 'absolute', bottom: 12, right: 12, background: 'rgba(0,0,0,0.8)', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px', fontWeight: 600 }}>
+                    {article.videoDuration}
+                  </span>
+                )}
               </div>
             ) : (
               <img
@@ -755,7 +770,7 @@ export default function ArticlePage() {
                               setShowPayment(true);
                             }}
                           >
-                            Buy Single Story — P15
+                            Buy Single Story — P{article?.price || 15}
                           </button>
                           <Link
                             to="/subscribe"
@@ -839,13 +854,35 @@ export default function ArticlePage() {
                   </div>
                 </div>
                 <div id="comments-section">
-                  <CommentSection
-                    articleId={article.id}
-                    isSubscribed={isSubscribed}
-                    isLoggedIn={isLoggedIn}
-                    user={authUser}
-                  />
                 </div>
+
+                {/* Related Videos */}
+                {articles.filter(a => a.videoUrl && a.id !== article.id).length > 0 && (
+                  <div style={{ marginTop: 'var(--space-2xl)', padding: 'var(--space-xl)', background: 'var(--color-bg-alt)', borderRadius: 'var(--radius-xl)' }}>
+                    <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: 'var(--space-lg)' }}>📺 More Video Stories</h3>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 'var(--space-md)' }}>
+                      {articles.filter(a => a.videoUrl && a.id !== article.id).slice(0, 4).map(a => (
+                        <a key={a.id} href={`/article/${a.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                          <div style={{ position: 'relative', borderRadius: '8px', overflow: 'hidden' }}>
+                            <img src={a.image} alt={a.title} style={{ width: '100%', height: '120px', objectFit: 'cover' }} />
+                            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>▶</div>
+                            </div>
+                            {a.videoDuration && <span style={{ position: 'absolute', bottom: 4, right: 4, background: 'rgba(0,0,0,0.8)', color: 'white', padding: '2px 6px', borderRadius: '4px', fontSize: '10px' }}>{a.videoDuration}</span>}
+                          </div>
+                          <p style={{ fontSize: '12px', fontWeight: 600, marginTop: '6px', lineHeight: 1.3 }}>{a.title}</p>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <CommentSection
+                  isLoggedIn={isLoggedIn}
+                  isSubscribed={isSubscribed}
+                  user={authUser}
+                  articleId={id}
+                />
               </div>
             </div>
 

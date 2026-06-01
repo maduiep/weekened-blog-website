@@ -19,8 +19,20 @@ export default function EPaperPage() {
   const [downloading, setDownloading] = useState(null);
   const [downloadError, setDownloadError] = useState(null);
   const [selectedYear, setSelectedYear] = useState("2024");
+  const [searchQuery, setSearchQuery] = useState('');
 
   const years = ["2024", "2023", "2022", "2021"];
+
+  const filteredEditions = ePapers.filter(ep => {
+    if (!selectedYear) return true;
+    const year = new Date(ep.date).getFullYear().toString();
+    return year === selectedYear;
+  });
+
+  const searchFilteredEditions = filteredEditions.filter(ep => {
+    if (!searchQuery) return true;
+    return ep.title.toLowerCase().includes(searchQuery.toLowerCase()) || ep.date.toLowerCase().includes(searchQuery.toLowerCase());
+  });
 
   const handleDownload = async (ep) => {
     if (!isLoggedIn) {
@@ -29,6 +41,13 @@ export default function EPaperPage() {
     }
     if (!isSubscribed) {
       navigate("/subscribe");
+      return;
+    }
+
+    const downloadKey = `wp_download_count_${ep.id}`;
+    const currentCount = parseInt(localStorage.getItem(downloadKey) || '0');
+    if (currentCount >= 3) {
+      setDownloadError('Download limit reached (3 per edition). Contact support for additional access.');
       return;
     }
 
@@ -82,6 +101,12 @@ export default function EPaperPage() {
       link.click();
       link.remove();
       window.URL.revokeObjectURL(url);
+
+      localStorage.setItem(`wp_download_count_${ep.id}`, (parseInt(localStorage.getItem(`wp_download_count_${ep.id}`) || '0') + 1).toString());
+      const logs = JSON.parse(localStorage.getItem('wp_download_log') || '[]');
+      logs.push({ editionId: ep.id, email: authUser?.email, timestamp: new Date().toISOString(), deviceInfo: navigator.userAgent.substring(0, 50) });
+      localStorage.setItem('wp_download_log', JSON.stringify(logs));
+
       alert(`Success! ${ep.title} PDF download has started.`);
     } catch (error) {
       console.error("E-Paper download error:", error);
@@ -224,6 +249,8 @@ export default function EPaperPage() {
             <input
               type="text"
               placeholder="Search editions..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               style={{
                 background: "none",
                 border: "none",
@@ -520,7 +547,7 @@ export default function EPaperPage() {
             </h2>
           </div>
           <div className="grid-4">
-            {ePapers.slice(1).map((ep) => (
+            {searchFilteredEditions.filter(ep => ep.id !== ePapers[0].id).map((ep) => (
               <motion.div
                 key={ep.id}
                 className="epaper-card"

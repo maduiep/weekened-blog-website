@@ -15,7 +15,7 @@ import {
   Copy,
 } from "lucide-react";
 import PaymentModal from "../components/payment/PaymentModal";
-import { subscriptionPlans } from "../data/articles";
+import { subscriptionPlans, paymentMethods } from "../data/articles";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -212,135 +212,69 @@ export default function SubscribePage() {
               maxWidth: "900px",
             }}
           >
-            <motion.div
-              className="payment-method-card"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => {
-                if (!isLoggedIn) {
-                  const authUrl = redirect
-                    ? `/auth?tab=signup&redirect=${encodeURIComponent(redirect)}`
-                    : "/auth?tab=signup";
-                  navigate(authUrl);
-                  return;
-                }
-                const storyPlan = subscriptionPlans.find(
-                  (p) => p.id === "storypass",
-                );
-                setSelectedPlan({ ...storyPlan, defaultMethod: "betway" });
-              }}
-              style={{ cursor: "pointer", borderTop: "4px solid #089C44" }}
-            >
-              <div
-                className="payment-method-icon"
-                style={{ background: "rgba(8,156,68,0.1)", color: "#089C44" }}
-              >
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Betway_Logo.svg/640px-Betway_Logo.svg.png"
-                  alt="Betway"
-                  style={{ width: 48, height: 48, objectFit: "contain" }}
-                />
-              </div>
-              <div className="payment-method-name">Betway Pay</div>
-              <div className="payment-method-desc">
-                Secure local payment via Betway gateway
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="payment-method-card"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => {
-                if (!isLoggedIn) {
-                  const authUrl = redirect
-                    ? `/auth?tab=signup&redirect=${encodeURIComponent(redirect)}`
-                    : "/auth?tab=signup";
-                  navigate(authUrl);
-                  return;
-                }
-                const storyPlan = subscriptionPlans.find(
-                  (p) => p.id === "storypass",
-                );
-                setSelectedPlan({
-                  ...storyPlan,
-                  defaultMethod: "flutterwave",
-                });
-              }}
-              style={{ cursor: "pointer", borderTop: "4px solid #F5A623" }}
-            >
-              <div
-                className="payment-method-icon"
-                style={{ background: "rgba(245,166,35,0.1)", color: "#F5A623" }}
-              >
-                <img
-                  src="/flutterwave.png"
-                  alt="Flutterwave"
-                  style={{ width: 48, height: 48, borderRadius: "8px" }}
-                />
-              </div>
-              <div className="payment-method-name">Flutterwave</div>
-              <div className="payment-method-desc">
-                Instant online payment via Card or Bank
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="payment-method-card"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => {
-                if (!isLoggedIn) {
-                  const authUrl = redirect
-                    ? `/auth?tab=signup&redirect=${encodeURIComponent(redirect)}`
-                    : "/auth?tab=signup";
-                  navigate(authUrl);
-                  return;
-                }
-                const storyPlan = subscriptionPlans.find(
-                  (p) => p.id === "storypass",
-                );
-                setSelectedPlan({ ...storyPlan, defaultMethod: "direct" });
-              }}
-              style={{
-                cursor: "pointer",
-                borderTop: "4px solid var(--color-primary)",
-                position: "relative",
-              }}
-            >
-              <div
+            {paymentMethods.map((method) => (
+              <motion.div
+                key={method.id}
+                className="payment-method-card"
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  if (!isLoggedIn) {
+                    const authUrl = redirect
+                      ? `/auth?tab=signup&redirect=${encodeURIComponent(redirect)}`
+                      : "/auth?tab=signup";
+                    navigate(authUrl);
+                    return;
+                  }
+                  const storyPlan = subscriptionPlans.find(
+                    (p) => p.id === "storypass",
+                  );
+                  setSelectedPlan({ ...storyPlan, defaultMethod: method.id });
+                }}
                 style={{
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  padding: "16px",
-                  color: "var(--color-primary)",
-                  zIndex: 10,
-                  cursor: "help",
-                }}
-                title="Click for instructions"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  e.preventDefault();
-                  setShowDirectInstructions(true);
+                  cursor: "pointer",
+                  borderTop: `4px solid ${method.color}`,
+                  position: "relative",
                 }}
               >
-                <Info size={20} />
-              </div>
-              <div
-                className="payment-method-icon"
-                style={{
-                  background: "rgba(0,126,151,0.1)",
-                  color: "var(--color-primary)",
-                }}
-              >
-                <Landmark size={32} />
-              </div>
-              <div className="payment-method-name">Direct Deposit</div>
-              <div className="payment-method-desc">
-                Pay via EFT and upload proof of payment
-              </div>
-            </motion.div>
+                {method.type === "bank-transfer" && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      right: 0,
+                      padding: "16px",
+                      color: "var(--color-primary)",
+                      zIndex: 10,
+                      cursor: "help",
+                    }}
+                    title="Click for instructions"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      setShowDirectInstructions(true);
+                    }}
+                  >
+                    <Info size={20} />
+                  </div>
+                )}
+                <div
+                  className="payment-method-icon"
+                  style={{
+                    background: `${method.color}15`,
+                    color: method.color,
+                    fontSize: '28px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {method.type === 'bank-transfer' ? <Landmark size={32} /> : method.icon}
+                </div>
+                <div className="payment-method-name">{method.name}</div>
+                <div className="payment-method-desc">{method.description}</div>
+              </motion.div>
+            ))}
           </div>
           <motion.div
             className="trust-indicators"
@@ -633,7 +567,7 @@ export default function SubscribePage() {
                     Account Number
                   </span>
                   <strong style={{ color: "var(--color-dark)" }}>
-                    6288 4567 123
+                    {paymentMethods.find(m => m.type === 'bank-transfer')?.bankDetails?.accountNumber || "62845710093"}
                   </strong>
                 </div>
                 <div

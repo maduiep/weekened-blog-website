@@ -46,8 +46,11 @@ const RANGE_BG = {
 export default function AdminPage() {
   const {
     getAllUsers,
+    getAdminLogs,
     revokeSubscription,
     disconnectUser,
+    assignRole,
+    deleteUser,
     user: adminUser,
   } = useAuth();
   const [activeTab, setActiveTab] = useState("analytics"); // Default to analytics for "WOW" factor
@@ -59,6 +62,8 @@ export default function AdminPage() {
 
   const allUsers = getAllUsers();
   const subscribers = allUsers.filter((u) => u.isSubscribed);
+  const adminUsersCount = allUsers.filter((u) => u.isAdmin).length;
+  const adminLogs = getAdminLogs();
 
   const filtered = allUsers.filter((u) => {
     const q = searchQuery.toLowerCase();
@@ -97,6 +102,7 @@ export default function AdminPage() {
   // Mock Analytics Data with timeframe support
   const [timeRange, setTimeRange] = useState("monthly");
   const [activeReaders, setActiveReaders] = useState(0);
+  const [mtdRevenue, setMtdRevenue] = useState(0);
 
   // Track active readers using the same key as AuthContext
   useEffect(() => {
@@ -113,9 +119,30 @@ export default function AdminPage() {
 
     read();
 
+    const calcRevenue = () => {
+      try {
+        const txs = JSON.parse(localStorage.getItem('wp_transactions') || '[]');
+        const currentMonth = new Date().getMonth();
+        const currentYear = new Date().getFullYear();
+        let total = 0;
+        for (const t of txs) {
+          if (!t.date || !t.amount) continue;
+          const d = new Date(t.date);
+          if (d.getMonth() === currentMonth && d.getFullYear() === currentYear) {
+            total += Number(t.amount);
+          }
+        }
+        setMtdRevenue(total);
+      } catch (e) {
+        setMtdRevenue(0);
+      }
+    };
+    calcRevenue();
+
     const onStorage = (e) => {
       if (e.key && e.key !== KEY) return;
       read();
+      calcRevenue();
     };
     window.addEventListener("storage", onStorage);
 
@@ -372,8 +399,8 @@ export default function AdminPage() {
             {
               icon: <DollarSign size={20} />,
               label: "MTD Revenue",
-              value: "P7,500",
-              change: "+24%",
+              value: `P${mtdRevenue.toLocaleString()}`,
+              change: "Live",
               color: "var(--color-gold)",
             },
             {
@@ -382,6 +409,13 @@ export default function AdminPage() {
               value: "42.8K",
               change: "+1.2K",
               color: "var(--color-opinion-purple)",
+            },
+            {
+              icon: <ShieldCheck size={20} />,
+              label: "Total Admins",
+              value: adminUsersCount,
+              change: "Active",
+              color: "var(--color-sport-green)",
             },
           ].map((stat, i) => (
             <motion.div
@@ -506,6 +540,28 @@ export default function AdminPage() {
             }}
           >
             <Users size={16} /> Customers
+          </button>
+          <button
+            onClick={() => setActiveTab("logs")}
+            style={{
+              padding: "8px 20px",
+              borderRadius: "8px",
+              border: "none",
+              background: activeTab === "logs" ? "white" : "transparent",
+              color:
+                activeTab === "logs"
+                  ? "var(--color-primary)"
+                  : "var(--color-text-muted)",
+              fontWeight: 700,
+              cursor: "pointer",
+              transition: "all 0.2s",
+              fontSize: "13px",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <ShieldCheck size={16} /> Security & Logs
           </button>
         </div>
 
@@ -1437,6 +1493,7 @@ export default function AdminPage() {
                       <tr>
                         <th>Customer</th>
                         <th>Contact</th>
+                        <th>Role</th>
                         <th>Plan</th>
                         <th>Active Device</th>
                         <th>Expiry</th>
@@ -1484,6 +1541,13 @@ export default function AdminPage() {
                             }}
                           >
                             {u.email}
+                          </td>
+                          <td>
+                            {u.isAdmin ? (
+                              <span style={{ color: 'var(--color-sport-green)', fontWeight: 800, fontSize: '10px', textTransform: 'uppercase' }}>Admin</span>
+                            ) : (
+                              <span style={{ color: 'var(--color-text-muted)', fontSize: '10px', textTransform: 'uppercase' }}>User</span>
+                            )}
                           </td>
                           <td>
                             {u.isSubscribed ? (
@@ -1544,6 +1608,23 @@ export default function AdminPage() {
                           </td>
                           <td>
                             <div style={{ display: "flex", gap: "8px" }}>
+                              {u.uid !== adminUser.uid && (
+                                <button
+                                  className="admin-action-btn"
+                                  title={u.isAdmin ? "Remove Admin" : "Make Admin"}
+                                  onClick={() => {
+                                    if (!confirm(`Change role of ${u.name} to ${u.isAdmin ? 'User' : 'Admin'}?`)) return;
+                                    assignRole(u.uid, u.isAdmin ? 'user' : 'admin');
+                                    showToast(`${u.name} is now ${u.isAdmin ? 'User' : 'Admin'}`);
+                                  }}
+                                  style={{
+                                    color: u.isAdmin ? "var(--color-news-red)" : "var(--color-sport-green)",
+                                    background: u.isAdmin ? "rgba(239,68,68,0.05)" : "rgba(39,174,96,0.05)",
+                                  }}
+                                >
+                                  <ShieldCheck size={14} />
+                                </button>
+                              )}
                               {u.activeSessionId && !u.isAdmin && (
                                 <button
                                   className="admin-action-btn admin-action-revoke"
@@ -1574,6 +1655,19 @@ export default function AdminPage() {
                                   title="Revoke Access"
                                   onClick={() => handleRevoke(u.uid, u.name)}
                                 >
+                                  <CreditCard size={14} />
+                                </button>
+                              )}
+                              {u.uid !== adminUser.uid && (
+                                <button
+                                  className="admin-action-btn admin-action-revoke"
+                                  title="Delete User"
+                                  onClick={() => {
+                                    if (!confirm(`Are you sure you want to completely DELETE ${u.name}'s account? This action cannot be undone.`)) return;
+                                    deleteUser(u.uid);
+                                    showToast(`${u.name}'s account was deleted.`);
+                                  }}
+                                >
                                   <Trash2 size={14} />
                                 </button>
                               )}
@@ -1591,6 +1685,66 @@ export default function AdminPage() {
                           </td>
                         </tr>
                       ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </motion.div>
+          )}
+          {activeTab === "logs" && (
+            <motion.div
+              key="logs"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <div className="admin-card" style={{ background: "white", borderRadius: "var(--radius-xl)", border: "1px solid var(--color-border)", overflow: "hidden" }}>
+                <div style={{ padding: "var(--space-xl)", borderBottom: "1px solid var(--color-border)" }}>
+                  <h3 style={{ fontSize: "var(--text-lg)", margin: 0 }}>Security Audit Logs</h3>
+                  <p style={{ fontSize: "12px", color: "var(--color-text-muted)", marginTop: "4px" }}>History of all role changes and account deletions.</p>
+                </div>
+                <div className="admin-table-wrapper">
+                  <table className="admin-table">
+                    <thead>
+                      <tr>
+                        <th>Date & Time</th>
+                        <th>Action</th>
+                        <th>Performed By</th>
+                        <th>Target User</th>
+                        <th>Details</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {adminLogs.map((log) => (
+                        <tr key={log.id} className="admin-table-row">
+                          <td style={{ fontSize: "12px", color: "var(--color-text-muted)" }}>
+                            {new Date(log.timestamp).toLocaleString()}
+                          </td>
+                          <td>
+                            <span style={{ 
+                              padding: "4px 8px", 
+                              borderRadius: "4px", 
+                              fontSize: "10px", 
+                              fontWeight: 700, 
+                              textTransform: "uppercase",
+                              background: log.action.includes('DELETED') ? "rgba(239,68,68,0.1)" : "rgba(39,174,96,0.1)",
+                              color: log.action.includes('DELETED') ? "var(--color-news-red)" : "var(--color-sport-green)"
+                            }}>
+                              {log.action.replace(/_/g, ' ')}
+                            </span>
+                          </td>
+                          <td style={{ fontWeight: 600, fontSize: "13px" }}>{log.adminName}</td>
+                          <td style={{ fontSize: "13px" }}>{log.targetName} <span style={{ color: "var(--color-text-muted)", fontSize: "10px" }}>({log.targetUid.substring(0,8)})</span></td>
+                          <td style={{ fontSize: "12px", color: "var(--color-text-muted)" }}>{log.details}</td>
+                        </tr>
+                      ))}
+                      {adminLogs.length === 0 && (
+                        <tr>
+                          <td colSpan="5" style={{ textAlign: "center", padding: "40px", color: "var(--color-text-muted)" }}>
+                            No security logs found. Actions like promoting admins or deleting users will appear here.
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
