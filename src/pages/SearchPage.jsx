@@ -159,7 +159,7 @@ export default function SearchPage() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
                   {articles.slice(2, 6).map((art, i) => (
                     <Link key={art.id} to={`/article/${art.id}`} style={{ textDecoration: 'none', display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                      <span style={{ fontSize: 'var(--text-xl)', fontWeight: 800, color: 'var(--color-bg-alt)', WebkitTextStroke: '1px var(--color-border)' }}>0{i+1}</span>
+                      <span style={{ fontSize: 'var(--text-xl)', fontWeight: 800, color: 'black' }}>0{i+1}</span>
                       <div>
                         <h4 style={{ fontSize: '13px', margin: '0 0 4px', color: 'var(--color-dark)', lineHeight: 1.4 }}>{art.title}</h4>
                         <span style={{ fontSize: '10px', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 700 }}>{art.category}</span>

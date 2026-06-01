@@ -160,7 +160,7 @@ export default function HomePage() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
                   {articles.slice(4, 8).map((art, i) => (
                     <Link key={art.id} to={`/article/${art.id}`} style={{ textDecoration: 'none', color: 'var(--color-dark)', display: 'flex', gap: 12, alignItems: 'center' }}>
-                      <span style={{ fontSize: '20px', fontWeight: 800, color: '#f1f5f9', WebkitTextStroke: '1px #e2e8f0' }}>0{i+1}</span>
+                      <span style={{ fontSize: '20px', fontWeight: 800, color: 'black' }}>0{i+1}</span>
                       <p style={{ margin: 0, fontSize: '13px', fontWeight: 600, lineHeight: 1.3 }}>{art.title}</p>
                     </Link>
                   ))}
