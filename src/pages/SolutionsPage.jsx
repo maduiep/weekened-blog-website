@@ -251,16 +251,16 @@ export default function SolutionsPage() {
       <section className="section" style={{ paddingBottom: 'var(--space-4xl)' }}>
         <div className="container">
           <div style={{ background: 'var(--color-dark)', color: 'white', borderRadius: 'var(--radius-2xl)', padding: 'var(--space-4xl)', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-            <div style={{ position: 'absolute', bottom: -50, right: -50, width: 200, height: 200, background: 'var(--color-primary)', opacity: 0.1, borderRadius: '50%' }} />
-            <h2 style={{ color: 'white', marginBottom: 'var(--space-md)' }}>Accelerate Your Commercial Journey</h2>
-            <p style={{ opacity: 0.7, marginBottom: 'var(--space-2xl)', maxWidth: '600px', margin: '0 auto var(--space-2xl)', fontSize: 'var(--text-md)' }}>
+            <div style={{ position: 'absolute', bottom: -50, right: -50, width: 200, height: 200, background: 'var(--color-primary)', opacity: 0.1, borderRadius: '50%', pointerEvents: 'none' }} />
+            <h2 style={{ color: 'white', marginBottom: 'var(--space-md)', position: 'relative', zIndex: 1 }}>Accelerate Your Commercial Journey</h2>
+            <p style={{ opacity: 0.7, marginBottom: 'var(--space-2xl)', maxWidth: '600px', margin: '0 auto var(--space-2xl)', fontSize: 'var(--text-md)', position: 'relative', zIndex: 1 }}>
               Join Botswana's leading financial institutions and corporations who leverage our network for growth.
             </p>
-            <div style={{ display: 'flex', gap: 'var(--space-md)', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 'var(--space-md)', justifyContent: 'center', flexWrap: 'wrap', position: 'relative', zIndex: 1 }}>
               <Link to="/contact" className="btn btn-primary btn-lg">
                 <Briefcase size={18} /> Request Partner Kit <ExternalLink size={14} />
               </Link>
-              <Link to="/subscribe" className="btn btn-gold btn-lg">
+              <Link to="/subscribe?plan=enterprise" className="btn btn-gold btn-lg">
                 <Users size={18} /> Enterprise Licensing
               </Link>
             </div>
