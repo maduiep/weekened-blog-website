@@ -42,7 +42,7 @@ export default function AuthPage() {
     agree: false,
   });
 
-  const { login, signup, isLoggedIn } = useAuth();
+  const { login, signup, isLoggedIn, adminLogin } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -69,8 +69,21 @@ export default function AuthPage() {
     setError("");
     setLoading(true);
     try {
-      await login(signInData.email.trim(), signInData.password.trim());
-      navigate(redirect || "/", { replace: true });
+      // If the email belongs to an admin, attempt admin login and redirect to /admin
+      const rawAdmins = localStorage.getItem("wp_admin_records");
+      const admins = rawAdmins ? JSON.parse(rawAdmins) : [];
+      const normalized = signInData.email.trim().toLowerCase();
+      const isAdminEmail =
+        admins.find((a) => a.email.toLowerCase() === normalized) ||
+        normalized === "admin@weekendpost.co.bw";
+
+      if (isAdminEmail) {
+        await adminLogin(signInData.email.trim(), signInData.password.trim());
+        navigate("/admin", { replace: true });
+      } else {
+        await login(signInData.email.trim(), signInData.password.trim());
+        navigate(redirect || "/", { replace: true });
+      }
     } catch (err) {
       setError(err.message);
     } finally {
@@ -256,105 +269,133 @@ export default function AuthPage() {
 
           <AnimatePresence mode="wait">
             {tab === "signin" ? (
-              <motion.form
-                key="signin"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                onSubmit={handleSignIn}
-              >
-                <div className="form-group">
-                  <label className="form-label">Email Address</label>
-                  <div style={{ position: "relative" }}>
-                    <Mail
-                      size={16}
-                      style={{
-                        position: "absolute",
-                        left: 14,
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        color: "var(--color-text-muted)",
-                      }}
-                    />
-                    <input
-                      type="email"
-                      className="form-input"
-                      placeholder="you@example.com"
-                      style={{ paddingLeft: 40 }}
-                      value={signInData.email}
-                      onChange={(e) =>
-                        setSignInData((p) => ({ ...p, email: e.target.value }))
-                      }
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label
-                    className="form-label"
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    Password
-                    <a
-                      href="#"
-                      style={{ fontSize: "var(--text-xs)", fontWeight: 400 }}
-                    >
-                      Forgot password?
-                    </a>
-                  </label>
-                  <div style={{ position: "relative" }}>
-                    <Lock
-                      size={16}
-                      style={{
-                        position: "absolute",
-                        left: 14,
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        color: "var(--color-text-muted)",
-                      }}
-                    />
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      className="form-input"
-                      placeholder="Enter your password"
-                      style={{ paddingLeft: 40, paddingRight: 44 }}
-                      value={signInData.password}
-                      onChange={(e) =>
-                        setSignInData((p) => ({
-                          ...p,
-                          password: e.target.value,
-                        }))
-                      }
-                      required
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      style={{
-                        position: "absolute",
-                        right: 14,
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        color: "var(--color-text-muted)",
-                        background: "none",
-                        border: "none",
-                        cursor: "pointer",
-                      }}
-                    >
-                      {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                    </button>
-                  </div>
-                </div>
-                <button
-                  type="submit"
-                  className="btn btn-primary btn-lg btn-block"
-                  disabled={loading}
-                  style={{ marginTop: "var(--space-md)" }}
+              <>
+                <motion.form
+                  key="signin"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  onSubmit={handleSignIn}
                 >
-                  {loading ? "Authenticating..." : "Sign In"}
-                </button>
+                  <div className="form-group">
+                    <label className="form-label">Email Address</label>
+                    <div style={{ position: "relative" }}>
+                      <Mail
+                        size={16}
+                        style={{
+                          position: "absolute",
+                          left: 14,
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          color: "var(--color-text-muted)",
+                        }}
+                      />
+                      <input
+                        type="email"
+                        className="form-input"
+                        placeholder="you@example.com"
+                        style={{ paddingLeft: 40 }}
+                        value={signInData.email}
+                        onChange={(e) =>
+                          setSignInData((p) => ({
+                            ...p,
+                            email: e.target.value,
+                          }))
+                        }
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label
+                      className="form-label"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      Password
+                      <a
+                        href="#"
+                        style={{ fontSize: "var(--text-xs)", fontWeight: 400 }}
+                      >
+                        Forgot password?
+                      </a>
+                    </label>
+                    <div style={{ position: "relative" }}>
+                      <Lock
+                        size={16}
+                        style={{
+                          position: "absolute",
+                          left: 14,
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          color: "var(--color-text-muted)",
+                        }}
+                      />
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        className="form-input"
+                        placeholder="Enter your password"
+                        style={{ paddingLeft: 40, paddingRight: 44 }}
+                        value={signInData.password}
+                        onChange={(e) =>
+                          setSignInData((p) => ({
+                            ...p,
+                            password: e.target.value,
+                          }))
+                        }
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        style={{
+                          position: "absolute",
+                          right: 14,
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          color: "var(--color-text-muted)",
+                          background: "none",
+                          border: "none",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {showPassword ? (
+                          <EyeOff size={16} />
+                        ) : (
+                          <Eye size={16} />
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                  <button
+                    type="submit"
+                    className="btn btn-primary btn-lg btn-block"
+                    disabled={loading}
+                    style={{ marginTop: "var(--space-md)" }}
+                  >
+                    {loading ? "Authenticating..." : "Sign In"}
+                  </button>
+                </motion.form>
 
-              </motion.form>
+                <div
+                  style={{
+                    marginTop: "var(--space-md)",
+                    padding: "14px 16px",
+                    borderRadius: "16px",
+                    background: "rgba(0, 126, 151, 0.08)",
+                    border: "1px solid rgba(0, 126, 151, 0.15)",
+                    color: "var(--color-dark)",
+                    fontSize: "13px",
+                    lineHeight: 1.6,
+                    textAlign: "center",
+                  }}
+                >
+                  <strong>Demo Admin:</strong> admin@weekendpost.co.bw /{" "}
+                  <strong>Admin@1234</strong>
+                </div>
+              </>
             ) : (
               <motion.form
                 key="signup"
