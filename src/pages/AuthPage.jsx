@@ -114,7 +114,7 @@ export default function AuthPage() {
         confirm: "",
         agree: false,
       });
-      const target = `/auth?tab=signin${redirect ? `&redirect=${encodeURIComponent(redirect)}` : ""}`;
+      const target = `/user-auth?tab=signin${redirect ? `&redirect=${encodeURIComponent(redirect)}` : ""}`;
       setTimeout(() => {
         setTab("signin");
         navigate(target, { replace: true });
