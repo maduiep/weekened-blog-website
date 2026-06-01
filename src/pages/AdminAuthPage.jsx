@@ -473,8 +473,14 @@ export default function AdminAuthPage() {
                   }}
                 >
                   <form
+                    className="admin-request-form"
                     onSubmit={handleRequestAccess}
-                    style={{ display: "flex", gap: 8, alignItems: "center" }}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr",
+                      gap: 8,
+                      alignItems: "flex-end",
+                    }}
                   >
                     <input
                       value={reqName}
@@ -485,6 +491,7 @@ export default function AdminAuthPage() {
                         padding: 8,
                         borderRadius: 8,
                         border: "1px solid var(--color-border)",
+                        fontSize: 12,
                       }}
                     />
                     <input
@@ -497,6 +504,7 @@ export default function AdminAuthPage() {
                         padding: 8,
                         borderRadius: 8,
                         border: "1px solid var(--color-border)",
+                        fontSize: 12,
                       }}
                     />
                     <select
@@ -506,14 +514,19 @@ export default function AdminAuthPage() {
                         padding: 8,
                         borderRadius: 8,
                         border: "1px solid var(--color-border)",
+                        fontSize: 12,
                       }}
                     >
                       <option value="Editor">Editor</option>
                       <option value="Writer">Writer</option>
                       <option value="Moderator">Moderator</option>
                     </select>
-                    <button type="submit" className="btn btn-primary">
-                      Submit Request
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
+                      style={{ padding: "8px 12px", fontSize: 12 }}
+                    >
+                      Submit
                     </button>
                   </form>
                 </div>
