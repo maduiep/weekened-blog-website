@@ -1210,222 +1210,6 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              {/* Feedback Modal */}
-              <AnimatePresence>
-                {modalOpen && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    style={{
-                      position: "fixed",
-                      inset: 0,
-                      background: "rgba(0,0,0,0.45)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      zIndex: 2000,
-                      padding: "24px",
-                    }}
-                    onClick={() => setModalOpen(false)}
-                  >
-                    <motion.div
-                      initial={{ scale: 0.98 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0.98 }}
-                      style={{
-                        background: "white",
-                        borderRadius: "12px",
-                        width: "min(900px,100%)",
-                        maxHeight: "80vh",
-                        overflow: "auto",
-                        padding: "20px",
-                      }}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          marginBottom: 12,
-                        }}
-                      >
-                        <h3 style={{ margin: 0, fontSize: "18px" }}>
-                          {modalType === "average" && "Average Rating Details"}
-                          {modalType === "nps" && "NPS Score Breakdown"}
-                          {modalType === "positive" && "Positive Mentions"}
-                          {modalType === "response" && "Response Rate"}
-                          {modalType === "messageDetail" && "User Request Detail"}
-                        </h3>
-                        <button
-                          className="btn btn-ghost"
-                          onClick={() => setModalOpen(false)}
-                        >
-                          Close
-                        </button>
-                      </div>
-                      <div>
-                        {modalType === "average" && (
-                          <div>
-                            <p>Average score over time:</p>
-                            <svg
-                              width="100%"
-                              height="120"
-                              viewBox="0 0 400 120"
-                            >
-                              <polyline
-                                fill="none"
-                                stroke="#0b7285"
-                                strokeWidth="3"
-                                points="0,90 60,70 120,50 180,60 240,40 300,30 360,35"
-                              />
-                            </svg>
-                          </div>
-                        )}
-                        {modalType === "nps" && (
-                          <div>
-                            <p>NPS distribution:</p>
-                            <svg
-                              width="100%"
-                              height="120"
-                              viewBox="0 0 400 120"
-                            >
-                              <rect
-                                x="10"
-                                y="30"
-                                width="100"
-                                height="50"
-                                fill="#f6c85f"
-                              />
-                              <rect
-                                x="120"
-                                y="20"
-                                width="120"
-                                height="60"
-                                fill="#0b7285"
-                              />
-                              <rect
-                                x="250"
-                                y="45"
-                                width="120"
-                                height="35"
-                                fill="#d3d3d3"
-                              />
-                            </svg>
-                          </div>
-                        )}
-                        {modalType === "positive" && (
-                          <div
-                            style={{
-                              display: "flex",
-                              gap: 16,
-                              alignItems: "center",
-                            }}
-                          >
-                            <svg
-                              width="120"
-                              height="120"
-                              viewBox="0 0 42 42"
-                              style={{ flex: "none" }}
-                            >
-                              <circle
-                                r="15.9155"
-                                cx="21"
-                                cy="21"
-                                fill="#f1f5f9"
-                              />
-                              <circle
-                                r="15.9155"
-                                cx="21"
-                                cy="21"
-                                fill="transparent"
-                                stroke="#0b7285"
-                                strokeWidth="6"
-                                strokeDasharray="82 18"
-                                strokeDashoffset="25"
-                                transform="rotate(-90 21 21)"
-                              />
-                            </svg>
-                            <div>
-                              <p
-                                style={{
-                                  margin: 0,
-                                  fontWeight: 700,
-                                  fontSize: 24,
-                                }}
-                              >
-                                {feedbackData.positiveMentions}
-                              </p>
-                              <p style={{ marginTop: 8 }}>
-                                Share of positive mentions in recent responses.
-                              </p>
-                            </div>
-                          </div>
-                        )}
-                        {modalType === "response" && (
-                          <div>
-                            <p>Response rate progress:</p>
-                            <div
-                              style={{
-                                background: "#f1f5f9",
-                                borderRadius: 8,
-                                height: 18,
-                                overflow: "hidden",
-                              }}
-                            >
-                              <div
-                                style={{
-                                  width: feedbackData.responseRate,
-                                  height: "100%",
-                                  background: "#0b7285",
-                                }}
-                              />
-                            </div>
-                          </div>
-                        )}
-                        {modalType === "messageDetail" && selectedMessage && (
-                          <div style={{ color: "var(--color-text-muted)", fontSize: "14px", lineHeight: 1.6 }}>
-                            <div style={{ marginBottom: "var(--space-md)" }}>
-                              <strong>From:</strong> {selectedMessage.name} &lt;{selectedMessage.email}&gt;
-                              <br />
-                              <strong>Date:</strong> {formatDate(selectedMessage.date)}
-                              <br />
-                              <strong>Subject:</strong> {selectedMessage.subject}
-                              <br />
-                              <strong>Status:</strong> {selectedMessage.status}
-                            </div>
-                            <div style={{ background: "rgba(0,0,0,0.03)", padding: "var(--space-md)", borderRadius: "8px", border: "1px solid var(--color-border)", minHeight: "100px", whiteSpace: "pre-wrap" }}>
-                              {selectedMessage.message}
-                            </div>
-                            <div style={{ marginTop: "var(--space-lg)", display: "flex", justifyContent: "flex-end" }}>
-                              {selectedMessage.status !== "Resolved" && (
-                                <button
-                                  className="btn btn-primary"
-                                  onClick={() => {
-                                    const msgs = [...contactMessages];
-                                    const idx = msgs.findIndex(m => m.id === selectedMessage.id);
-                                    if (idx !== -1) {
-                                      msgs[idx].status = "Resolved";
-                                      setContactMessages(msgs);
-                                      localStorage.setItem('wp_contact_messages', JSON.stringify(msgs));
-                                      showToast("Message marked as resolved!");
-                                      setModalOpen(false);
-                                    }
-                                  }}
-                                  style={{ background: "var(--color-sport-green)", border: "none" }}
-                                >
-                                  Mark as Resolved
-                                </button>
-                              )}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </motion.div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
 
               <div
                 className="admin-card"
@@ -1920,7 +1704,7 @@ export default function AdminPage() {
                             </td>
                             <td style={{ padding: "var(--space-md)", textAlign: "right" }}>
                               <button
-                                className="admin-action-btn"
+                                
                                 title="Full Detail"
                                 onClick={() => {
                                   setSelectedMessage(msg);
@@ -1935,6 +1719,7 @@ export default function AdminPage() {
                                   padding: "6px 12px",
                                   borderRadius: "6px",
                                   border: "none",
+                                  whiteSpace: "nowrap",
                                   cursor: "pointer"
                                 }}
                               >
@@ -2032,6 +1817,223 @@ export default function AdminPage() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Feedback Modal */}
+      <AnimatePresence>
+      {modalOpen && (
+      <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      style={{
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0,0,0,0.45)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 2000,
+      padding: "24px",
+      }}
+      onClick={() => setModalOpen(false)}
+      >
+      <motion.div
+      initial={{ scale: 0.98 }}
+      animate={{ scale: 1 }}
+      exit={{ scale: 0.98 }}
+      style={{
+      background: "white",
+      borderRadius: "12px",
+      width: "min(900px,100%)",
+      maxHeight: "80vh",
+      overflow: "auto",
+      padding: "20px",
+      }}
+      onClick={(e) => e.stopPropagation()}
+      >
+      <div
+      style={{
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 12,
+      }}
+      >
+      <h3 style={{ margin: 0, fontSize: "18px" }}>
+      {modalType === "average" && "Average Rating Details"}
+      {modalType === "nps" && "NPS Score Breakdown"}
+      {modalType === "positive" && "Positive Mentions"}
+      {modalType === "response" && "Response Rate"}
+      {modalType === "messageDetail" && "User Request Detail"}
+      </h3>
+      <button
+      className="btn btn-ghost"
+      onClick={() => setModalOpen(false)}
+      >
+      Close
+      </button>
+      </div>
+      <div>
+      {modalType === "average" && (
+      <div>
+      <p>Average score over time:</p>
+      <svg
+      width="100%"
+      height="120"
+      viewBox="0 0 400 120"
+      >
+      <polyline
+      fill="none"
+      stroke="#0b7285"
+      strokeWidth="3"
+      points="0,90 60,70 120,50 180,60 240,40 300,30 360,35"
+      />
+      </svg>
+      </div>
+      )}
+      {modalType === "nps" && (
+      <div>
+      <p>NPS distribution:</p>
+      <svg
+      width="100%"
+      height="120"
+      viewBox="0 0 400 120"
+      >
+      <rect
+      x="10"
+      y="30"
+      width="100"
+      height="50"
+      fill="#f6c85f"
+      />
+      <rect
+      x="120"
+      y="20"
+      width="120"
+      height="60"
+      fill="#0b7285"
+      />
+      <rect
+      x="250"
+      y="45"
+      width="120"
+      height="35"
+      fill="#d3d3d3"
+      />
+      </svg>
+      </div>
+      )}
+      {modalType === "positive" && (
+      <div
+      style={{
+      display: "flex",
+      gap: 16,
+      alignItems: "center",
+      }}
+      >
+      <svg
+      width="120"
+      height="120"
+      viewBox="0 0 42 42"
+      style={{ flex: "none" }}
+      >
+      <circle
+      r="15.9155"
+      cx="21"
+      cy="21"
+      fill="#f1f5f9"
+      />
+      <circle
+      r="15.9155"
+      cx="21"
+      cy="21"
+      fill="transparent"
+      stroke="#0b7285"
+      strokeWidth="6"
+      strokeDasharray="82 18"
+      strokeDashoffset="25"
+      transform="rotate(-90 21 21)"
+      />
+      </svg>
+      <div>
+      <p
+      style={{
+      margin: 0,
+      fontWeight: 700,
+      fontSize: 24,
+      }}
+      >
+      {feedbackData.positiveMentions}
+      </p>
+      <p style={{ marginTop: 8 }}>
+      Share of positive mentions in recent responses.
+      </p>
+      </div>
+      </div>
+      )}
+      {modalType === "response" && (
+      <div>
+      <p>Response rate progress:</p>
+      <div
+      style={{
+      background: "#f1f5f9",
+      borderRadius: 8,
+      height: 18,
+      overflow: "hidden",
+      }}
+      >
+      <div
+      style={{
+      width: feedbackData.responseRate,
+      height: "100%",
+      background: "#0b7285",
+      }}
+      />
+      </div>
+      </div>
+      )}
+      {modalType === "messageDetail" && selectedMessage && (
+      <div style={{ color: "var(--color-text-muted)", fontSize: "14px", lineHeight: 1.6 }}>
+      <div style={{ marginBottom: "var(--space-md)" }}>
+      <strong>From:</strong> {selectedMessage.name} &lt;{selectedMessage.email}&gt;
+      <br />
+      <strong>Date:</strong> {formatDate(selectedMessage.date)}
+      <br />
+      <strong>Subject:</strong> {selectedMessage.subject}
+      <br />
+      <strong>Status:</strong> {selectedMessage.status}
+      </div>
+      <div style={{ background: "rgba(0,0,0,0.03)", padding: "var(--space-md)", borderRadius: "8px", border: "1px solid var(--color-border)", minHeight: "100px", whiteSpace: "pre-wrap" }}>
+      {selectedMessage.message}
+      </div>
+      <div style={{ marginTop: "var(--space-lg)", display: "flex", justifyContent: "flex-end" }}>
+      {selectedMessage.status !== "Resolved" && (
+      <button
+      className="btn btn-primary"
+      onClick={() => {
+      const msgs = [...contactMessages];
+      const idx = msgs.findIndex(m => m.id === selectedMessage.id);
+      if (idx !== -1) {
+      msgs[idx].status = "Resolved";
+      setContactMessages(msgs);
+      localStorage.setItem('wp_contact_messages', JSON.stringify(msgs));
+      showToast("Message marked as resolved!");
+      setModalOpen(false);
+      }
+      }}
+      style={{ background: "var(--color-sport-green)", border: "none" }}
+      >
+      Mark as Resolved
+      </button>
+      )}
+      </div>
+      </div>
+      )}
+      </div>
+      </motion.div>
+      </motion.div>
+      )}
+      </AnimatePresence>
 
       <style>{`
         .admin-analytics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-xl); margin-bottom: var(--space-xl); }
