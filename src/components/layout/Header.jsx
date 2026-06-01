@@ -118,17 +118,20 @@ export default function Header() {
                         )}
                       </div>
                       <div className="user-dropdown-divider" />
-                      <Link to="/dashboard" className="user-dropdown-item">
-                        <User size={15} /> My Account
-                      </Link>
-                      {!user?.isSubscribed && (
-                        <Link to="/subscribe" className="user-dropdown-item" style={{ color: 'var(--color-primary)' }}>
-                          ⭐ Subscribe Now
-                        </Link>
-                      )}
-                      {isAdmin && (
+                      {!isAdmin ? (
+                        <>
+                          <Link to="/dashboard" className="user-dropdown-item">
+                            <User size={15} /> My Account
+                          </Link>
+                          {!user?.isSubscribed && (
+                            <Link to="/subscribe" className="user-dropdown-item" style={{ color: 'var(--color-primary)' }}>
+                              ⭐ Subscribe Now
+                            </Link>
+                          )}
+                        </>
+                      ) : (
                         <Link to="/admin" className="user-dropdown-item" style={{ color: 'var(--color-opinion-purple)' }}>
-                          <Shield size={15} /> Admin Panel
+                          <Shield size={15} /> Admin Dashboard
                         </Link>
                       )}
                       <div className="user-dropdown-divider" />

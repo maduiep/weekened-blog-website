@@ -11,6 +11,7 @@ import SubscribePage from './pages/SubscribePage';
 import EPaperPage from './pages/EPaperPage';
 import SolutionsPage from './pages/SolutionsPage';
 import AuthPage from './pages/AuthPage';
+import AdminAuthPage from './pages/AdminAuthPage';
 import ContactPage from './pages/ContactPage';
 import SearchPage from './pages/SearchPage';
 import DashboardPage from './pages/DashboardPage';
@@ -94,8 +95,9 @@ export default function App() {
       </AnimatePresence>
 
       <Routes>
-        {/* Auth page has its own layout */}
+        {/* Auth pages have their own layout */}
         <Route path="/auth" element={<AuthPage />} />
+        <Route path="/admin-login" element={<AdminAuthPage />} />
 
         {/* All other pages use the standard layout */}
         <Route

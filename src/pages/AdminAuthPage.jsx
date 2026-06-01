@@ -1,0 +1,302 @@
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  AlertCircle,
+  CheckCircle,
+  ShieldCheck,
+  Globe,
+  Smartphone,
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "../context/AuthContext";
+
+export default function AdminAuthPage() {
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get("redirect") || "/admin";
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const [signInData, setSignInData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const { adminLogin, isAdmin } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAdmin) navigate(redirect, { replace: true });
+  }, [isAdmin, navigate, redirect]);
+
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      await adminLogin(signInData.email.trim(), signInData.password.trim());
+      navigate(redirect, { replace: true });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="auth-page">
+      {/* Visual Side */}
+      <div
+        className="auth-visual"
+        style={{
+          background: "var(--color-dark)",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            opacity: 0.1,
+            background:
+              'url("https://www.transparenttextures.com/patterns/cubes.png")',
+          }}
+        />
+
+        <div
+          className="auth-visual-content"
+          style={{ position: "relative", zIndex: 2 }}
+        >
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <h2
+              style={{
+                color: "white",
+                fontSize: "var(--text-3xl)",
+                fontWeight: 800,
+              }}
+            >
+              Weekend<span style={{ color: "var(--color-gold)" }}>Post</span>
+            </h2>
+          </Link>
+          <p
+            style={{
+              color: "rgba(255,255,255,0.9)",
+              marginBottom: "var(--space-2xl)",
+            }}
+          >
+            Restricted Access. Staff Members and Administrators Only.
+          </p>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "var(--space-xl)",
+              marginTop: "var(--space-2xl)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                gap: "var(--space-md)",
+                textAlign: "left",
+              }}
+            >
+              <div
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: "12px",
+                  background: "rgba(255,255,255,0.15)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "white",
+                  flexShrink: 0,
+                }}
+              >
+                <ShieldCheck size={20} />
+              </div>
+              <div>
+                <h4
+                  style={{
+                    color: "white",
+                    fontSize: "var(--text-sm)",
+                    marginBottom: 2,
+                  }}
+                >
+                  Admin Portal
+                </h4>
+                <p
+                  style={{
+                    color: "rgba(255,255,255,0.7)",
+                    fontSize: "11px",
+                    lineHeight: 1.4,
+                  }}
+                >
+                  Use your corporate credentials to access the newsroom systems.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Form Side */}
+      <div className="auth-form-container">
+        <div className="auth-form">
+          <div className="auth-tabs" style={{ display: 'flex', justifyContent: 'center' }}>
+            <h3 style={{ margin: 0, padding: 'var(--space-md) 0' }}>Staff Login</h3>
+          </div>
+
+          <motion.form
+            key="signin"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            onSubmit={handleSignIn}
+          >
+            <div className="form-group">
+              <label className="form-label">Admin Email</label>
+              <div style={{ position: "relative" }}>
+                <Mail
+                  size={16}
+                  style={{
+                    position: "absolute",
+                    left: 14,
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    color: "var(--color-text-muted)",
+                  }}
+                />
+                <input
+                  type="email"
+                  className="form-input"
+                  placeholder="admin@weekendpost.co.bw"
+                  style={{ paddingLeft: 40 }}
+                  value={signInData.email}
+                  onChange={(e) =>
+                    setSignInData((p) => ({ ...p, email: e.target.value }))
+                  }
+                  required
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <label
+                className="form-label"
+                style={{ display: "flex", justifyContent: "space-between" }}
+              >
+                Password
+              </label>
+              <div style={{ position: "relative" }}>
+                <Lock
+                  size={16}
+                  style={{
+                    position: "absolute",
+                    left: 14,
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    color: "var(--color-text-muted)",
+                  }}
+                />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="form-input"
+                  placeholder="Enter your password"
+                  style={{ paddingLeft: 40, paddingRight: 44 }}
+                  value={signInData.password}
+                  onChange={(e) =>
+                    setSignInData((p) => ({
+                      ...p,
+                      password: e.target.value,
+                    }))
+                  }
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    position: "absolute",
+                    right: 14,
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    color: "var(--color-text-muted)",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
+            </div>
+            <button
+              type="submit"
+              className="btn btn-primary btn-lg btn-block"
+              disabled={loading}
+              style={{ marginTop: "var(--space-md)", background: "var(--color-dark)" }}
+            >
+              {loading ? "Authenticating..." : "Sign In to Dashboard"}
+            </button>
+          </motion.form>
+
+          {/* Alerts */}
+          <div style={{ marginTop: "var(--space-lg)" }}>
+            {error && (
+              <div
+                className="auth-alert auth-alert-error"
+                style={{ fontSize: "12px" }}
+              >
+                <AlertCircle size={14} /> {error}
+              </div>
+            )}
+            {success && (
+              <div
+                className="auth-alert auth-alert-success"
+                style={{ fontSize: "12px" }}
+              >
+                <CheckCircle size={14} /> {success}
+              </div>
+            )}
+          </div>
+
+          <div
+            style={{
+              marginTop: "var(--space-2xl)",
+              textAlign: "center",
+              fontSize: "var(--text-xs)",
+              color: "var(--color-text-muted)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                gap: "16px",
+                marginBottom: "var(--space-md)",
+              }}
+            >
+              <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                <ShieldCheck size={12} /> SSL Secured
+              </span>
+              <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                <Lock size={12} /> Corporate Network Only
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

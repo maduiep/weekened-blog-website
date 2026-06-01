@@ -9,20 +9,7 @@ import {
 const AuthContext = createContext(null);
 
 // ─── Seeded accounts (demo) ──────────────────────────────────────────────────
-const SEED_USERS = [
-  {
-    uid: "admin-001",
-    name: "Weekend Post Admin",
-    email: "admin@weekendpost.co.bw",
-    password: "Admin@1234",
-    isAdmin: true,
-    isSubscribed: true,
-    subscriptionPlan: "annual",
-    subscriptionExpiry: "2027-12-31",
-    createdAt: "2024-01-01T00:00:00Z",
-    avatar: "A",
-  },
-];
+const SEED_USERS = [];
 
 const STORAGE_KEY = "wp_users";
 const SESSION_KEY = "wp_session";
@@ -61,15 +48,7 @@ function loadUsers() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
-      const stored = JSON.parse(raw);
-      // Always ensure seed admin is present (guards against stale localStorage)
-      const hasSeedAdmin = stored.some((u) => u.uid === "admin-001");
-      if (!hasSeedAdmin) {
-        const merged = [SEED_USERS[0], ...stored];
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
-        return merged;
-      }
-      return stored;
+      return JSON.parse(raw);
     }
   } catch (_) {}
   localStorage.setItem(STORAGE_KEY, JSON.stringify(SEED_USERS));
@@ -101,8 +80,15 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const session = loadSession();
     if (session) {
-      const users = loadUsers();
-      const fresh = users.find((u) => u.uid === session.uid);
+      let fresh = null;
+      if (session.isAdmin) {
+        const admins = JSON.parse(localStorage.getItem('wp_admin_records') || '[]');
+        fresh = admins.find(a => a.id === session.uid);
+        if (fresh) fresh = { ...fresh, uid: fresh.id, isAdmin: true };
+      } else {
+        const users = loadUsers();
+        fresh = users.find((u) => u.uid === session.uid);
+      }
       const activeSessions = loadActiveSessions();
       const isValidSession =
         fresh &&
@@ -203,6 +189,28 @@ export function AuthProvider({ children }) {
     }
 
     const { password: _, ...safe } = users[idx];
+    setUser(safe);
+    saveSession(safe);
+    return safe;
+  }, []);
+
+  // ── admin login ────────────────────────────────────────────────────────────
+  const adminLogin = useCallback(async (email, password) => {
+    const normalizedEmail = email.trim().toLowerCase();
+    const admins = JSON.parse(localStorage.getItem('wp_admin_records') || '[]');
+    const idx = admins.findIndex(
+      (a) => a.email.toLowerCase() === normalizedEmail && password === "Admin@1234"
+    );
+    if (idx === -1) throw new Error("Invalid admin email or password.");
+    if (admins[idx].status === 'Deleted') throw new Error("This admin account has been revoked.");
+
+    const sessionId = acquireSession(admins[idx].id);
+    admins[idx] = { ...admins[idx], activeSessionId: sessionId };
+    localStorage.setItem('wp_admin_records', JSON.stringify(admins));
+
+    const safe = { ...admins[idx], uid: admins[idx].id, isAdmin: true };
+    delete safe.password;
+
     setUser(safe);
     saveSession(safe);
     return safe;
@@ -453,9 +461,12 @@ export function AuthProvider({ children }) {
     user,
     loading,
     isLoggedIn: !!user,
-    isSubscribed: user?.isSubscribed ?? false,
-    isAdmin: user?.isAdmin ?? false,
+    isAdmin: !!user?.isAdmin,
+    isSubscribed: user?.isAdmin || !!user?.isSubscribed,
+    subscriptionTier: user?.subscriptionTier || null,
+    purchasedStories: user?.purchasedStories || [],
     login,
+    adminLogin,
     signup,
     logout,
     grantSubscription,

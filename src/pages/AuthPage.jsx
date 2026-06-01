@@ -353,21 +353,7 @@ export default function AuthPage() {
                 >
                   {loading ? "Authenticating..." : "Sign In"}
                 </button>
-                <div
-                  className="demo-hint"
-                  style={{
-                    marginTop: "var(--space-xl)",
-                    padding: "12px",
-                    background: "var(--color-bg-alt)",
-                    borderRadius: "8px",
-                    fontSize: "11px",
-                    textAlign: "center",
-                    border: "1px solid var(--color-border)",
-                  }}
-                >
-                  <strong>Demo Admin:</strong> admin@weekendpost.co.bw /
-                  Admin@1234
-                </div>
+
               </motion.form>
             ) : (
               <motion.form
