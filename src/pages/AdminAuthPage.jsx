@@ -26,6 +26,7 @@ export default function AdminAuthPage() {
     email: "",
     password: "",
   });
+  const [rememberAdmin, setRememberAdmin] = useState(false);
 
   const { adminLogin, isAdmin } = useAuth();
   const navigate = useNavigate();
@@ -34,12 +35,41 @@ export default function AdminAuthPage() {
     if (isAdmin) navigate(redirect, { replace: true });
   }, [isAdmin, navigate, redirect]);
 
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('wp_admin_remember');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed?.email) {
+          setSignInData({
+            email: parsed.email,
+            password: parsed.password || '',
+          });
+          setRememberAdmin(true);
+        }
+      }
+    } catch (error) {
+      console.warn('Failed to load remembered admin credentials.', error);
+    }
+  }, []);
+
   const handleSignIn = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
     try {
       await adminLogin(signInData.email.trim(), signInData.password.trim());
+      if (rememberAdmin) {
+        localStorage.setItem(
+          'wp_admin_remember',
+          JSON.stringify({
+            email: signInData.email.trim(),
+            password: signInData.password.trim(),
+          })
+        );
+      } else {
+        localStorage.removeItem('wp_admin_remember');
+      }
       navigate(redirect, { replace: true });
     } catch (err) {
       setError(err.message);
@@ -240,6 +270,26 @@ export default function AdminAuthPage() {
                     background: "none",
                     border: "none",
                     cursor: "pointer",
+
+              <label
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  marginTop: 'var(--space-md)',
+                  fontSize: '13px',
+                  color: 'var(--color-text-muted)',
+                  cursor: 'pointer',
+                }}
+              >
+                <input
+                  type="checkbox"
+                  checked={rememberAdmin}
+                  onChange={(e) => setRememberAdmin(e.target.checked)}
+                  style={{ width: 16, height: 16 }}
+                />
+                Remember admin login details for next time
+              </label>
                   }}
                 >
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
