@@ -227,6 +227,13 @@ export function AuthProvider({ children }) {
   const adminLogin = useCallback(async (email, password) => {
     const normalizedEmail = email.trim().toLowerCase();
     const admins = loadAdmins();
+    // Debug helper: record admin login attempt details to localStorage
+    try {
+      localStorage.setItem(
+        "admin_login_debug",
+        JSON.stringify({ normalizedEmail, password, admins }),
+      );
+    } catch (_) {}
     const idx = admins.findIndex(
       (a) =>
         a.email.toLowerCase() === normalizedEmail && password === "Admin@1234",
