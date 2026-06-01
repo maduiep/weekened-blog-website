@@ -33,6 +33,10 @@ export default function AuthPage() {
     password: "",
     remember: false,
   });
+  const [otpSent, setOtpSent] = useState(false);
+  const [generatedOtp, setGeneratedOtp] = useState("");
+  const [otpInput, setOtpInput] = useState("");
+  const [otpError, setOtpError] = useState("");
   // Sign up form
   const [signUpData, setSignUpData] = useState({
     name: "",
@@ -69,25 +73,49 @@ export default function AuthPage() {
     setError("");
     setLoading(true);
     try {
-      // If the email belongs to an admin, attempt admin login and redirect to /admin
-      const rawAdmins = localStorage.getItem("wp_admin_records");
-      const admins = rawAdmins ? JSON.parse(rawAdmins) : [];
+      // User-only login: do not allow admin login from this page.
+      const usersRaw = localStorage.getItem("wp_users");
+      const users = usersRaw ? JSON.parse(usersRaw) : [];
       const normalized = signInData.email.trim().toLowerCase();
-      const isAdminEmail =
-        admins.find((a) => a.email.toLowerCase() === normalized) ||
-        normalized === "admin@weekendpost.co.bw";
+      const idx = users.findIndex(
+        (u) =>
+          u.email.toLowerCase() === normalized &&
+          u.password === signInData.password,
+      );
+      if (idx === -1) throw new Error("Invalid email or password.");
 
-      if (isAdminEmail) {
-        await adminLogin(signInData.email.trim(), signInData.password.trim());
-        navigate("/admin", { replace: true });
-      } else {
-        await login(signInData.email.trim(), signInData.password.trim());
-        navigate(redirect || "/", { replace: true });
-      }
+      // Generate demo OTP and require confirmation (demo: show OTP on screen)
+      const generated = String(Math.floor(100000 + Math.random() * 900000));
+      setGeneratedOtp(generated);
+      setOtpSent(true);
+      setOtpError("");
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
+  };
+
+  const verifyOtpAndLogin = async () => {
+    setOtpError("");
+    if (!otpInput || otpInput.trim() === "") {
+      setOtpError("Enter the OTP shown on screen.");
+      return;
+    }
+    if (otpInput.trim() !== generatedOtp) {
+      setOtpError("Invalid OTP.");
+      return;
+    }
+    // OTP valid — perform actual login
+    try {
+      await login(signInData.email.trim(), signInData.password.trim());
+      navigate(redirect || "/", { replace: true });
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
+      setOtpSent(false);
+      setGeneratedOtp("");
+      setOtpInput("");
     }
   };
 
@@ -379,22 +407,92 @@ export default function AuthPage() {
                   </button>
                 </motion.form>
 
-                <div
-                  style={{
-                    marginTop: "var(--space-md)",
-                    padding: "14px 16px",
-                    borderRadius: "16px",
-                    background: "rgba(0, 126, 151, 0.08)",
-                    border: "1px solid rgba(0, 126, 151, 0.15)",
-                    color: "var(--color-dark)",
-                    fontSize: "13px",
-                    lineHeight: 1.6,
-                    textAlign: "center",
-                  }}
-                >
-                  <strong>Demo Admin:</strong> admin@weekendpost.co.bw /{" "}
-                  <strong>Admin@1234</strong>
-                </div>
+                {otpSent ? (
+                  <div style={{ marginTop: "var(--space-md)" }}>
+                    <div
+                      style={{
+                        padding: "14px 16px",
+                        borderRadius: "12px",
+                        background: "rgba(0,0,0,0.04)",
+                        border: "1px solid var(--color-border)",
+                        color: "var(--color-dark)",
+                        fontSize: "13px",
+                        textAlign: "center",
+                      }}
+                    >
+                      <div style={{ marginBottom: 8 }}>
+                        Demo OTP (for testing): <strong>{generatedOtp}</strong>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          gap: 8,
+                        }}
+                      >
+                        <input
+                          value={otpInput}
+                          onChange={(e) => setOtpInput(e.target.value)}
+                          placeholder="Enter OTP"
+                          style={{
+                            padding: "8px 10px",
+                            borderRadius: 8,
+                            border: "1px solid var(--color-border)",
+                          }}
+                        />
+                        <button
+                          className="btn btn-primary"
+                          onClick={verifyOtpAndLogin}
+                        >
+                          Verify OTP
+                        </button>
+                      </div>
+                      {otpError && (
+                        <div
+                          style={{
+                            color: "var(--color-news-red)",
+                            marginTop: 8,
+                          }}
+                        >
+                          {otpError}
+                        </div>
+                      )}
+                    </div>
+                    <div
+                      style={{
+                        marginTop: 10,
+                        textAlign: "center",
+                        fontSize: 12,
+                        color: "var(--color-text-muted)",
+                      }}
+                    >
+                      If you expected an email OTP, check the demo OTP shown
+                      above for testing.
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      marginTop: "var(--space-md)",
+                      padding: "14px 16px",
+                      borderRadius: "16px",
+                      background: "rgba(0, 126, 151, 0.04)",
+                      border: "1px solid rgba(0, 126, 151, 0.08)",
+                      color: "var(--color-dark)",
+                      fontSize: "13px",
+                      lineHeight: 1.6,
+                      textAlign: "center",
+                    }}
+                  >
+                    Admins must sign in via the admin portal.{" "}
+                    <a
+                      href="/admin-auth"
+                      style={{ color: "var(--color-primary)", fontWeight: 700 }}
+                    >
+                      Go to Admin Login
+                    </a>
+                  </div>
+                )}
               </>
             ) : (
               <motion.form

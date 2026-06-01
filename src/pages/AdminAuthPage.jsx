@@ -27,6 +27,14 @@ export default function AdminAuthPage() {
     password: "",
   });
   const [rememberAdmin, setRememberAdmin] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+  const [generatedOtp, setGeneratedOtp] = useState("");
+  const [otpInput, setOtpInput] = useState("");
+  const [otpError, setOtpError] = useState("");
+  const [showRequestForm, setShowRequestForm] = useState(false);
+  const [reqName, setReqName] = useState("");
+  const [reqEmail, setReqEmail] = useState("");
+  const [reqRole, setReqRole] = useState("Editor");
 
   const { adminLogin, isAdmin } = useAuth();
   const navigate = useNavigate();
@@ -58,6 +66,40 @@ export default function AdminAuthPage() {
     setError("");
     setLoading(true);
     try {
+      // Validate admin credentials but defer actual login until OTP is confirmed
+      const rawAdmins = localStorage.getItem("wp_admin_records");
+      const admins = rawAdmins ? JSON.parse(rawAdmins) : [];
+      const normalized = signInData.email.trim().toLowerCase();
+      const idx = admins.findIndex(
+        (a) =>
+          a.email.toLowerCase() === normalized &&
+          signInData.password === "Admin@1234",
+      );
+      if (idx === -1) throw new Error("Invalid admin email or password.");
+      if (admins[idx].status !== "Active")
+        throw new Error("Admin account is not active.");
+
+      const generated = String(Math.floor(100000 + Math.random() * 900000));
+      setGeneratedOtp(generated);
+      setOtpSent(true);
+      setOtpError("");
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
+  };
+
+  const verifyOtpAndAdminLogin = async () => {
+    setOtpError("");
+    if (!otpInput || otpInput.trim() === "") {
+      setOtpError("Enter the OTP shown on screen.");
+      return;
+    }
+    if (otpInput.trim() !== generatedOtp) {
+      setOtpError("Invalid OTP.");
+      return;
+    }
+    try {
       await adminLogin(signInData.email.trim(), signInData.password.trim());
       if (rememberAdmin) {
         localStorage.setItem(
@@ -75,7 +117,42 @@ export default function AdminAuthPage() {
       setError(err.message);
     } finally {
       setLoading(false);
+      setOtpSent(false);
+      setGeneratedOtp("");
+      setOtpInput("");
     }
+  };
+
+  const handleRequestAccess = (e) => {
+    e.preventDefault();
+    const admins = JSON.parse(localStorage.getItem("wp_admin_records") || "[]");
+    const exists = admins.find(
+      (a) => a.email.toLowerCase() === reqEmail.trim().toLowerCase(),
+    );
+    if (exists) {
+      setError("An admin request with this email already exists.");
+      return;
+    }
+    const newAdmin = {
+      id: `admin-${Date.now()}`,
+      name: reqName.trim(),
+      email: reqEmail.trim().toLowerCase(),
+      role: reqRole,
+      status: "Pending",
+      history: [
+        {
+          action: `Requested access as ${reqRole}`,
+          date: new Date().toISOString(),
+        },
+      ],
+    };
+    admins.push(newAdmin);
+    localStorage.setItem("wp_admin_records", JSON.stringify(admins));
+    setShowRequestForm(false);
+    setReqName("");
+    setReqEmail("");
+    setReqRole("Editor");
+    setSuccess("Access request submitted. Awaiting approval from Super Admin.");
   };
 
   return (
@@ -309,21 +386,140 @@ export default function AdminAuthPage() {
             Remember admin login details for next time
           </label>
 
-          <div
-            style={{
-              marginTop: "var(--space-md)",
-              padding: "14px 16px",
-              borderRadius: "16px",
-              background: "rgba(0, 126, 151, 0.08)",
-              border: "1px solid rgba(0, 126, 151, 0.15)",
-              color: "var(--color-dark)",
-              fontSize: "13px",
-              lineHeight: 1.6,
-            }}
-          >
-            <strong>Demo Admin:</strong> admin@weekendpost.co.bw /{" "}
-            <strong>Admin@1234</strong>
-          </div>
+          {otpSent ? (
+            <div style={{ marginTop: "var(--space-md)" }}>
+              <div
+                style={{
+                  padding: "14px 16px",
+                  borderRadius: "12px",
+                  background: "rgba(0,0,0,0.04)",
+                  border: "1px solid var(--color-border)",
+                  color: "var(--color-dark)",
+                  fontSize: "13px",
+                  textAlign: "center",
+                }}
+              >
+                <div style={{ marginBottom: 8 }}>
+                  Demo OTP (for testing): <strong>{generatedOtp}</strong>
+                </div>
+                <div
+                  style={{ display: "flex", justifyContent: "center", gap: 8 }}
+                >
+                  <input
+                    value={otpInput}
+                    onChange={(e) => setOtpInput(e.target.value)}
+                    placeholder="Enter OTP"
+                    style={{
+                      padding: "8px 10px",
+                      borderRadius: 8,
+                      border: "1px solid var(--color-border)",
+                    }}
+                  />
+                  <button
+                    className="btn btn-primary"
+                    onClick={verifyOtpAndAdminLogin}
+                  >
+                    Verify OTP
+                  </button>
+                </div>
+                {otpError && (
+                  <div style={{ color: "var(--color-news-red)", marginTop: 8 }}>
+                    {otpError}
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div>
+              <div
+                style={{
+                  marginTop: "var(--space-md)",
+                  padding: "14px 16px",
+                  borderRadius: "16px",
+                  background: "rgba(0, 126, 151, 0.08)",
+                  border: "1px solid rgba(0, 126, 151, 0.15)",
+                  color: "var(--color-dark)",
+                  fontSize: "13px",
+                  lineHeight: 1.6,
+                }}
+              >
+                <strong>Demo Admin:</strong> admin@weekendpost.co.bw /{" "}
+                <strong>Admin@1234</strong>
+              </div>
+
+              <div
+                style={{
+                  marginTop: 10,
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: 8,
+                }}
+              >
+                <button
+                  className="btn"
+                  onClick={() => setShowRequestForm((v) => !v)}
+                >
+                  {showRequestForm ? "Cancel Request" : "Request Admin Access"}
+                </button>
+              </div>
+
+              {showRequestForm && (
+                <div
+                  style={{
+                    marginTop: 12,
+                    padding: 12,
+                    borderRadius: 8,
+                    background: "var(--color-bg)",
+                  }}
+                >
+                  <form
+                    onSubmit={handleRequestAccess}
+                    style={{ display: "flex", gap: 8, alignItems: "center" }}
+                  >
+                    <input
+                      value={reqName}
+                      onChange={(e) => setReqName(e.target.value)}
+                      placeholder="Full name"
+                      required
+                      style={{
+                        padding: 8,
+                        borderRadius: 8,
+                        border: "1px solid var(--color-border)",
+                      }}
+                    />
+                    <input
+                      value={reqEmail}
+                      onChange={(e) => setReqEmail(e.target.value)}
+                      placeholder="Email"
+                      type="email"
+                      required
+                      style={{
+                        padding: 8,
+                        borderRadius: 8,
+                        border: "1px solid var(--color-border)",
+                      }}
+                    />
+                    <select
+                      value={reqRole}
+                      onChange={(e) => setReqRole(e.target.value)}
+                      style={{
+                        padding: 8,
+                        borderRadius: 8,
+                        border: "1px solid var(--color-border)",
+                      }}
+                    >
+                      <option value="Editor">Editor</option>
+                      <option value="Writer">Writer</option>
+                      <option value="Moderator">Moderator</option>
+                    </select>
+                    <button type="submit" className="btn btn-primary">
+                      Submit Request
+                    </button>
+                  </form>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Alerts */}
           <div style={{ marginTop: "var(--space-lg)" }}>
