@@ -148,7 +148,7 @@ export default function AdminPage() {
     const readMessages = () => {
       try {
         const msgs = JSON.parse(localStorage.getItem('wp_contact_messages') || '[]');
-        setContactMessages(msgs);
+        setContactMessages(Array.isArray(msgs) ? msgs : []);
       } catch (e) {
         setContactMessages([]);
       }
