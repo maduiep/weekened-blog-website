@@ -72,6 +72,43 @@ export default function AdminPage() {
   const subscribers = allUsers.filter((u) => u.isSubscribed);
   const adminUsersCount = allUsers.filter((u) => u.isAdmin).length;
   const adminLogs = getAdminLogs();
+  const [backendSessions, setBackendSessions] = useState([]);
+  const [backendSessionError, setBackendSessionError] = useState(null);
+  const [backendSessionsLoading, setBackendSessionsLoading] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+
+    const fetchBackendSessions = async () => {
+      setBackendSessionError(null);
+      setBackendSessionsLoading(true);
+
+      try {
+        const res = await fetch("http://localhost:3001/api/sessions/active");
+        if (!res.ok) throw new Error("Failed to load backend sessions");
+        const data = await res.json();
+        if (active && Array.isArray(data.activeSessions)) {
+          setBackendSessions(data.activeSessions);
+        }
+      } catch (error) {
+        if (active) {
+          setBackendSessionError(
+            "Unable to load backend session details from the backend.",
+          );
+          setBackendSessions([]);
+        }
+      } finally {
+        if (active) setBackendSessionsLoading(false);
+      }
+    };
+
+    fetchBackendSessions();
+    const interval = setInterval(fetchBackendSessions, 10000);
+    return () => {
+      active = false;
+      clearInterval(interval);
+    };
+  }, []);
 
   const filtered = allUsers.filter((u) => {
     const q = searchQuery.toLowerCase();
@@ -129,14 +166,17 @@ export default function AdminPage() {
 
     const calcRevenue = () => {
       try {
-        const txs = JSON.parse(localStorage.getItem('wp_transactions') || '[]');
+        const txs = JSON.parse(localStorage.getItem("wp_transactions") || "[]");
         const currentMonth = new Date().getMonth();
         const currentYear = new Date().getFullYear();
         let total = 0;
         for (const t of txs) {
           if (!t.date || !t.amount) continue;
           const d = new Date(t.date);
-          if (d.getMonth() === currentMonth && d.getFullYear() === currentYear) {
+          if (
+            d.getMonth() === currentMonth &&
+            d.getFullYear() === currentYear
+          ) {
             total += Number(t.amount);
           }
         }
@@ -149,7 +189,9 @@ export default function AdminPage() {
 
     const readMessages = () => {
       try {
-        const msgs = JSON.parse(localStorage.getItem('wp_contact_messages') || '[]');
+        const msgs = JSON.parse(
+          localStorage.getItem("wp_contact_messages") || "[]",
+        );
         setContactMessages(Array.isArray(msgs) ? msgs : []);
       } catch (e) {
         setContactMessages([]);
@@ -158,7 +200,13 @@ export default function AdminPage() {
     readMessages();
 
     const onStorage = (e) => {
-      if (e.key && e.key !== KEY && e.key !== 'wp_transactions' && e.key !== 'wp_contact_messages') return;
+      if (
+        e.key &&
+        e.key !== KEY &&
+        e.key !== "wp_transactions" &&
+        e.key !== "wp_contact_messages"
+      )
+        return;
       read();
       calcRevenue();
       readMessages();
@@ -558,24 +606,27 @@ export default function AdminPage() {
               display: "flex",
               alignItems: "center",
               gap: 8,
-              position: "relative"
+              position: "relative",
             }}
           >
             <Mail size={16} /> User Requests
-            {contactMessages.filter(m => m.status === 'Unread').length > 0 && (
-              <span style={{
-                position: 'absolute',
-                top: '-4px',
-                right: '-4px',
-                background: 'var(--color-news-red)',
-                color: 'white',
-                fontSize: '10px',
-                fontWeight: 'bold',
-                padding: '2px 6px',
-                borderRadius: '10px',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-              }}>
-                {contactMessages.filter(m => m.status === 'Unread').length}
+            {contactMessages.filter((m) => m.status === "Unread").length >
+              0 && (
+              <span
+                style={{
+                  position: "absolute",
+                  top: "-4px",
+                  right: "-4px",
+                  background: "var(--color-news-red)",
+                  color: "white",
+                  fontSize: "10px",
+                  fontWeight: "bold",
+                  padding: "2px 6px",
+                  borderRadius: "10px",
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+                }}
+              >
+                {contactMessages.filter((m) => m.status === "Unread").length}
               </span>
             )}
           </button>
@@ -1233,7 +1284,6 @@ export default function AdminPage() {
                 </div>
               </div>
 
-
               <div
                 className="admin-card"
                 style={{
@@ -1492,9 +1542,26 @@ export default function AdminPage() {
                           </td>
                           <td>
                             {u.isAdmin ? (
-                              <span style={{ color: 'var(--color-sport-green)', fontWeight: 800, fontSize: '10px', textTransform: 'uppercase' }}>Admin</span>
+                              <span
+                                style={{
+                                  color: "var(--color-sport-green)",
+                                  fontWeight: 800,
+                                  fontSize: "10px",
+                                  textTransform: "uppercase",
+                                }}
+                              >
+                                Admin
+                              </span>
                             ) : (
-                              <span style={{ color: 'var(--color-text-muted)', fontSize: '10px', textTransform: 'uppercase' }}>User</span>
+                              <span
+                                style={{
+                                  color: "var(--color-text-muted)",
+                                  fontSize: "10px",
+                                  textTransform: "uppercase",
+                                }}
+                              >
+                                User
+                              </span>
                             )}
                           </td>
                           <td>
@@ -1559,15 +1626,31 @@ export default function AdminPage() {
                               {u.uid !== adminUser.uid && (
                                 <button
                                   className="admin-action-btn"
-                                  title={u.isAdmin ? "Remove Admin" : "Make Admin"}
+                                  title={
+                                    u.isAdmin ? "Remove Admin" : "Make Admin"
+                                  }
                                   onClick={() => {
-                                    if (!confirm(`Change role of ${u.name} to ${u.isAdmin ? 'User' : 'Admin'}?`)) return;
-                                    assignRole(u.uid, u.isAdmin ? 'user' : 'admin');
-                                    showToast(`${u.name} is now ${u.isAdmin ? 'User' : 'Admin'}`);
+                                    if (
+                                      !confirm(
+                                        `Change role of ${u.name} to ${u.isAdmin ? "User" : "Admin"}?`,
+                                      )
+                                    )
+                                      return;
+                                    assignRole(
+                                      u.uid,
+                                      u.isAdmin ? "user" : "admin",
+                                    );
+                                    showToast(
+                                      `${u.name} is now ${u.isAdmin ? "User" : "Admin"}`,
+                                    );
                                   }}
                                   style={{
-                                    color: u.isAdmin ? "var(--color-news-red)" : "var(--color-sport-green)",
-                                    background: u.isAdmin ? "rgba(239,68,68,0.05)" : "rgba(39,174,96,0.05)",
+                                    color: u.isAdmin
+                                      ? "var(--color-news-red)"
+                                      : "var(--color-sport-green)",
+                                    background: u.isAdmin
+                                      ? "rgba(239,68,68,0.05)"
+                                      : "rgba(39,174,96,0.05)",
                                   }}
                                 >
                                   <ShieldCheck size={14} />
@@ -1611,9 +1694,16 @@ export default function AdminPage() {
                                   className="admin-action-btn admin-action-revoke"
                                   title="Delete User"
                                   onClick={() => {
-                                    if (!confirm(`Are you sure you want to completely DELETE ${u.name}'s account? This action cannot be undone.`)) return;
+                                    if (
+                                      !confirm(
+                                        `Are you sure you want to completely DELETE ${u.name}'s account? This action cannot be undone.`,
+                                      )
+                                    )
+                                      return;
                                     deleteUser(u.uid);
-                                    showToast(`${u.name}'s account was deleted.`);
+                                    showToast(
+                                      `${u.name}'s account was deleted.`,
+                                    );
                                   }}
                                 >
                                   <Trash2 size={14} />
@@ -1681,17 +1771,79 @@ export default function AdminPage() {
                           borderBottom: "1px solid var(--color-border)",
                         }}
                       >
-                        <th style={{ padding: "var(--space-md)", textAlign: "left", fontSize: "12px", color: "var(--color-text-muted)", textTransform: "uppercase", letterSpacing: "0.5px" }}>Date</th>
-                        <th style={{ padding: "var(--space-md)", textAlign: "left", fontSize: "12px", color: "var(--color-text-muted)", textTransform: "uppercase", letterSpacing: "0.5px" }}>User</th>
-                        <th style={{ padding: "var(--space-md)", textAlign: "left", fontSize: "12px", color: "var(--color-text-muted)", textTransform: "uppercase", letterSpacing: "0.5px" }}>Subject</th>
-                        <th style={{ padding: "var(--space-md)", textAlign: "center", fontSize: "12px", color: "var(--color-text-muted)", textTransform: "uppercase", letterSpacing: "0.5px" }}>Status</th>
-                        <th style={{ padding: "var(--space-md)", textAlign: "right", fontSize: "12px", color: "var(--color-text-muted)", textTransform: "uppercase", letterSpacing: "0.5px" }}>Action</th>
+                        <th
+                          style={{
+                            padding: "var(--space-md)",
+                            textAlign: "left",
+                            fontSize: "12px",
+                            color: "var(--color-text-muted)",
+                            textTransform: "uppercase",
+                            letterSpacing: "0.5px",
+                          }}
+                        >
+                          Date
+                        </th>
+                        <th
+                          style={{
+                            padding: "var(--space-md)",
+                            textAlign: "left",
+                            fontSize: "12px",
+                            color: "var(--color-text-muted)",
+                            textTransform: "uppercase",
+                            letterSpacing: "0.5px",
+                          }}
+                        >
+                          User
+                        </th>
+                        <th
+                          style={{
+                            padding: "var(--space-md)",
+                            textAlign: "left",
+                            fontSize: "12px",
+                            color: "var(--color-text-muted)",
+                            textTransform: "uppercase",
+                            letterSpacing: "0.5px",
+                          }}
+                        >
+                          Subject
+                        </th>
+                        <th
+                          style={{
+                            padding: "var(--space-md)",
+                            textAlign: "center",
+                            fontSize: "12px",
+                            color: "var(--color-text-muted)",
+                            textTransform: "uppercase",
+                            letterSpacing: "0.5px",
+                          }}
+                        >
+                          Status
+                        </th>
+                        <th
+                          style={{
+                            padding: "var(--space-md)",
+                            textAlign: "right",
+                            fontSize: "12px",
+                            color: "var(--color-text-muted)",
+                            textTransform: "uppercase",
+                            letterSpacing: "0.5px",
+                          }}
+                        >
+                          Action
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {contactMessages.length === 0 ? (
                         <tr>
-                          <td colSpan="5" style={{ padding: "var(--space-2xl)", textAlign: "center", color: "var(--color-text-muted)" }}>
+                          <td
+                            colSpan="5"
+                            style={{
+                              padding: "var(--space-2xl)",
+                              textAlign: "center",
+                              color: "var(--color-text-muted)",
+                            }}
+                          >
                             No user requests found.
                           </td>
                         </tr>
@@ -1699,35 +1851,78 @@ export default function AdminPage() {
                         contactMessages.map((msg) => (
                           <tr
                             key={msg.id}
-                            style={{ borderBottom: "1px solid var(--color-border)" }}
+                            style={{
+                              borderBottom: "1px solid var(--color-border)",
+                            }}
                           >
-                            <td style={{ padding: "var(--space-md)", fontSize: "14px", color: "var(--color-text-muted)" }}>
+                            <td
+                              style={{
+                                padding: "var(--space-md)",
+                                fontSize: "14px",
+                                color: "var(--color-text-muted)",
+                              }}
+                            >
                               {formatDate(msg.date)}
                             </td>
                             <td style={{ padding: "var(--space-md)" }}>
-                              <div style={{ fontWeight: 600, color: "var(--color-dark)", fontSize: "14px" }}>{msg.name}</div>
-                              <div style={{ fontSize: "12px", color: "var(--color-text-muted)" }}>{msg.email}</div>
+                              <div
+                                style={{
+                                  fontWeight: 600,
+                                  color: "var(--color-dark)",
+                                  fontSize: "14px",
+                                }}
+                              >
+                                {msg.name}
+                              </div>
+                              <div
+                                style={{
+                                  fontSize: "12px",
+                                  color: "var(--color-text-muted)",
+                                }}
+                              >
+                                {msg.email}
+                              </div>
                             </td>
-                            <td style={{ padding: "var(--space-md)", fontSize: "14px" }}>
+                            <td
+                              style={{
+                                padding: "var(--space-md)",
+                                fontSize: "14px",
+                              }}
+                            >
                               {msg.subject}
                             </td>
-                            <td style={{ padding: "var(--space-md)", textAlign: "center" }}>
+                            <td
+                              style={{
+                                padding: "var(--space-md)",
+                                textAlign: "center",
+                              }}
+                            >
                               <span
                                 style={{
                                   padding: "4px 10px",
                                   borderRadius: "100px",
                                   fontSize: "11px",
                                   fontWeight: 600,
-                                  background: msg.status === "Resolved" ? "rgba(39,174,96,0.1)" : "rgba(243,156,18,0.1)",
-                                  color: msg.status === "Resolved" ? "var(--color-sport-green)" : "var(--color-gold)",
+                                  background:
+                                    msg.status === "Resolved"
+                                      ? "rgba(39,174,96,0.1)"
+                                      : "rgba(243,156,18,0.1)",
+                                  color:
+                                    msg.status === "Resolved"
+                                      ? "var(--color-sport-green)"
+                                      : "var(--color-gold)",
                                 }}
                               >
                                 {msg.status}
                               </span>
                             </td>
-                            <td style={{ padding: "var(--space-md)", textAlign: "right" }}>
+                            <td
+                              style={{
+                                padding: "var(--space-md)",
+                                textAlign: "right",
+                              }}
+                            >
                               <button
-                                
                                 title="Full Detail"
                                 onClick={() => {
                                   setSelectedMessage(msg);
@@ -1743,7 +1938,7 @@ export default function AdminPage() {
                                   borderRadius: "6px",
                                   border: "none",
                                   whiteSpace: "nowrap",
-                                  cursor: "pointer"
+                                  cursor: "pointer",
                                 }}
                               >
                                 Full Detail
@@ -1795,10 +1990,145 @@ export default function AdminPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <div className="admin-card" style={{ background: "white", borderRadius: "var(--radius-xl)", border: "1px solid var(--color-border)", overflow: "hidden" }}>
-                <div style={{ padding: "var(--space-xl)", borderBottom: "1px solid var(--color-border)" }}>
-                  <h3 style={{ fontSize: "var(--text-lg)", margin: 0 }}>Security Audit Logs</h3>
-                  <p style={{ fontSize: "12px", color: "var(--color-text-muted)", marginTop: "4px" }}>History of all role changes and account deletions.</p>
+              <div
+                className="admin-card"
+                style={{
+                  background: "white",
+                  borderRadius: "var(--radius-xl)",
+                  border: "1px solid var(--color-border)",
+                  overflow: "hidden",
+                }}
+              >
+                <div
+                  style={{
+                    padding: "var(--space-xl)",
+                    borderBottom: "1px solid var(--color-border)",
+                  }}
+                >
+                  <h3 style={{ fontSize: "var(--text-lg)", margin: 0 }}>
+                    Security Audit Logs
+                  </h3>
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      color: "var(--color-text-muted)",
+                      marginTop: "4px",
+                    }}
+                  >
+                    History of all role changes and account deletions.
+                  </p>
+                </div>
+                <div
+                  style={{
+                    padding: "var(--space-xl)",
+                    borderBottom: "1px solid var(--color-border)",
+                    background: "var(--color-bg)",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      flexWrap: "wrap",
+                      gap: "12px",
+                    }}
+                  >
+                    <div>
+                      <h4 style={{ margin: 0, fontSize: "var(--text-md)" }}>
+                        Backend Active Sessions
+                      </h4>
+                      <p
+                        style={{
+                          margin: "6px 0 0",
+                          fontSize: "12px",
+                          color: "var(--color-text-muted)",
+                        }}
+                      >
+                        Login/session details fetched from the backend session
+                        store.
+                      </p>
+                    </div>
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "var(--color-text-muted)",
+                      }}
+                    >
+                      {backendSessions.length} active session
+                      {backendSessions.length === 1 ? "" : "s"}
+                    </span>
+                  </div>
+                  <div style={{ marginTop: "16px", overflowX: "auto" }}>
+                    {backendSessionsLoading ? (
+                      <p style={{ color: "var(--color-text-muted)" }}>
+                        Loading backend session details…
+                      </p>
+                    ) : backendSessionError ? (
+                      <p style={{ color: "var(--color-news-red)" }}>
+                        {backendSessionError}
+                      </p>
+                    ) : backendSessions.length === 0 ? (
+                      <p style={{ color: "var(--color-text-muted)" }}>
+                        No active backend sessions found.
+                      </p>
+                    ) : (
+                      <table className="admin-table" style={{ width: "100%" }}>
+                        <thead>
+                          <tr>
+                            <th>User ID</th>
+                            <th>Session Started</th>
+                            <th>Last Seen</th>
+                            <th>Device Info</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {backendSessions.map((session) => (
+                            <tr
+                              key={session.sessionId}
+                              className="admin-table-row"
+                            >
+                              <td style={{ fontSize: "13px", fontWeight: 600 }}>
+                                {session.userId}
+                              </td>
+                              <td
+                                style={{
+                                  fontSize: "12px",
+                                  color: "var(--color-text-muted)",
+                                }}
+                              >
+                                {new Date(session.createdAt).toLocaleString()}
+                              </td>
+                              <td
+                                style={{
+                                  fontSize: "12px",
+                                  color: "var(--color-text-muted)",
+                                }}
+                              >
+                                {new Date(session.lastSeen).toLocaleString()}
+                              </td>
+                              <td
+                                style={{
+                                  fontSize: "12px",
+                                  color: "var(--color-text-muted)",
+                                }}
+                                title={
+                                  typeof session.deviceInfo === "string"
+                                    ? session.deviceInfo
+                                    : JSON.stringify(session.deviceInfo)
+                                }
+                              >
+                                {typeof session.deviceInfo === "string"
+                                  ? session.deviceInfo
+                                  : session.deviceInfo.userAgent ||
+                                    JSON.stringify(session.deviceInfo)}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    )}
+                  </div>
                 </div>
                 <div className="admin-table-wrapper">
                   <table className="admin-table">
@@ -1814,31 +2144,69 @@ export default function AdminPage() {
                     <tbody>
                       {adminLogs.map((log) => (
                         <tr key={log.id} className="admin-table-row">
-                          <td style={{ fontSize: "12px", color: "var(--color-text-muted)" }}>
+                          <td
+                            style={{
+                              fontSize: "12px",
+                              color: "var(--color-text-muted)",
+                            }}
+                          >
                             {new Date(log.timestamp).toLocaleString()}
                           </td>
                           <td>
-                            <span style={{ 
-                              padding: "4px 8px", 
-                              borderRadius: "4px", 
-                              fontSize: "10px", 
-                              fontWeight: 700, 
-                              textTransform: "uppercase",
-                              background: log.action.includes('DELETED') ? "rgba(239,68,68,0.1)" : "rgba(39,174,96,0.1)",
-                              color: log.action.includes('DELETED') ? "var(--color-news-red)" : "var(--color-sport-green)"
-                            }}>
-                              {log.action.replace(/_/g, ' ')}
+                            <span
+                              style={{
+                                padding: "4px 8px",
+                                borderRadius: "4px",
+                                fontSize: "10px",
+                                fontWeight: 700,
+                                textTransform: "uppercase",
+                                background: log.action.includes("DELETED")
+                                  ? "rgba(239,68,68,0.1)"
+                                  : "rgba(39,174,96,0.1)",
+                                color: log.action.includes("DELETED")
+                                  ? "var(--color-news-red)"
+                                  : "var(--color-sport-green)",
+                              }}
+                            >
+                              {log.action.replace(/_/g, " ")}
                             </span>
                           </td>
-                          <td style={{ fontWeight: 600, fontSize: "13px" }}>{log.adminName}</td>
-                          <td style={{ fontSize: "13px" }}>{log.targetName} <span style={{ color: "var(--color-text-muted)", fontSize: "10px" }}>({log.targetUid.substring(0,8)})</span></td>
-                          <td style={{ fontSize: "12px", color: "var(--color-text-muted)" }}>{log.details}</td>
+                          <td style={{ fontWeight: 600, fontSize: "13px" }}>
+                            {log.adminName}
+                          </td>
+                          <td style={{ fontSize: "13px" }}>
+                            {log.targetName}{" "}
+                            <span
+                              style={{
+                                color: "var(--color-text-muted)",
+                                fontSize: "10px",
+                              }}
+                            >
+                              ({log.targetUid.substring(0, 8)})
+                            </span>
+                          </td>
+                          <td
+                            style={{
+                              fontSize: "12px",
+                              color: "var(--color-text-muted)",
+                            }}
+                          >
+                            {log.details}
+                          </td>
                         </tr>
                       ))}
                       {adminLogs.length === 0 && (
                         <tr>
-                          <td colSpan="5" style={{ textAlign: "center", padding: "40px", color: "var(--color-text-muted)" }}>
-                            No security logs found. Actions like promoting admins or deleting users will appear here.
+                          <td
+                            colSpan="5"
+                            style={{
+                              textAlign: "center",
+                              padding: "40px",
+                              color: "var(--color-text-muted)",
+                            }}
+                          >
+                            No security logs found. Actions like promoting
+                            admins or deleting users will appear here.
                           </td>
                         </tr>
                       )}
@@ -1853,219 +2221,236 @@ export default function AdminPage() {
 
       {/* Feedback Modal */}
       <AnimatePresence>
-      {modalOpen && (
-      <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      style={{
-      position: "fixed",
-      inset: 0,
-      background: "rgba(0,0,0,0.45)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      zIndex: 2000,
-      padding: "24px",
-      }}
-      onClick={() => setModalOpen(false)}
-      >
-      <motion.div
-      initial={{ scale: 0.98 }}
-      animate={{ scale: 1 }}
-      exit={{ scale: 0.98 }}
-      style={{
-      background: "white",
-      borderRadius: "12px",
-      width: "min(900px,100%)",
-      maxHeight: "80vh",
-      overflow: "auto",
-      padding: "20px",
-      }}
-      onClick={(e) => e.stopPropagation()}
-      >
-      <div
-      style={{
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginBottom: 12,
-      }}
-      >
-      <h3 style={{ margin: 0, fontSize: "18px" }}>
-      {modalType === "average" && "Average Rating Details"}
-      {modalType === "nps" && "NPS Score Breakdown"}
-      {modalType === "positive" && "Positive Mentions"}
-      {modalType === "response" && "Response Rate"}
-      {modalType === "messageDetail" && "User Request Detail"}
-      </h3>
-      <button
-      className="btn btn-ghost"
-      onClick={() => setModalOpen(false)}
-      >
-      Close
-      </button>
-      </div>
-      <div>
-      {modalType === "average" && (
-      <div>
-      <p>Average score over time:</p>
-      <svg
-      width="100%"
-      height="120"
-      viewBox="0 0 400 120"
-      >
-      <polyline
-      fill="none"
-      stroke="#0b7285"
-      strokeWidth="3"
-      points="0,90 60,70 120,50 180,60 240,40 300,30 360,35"
-      />
-      </svg>
-      </div>
-      )}
-      {modalType === "nps" && (
-      <div>
-      <p>NPS distribution:</p>
-      <svg
-      width="100%"
-      height="120"
-      viewBox="0 0 400 120"
-      >
-      <rect
-      x="10"
-      y="30"
-      width="100"
-      height="50"
-      fill="#f6c85f"
-      />
-      <rect
-      x="120"
-      y="20"
-      width="120"
-      height="60"
-      fill="#0b7285"
-      />
-      <rect
-      x="250"
-      y="45"
-      width="120"
-      height="35"
-      fill="#d3d3d3"
-      />
-      </svg>
-      </div>
-      )}
-      {modalType === "positive" && (
-      <div
-      style={{
-      display: "flex",
-      gap: 16,
-      alignItems: "center",
-      }}
-      >
-      <svg
-      width="120"
-      height="120"
-      viewBox="0 0 42 42"
-      style={{ flex: "none" }}
-      >
-      <circle
-      r="15.9155"
-      cx="21"
-      cy="21"
-      fill="#f1f5f9"
-      />
-      <circle
-      r="15.9155"
-      cx="21"
-      cy="21"
-      fill="transparent"
-      stroke="#0b7285"
-      strokeWidth="6"
-      strokeDasharray="82 18"
-      strokeDashoffset="25"
-      transform="rotate(-90 21 21)"
-      />
-      </svg>
-      <div>
-      <p
-      style={{
-      margin: 0,
-      fontWeight: 700,
-      fontSize: 24,
-      }}
-      >
-      {feedbackData.positiveMentions}
-      </p>
-      <p style={{ marginTop: 8 }}>
-      Share of positive mentions in recent responses.
-      </p>
-      </div>
-      </div>
-      )}
-      {modalType === "response" && (
-      <div>
-      <p>Response rate progress:</p>
-      <div
-      style={{
-      background: "#f1f5f9",
-      borderRadius: 8,
-      height: 18,
-      overflow: "hidden",
-      }}
-      >
-      <div
-      style={{
-      width: feedbackData.responseRate,
-      height: "100%",
-      background: "#0b7285",
-      }}
-      />
-      </div>
-      </div>
-      )}
-      {modalType === "messageDetail" && selectedMessage && (
-      <div style={{ color: "var(--color-text-muted)", fontSize: "14px", lineHeight: 1.6 }}>
-      <div style={{ marginBottom: "var(--space-md)" }}>
-      <strong>From:</strong> {selectedMessage.name} &lt;{selectedMessage.email}&gt;
-      <br />
-      <strong>Date:</strong> {formatDate(selectedMessage.date)}
-      <br />
-      <strong>Subject:</strong> {selectedMessage.subject}
-      <br />
-      <strong>Status:</strong> {selectedMessage.status}
-      </div>
-      <div style={{ background: "rgba(0,0,0,0.03)", padding: "var(--space-md)", borderRadius: "8px", border: "1px solid var(--color-border)", minHeight: "100px", whiteSpace: "pre-wrap" }}>
-      {selectedMessage.message}
-      </div>
-      <div style={{ marginTop: "var(--space-lg)", display: "flex", justifyContent: "flex-end" }}>
-      {selectedMessage.status !== "Resolved" && (
-      <button
-      className="btn btn-primary"
-      onClick={() => {
-      const msgs = [...contactMessages];
-      const idx = msgs.findIndex(m => m.id === selectedMessage.id);
-      if (idx !== -1) {
-      msgs[idx].status = "Resolved";
-      setContactMessages(msgs);
-      localStorage.setItem('wp_contact_messages', JSON.stringify(msgs));
-      showToast("Message marked as resolved!");
-      setModalOpen(false);
-      }
-      }}
-      style={{ background: "var(--color-sport-green)", border: "none" }}
-      >
-      Mark as Resolved
-      </button>
-      )}
-      </div>
-      </div>
-      )}
-      </div>
-      </motion.div>
-      </motion.div>
-      )}
+        {modalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(0,0,0,0.45)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              zIndex: 2000,
+              padding: "24px",
+            }}
+            onClick={() => setModalOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.98 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.98 }}
+              style={{
+                background: "white",
+                borderRadius: "12px",
+                width: "min(900px,100%)",
+                maxHeight: "80vh",
+                overflow: "auto",
+                padding: "20px",
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: 12,
+                }}
+              >
+                <h3 style={{ margin: 0, fontSize: "18px" }}>
+                  {modalType === "average" && "Average Rating Details"}
+                  {modalType === "nps" && "NPS Score Breakdown"}
+                  {modalType === "positive" && "Positive Mentions"}
+                  {modalType === "response" && "Response Rate"}
+                  {modalType === "messageDetail" && "User Request Detail"}
+                </h3>
+                <button
+                  className="btn btn-ghost"
+                  onClick={() => setModalOpen(false)}
+                >
+                  Close
+                </button>
+              </div>
+              <div>
+                {modalType === "average" && (
+                  <div>
+                    <p>Average score over time:</p>
+                    <svg width="100%" height="120" viewBox="0 0 400 120">
+                      <polyline
+                        fill="none"
+                        stroke="#0b7285"
+                        strokeWidth="3"
+                        points="0,90 60,70 120,50 180,60 240,40 300,30 360,35"
+                      />
+                    </svg>
+                  </div>
+                )}
+                {modalType === "nps" && (
+                  <div>
+                    <p>NPS distribution:</p>
+                    <svg width="100%" height="120" viewBox="0 0 400 120">
+                      <rect
+                        x="10"
+                        y="30"
+                        width="100"
+                        height="50"
+                        fill="#f6c85f"
+                      />
+                      <rect
+                        x="120"
+                        y="20"
+                        width="120"
+                        height="60"
+                        fill="#0b7285"
+                      />
+                      <rect
+                        x="250"
+                        y="45"
+                        width="120"
+                        height="35"
+                        fill="#d3d3d3"
+                      />
+                    </svg>
+                  </div>
+                )}
+                {modalType === "positive" && (
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: 16,
+                      alignItems: "center",
+                    }}
+                  >
+                    <svg
+                      width="120"
+                      height="120"
+                      viewBox="0 0 42 42"
+                      style={{ flex: "none" }}
+                    >
+                      <circle r="15.9155" cx="21" cy="21" fill="#f1f5f9" />
+                      <circle
+                        r="15.9155"
+                        cx="21"
+                        cy="21"
+                        fill="transparent"
+                        stroke="#0b7285"
+                        strokeWidth="6"
+                        strokeDasharray="82 18"
+                        strokeDashoffset="25"
+                        transform="rotate(-90 21 21)"
+                      />
+                    </svg>
+                    <div>
+                      <p
+                        style={{
+                          margin: 0,
+                          fontWeight: 700,
+                          fontSize: 24,
+                        }}
+                      >
+                        {feedbackData.positiveMentions}
+                      </p>
+                      <p style={{ marginTop: 8 }}>
+                        Share of positive mentions in recent responses.
+                      </p>
+                    </div>
+                  </div>
+                )}
+                {modalType === "response" && (
+                  <div>
+                    <p>Response rate progress:</p>
+                    <div
+                      style={{
+                        background: "#f1f5f9",
+                        borderRadius: 8,
+                        height: 18,
+                        overflow: "hidden",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: feedbackData.responseRate,
+                          height: "100%",
+                          background: "#0b7285",
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
+                {modalType === "messageDetail" && selectedMessage && (
+                  <div
+                    style={{
+                      color: "var(--color-text-muted)",
+                      fontSize: "14px",
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    <div style={{ marginBottom: "var(--space-md)" }}>
+                      <strong>From:</strong> {selectedMessage.name} &lt;
+                      {selectedMessage.email}&gt;
+                      <br />
+                      <strong>Date:</strong> {formatDate(selectedMessage.date)}
+                      <br />
+                      <strong>Subject:</strong> {selectedMessage.subject}
+                      <br />
+                      <strong>Status:</strong> {selectedMessage.status}
+                    </div>
+                    <div
+                      style={{
+                        background: "rgba(0,0,0,0.03)",
+                        padding: "var(--space-md)",
+                        borderRadius: "8px",
+                        border: "1px solid var(--color-border)",
+                        minHeight: "100px",
+                        whiteSpace: "pre-wrap",
+                      }}
+                    >
+                      {selectedMessage.message}
+                    </div>
+                    <div
+                      style={{
+                        marginTop: "var(--space-lg)",
+                        display: "flex",
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                      {selectedMessage.status !== "Resolved" && (
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => {
+                            const msgs = [...contactMessages];
+                            const idx = msgs.findIndex(
+                              (m) => m.id === selectedMessage.id,
+                            );
+                            if (idx !== -1) {
+                              msgs[idx].status = "Resolved";
+                              setContactMessages(msgs);
+                              localStorage.setItem(
+                                "wp_contact_messages",
+                                JSON.stringify(msgs),
+                              );
+                              showToast("Message marked as resolved!");
+                              setModalOpen(false);
+                            }
+                          }}
+                          style={{
+                            background: "var(--color-sport-green)",
+                            border: "none",
+                          }}
+                        >
+                          Mark as Resolved
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
       </AnimatePresence>
 
       <style>{`

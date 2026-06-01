@@ -57,21 +57,25 @@ function loadUsers() {
 
 function loadAdmins() {
   try {
-    const raw = localStorage.getItem('wp_admin_records');
+    const raw = localStorage.getItem("wp_admin_records");
     if (raw) {
       const parsed = JSON.parse(raw);
       if (parsed.length > 0) return parsed;
     }
   } catch (_) {}
-  const seed = [{
-    id: 'admin-001',
-    name: 'Super Admin',
-    email: 'admin@weekendpost.co.bw',
-    role: 'Super Admin',
-    status: 'Active',
-    history: [{ action: 'Created as Super Admin', date: new Date().toISOString() }]
-  }];
-  localStorage.setItem('wp_admin_records', JSON.stringify(seed));
+  const seed = [
+    {
+      id: "admin-001",
+      name: "Super Admin",
+      email: "admin@weekendpost.co.bw",
+      role: "Super Admin",
+      status: "Active",
+      history: [
+        { action: "Created as Super Admin", date: new Date().toISOString() },
+      ],
+    },
+  ];
+  localStorage.setItem("wp_admin_records", JSON.stringify(seed));
   return seed;
 }
 
@@ -103,7 +107,7 @@ export function AuthProvider({ children }) {
       let fresh = null;
       if (session.isAdmin) {
         const admins = loadAdmins();
-        fresh = admins.find(a => a.id === session.uid);
+        fresh = admins.find((a) => a.id === session.uid);
         if (fresh) fresh = { ...fresh, uid: fresh.id, isAdmin: true };
       } else {
         const users = loadUsers();
@@ -151,21 +155,26 @@ export function AuthProvider({ children }) {
   // Heartbeat to keep server session alive
   useEffect(() => {
     if (!user) return;
-    const session = JSON.parse(localStorage.getItem('wp_session') || '{}');
+    const session = JSON.parse(localStorage.getItem("wp_session") || "{}");
     if (!session.activeSessionId) return;
 
     const sendHeartbeat = async () => {
       try {
-        const res = await fetch('http://localhost:3001/api/sessions/heartbeat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ sessionId: session.activeSessionId })
-        });
+        const res = await fetch(
+          "http://localhost:3001/api/sessions/heartbeat",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ sessionId: session.activeSessionId }),
+          },
+        );
         const data = await res.json();
         if (!data.valid) {
           // Another device logged in — force logout
           logout();
-          window.alert('You have been logged out because your account was accessed from another device.');
+          window.alert(
+            "You have been logged out because your account was accessed from another device.",
+          );
         }
       } catch (e) {
         // Backend offline, continue with localStorage-only enforcement
@@ -195,17 +204,17 @@ export function AuthProvider({ children }) {
 
     // Register session with backend for cross-device enforcement
     try {
-      await fetch('http://localhost:3001/api/sessions/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      await fetch("http://localhost:3001/api/sessions/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId: users[idx].uid,
           deviceInfo: navigator.userAgent.substring(0, 100),
-          sessionId: sessionId
-        })
+          sessionId: sessionId,
+        }),
       });
     } catch (e) {
-      console.log('Backend session sync skipped (offline mode)');
+      console.log("Backend session sync skipped (offline mode)");
     }
 
     const { password: _, ...safe } = users[idx];
@@ -219,20 +228,37 @@ export function AuthProvider({ children }) {
     const normalizedEmail = email.trim().toLowerCase();
     const admins = loadAdmins();
     const idx = admins.findIndex(
-      (a) => a.email.toLowerCase() === normalizedEmail && password === "Admin@1234"
+      (a) =>
+        a.email.toLowerCase() === normalizedEmail && password === "Admin@1234",
     );
     if (idx === -1) throw new Error("Invalid admin email or password.");
-    if (admins[idx].status === 'Deleted') throw new Error("This admin account has been revoked.");
+    if (admins[idx].status === "Deleted")
+      throw new Error("This admin account has been revoked.");
 
     const sessionId = acquireSession(admins[idx].id);
     admins[idx] = { ...admins[idx], activeSessionId: sessionId };
-    localStorage.setItem('wp_admin_records', JSON.stringify(admins));
+    localStorage.setItem("wp_admin_records", JSON.stringify(admins));
 
     const safe = { ...admins[idx], uid: admins[idx].id, isAdmin: true };
     delete safe.password;
 
     setUser(safe);
     saveSession(safe);
+
+    try {
+      await fetch("http://localhost:3001/api/sessions/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: admins[idx].id,
+          deviceInfo: navigator.userAgent.substring(0, 100),
+          sessionId,
+        }),
+      });
+    } catch (e) {
+      console.log("Backend admin session sync skipped (offline mode)");
+    }
+
     return safe;
   }, []);
 
@@ -381,12 +407,12 @@ export function AuthProvider({ children }) {
         const expiry = new Date(userData.subscriptionExpiry);
         if (expiry < new Date()) {
           // Subscription has expired — revoke it
-          const users = JSON.parse(localStorage.getItem('wp_users') || '[]');
-          const idx = users.findIndex(u => u.uid === userData.uid);
+          const users = JSON.parse(localStorage.getItem("wp_users") || "[]");
+          const idx = users.findIndex((u) => u.uid === userData.uid);
           if (idx !== -1) {
             users[idx].subscriptionPlan = null;
             users[idx].subscriptionExpiry = null;
-            localStorage.setItem('wp_users', JSON.stringify(users));
+            localStorage.setItem("wp_users", JSON.stringify(users));
           }
           // Fall through to check purchasedStories
         }
@@ -404,77 +430,96 @@ export function AuthProvider({ children }) {
   }, []);
 
   const getAdminLogs = useCallback(() => {
-    return JSON.parse(localStorage.getItem('wp_admin_logs') || '[]');
+    return JSON.parse(localStorage.getItem("wp_admin_logs") || "[]");
   }, []);
 
-  const logAdminAction = useCallback((action, targetUid, targetName, details) => {
-    const logs = JSON.parse(localStorage.getItem('wp_admin_logs') || '[]');
-    logs.unshift({
-      id: 'LOG-' + Date.now(),
-      timestamp: new Date().toISOString(),
-      adminUid: user?.uid || 'SYSTEM',
-      adminName: user?.name || 'System',
-      action,
-      targetUid,
-      targetName,
-      details
-    });
-    localStorage.setItem('wp_admin_logs', JSON.stringify(logs));
-  }, [user]);
+  const logAdminAction = useCallback(
+    (action, targetUid, targetName, details) => {
+      const logs = JSON.parse(localStorage.getItem("wp_admin_logs") || "[]");
+      logs.unshift({
+        id: "LOG-" + Date.now(),
+        timestamp: new Date().toISOString(),
+        adminUid: user?.uid || "SYSTEM",
+        adminName: user?.name || "System",
+        action,
+        targetUid,
+        targetName,
+        details,
+      });
+      localStorage.setItem("wp_admin_logs", JSON.stringify(logs));
+    },
+    [user],
+  );
 
-  const assignRole = useCallback((uid, role) => {
-    const users = loadUsers();
-    const idx = users.findIndex((u) => u.uid === uid);
-    if (idx === -1) return;
-    const targetName = users[idx].name;
-    users[idx].isAdmin = role === 'admin';
-    saveUsers(users);
-    logAdminAction(role === 'admin' ? 'PROMOTED_TO_ADMIN' : 'DEMOTED_TO_USER', uid, targetName, `Role changed to ${role}`);
-    if (user?.uid === uid) {
-      const { password: _, ...safe } = users[idx];
-      setUser(safe);
-      saveSession(safe);
-    }
-  }, [user, logAdminAction]);
+  const assignRole = useCallback(
+    (uid, role) => {
+      const users = loadUsers();
+      const idx = users.findIndex((u) => u.uid === uid);
+      if (idx === -1) return;
+      const targetName = users[idx].name;
+      users[idx].isAdmin = role === "admin";
+      saveUsers(users);
+      logAdminAction(
+        role === "admin" ? "PROMOTED_TO_ADMIN" : "DEMOTED_TO_USER",
+        uid,
+        targetName,
+        `Role changed to ${role}`,
+      );
+      if (user?.uid === uid) {
+        const { password: _, ...safe } = users[idx];
+        setUser(safe);
+        saveSession(safe);
+      }
+    },
+    [user, logAdminAction],
+  );
 
-  const updateUser = useCallback((uid, updates) => {
-    const users = loadUsers();
-    const idx = users.findIndex((u) => u.uid === uid);
-    if (idx === -1) return;
-    users[idx] = { ...users[idx], ...updates };
-    saveUsers(users);
-    if (user?.uid === uid) {
-      const { password: _, ...safe } = users[idx];
-      setUser(safe);
-      saveSession(safe);
-    }
-  }, [user]);
+  const updateUser = useCallback(
+    (uid, updates) => {
+      const users = loadUsers();
+      const idx = users.findIndex((u) => u.uid === uid);
+      if (idx === -1) return;
+      users[idx] = { ...users[idx], ...updates };
+      saveUsers(users);
+      if (user?.uid === uid) {
+        const { password: _, ...safe } = users[idx];
+        setUser(safe);
+        saveSession(safe);
+      }
+    },
+    [user],
+  );
 
-  const deleteUser = useCallback((uid) => {
-    let users = loadUsers();
-    const targetUser = users.find(u => u.uid === uid);
-    if (targetUser) {
-        logAdminAction('DELETED_USER', uid, targetUser.name, `Account deleted`);
-    }
-    users = users.filter((u) => u.uid !== uid);
-    saveUsers(users);
-    if (user?.uid === uid) {
-      logout();
-    }
-  }, [user, logout, logAdminAction]);
+  const deleteUser = useCallback(
+    (uid) => {
+      let users = loadUsers();
+      const targetUser = users.find((u) => u.uid === uid);
+      if (targetUser) {
+        logAdminAction("DELETED_USER", uid, targetUser.name, `Account deleted`);
+      }
+      users = users.filter((u) => u.uid !== uid);
+      saveUsers(users);
+      if (user?.uid === uid) {
+        logout();
+      }
+    },
+    [user, logout, logAdminAction],
+  );
 
   const getTransactionHistory = () => {
-    return JSON.parse(localStorage.getItem('wp_transactions') || '[]');
+    return JSON.parse(localStorage.getItem("wp_transactions") || "[]");
   };
 
   const recordTransaction = (transaction) => {
-    const transactions = JSON.parse(localStorage.getItem('wp_transactions') || '[]');
+    const transactions = JSON.parse(
+      localStorage.getItem("wp_transactions") || "[]",
+    );
     transactions.unshift({
       ...transaction,
-      id: 'TXN-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6),
+      id: "TXN-" + Date.now() + "-" + Math.random().toString(36).substr(2, 6),
       timestamp: new Date().toISOString(),
     });
-    localStorage.setItem('wp_transactions', JSON.stringify(transactions));
+    localStorage.setItem("wp_transactions", JSON.stringify(transactions));
   };
 
   const value = {

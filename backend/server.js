@@ -9,11 +9,11 @@ const PORT = process.env.PORT || 3001;
 // ========================================
 // In-Memory Data Stores
 // ========================================
-const transactions = {};      // transactionId -> { amount, phone, status, method, attempts, createdAt, userId, planId }
-const sessions = {};          // sessionId -> { userId, deviceInfo, sessionId, createdAt, lastSeen }
-const userSessions = {};      // userId -> sessionId (one active session per user)
-const downloadTokens = {};    // token -> { editionId, email, sessionToken, createdAt, used }
-const downloadCounts = {};    // `${email}:${editionId}` -> count
+const transactions = {}; // transactionId -> { amount, phone, status, method, attempts, createdAt, userId, planId }
+const sessions = {}; // sessionId -> { userId, deviceInfo, sessionId, createdAt, lastSeen }
+const userSessions = {}; // userId -> sessionId (one active session per user)
+const downloadTokens = {}; // token -> { editionId, email, sessionToken, createdAt, used }
+const downloadCounts = {}; // `${email}:${editionId}` -> count
 
 // ========================================
 // Helpers
@@ -21,8 +21,7 @@ const downloadCounts = {};    // `${email}:${editionId}` -> count
 const generateId = (prefix = "TXN") =>
   `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`;
 
-const escapePdf = (value) =>
-  String(value).replace(/([\\\(\)\n])/g, "\\$1");
+const escapePdf = (value) => String(value).replace(/([\\\(\)\n])/g, "\\$1");
 
 const SESSION_TTL_MS = 120 * 1000; // 120 seconds
 const DOWNLOAD_TOKEN_TTL_MS = 5 * 60 * 1000; // 5 minutes
@@ -53,7 +52,7 @@ app.get("/api/health", (req, res) => {
     timestamp: new Date().toISOString(),
     activeSessions: Object.keys(sessions).length,
     pendingTransactions: Object.values(transactions).filter(
-      (t) => t.status === "pending"
+      (t) => t.status === "pending",
     ).length,
   });
 });
@@ -80,7 +79,10 @@ app.post("/api/payments/orange-money/init", (req, res) => {
   if (!amount || !phone) {
     return res
       .status(400)
-      .json({ success: false, error: "Missing required fields: amount, phone" });
+      .json({
+        success: false,
+        error: "Missing required fields: amount, phone",
+      });
   }
 
   if (amount <= 0) {
@@ -93,7 +95,8 @@ app.post("/api/payments/orange-money/init", (req, res) => {
   if (!cleanPhone.startsWith("7") || cleanPhone.length < 8) {
     return res.status(400).json({
       success: false,
-      error: "Invalid Orange Money phone number. Must start with 7 (e.g., 7XXXXXXX)",
+      error:
+        "Invalid Orange Money phone number. Must start with 7 (e.g., 7XXXXXXX)",
     });
   }
 
@@ -111,7 +114,7 @@ app.post("/api/payments/orange-money/init", (req, res) => {
   };
 
   console.log(
-    `[ORANGE MONEY] Payment initialized: ${transactionId} | P${amount} | Phone: ${cleanPhone}`
+    `[ORANGE MONEY] Payment initialized: ${transactionId} | P${amount} | Phone: ${cleanPhone}`,
   );
 
   res.json({
@@ -146,7 +149,10 @@ app.post("/api/payments/orange-money/verify", (req, res) => {
   if (txn.method !== "orange-money") {
     return res
       .status(400)
-      .json({ success: false, error: "Transaction is not an Orange Money payment" });
+      .json({
+        success: false,
+        error: "Transaction is not an Orange Money payment",
+      });
   }
 
   if (txn.status === "completed") {
@@ -205,7 +211,10 @@ app.post("/api/payments/dpo-pay/init", (req, res) => {
   if (!amount || !email) {
     return res
       .status(400)
-      .json({ success: false, error: "Missing required fields: amount, email" });
+      .json({
+        success: false,
+        error: "Missing required fields: amount, email",
+      });
   }
 
   if (amount <= 0) {
@@ -229,7 +238,7 @@ app.post("/api/payments/dpo-pay/init", (req, res) => {
   };
 
   console.log(
-    `[DPO PAY] Payment initialized: ${transactionId} | P${amount} | Email: ${email}`
+    `[DPO PAY] Payment initialized: ${transactionId} | P${amount} | Email: ${email}`,
   );
 
   res.json({
@@ -304,7 +313,10 @@ app.post("/api/payments/myzaka/init", (req, res) => {
   if (!amount || !phone) {
     return res
       .status(400)
-      .json({ success: false, error: "Missing required fields: amount, phone" });
+      .json({
+        success: false,
+        error: "Missing required fields: amount, phone",
+      });
   }
 
   if (amount <= 0) {
@@ -335,7 +347,7 @@ app.post("/api/payments/myzaka/init", (req, res) => {
   };
 
   console.log(
-    `[MYZAKA] Payment initialized: ${transactionId} | P${amount} | Phone: ${cleanPhone}`
+    `[MYZAKA] Payment initialized: ${transactionId} | P${amount} | Phone: ${cleanPhone}`,
   );
 
   res.json({
@@ -426,7 +438,10 @@ app.post("/api/payments/smega/init", (req, res) => {
   if (!amount || !phone) {
     return res
       .status(400)
-      .json({ success: false, error: "Missing required fields: amount, phone" });
+      .json({
+        success: false,
+        error: "Missing required fields: amount, phone",
+      });
   }
 
   if (amount <= 0) {
@@ -451,7 +466,7 @@ app.post("/api/payments/smega/init", (req, res) => {
   };
 
   console.log(
-    `[SMEGA] Payment initialized: ${transactionId} | P${amount} | Phone: ${cleanPhone}`
+    `[SMEGA] Payment initialized: ${transactionId} | P${amount} | Phone: ${cleanPhone}`,
   );
 
   res.json({
@@ -543,7 +558,10 @@ app.post("/api/payments/bank-transfer/init", (req, res) => {
   if (!amount || !email) {
     return res
       .status(400)
-      .json({ success: false, error: "Missing required fields: amount, email" });
+      .json({
+        success: false,
+        error: "Missing required fields: amount, email",
+      });
   }
 
   if (amount <= 0) {
@@ -572,7 +590,7 @@ app.post("/api/payments/bank-transfer/init", (req, res) => {
   };
 
   console.log(
-    `[BANK TRANSFER] Initialized: ${transactionId} | P${amount} | Ref: ${referenceNumber}`
+    `[BANK TRANSFER] Initialized: ${transactionId} | P${amount} | Ref: ${referenceNumber}`,
   );
 
   res.json({
@@ -593,7 +611,8 @@ app.post("/api/payments/bank-transfer/init", (req, res) => {
       "Upload proof of payment after transfer",
       "Processing takes 1-2 business days",
     ],
-    message: "Bank details generated. Please complete the transfer and upload proof.",
+    message:
+      "Bank details generated. Please complete the transfer and upload proof.",
   });
 });
 
@@ -629,7 +648,7 @@ app.post("/api/payments/bank-transfer/upload-proof", (req, res) => {
   txn.status = "pending_verification";
 
   console.log(
-    `[BANK TRANSFER] Proof uploaded for ${transactionId}: ${txn.proofFileName}`
+    `[BANK TRANSFER] Proof uploaded for ${transactionId}: ${txn.proofFileName}`,
   );
 
   res.json({
@@ -689,7 +708,7 @@ app.post("/api/webhooks/orange-money", (req, res) => {
   const { transactionId, status, amount, phone } = req.body;
 
   console.log(
-    `[ORANGE MONEY WEBHOOK] Received: ${transactionId} | Status: ${status}`
+    `[ORANGE MONEY WEBHOOK] Received: ${transactionId} | Status: ${status}`,
   );
 
   if (transactionId && transactions[transactionId]) {
@@ -715,7 +734,7 @@ app.post("/api/webhooks/dpo-pay", (req, res) => {
     req.body;
 
   console.log(
-    `[DPO PAY WEBHOOK] Received: ${TransactionToken || TransactionRef} | Result: ${Result}`
+    `[DPO PAY WEBHOOK] Received: ${TransactionToken || TransactionRef} | Result: ${Result}`,
   );
 
   // Try to find the transaction by token or ref
@@ -730,7 +749,7 @@ app.post("/api/webhooks/dpo-pay", (req, res) => {
       txn.status = "failed";
       txn.failureReason = ResultExplanation || "Unknown";
       console.log(
-        `[DPO PAY WEBHOOK] Payment failed: ${txnId} — ${ResultExplanation}`
+        `[DPO PAY WEBHOOK] Payment failed: ${txnId} — ${ResultExplanation}`,
       );
     }
   }
@@ -745,7 +764,7 @@ app.post("/api/webhooks/myzaka", (req, res) => {
   const { transactionId, status, amount, msisdn } = req.body;
 
   console.log(
-    `[MYZAKA WEBHOOK] Received: ${transactionId} | Status: ${status}`
+    `[MYZAKA WEBHOOK] Received: ${transactionId} | Status: ${status}`,
   );
 
   if (transactionId && transactions[transactionId]) {
@@ -769,9 +788,7 @@ app.post("/api/webhooks/myzaka", (req, res) => {
 app.post("/api/webhooks/smega", (req, res) => {
   const { transactionId, status, amount } = req.body;
 
-  console.log(
-    `[SMEGA WEBHOOK] Received: ${transactionId} | Status: ${status}`
-  );
+  console.log(`[SMEGA WEBHOOK] Received: ${transactionId} | Status: ${status}`);
 
   if (transactionId && transactions[transactionId]) {
     const txn = transactions[transactionId];
@@ -810,7 +827,7 @@ app.post("/api/sessions/create", (req, res) => {
   let previousSessionRevoked = false;
   if (existingSessionId && sessions[existingSessionId]) {
     console.log(
-      `[SESSION] Revoking existing session ${existingSessionId} for user ${userId}`
+      `[SESSION] Revoking existing session ${existingSessionId} for user ${userId}`,
     );
     delete sessions[existingSessionId];
     previousSessionRevoked = true;
@@ -830,7 +847,7 @@ app.post("/api/sessions/create", (req, res) => {
   console.log(
     `[SESSION] Created session ${sessionId} for user ${userId}${
       previousSessionRevoked ? " (previous session revoked)" : ""
-    }`
+    }`,
   );
 
   res.json({
@@ -851,9 +868,7 @@ app.post("/api/sessions/heartbeat", (req, res) => {
   const { sessionId } = req.body;
 
   if (!sessionId) {
-    return res
-      .status(400)
-      .json({ success: false, error: "Missing sessionId" });
+    return res.status(400).json({ success: false, error: "Missing sessionId" });
   }
 
   const session = sessions[sessionId];
@@ -904,8 +919,8 @@ app.get("/api/sessions/validate/:sessionId", (req, res) => {
   if (timeSinceLastSeen > SESSION_TTL_MS) {
     console.log(
       `[SESSION] Auto-expired session ${sessionId} for user ${session.userId} (${Math.round(
-        timeSinceLastSeen / 1000
-      )}s since last heartbeat)`
+        timeSinceLastSeen / 1000,
+      )}s since last heartbeat)`,
     );
     delete sessions[sessionId];
     if (userSessions[session.userId] === sessionId) {
@@ -941,6 +956,24 @@ app.get("/api/sessions/validate/:sessionId", (req, res) => {
 });
 
 /**
+ * List active backend sessions for diagnostics
+ */
+app.get("/api/sessions/active", (req, res) => {
+  const activeSessions = Object.values(sessions).map((session) => ({
+    userId: session.userId,
+    sessionId: session.sessionId,
+    deviceInfo: session.deviceInfo,
+    createdAt: new Date(session.createdAt).toISOString(),
+    lastSeen: new Date(session.lastSeen).toISOString(),
+  }));
+  res.json({
+    success: true,
+    count: activeSessions.length,
+    activeSessions,
+  });
+});
+
+/**
  * Revoke all sessions for a user (admin force-logout)
  */
 app.post("/api/sessions/revoke/:userId", (req, res) => {
@@ -958,7 +991,7 @@ app.post("/api/sessions/revoke/:userId", (req, res) => {
   delete userSessions[userId];
 
   console.log(
-    `[SESSION] Admin revoked session ${activeSessionId} for user ${userId}`
+    `[SESSION] Admin revoked session ${activeSessionId} for user ${userId}`,
   );
 
   res.json({
@@ -989,7 +1022,10 @@ app.post("/api/epaper/request-download/:editionId", (req, res) => {
   if (!email) {
     return res
       .status(400)
-      .json({ success: false, error: "Missing email for watermark attribution." });
+      .json({
+        success: false,
+        error: "Missing email for watermark attribution.",
+      });
   }
 
   // Check download count for this user + edition
@@ -1018,7 +1054,7 @@ app.post("/api/epaper/request-download/:editionId", (req, res) => {
   console.log(
     `[E-PAPER] Download token generated: ${downloadToken} for ${email} (edition ${editionId}, download ${
       currentCount + 1
-    }/${MAX_DOWNLOADS_PER_EDITION})`
+    }/${MAX_DOWNLOADS_PER_EDITION})`,
   );
 
   res.json({
@@ -1044,7 +1080,10 @@ app.get("/api/epaper/download/:editionId", (req, res) => {
   if (!token || !sessionToken) {
     return res
       .status(401)
-      .json({ success: false, error: "Unauthorized. Valid subscription required." });
+      .json({
+        success: false,
+        error: "Unauthorized. Valid subscription required.",
+      });
   }
 
   const record = downloadTokens[token];
@@ -1142,7 +1181,7 @@ app.get("/api/epaper/download/:editionId", (req, res) => {
       "Q",
       // Section header
       `BT /F1 10 Tf 0.6 0.6 0.6 rg 50 770 Td (${escapePdf(
-        pc.section
+        pc.section,
       )} | Page ${i + 1} of ${pageCount}) Tj ET`,
       // Horizontal rule
       "q 0.8 0.8 0.8 RG 1 w 50 760 m 562 760 l S Q",
@@ -1152,17 +1191,17 @@ app.get("/api/epaper/download/:editionId", (req, res) => {
       `BT /F1 12 Tf 0.2 0.2 0.2 rg 50 690 Td (${escapePdf(pc.body)}) Tj ET`,
       // Licensed-to line
       `BT /F1 10 Tf 0.5 0.5 0.5 rg 50 650 Td (Licensed to: ${escapePdf(
-        userEmail
+        userEmail,
       )}) Tj ET`,
       // Footer rule
       "q 0.8 0.8 0.8 RG 1 w 50 40 m 562 40 l S Q",
       // Footer warning
       `BT /F1 7 Tf 0.6 0.0 0.0 rg 50 28 Td (${escapePdf(
-        redistributionWarning
+        redistributionWarning,
       )}) Tj ET`,
       // Footer document ID
       `BT /F1 7 Tf 0.5 0.5 0.5 rg 50 18 Td (${escapePdf(documentId)} | ${escapePdf(
-        generatedDate
+        generatedDate,
       )}) Tj ET`,
     ];
     contentStreams.push(lines.join("\n"));
@@ -1182,12 +1221,12 @@ app.get("/api/epaper/download/:editionId", (req, res) => {
   // 2: Pages
   const kidsStr = pageObjNumbers.map((n) => `${n} 0 R`).join(" ");
   pdfObjects.push(
-    `2 0 obj\n<< /Type /Pages /Kids [${kidsStr}] /Count ${pageCount} >>\nendobj\n`
+    `2 0 obj\n<< /Type /Pages /Kids [${kidsStr}] /Count ${pageCount} >>\nendobj\n`,
   );
 
   // 3: Font
   pdfObjects.push(
-    `3 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n`
+    `3 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n`,
   );
 
   // Page + Content objects
@@ -1199,23 +1238,19 @@ app.get("/api/epaper/download/:editionId", (req, res) => {
 
     // Page object
     pdfObjects.push(
-      `${pageObjNum} 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageWidth} ${pageHeight}] /Contents ${contentObjNum} 0 R /Resources << /Font << /F1 3 0 R >> >> >>\nendobj\n`
+      `${pageObjNum} 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageWidth} ${pageHeight}] /Contents ${contentObjNum} 0 R /Resources << /Font << /F1 3 0 R >> >> >>\nendobj\n`,
     );
 
     // Content stream object
     pdfObjects.push(
-      `${contentObjNum} 0 obj\n<< /Length ${streamLength} >>\nstream\n${streamContent}\nendstream\nendobj\n`
+      `${contentObjNum} 0 obj\n<< /Length ${streamLength} >>\nstream\n${streamContent}\nendstream\nendobj\n`,
     );
   }
 
   // Build the complete PDF
   const header = "%PDF-1.4\n%\xE2\xE3\xCF\xD3\n";
   let offset = Buffer.byteLength(header, "utf8");
-  const xrefEntries = [
-    "xref",
-    `0 ${totalObjects + 1}`,
-    "0000000000 65535 f ",
-  ];
+  const xrefEntries = ["xref", `0 ${totalObjects + 1}`, "0000000000 65535 f "];
 
   for (const obj of pdfObjects) {
     xrefEntries.push(`${String(offset).padStart(10, "0")} 00000 n `);
@@ -1235,13 +1270,13 @@ app.get("/api/epaper/download/:editionId", (req, res) => {
   ]);
 
   console.log(
-    `[E-PAPER] Serving watermarked PDF: edition ${editionId} | ${userEmail} | Doc: ${documentId} | ${pageCount} pages`
+    `[E-PAPER] Serving watermarked PDF: edition ${editionId} | ${userEmail} | Doc: ${documentId} | ${pageCount} pages`,
   );
 
   res.setHeader("Content-Type", "application/pdf");
   res.setHeader(
     "Content-Disposition",
-    `attachment; filename="weekendpost_epaper_${editionId}.pdf"`
+    `attachment; filename="weekendpost_epaper_${editionId}.pdf"`,
   );
   res.setHeader("X-Document-Id", documentId);
   res.setHeader("X-Licensed-To", userEmail);
@@ -1340,10 +1375,10 @@ app.post("/api/reports/generate", (req, res) => {
       lines: [
         `BT /F1 28 Tf 0 0 0 rg 50 650 Td (${escapePdf(reportTitle)}) Tj ET`,
         `BT /F1 14 Tf 0.4 0.4 0.4 rg 50 610 Td (Generated: ${escapePdf(
-          reportDate
+          reportDate,
         )}) Tj ET`,
         `BT /F1 14 Tf 0.4 0.4 0.4 rg 50 585 Td (Report ID: ${escapePdf(
-          reportId
+          reportId,
         )}) Tj ET`,
         `BT /F1 12 Tf 0 0 0 rg 50 540 Td (Weekend Post \\(Pty\\) Ltd) Tj ET`,
         `BT /F1 12 Tf 0.3 0.3 0.3 rg 50 520 Td (Gaborone, Botswana) Tj ET`,
@@ -1385,12 +1420,12 @@ app.post("/api/reports/generate", (req, res) => {
   pdfObjects.push(
     `2 0 obj\n<< /Type /Pages /Kids [${pageObjNums
       .map((n) => `${n} 0 R`)
-      .join(" ")}] /Count ${pageCount} >>\nendobj\n`
+      .join(" ")}] /Count ${pageCount} >>\nendobj\n`,
   );
 
   // Font
   pdfObjects.push(
-    `3 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n`
+    `3 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n`,
   );
 
   // Page + Content per page
@@ -1401,21 +1436,17 @@ app.post("/api/reports/generate", (req, res) => {
     const streamLen = Buffer.byteLength(stream, "utf8");
 
     pdfObjects.push(
-      `${pageObjNum} 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageWidth} ${pageHeight}] /Contents ${contentObjNum} 0 R /Resources << /Font << /F1 3 0 R >> >> >>\nendobj\n`
+      `${pageObjNum} 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageWidth} ${pageHeight}] /Contents ${contentObjNum} 0 R /Resources << /Font << /F1 3 0 R >> >> >>\nendobj\n`,
     );
     pdfObjects.push(
-      `${contentObjNum} 0 obj\n<< /Length ${streamLen} >>\nstream\n${stream}\nendstream\nendobj\n`
+      `${contentObjNum} 0 obj\n<< /Length ${streamLen} >>\nstream\n${stream}\nendstream\nendobj\n`,
     );
   }
 
   // Assemble PDF
   const header = "%PDF-1.4\n%\xE2\xE3\xCF\xD3\n";
   let offset = Buffer.byteLength(header, "utf8");
-  const xrefEntries = [
-    "xref",
-    `0 ${totalObjects + 1}`,
-    "0000000000 65535 f ",
-  ];
+  const xrefEntries = ["xref", `0 ${totalObjects + 1}`, "0000000000 65535 f "];
 
   for (const obj of pdfObjects) {
     xrefEntries.push(`${String(offset).padStart(10, "0")} 00000 n `);
@@ -1439,7 +1470,7 @@ app.post("/api/reports/generate", (req, res) => {
   res.setHeader("Content-Type", "application/pdf");
   res.setHeader(
     "Content-Disposition",
-    `attachment; filename="weekendpost_report_${reportId}.pdf"`
+    `attachment; filename="weekendpost_report_${reportId}.pdf"`,
   );
   res.setHeader("X-Report-Id", reportId);
   res.send(pdfBuffer);
@@ -1503,12 +1534,14 @@ app.use((req, res) => {
 // Start Server
 // ========================================
 app.listen(PORT, () => {
+  console.log(`Weekend Post Backend running on http://localhost:${PORT}`);
   console.log(
-    `Weekend Post Backend running on http://localhost:${PORT}`
+    `Note: This is a Node.js prototype intended to demonstrate logic before WordPress conversion.`,
   );
   console.log(
-    `Note: This is a Node.js prototype intended to demonstrate logic before WordPress conversion.`
+    `Available payment gateways: Orange Money, DPO Pay, MyZaka, Smega, Bank Transfer`,
   );
-  console.log(`Available payment gateways: Orange Money, DPO Pay, MyZaka, Smega, Bank Transfer`);
-  console.log(`Session TTL: ${SESSION_TTL_MS / 1000}s | Max downloads per edition: ${MAX_DOWNLOADS_PER_EDITION}`);
+  console.log(
+    `Session TTL: ${SESSION_TTL_MS / 1000}s | Max downloads per edition: ${MAX_DOWNLOADS_PER_EDITION}`,
+  );
 });
