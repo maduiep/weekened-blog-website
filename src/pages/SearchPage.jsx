@@ -79,7 +79,7 @@ export default function SearchPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.7 }}
                   onClick={handleClear}
-                  style={{ position: 'absolute', right: 20, top: '50%', marginTop: '-16px', background: 'var(--color-bg-alt)', border: 'none', width: '32px', height: '32px', borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-text-muted)' }}
+                  style={{ position: 'absolute', right: 20, top: '50%', marginTop: '-16px', background: 'var(--color-bg-alt)', border: 'none', padding: 0, width: '32px', height: '32px', borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-text-muted)' }}
                 >
                   <X size={16} />
                 </motion.button>
