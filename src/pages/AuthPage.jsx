@@ -4,26 +4,21 @@ import {
   Eye,
   EyeOff,
   Mail,
-                <div
-                  style={{
-                    marginTop: "var(--space-md)",
-                    padding: "14px 16px",
-                    borderRadius: "16px",
-                    background: "rgba(0, 126, 151, 0.08)",
-                    border: "1px solid rgba(0, 126, 151, 0.15)",
-                    color: "var(--color-dark)",
-                    fontSize: "13px",
-                    lineHeight: 1.6,
-                    textAlign: 'center'
-                  }}
-                >
-                  <div>
-                    <strong>Demo Admin:</strong> admin@weekendpost.co.bw / <strong>Admin@1234</strong>
-                  </div>
-                  <div style={{ marginTop: 8 }}>
-                    <a href="/admin-login" style={{ color: 'var(--color-primary)', fontWeight: 700 }}>Go to Admin Login</a>
-                  </div>
-                </div>
+  Lock,
+  AlertCircle,
+  CheckCircle,
+  ShieldCheck,
+  Globe,
+  Smartphone,
+  User as UserIcon,
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "../context/AuthContext";
+
+export default function AuthPage() {
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get("redirect") || "/";
+  const [tab, setTab] = useState(
     searchParams.get("tab") === "signup" ? "signup" : "signin",
   );
   const [showPassword, setShowPassword] = useState(false);
