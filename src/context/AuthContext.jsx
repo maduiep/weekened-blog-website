@@ -55,6 +55,26 @@ function loadUsers() {
   return SEED_USERS;
 }
 
+function loadAdmins() {
+  try {
+    const raw = localStorage.getItem('wp_admin_records');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed.length > 0) return parsed;
+    }
+  } catch (_) {}
+  const seed = [{
+    id: 'admin-001',
+    name: 'Super Admin',
+    email: 'admin@weekendpost.co.bw',
+    role: 'Super Admin',
+    status: 'Active',
+    history: [{ action: 'Created as Super Admin', date: new Date().toISOString() }]
+  }];
+  localStorage.setItem('wp_admin_records', JSON.stringify(seed));
+  return seed;
+}
+
 function saveUsers(users) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
 }
@@ -82,7 +102,7 @@ export function AuthProvider({ children }) {
     if (session) {
       let fresh = null;
       if (session.isAdmin) {
-        const admins = JSON.parse(localStorage.getItem('wp_admin_records') || '[]');
+        const admins = loadAdmins();
         fresh = admins.find(a => a.id === session.uid);
         if (fresh) fresh = { ...fresh, uid: fresh.id, isAdmin: true };
       } else {
@@ -197,7 +217,7 @@ export function AuthProvider({ children }) {
   // ── admin login ────────────────────────────────────────────────────────────
   const adminLogin = useCallback(async (email, password) => {
     const normalizedEmail = email.trim().toLowerCase();
-    const admins = JSON.parse(localStorage.getItem('wp_admin_records') || '[]');
+    const admins = loadAdmins();
     const idx = admins.findIndex(
       (a) => a.email.toLowerCase() === normalizedEmail && password === "Admin@1234"
     );
