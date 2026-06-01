@@ -111,7 +111,7 @@ export default function SearchPage() {
                         Found <strong>{results.length}</strong> result{results.length !== 1 ? 's' : ''} for "{debouncedQuery}"
                       </p>
                       <div style={{ display: 'flex', gap: '12px' }}>
-                        <select value={filter} onChange={e => setFilter(e.target.value)} style={{ padding: '6px 12px', borderRadius: '8px', border: '1px solid var(--color-border)', fontSize: '12px', background: 'white', fontWeight: 600, outline: 'none' }}>
+                        <select value={filter} onChange={e => setFilter(e.target.value)} style={{ padding: '6px 28px 6px 12px', borderRadius: '8px', border: '1px solid var(--color-border)', fontSize: '12px', background: 'white', fontWeight: 600, outline: 'none' }}>
                           <option value="all">Relevance</option>
                           <option value="latest">Newest First</option>
                         </select>
