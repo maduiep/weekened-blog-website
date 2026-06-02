@@ -398,28 +398,27 @@ export default function AdminPage() {
         )}
       </AnimatePresence>
 
-      <div className="container" style={{ padding: "var(--space-2xl) 0" }}>
-        {/* Page Header */}
-        <div
-          className="admin-header"
+      <div style={{ display: "flex", width: "100%", minHeight: "100vh" }}>
+        {/* Sidebar Navigation */}
+        <aside
           style={{
-            marginBottom: "var(--space-2xl)",
+            width: "280px",
+            background: "white",
+            borderRight: "1px solid var(--color-border)",
             display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: "var(--space-lg)",
+            flexDirection: "column",
+            position: "sticky",
+            top: 0,
+            height: "100vh",
+            overflowY: "auto",
+            flexShrink: 0,
+            padding: "var(--space-xl) var(--space-md)",
+            boxShadow: "4px 0 24px rgba(0,0,0,0.02)",
+            zIndex: 50,
           }}
         >
-          <div style={{ minWidth: "280px" }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                marginBottom: "8px",
-              }}
-            >
+          <div style={{ marginBottom: "var(--space-2xl)", padding: "0 var(--space-sm)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
               <div
                 style={{
                   width: "40px",
@@ -447,10 +446,98 @@ export default function AdminPage() {
                 >
                   Platform Control
                 </span>
-                <h1 style={{ fontSize: "var(--text-2xl)", margin: 0 }}>
-                  Business Overview
+                <h1 style={{ fontSize: "16px", margin: 0, fontWeight: 700 }}>
+                  Admin Dashboard
                 </h1>
               </div>
+            </div>
+          </div>
+
+          <nav style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            {[
+              { id: "analytics", label: "Insights", icon: BarChart2 },
+              { id: "messages", label: "User Requests", icon: Mail, badge: contactMessages.filter((m) => m.status === "Unread").length },
+              { id: "users", label: "Customers", icon: Users },
+              { id: "cms", label: "CMS / Articles", icon: FileText },
+              { id: "admins", label: "Admin Roles", icon: ShieldCheck, badge: adminRecords.filter((a) => a.status === "Pending").length },
+              { id: "settings", label: "Platform Settings", icon: Settings },
+              { id: "receipts", label: "Receipts", icon: Upload, badge: paymentReceipts.filter((r) => r.status === "pending").length },
+              { id: "comments", label: "Comments", icon: MessageSquare, badge: JSON.parse(localStorage.getItem("wp_article_comments") || "[]").length },
+              { id: "logs", label: "Security & Logs", icon: ShieldCheck },
+              { id: "adrequests", label: "Ad Requests", icon: Megaphone, badge: JSON.parse(localStorage.getItem("wp_ad_requests") || "[]").filter(r => r.status === 'Pending').length },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "12px 16px",
+                  borderRadius: "10px",
+                  border: "none",
+                  background: activeTab === tab.id ? "rgba(0,126,151,0.08)" : "transparent",
+                  color: activeTab === tab.id ? "var(--color-primary)" : "var(--color-text-muted)",
+                  fontWeight: activeTab === tab.id ? 700 : 500,
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  fontSize: "14px",
+                  position: "relative",
+                  textAlign: "left",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <tab.icon size={18} style={{ color: activeTab === tab.id ? "var(--color-primary)" : "var(--color-text-muted)" }} />
+                  {tab.label}
+                </div>
+                {tab.badge > 0 && (
+                  <span
+                    style={{
+                      background: tab.id === "messages" || tab.id === "admins" || tab.id === "receipts" || tab.id === "adrequests" ? "var(--color-news-red)" : "var(--color-primary)",
+                      color: "white",
+                      fontSize: "11px",
+                      fontWeight: "bold",
+                      padding: "2px 8px",
+                      borderRadius: "100px",
+                    }}
+                  >
+                    {tab.badge}
+                  </span>
+                )}
+              </button>
+            ))}
+          </nav>
+        </aside>
+
+        {/* Main Content Area */}
+        <main style={{ flex: 1, padding: "var(--space-2xl)", overflowY: "auto", background: "#f8fafc" }}>
+          <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
+        {/* Page Header */}
+        <div
+          className="admin-header"
+          style={{
+            marginBottom: "var(--space-2xl)",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: "var(--space-lg)",
+          }}
+        >
+          <div style={{ minWidth: "280px" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "4px",
+              }}
+            >
+              <h1 style={{ fontSize: "var(--text-2xl)", margin: 0 }}>
+                Business Overview
+              </h1>
+              <p style={{ color: "var(--color-text-muted)", margin: 0, fontSize: "14px" }}>
+                Welcome back, {adminUser?.name || "Admin"}. Here's what's happening today.
+              </p>
             </div>
           </div>
           <div
@@ -599,349 +686,7 @@ export default function AdminPage() {
           ))}
         </div>
 
-        {/* Tab Navigation */}
-        <div
-          className="admin-tabs"
-          style={{
-            display: "flex",
-            gap: "var(--space-md)",
-            background: "rgba(0,0,0,0.03)",
-            padding: "8px",
-            borderRadius: "12px",
-            width: "fit-content",
-            marginBottom: "var(--space-xl)",
-            flexWrap: "wrap",
-          }}
-        >
-          <button
-            onClick={() => setActiveTab("analytics")}
-            style={{
-              padding: "8px 20px",
-              borderRadius: "8px",
-              border: "none",
-              background: activeTab === "analytics" ? "white" : "transparent",
-              color:
-                activeTab === "analytics"
-                  ? "var(--color-primary)"
-                  : "var(--color-text-muted)",
-              fontWeight: 700,
-              cursor: "pointer",
-              transition: "all 0.2s",
-              fontSize: "13px",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-            }}
-          >
-            <BarChart2 size={16} /> Insights
-          </button>
-          <button
-            onClick={() => setActiveTab("messages")}
-            style={{
-              padding: "8px 20px",
-              borderRadius: "8px",
-              border: "none",
-              background: activeTab === "messages" ? "white" : "transparent",
-              color:
-                activeTab === "messages"
-                  ? "var(--color-primary)"
-                  : "var(--color-text-muted)",
-              fontWeight: 700,
-              cursor: "pointer",
-              transition: "all 0.2s",
-              fontSize: "13px",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              position: "relative",
-            }}
-          >
-            <Mail size={16} /> User Requests
-            {contactMessages.filter((m) => m.status === "Unread").length >
-              0 && (
-              <span
-                style={{
-                  position: "absolute",
-                  top: "-4px",
-                  right: "-4px",
-                  background: "var(--color-news-red)",
-                  color: "white",
-                  fontSize: "10px",
-                  fontWeight: "bold",
-                  padding: "2px 6px",
-                  borderRadius: "10px",
-                  boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
-                }}
-              >
-                {contactMessages.filter((m) => m.status === "Unread").length}
-              </span>
-            )}
-          </button>
-          <button
-            onClick={() => setActiveTab("users")}
-            style={{
-              padding: "8px 20px",
-              borderRadius: "8px",
-              border: "none",
-              background: activeTab === "users" ? "white" : "transparent",
-              color:
-                activeTab === "users"
-                  ? "var(--color-primary)"
-                  : "var(--color-text-muted)",
-              fontWeight: 700,
-              cursor: "pointer",
-              transition: "all 0.2s",
-              fontSize: "13px",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-            }}
-          >
-            <Users size={16} /> Customers
-          </button>
-          <button
-            onClick={() => setActiveTab("cms")}
-            style={{
-              padding: "8px 20px",
-              borderRadius: "8px",
-              border: "none",
-              background: activeTab === "cms" ? "white" : "transparent",
-              color:
-                activeTab === "cms"
-                  ? "var(--color-primary)"
-                  : "var(--color-text-muted)",
-              fontWeight: 700,
-              cursor: "pointer",
-              transition: "all 0.2s",
-              fontSize: "13px",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-            }}
-          >
-            <FileText size={16} /> CMS / Articles
-          </button>
-          <button
-            onClick={() => setActiveTab("admins")}
-            style={{
-              padding: "8px 20px",
-              borderRadius: "8px",
-              border: "none",
-              background: activeTab === "admins" ? "white" : "transparent",
-              color:
-                activeTab === "admins"
-                  ? "var(--color-primary)"
-                  : "var(--color-text-muted)",
-              fontWeight: 700,
-              cursor: "pointer",
-              transition: "all 0.2s",
-              fontSize: "13px",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              position: "relative",
-            }}
-          >
-            <ShieldCheck size={16} /> Admin Roles
-            {adminRecords.filter((a) => a.status === "Pending").length > 0 && (
-              <span
-                style={{
-                  position: "absolute",
-                  top: "-4px",
-                  right: "-4px",
-                  background: "var(--color-news-red)",
-                  color: "white",
-                  fontSize: "10px",
-                  fontWeight: "bold",
-                  padding: "2px 6px",
-                  borderRadius: "10px",
-                  boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
-                }}
-              >
-                {adminRecords.filter((a) => a.status === "Pending").length}
-              </span>
-            )}
-          </button>
-          <button
-            onClick={() => setActiveTab("settings")}
-            style={{
-              padding: "8px 20px",
-              borderRadius: "8px",
-              border: "none",
-              background: activeTab === "settings" ? "white" : "transparent",
-              color:
-                activeTab === "settings"
-                  ? "var(--color-primary)"
-                  : "var(--color-text-muted)",
-              fontWeight: 700,
-              cursor: "pointer",
-              transition: "all 0.2s",
-              fontSize: "13px",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-            }}
-          >
-            <Settings size={16} /> Platform Settings
-          </button>
-          <button
-            onClick={() => setActiveTab("receipts")}
-            style={{
-              padding: "8px 20px",
-              borderRadius: "8px",
-              border: "none",
-              background: activeTab === "receipts" ? "white" : "transparent",
-              color:
-                activeTab === "receipts"
-                  ? "var(--color-primary)"
-                  : "var(--color-text-muted)",
-              fontWeight: 700,
-              cursor: "pointer",
-              transition: "all 0.2s",
-              fontSize: "13px",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              position: "relative",
-            }}
-          >
-            <Upload size={16} /> Receipts
-            {paymentReceipts.filter((r) => r.status === "pending").length > 0 && (
-              <span
-                style={{
-                  position: "absolute",
-                  top: "-4px",
-                  right: "-4px",
-                  background: "var(--color-news-red)",
-                  color: "white",
-                  fontSize: "10px",
-                  fontWeight: "bold",
-                  padding: "2px 6px",
-                  borderRadius: "10px",
-                  boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
-                }}
-              >
-                {paymentReceipts.filter((r) => r.status === "pending").length}
-              </span>
-            )}
-          </button>
-          <button
-            onClick={() => setActiveTab("comments")}
-            style={{
-              padding: "8px 20px",
-              borderRadius: "8px",
-              border: "none",
-              background: activeTab === "comments" ? "white" : "transparent",
-              color:
-                activeTab === "comments"
-                  ? "var(--color-primary)"
-                  : "var(--color-text-muted)",
-              fontWeight: 700,
-              cursor: "pointer",
-              transition: "all 0.2s",
-              fontSize: "13px",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              position: "relative",
-            }}
-          >
-            <MessageSquare size={16} /> Comments
-            {(() => {
-              const count = JSON.parse(localStorage.getItem("wp_article_comments") || "[]").length;
-              if (count > 0) {
-                return (
-                  <span
-                    style={{
-                      position: "absolute",
-                      top: "-4px",
-                      right: "-4px",
-                      background: "var(--color-primary)",
-                      color: "white",
-                      fontSize: "10px",
-                      fontWeight: "bold",
-                      padding: "2px 6px",
-                      borderRadius: "10px",
-                      boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
-                    }}
-                  >
-                    {count}
-                  </span>
-                );
-              }
-              return null;
-            })()}
-          </button>
-          <button
-            onClick={() => setActiveTab("logs")}
-            style={{
-              padding: "8px 20px",
-              borderRadius: "8px",
-              border: "none",
-              background: activeTab === "logs" ? "white" : "transparent",
-              color:
-                activeTab === "logs"
-                  ? "var(--color-primary)"
-                  : "var(--color-text-muted)",
-              fontWeight: 700,
-              cursor: "pointer",
-              transition: "all 0.2s",
-              fontSize: "13px",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-            }}
-          >
-            <ShieldCheck size={16} /> Security & Logs
-          </button>
-          <button
-            onClick={() => setActiveTab("adrequests")}
-            style={{
-              padding: "8px 20px",
-              borderRadius: "8px",
-              border: "none",
-              background: activeTab === "adrequests" ? "white" : "transparent",
-              color:
-                activeTab === "adrequests"
-                  ? "var(--color-primary)"
-                  : "var(--color-text-muted)",
-              fontWeight: 700,
-              cursor: "pointer",
-              transition: "all 0.2s",
-              fontSize: "13px",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              position: "relative",
-            }}
-          >
-            <Megaphone size={16} /> Ad Requests
-            {(() => {
-              const count = JSON.parse(localStorage.getItem("wp_ad_requests") || "[]").filter(r => r.status === 'Pending').length;
-              if (count > 0) {
-                return (
-                  <span
-                    style={{
-                      position: "absolute",
-                      top: "-4px",
-                      right: "-4px",
-                      background: "var(--color-news-red)",
-                      color: "white",
-                      fontSize: "10px",
-                      fontWeight: "bold",
-                      padding: "2px 6px",
-                      borderRadius: "10px",
-                      boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
-                    }}
-                  >
-                    {count}
-                  </span>
-                );
-              }
-              return null;
-            })()}
-          </button>
-        </div>
+
 
         <AnimatePresence mode="wait">
           {activeTab === "adrequests" && (
@@ -976,6 +721,8 @@ export default function AdminPage() {
               setContactMessages={setContactMessages}
               setSelectedMessage={setSelectedMessage}
               showToast={showToast}
+              setModalOpen={setModalOpen}
+              setModalType={setModalType}
             />
           )}
           {activeTab === "cms" && (
@@ -1015,8 +762,8 @@ export default function AdminPage() {
             />
           )}
         </AnimatePresence>
-
-      </div>
+          </main>
+        </div>
 
       {/* Feedback Modal */}
       <AnimatePresence>
