@@ -40,6 +40,39 @@ export default function AdminReceipts({
     });
   };
 
+  const grantUserSubscription = (receipt) => {
+    const users = JSON.parse(localStorage.getItem('wp_users') || '[]');
+    const idx = users.findIndex((u) => u.uid === receipt.userId);
+    if (idx !== -1) {
+      const isStoryPurchase = receipt.planId?.startsWith('story:');
+      if (isStoryPurchase) {
+        const articleId = Number(receipt.planId.split(':')[1]);
+        const currentStories = users[idx].purchasedStories || [];
+        if (!currentStories.includes(articleId)) {
+          users[idx].purchasedStories = [...currentStories, articleId];
+        }
+        users[idx].subscriptionPlan = "storypass";
+        users[idx].isSubscribed = users[idx].isSubscribed || false;
+      } else {
+        const expiryMap = {
+          weekly: 7,
+          monthly: 30,
+          annual: 365,
+          corporate: 365,
+          enterprise: 730,
+          storypass: 0,
+        };
+        const days = expiryMap[receipt.planId] || 30;
+        users[idx].isSubscribed = true;
+        users[idx].subscriptionPlan = receipt.planId;
+        users[idx].subscriptionExpiry = new Date(Date.now() + days * 86400000).toISOString();
+        if (receipt.planId === "corporate") users[idx].subscriptionTier = "Corporate";
+        if (receipt.planId === "enterprise") users[idx].subscriptionTier = "Enterprise";
+      }
+      localStorage.setItem('wp_users', JSON.stringify(users));
+    }
+  };
+
   return (
     <motion.div
               key="receipts"
@@ -285,6 +318,7 @@ export default function AdminReceipts({
                                             "wp_payment_receipts",
                                             JSON.stringify(recs)
                                           );
+                                          grantUserSubscription(receipt);
                                           setPaymentReceipts([...recs]);
                                           showToast(`Receipt ${receipt.id} approved`);
                                         }
@@ -584,6 +618,7 @@ export default function AdminReceipts({
                                       "wp_payment_receipts",
                                       JSON.stringify(recs)
                                     );
+                                    grantUserSubscription(previewReceipt);
                                     setPaymentReceipts([...recs]);
                                     setPreviewReceipt(null);
                                     setReviewNote("");
