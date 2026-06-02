@@ -14,7 +14,7 @@ export default function ContactPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const newMessage = {
-      id: crypto.randomUUID(),
+      id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : 'msg-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now().toString(36),
       ...formData,
       date: new Date().toISOString(),
       status: 'Unread'

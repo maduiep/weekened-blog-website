@@ -29,7 +29,7 @@ export default function CMSEditor() {
     
     // Create article object
     const newArticle = {
-      id: crypto.randomUUID(),
+      id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : 'art-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now().toString(36),
       title,
       slug,
       excerpt: summary,

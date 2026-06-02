@@ -52,7 +52,7 @@ export default function AdminCMS({ showToast }) {
   const handleSaveArticle = () => {
     setIsSaving(true);
     const newArticle = {
-      id: editingId || crypto.randomUUID(),
+      id: editingId || (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : 'art-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now().toString(36)),
       title,
       slug,
       excerpt: summary,
@@ -124,7 +124,7 @@ export default function AdminCMS({ showToast }) {
   const handleSaveAdvert = (e) => {
     e.preventDefault();
     const newAd = {
-      id: crypto.randomUUID(),
+      id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : 'ad-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now().toString(36),
       title: adTitle,
       imageUrl: adImage,
       link: adLink,

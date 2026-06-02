@@ -48,7 +48,7 @@ export default function AdminManagement() {
   const handleAddAdmin = (e) => {
     e.preventDefault();
     const newAdmin = {
-      id: crypto.randomUUID(),
+      id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : 'adm-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now().toString(36),
       name,
       email,
       role,
