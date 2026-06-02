@@ -762,8 +762,9 @@ export default function AdminPage() {
             />
           )}
         </AnimatePresence>
-          </main>
-        </div>
+          </div>
+        </main>
+      </div>
 
       {/* Feedback Modal */}
       <AnimatePresence>
