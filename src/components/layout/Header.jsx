@@ -127,6 +127,10 @@ export default function Header() {
                 </a>
               </div>
 
+              <Link to="/contact" className="btn btn-ghost btn-sm">
+                Contact Us
+              </Link>
+
               {isLoggedIn ? (
                 <div className="user-menu-wrapper">
                   <button
