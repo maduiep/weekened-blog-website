@@ -9,6 +9,10 @@ export default function AdminLogs({ adminLogs }) {
     });
   };
 
+  const backendSessions = [];
+  const backendSessionsLoading = false;
+  const backendSessionError = null;
+
   return (
     <motion.div
               key="logs"

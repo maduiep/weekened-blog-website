@@ -512,8 +512,10 @@ export default function AdminPage() {
         {/* Main Content Area */}
         <main style={{ flex: 1, padding: "var(--space-2xl)", overflowY: "auto", background: "#f8fafc" }}>
           <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
-        {/* Page Header */}
-        <div
+        {activeTab === "analytics" && (
+          <>
+            {/* Page Header */}
+            <div
           className="admin-header"
           style={{
             marginBottom: "var(--space-2xl)",
@@ -685,6 +687,8 @@ export default function AdminPage() {
             </motion.div>
           ))}
         </div>
+        </>
+        )}
 
 
 
