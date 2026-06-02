@@ -37,6 +37,8 @@ export default function PaymentModal({ plan, onClose, redirect }) {
   }, [plan?.defaultMethod]);
 
   const [phone, setPhone] = useState("");
+  const [cardExpiry, setCardExpiry] = useState("");
+  const [cardCvv, setCardCvv] = useState("");
   const [otp, setOtp] = useState("");
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [error, setError] = useState("");
@@ -592,6 +594,33 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                               }
                               required
                             />
+                            {method.type === 'card' && (
+                              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginTop: '12px' }}>
+                                <div>
+                                  <label className="form-label">Expiry Date</label>
+                                  <input 
+                                    type="text" 
+                                    className="form-input" 
+                                    placeholder="MM/YY" 
+                                    value={cardExpiry}
+                                    onChange={(e) => setCardExpiry(e.target.value)}
+                                    required 
+                                  />
+                                </div>
+                                <div>
+                                  <label className="form-label">CVV</label>
+                                  <input 
+                                    type="password" 
+                                    className="form-input" 
+                                    placeholder="•••" 
+                                    maxLength={3}
+                                    value={cardCvv}
+                                    onChange={(e) => setCardCvv(e.target.value)}
+                                    required 
+                                  />
+                                </div>
+                              </div>
+                            )}
                           </div>
                         ) : (
                           <div
