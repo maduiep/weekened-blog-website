@@ -789,7 +789,7 @@ export default function ArticlePage() {
                             }}
                             onClick={() => {
                               if (!isLoggedIn) {
-                                navigate(`/auth?tab=signup&redirect=${encodeURIComponent(`/article/${id}`)}`);
+                                navigate(`/user-auth?tab=signup&redirect=${encodeURIComponent(`/article/${id}`)}`);
                                 return;
                               }
                               setSelectedPlan(storyPassPlan);

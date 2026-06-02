@@ -36,7 +36,7 @@ export default function EPaperPage() {
 
   const handleDownload = async (ep) => {
     if (!isLoggedIn) {
-      navigate("/auth?tab=signup");
+      navigate("/user-auth?tab=signup");
       return;
     }
     if (!isSubscribed) {

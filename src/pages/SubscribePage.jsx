@@ -66,10 +66,8 @@ export default function SubscribePage() {
 
   const handlePlanClick = (plan) => {
     if (!isLoggedIn) {
-      const authUrl = redirect
-        ? `/auth?tab=signup&redirect=${encodeURIComponent(redirect)}`
-        : "/auth?tab=signup";
-      navigate(authUrl);
+      const dest = redirect || "/subscribe";
+      navigate(`/user-auth?tab=signup&redirect=${encodeURIComponent(dest)}`);
       return;
     }
     setSelectedPlan(plan);
@@ -235,10 +233,8 @@ export default function SubscribePage() {
                 whileTap={{ scale: 0.98 }}
                 onClick={() => {
                   if (!isLoggedIn) {
-                    const authUrl = redirect
-                      ? `/auth?tab=signup&redirect=${encodeURIComponent(redirect)}`
-                      : "/auth?tab=signup";
-                    navigate(authUrl);
+                    const dest = redirect || "/subscribe";
+                    navigate(`/user-auth?tab=signup&redirect=${encodeURIComponent(dest)}`);
                     return;
                   }
                   const storyPlan = subscriptionPlans.find(
