@@ -38,6 +38,7 @@ function CommentSection({ isSubscribed, isLoggedIn, user, articleId, articleTitl
     isSubscribed || (user?.purchasedStories || []).includes(Number(articleId));
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const [likedComments, setLikedComments] = useState(new Set());
 
   useEffect(() => {
     const loadComments = () => {
@@ -104,6 +105,32 @@ function CommentSection({ isSubscribed, isLoggedIn, user, articleId, articleTitl
     setNewComment("");
     
     window.dispatchEvent(new Event("storage"));
+  };
+
+  const handleLike = (commentId) => {
+    let updatedLikes = new Set(likedComments);
+    const isLiked = updatedLikes.has(commentId);
+    
+    if (isLiked) {
+      updatedLikes.delete(commentId);
+    } else {
+      updatedLikes.add(commentId);
+    }
+    setLikedComments(updatedLikes);
+
+    const stored = localStorage.getItem("wp_article_comments");
+    if (stored) {
+      const allComments = JSON.parse(stored);
+      const updatedAllComments = allComments.map(c => {
+        if (c.id === commentId) {
+          return { ...c, likes: isLiked ? c.likes - 1 : c.likes + 1 };
+        }
+        return c;
+      });
+      localStorage.setItem("wp_article_comments", JSON.stringify(updatedAllComments));
+      setComments(updatedAllComments.filter(c => c.articleId == articleId));
+      window.dispatchEvent(new Event("storage"));
+    }
   };
 
   return (
@@ -245,18 +272,19 @@ function CommentSection({ isSubscribed, isLoggedIn, user, articleId, articleTitl
                 {c.text}
               </p>
               <button
+                onClick={() => handleLike(c.id)}
                 style={{
                   display: "flex",
                   alignItems: "center",
                   gap: 4,
                   background: "none",
                   border: "none",
-                  color: "var(--color-text-muted)",
+                  color: likedComments.has(c.id) ? "var(--color-primary)" : "var(--color-text-muted)",
                   fontSize: "11px",
                   cursor: "pointer",
                 }}
               >
-                <ThumbsUp size={12} /> {c.likes}
+                <ThumbsUp size={12} fill={likedComments.has(c.id) ? "var(--color-primary)" : "none"} /> {c.likes}
               </button>
               
               {c.replies && c.replies.length > 0 && (
