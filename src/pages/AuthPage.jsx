@@ -53,10 +53,7 @@ export default function AuthPage() {
     if (isLoggedIn) navigate(redirect || "/", { replace: true });
   }, [isLoggedIn, navigate]);
 
-  useEffect(() => {
-    setError("");
-    setSuccess("");
-  }, [tab]);
+  // reset errors when tab changes\n  useEffect(() => {\n    let isMounted = true;\n    if(isMounted) { setError(""); setSuccess(""); }\n    return () => { isMounted = false; }\n  }, [tab]);
 
   const calculateStrength = (pass) => {
     let score = 0;

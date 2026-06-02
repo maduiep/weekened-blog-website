@@ -1,3 +1,5 @@
+import AdminSidebar from '../components/admin/AdminSidebar';
+import AdminOverview from '../components/admin/AdminOverview';
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -400,294 +402,30 @@ export default function AdminPage() {
 
       <div style={{ display: "flex", width: "100%", minHeight: "100vh" }}>
         {/* Sidebar Navigation */}
-        <aside
-          style={{
-            width: "280px",
-            background: "white",
-            borderRight: "1px solid var(--color-border)",
-            display: "flex",
-            flexDirection: "column",
-            position: "sticky",
-            top: 0,
-            height: "100vh",
-            overflowY: "auto",
-            flexShrink: 0,
-            padding: "var(--space-xl) var(--space-md)",
-            boxShadow: "4px 0 24px rgba(0,0,0,0.02)",
-            zIndex: 50,
-          }}
-        >
-          <div style={{ marginBottom: "var(--space-2xl)", padding: "0 var(--space-sm)" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
-              <div
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  background: "var(--color-primary)",
-                  borderRadius: "12px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "white",
-                  flexShrink: 0,
-                }}
-              >
-                <LayoutDashboard size={20} />
-              </div>
-              <div>
-                <span
-                  style={{
-                    fontSize: "10px",
-                    fontWeight: 800,
-                    textTransform: "uppercase",
-                    letterSpacing: 1.5,
-                    color: "var(--color-primary)",
-                  }}
-                >
-                  Platform Control
-                </span>
-                <h1 style={{ fontSize: "16px", margin: 0, fontWeight: 700 }}>
-                  Admin Dashboard
-                </h1>
-              </div>
-            </div>
-          </div>
-
-          <nav style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-            {[
-              { id: "analytics", label: "Insights", icon: BarChart2 },
-              { id: "messages", label: "User Requests", icon: Mail, badge: contactMessages.filter((m) => m.status === "Unread").length },
-              { id: "users", label: "Customers", icon: Users },
-              { id: "cms", label: "CMS / Articles", icon: FileText },
-              { id: "admins", label: "Admin Roles", icon: ShieldCheck, badge: adminRecords.filter((a) => a.status === "Pending").length },
-              { id: "settings", label: "Platform Settings", icon: Settings },
-              { id: "receipts", label: "Receipts", icon: Upload, badge: paymentReceipts.filter((r) => r.status === "pending").length },
-              { id: "comments", label: "Comments", icon: MessageSquare, badge: JSON.parse(localStorage.getItem("wp_article_comments") || "[]").length },
-              { id: "logs", label: "Security & Logs", icon: ShieldCheck },
-              { id: "adrequests", label: "Ad Requests", icon: Megaphone, badge: JSON.parse(localStorage.getItem("wp_ad_requests") || "[]").filter(r => r.status === 'Pending').length },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: "12px 16px",
-                  borderRadius: "10px",
-                  border: "none",
-                  background: activeTab === tab.id ? "rgba(0,126,151,0.08)" : "transparent",
-                  color: activeTab === tab.id ? "var(--color-primary)" : "var(--color-text-muted)",
-                  fontWeight: activeTab === tab.id ? 700 : 500,
-                  cursor: "pointer",
-                  transition: "all 0.2s",
-                  fontSize: "14px",
-                  position: "relative",
-                  textAlign: "left",
-                }}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                  <tab.icon size={18} style={{ color: activeTab === tab.id ? "var(--color-primary)" : "var(--color-text-muted)" }} />
-                  {tab.label}
-                </div>
-                {tab.badge > 0 && (
-                  <span
-                    style={{
-                      background: tab.id === "messages" || tab.id === "admins" || tab.id === "receipts" || tab.id === "adrequests" ? "var(--color-news-red)" : "var(--color-primary)",
-                      color: "white",
-                      fontSize: "11px",
-                      fontWeight: "bold",
-                      padding: "2px 8px",
-                      borderRadius: "100px",
-                    }}
-                  >
-                    {tab.badge}
-                  </span>
-                )}
-              </button>
-            ))}
-          </nav>
-        </aside>
+          <AdminSidebar
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            contactMessages={contactMessages}
+            adminRecords={adminRecords}
+            paymentReceipts={paymentReceipts}
+            adminUsersCount={adminUsersCount}
+          />
 
         {/* Main Content Area */}
         <main style={{ flex: 1, padding: "var(--space-md) var(--space-2xl) var(--space-2xl)", overflowY: "auto", background: "#f8fafc" }}>
           <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
         {activeTab === "analytics" && (
-          <>
-            {/* Page Header */}
-            <div
-          className="admin-header"
-          style={{
-            marginBottom: "var(--space-2xl)",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: "var(--space-lg)",
-          }}
-        >
-          <div style={{ minWidth: "280px" }}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "4px",
-              }}
-            >
-              <h1 style={{ fontSize: "var(--text-2xl)", margin: 0 }}>
-                Business Overview
-              </h1>
-              <p style={{ color: "var(--color-text-muted)", margin: 0, fontSize: "14px" }}>
-                Welcome back, {adminUser?.name || "Admin"}. Here's what's happening today.
-              </p>
-            </div>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              gap: "var(--space-md)",
-              width: "100%",
-              maxWidth: "400px",
-            }}
-          >
-            <button
-              className="btn btn-ghost btn-sm btn-block"
-              style={{ background: "white" }}
-              onClick={() =>
-                showToast("Report generation started...", "success")
-              }
-            >
-              <Download size={14} /> Export CSV
-            </button>
-            <Link to="/" className="btn btn-primary btn-sm btn-block">
-              View Site
-            </Link>
-          </div>
-        </div>
-
-        {/* Stats Summary Bar */}
-        <div
-          className="admin-stats-grid"
-          style={{ marginBottom: "var(--space-2xl)" }}
-        >
-          {[
-            {
-              icon: <Users size={20} />,
-              label: "Total Users",
-              value: allUsers.length,
-              change: "+12%",
-              color: "var(--color-primary)",
-            },
-            {
-              icon: <CreditCard size={20} />,
-              label: "Active Subs",
-              value: subscribers.length,
-              change: "+8%",
-              color: "var(--color-sport-green)",
-            },
-            {
-              icon: <Eye size={20} />,
-              label: "Active Readers",
-              value: activeReaders,
-              change: "+0%",
-              color: "var(--color-opinion-purple)",
-            },
-            {
-              icon: <ShieldCheck size={20} />,
-              label: "Enterprise Licenses",
-              value: `${corporateSubs + enterpriseSubs}`,
-              change: "+5%",
-              color: "var(--color-business-blue)",
-            },
-            {
-              icon: <DollarSign size={20} />,
-              label: "MTD Revenue",
-              value: `P${mtdRevenue.toLocaleString()}`,
-              change: "Live",
-              color: "var(--color-gold)",
-            },
-            {
-              icon: <Database size={20} />,
-              label: "Data Points",
-              value: "42.8K",
-              change: "+1.2K",
-              color: "var(--color-opinion-purple)",
-            },
-            {
-              icon: <ShieldCheck size={20} />,
-              label: "Total Admins",
-              value: adminUsersCount,
-              change: "Active",
-              color: "var(--color-sport-green)",
-            },
-          ].map((stat, i) => (
-            <motion.div
-              key={i}
-              className="admin-stat-card"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              style={{
-                background: "white",
-                border: "1px solid var(--color-border)",
-                padding: "var(--space-xl)",
-                borderRadius: "var(--radius-xl)",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  marginBottom: "12px",
-                }}
-              >
-                <div
-                  style={{
-                    color: stat.color,
-                    background: "rgba(0,126,151,0.1)",
-                    width: "36px",
-                    height: "36px",
-                    borderRadius: "10px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  {stat.icon}
-                </div>
-                <span
-                  style={{
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    color: stat.color,
-                  }}
-                >
-                  {stat.change}
-                </span>
-              </div>
-              <div
-                style={{
-                  fontSize: "var(--text-2xl)",
-                  fontWeight: 800,
-                  marginBottom: "4px",
-                }}
-              >
-                {stat.value}
-              </div>
-              <div
-                style={{
-                  fontSize: "var(--text-xs)",
-                  color: "var(--color-text-muted)",
-                  fontWeight: 600,
-                  textTransform: "uppercase",
-                }}
-              >
-                {stat.label}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        </>
+          <AdminOverview
+            adminUser={adminUser}
+            showToast={showToast}
+            allUsers={allUsers}
+            subscribers={subscribers}
+            activeReaders={activeReaders}
+            corporateSubs={corporateSubs}
+            enterpriseSubs={enterpriseSubs}
+            mtdRevenue={mtdRevenue}
+            adminUsersCount={adminUsersCount}
+          />
         )}
 
 

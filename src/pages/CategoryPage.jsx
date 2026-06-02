@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { ArrowRight, Mail, TrendingUp, ShieldCheck } from 'lucide-react';
 import ArticleCard from '../components/articles/ArticleCard';
 import AdPlacement from '../components/ui/AdPlacement';
-import { articles, getArticlesByCategory, getCategoryInfo, categories } from '../data/articles';
+import { articles, getArticlesByCategory, getCategoryInfo } from '../data/articles';
 
 export default function CategoryPage() {
   const { slug } = useParams();

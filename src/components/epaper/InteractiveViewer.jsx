@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { X, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, Bookmark, Download } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { getDeviceFingerprint } from '../../utils/drm';

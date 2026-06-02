@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, ChevronRight, ArrowRight, Mail, Play, Shield, Globe, Award, Target, Zap, Clock, TrendingUp } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import ArticleCard from '../components/articles/ArticleCard';
 import AdPlacement from '../components/ui/AdPlacement';
 import { articles, categories, getArticlesByCategory, ePapers } from '../data/articles';
@@ -11,7 +11,7 @@ export default function HomePage() {
   const [heroIndex, setHeroIndex] = useState(0);
   const featured = articles.filter(a => a.featured);
   const heroArticles = featured.length > 0 ? featured : articles.slice(0, 3);
-  const [liveUpdates, setLiveUpdates] = useState([
+  const [liveUpdates] = useState([
     { id: 1, time: '2 mins ago', text: 'BSE indices see marginal gain in early trading session.', category: 'Business' },
     { id: 2, time: '15 mins ago', text: 'BFA announces new developmental coaching initiative.', category: 'Sport' },
     { id: 3, time: '40 mins ago', text: 'Parliamentary session on budget highlights energy sector.', category: 'News' },
@@ -24,13 +24,8 @@ export default function HomePage() {
     return () => clearInterval(timer);
   }, [heroArticles.length]);
 
-  const newsArticles = getArticlesByCategory('news');
-  const businessArticles = getArticlesByCategory('business');
-  const sportArticles = getArticlesByCategory('sport');
-  const opinionArticles = getArticlesByCategory('opinion');
-  const lifestyleArticles = getArticlesByCategory('lifestyle');
-
-  return (
+    const businessArticles = getArticlesByCategory('business');
+        return (
     <>
       {/* Hero Slider */}
       <section className="hero-section" id="hero">
