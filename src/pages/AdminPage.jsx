@@ -67,6 +67,7 @@ export default function AdminPage() {
   const [modalType, setModalType] = useState(null);
   const [contactMessages, setContactMessages] = useState([]);
   const [selectedMessage, setSelectedMessage] = useState(null);
+  const [adminRecords, setAdminRecords] = useState([]);
 
   const allUsers = getAllUsers();
   const subscribers = allUsers.filter((u) => u.isSubscribed);
@@ -199,17 +200,31 @@ export default function AdminPage() {
     };
     readMessages();
 
+    const readAdminRecords = () => {
+      try {
+        const admins = JSON.parse(
+          localStorage.getItem("wp_admin_records") || "[]",
+        );
+        setAdminRecords(Array.isArray(admins) ? admins : []);
+      } catch (e) {
+        setAdminRecords([]);
+      }
+    };
+    readAdminRecords();
+
     const onStorage = (e) => {
       if (
         e.key &&
         e.key !== KEY &&
         e.key !== "wp_transactions" &&
-        e.key !== "wp_contact_messages"
+        e.key !== "wp_contact_messages" &&
+        e.key !== "wp_admin_records"
       )
         return;
       read();
       calcRevenue();
       readMessages();
+      readAdminRecords();
     };
     window.addEventListener("storage", onStorage);
 
@@ -692,9 +707,28 @@ export default function AdminPage() {
               display: "flex",
               alignItems: "center",
               gap: 8,
+              position: "relative",
             }}
           >
             <ShieldCheck size={16} /> Admin Roles
+            {adminRecords.filter((a) => a.status === "Pending").length > 0 && (
+              <span
+                style={{
+                  position: "absolute",
+                  top: "-4px",
+                  right: "-4px",
+                  background: "var(--color-news-red)",
+                  color: "white",
+                  fontSize: "10px",
+                  fontWeight: "bold",
+                  padding: "2px 6px",
+                  borderRadius: "10px",
+                  boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+                }}
+              >
+                {adminRecords.filter((a) => a.status === "Pending").length}
+              </span>
+            )}
           </button>
           <button
             onClick={() => setActiveTab("settings")}

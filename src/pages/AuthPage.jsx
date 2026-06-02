@@ -304,6 +304,7 @@ export default function AuthPage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   onSubmit={handleSignIn}
+                  autoComplete="off"
                 >
                   <div className="form-group">
                     <label className="form-label">Email Address</label>
@@ -322,6 +323,7 @@ export default function AuthPage() {
                         type="email"
                         className="form-input"
                         placeholder="you@example.com"
+                        autoComplete="off"
                         style={{ paddingLeft: 40 }}
                         value={signInData.email}
                         onChange={(e) =>
@@ -365,6 +367,7 @@ export default function AuthPage() {
                         type={showPassword ? "text" : "password"}
                         className="form-input"
                         placeholder="Enter your password"
+                        autoComplete="new-password"
                         style={{ paddingLeft: 40, paddingRight: 44 }}
                         value={signInData.password}
                         onChange={(e) =>
@@ -484,7 +487,8 @@ export default function AuthPage() {
                       textAlign: "center",
                     }}
                   >
-                    Admins must sign in via the admin portal.{" "}
+                    Admins must sign in via the admin portal.
+                    <br />
                     <a
                       href="/admin-auth"
                       style={{ color: "var(--color-primary)", fontWeight: 700 }}
@@ -501,6 +505,7 @@ export default function AuthPage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 onSubmit={handleSignUp}
+                autoComplete="off"
               >
                 <div className="form-group">
                   <label className="form-label">Full Name</label>
@@ -519,6 +524,7 @@ export default function AuthPage() {
                       type="text"
                       className="form-input"
                       placeholder="Your full name"
+                      autoComplete="off"
                       style={{ paddingLeft: 40 }}
                       value={signUpData.name}
                       onChange={(e) =>
@@ -545,6 +551,7 @@ export default function AuthPage() {
                       type="email"
                       className="form-input"
                       placeholder="you@example.com"
+                      autoComplete="off"
                       style={{ paddingLeft: 40 }}
                       value={signUpData.email}
                       onChange={(e) =>
@@ -580,6 +587,7 @@ export default function AuthPage() {
                       type={showPassword ? "text" : "password"}
                       className="form-input"
                       placeholder="min 6 characters"
+                      autoComplete="new-password"
                       style={{ paddingLeft: 40, paddingRight: 44 }}
                       value={signUpData.password}
                       onChange={(e) => {
@@ -661,6 +669,7 @@ export default function AuthPage() {
                       type={showPassword ? "text" : "password"}
                       className="form-input"
                       placeholder="Re-enter your password"
+                      autoComplete="new-password"
                       style={{ paddingLeft: 40, paddingRight: 44 }}
                       value={signUpData.confirm}
                       onChange={(e) =>

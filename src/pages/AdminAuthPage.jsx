@@ -66,9 +66,35 @@ export default function AdminAuthPage() {
     setError("");
     setLoading(true);
     try {
-      // Validate admin credentials but defer actual login until OTP is confirmed
-      const rawAdmins = localStorage.getItem("wp_admin_records");
-      const admins = rawAdmins ? JSON.parse(rawAdmins) : [];
+      // Ensure seed Super Admin always exists before credential check
+      let admins = [];
+      try {
+        const raw = localStorage.getItem("wp_admin_records");
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) admins = parsed;
+        }
+      } catch (_) {}
+
+      const seedAdmin = {
+        id: "admin-001",
+        name: "Super Admin",
+        email: "admin@weekendpost.co.bw",
+        role: "Super Admin",
+        status: "Active",
+        history: [
+          { action: "Created as Super Admin", date: new Date().toISOString() },
+        ],
+      };
+      const seedIdx = admins.findIndex((a) => a.id === "admin-001");
+      if (seedIdx === -1) {
+        admins.unshift(seedAdmin);
+        localStorage.setItem("wp_admin_records", JSON.stringify(admins));
+      } else if (admins[seedIdx].status !== "Active") {
+        admins[seedIdx].status = "Active";
+        localStorage.setItem("wp_admin_records", JSON.stringify(admins));
+      }
+
       const normalized = signInData.email.trim().toLowerCase();
       const idx = admins.findIndex(
         (a) =>

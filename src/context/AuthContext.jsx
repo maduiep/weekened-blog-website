@@ -56,27 +56,37 @@ function loadUsers() {
 }
 
 function loadAdmins() {
+  const SEED_ADMIN = {
+    id: "admin-001",
+    name: "Super Admin",
+    email: "admin@weekendpost.co.bw",
+    role: "Super Admin",
+    status: "Active",
+    history: [
+      { action: "Created as Super Admin", date: new Date().toISOString() },
+    ],
+  };
+
+  let admins = [];
   try {
     const raw = localStorage.getItem("wp_admin_records");
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (parsed.length > 0) return parsed;
+      if (Array.isArray(parsed)) admins = parsed;
     }
   } catch (_) {}
-  const seed = [
-    {
-      id: "admin-001",
-      name: "Super Admin",
-      email: "admin@weekendpost.co.bw",
-      role: "Super Admin",
-      status: "Active",
-      history: [
-        { action: "Created as Super Admin", date: new Date().toISOString() },
-      ],
-    },
-  ];
-  localStorage.setItem("wp_admin_records", JSON.stringify(seed));
-  return seed;
+
+  // Always ensure the seed Super Admin exists and is Active
+  const seedIdx = admins.findIndex((a) => a.id === "admin-001");
+  if (seedIdx === -1) {
+    admins.unshift(SEED_ADMIN);
+    localStorage.setItem("wp_admin_records", JSON.stringify(admins));
+  } else if (admins[seedIdx].status !== "Active") {
+    admins[seedIdx].status = "Active";
+    localStorage.setItem("wp_admin_records", JSON.stringify(admins));
+  }
+
+  return admins;
 }
 
 function saveUsers(users) {
@@ -102,6 +112,9 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Always ensure seed admin exists in localStorage on app mount
+    loadAdmins();
+
     const session = loadSession();
     if (session) {
       let fresh = null;
