@@ -510,7 +510,7 @@ export default function AdminPage() {
         </aside>
 
         {/* Main Content Area */}
-        <main style={{ flex: 1, padding: "var(--space-2xl)", overflowY: "auto", background: "#f8fafc" }}>
+        <main style={{ flex: 1, padding: "var(--space-md) var(--space-2xl) var(--space-2xl)", overflowY: "auto", background: "#f8fafc" }}>
           <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
         {activeTab === "analytics" && (
           <>
