@@ -176,9 +176,22 @@ export function getRotatingAd(type, category = null) {
 export function getRotatingPopupAd() {
   const freq = JSON.parse(localStorage.getItem(AD_FREQUENCY_KEY) || '{}');
   const shownIds = freq.shownPopupIds || [];
-  const unseen = popupAds.filter(ad => !shownIds.includes(ad.id));
-  const pool = unseen.length > 0 ? unseen : popupAds;
+  
+  // Combine static and live popups
+  const liveInventory = JSON.parse(localStorage.getItem("wp_ad_inventory") || "[]")
+    .filter(ad => ad.type === 'popup')
+    .map(ad => ({
+      ...ad,
+      cta: 'Learn More',
+      ctaUrl: '#',
+      color: 'var(--color-primary)'
+    }));
+  const combinedPopups = [...liveInventory, ...popupAds];
+  
+  const unseen = combinedPopups.filter(ad => !shownIds.includes(ad.id));
+  const pool = unseen.length > 0 ? unseen : combinedPopups;
   const ad = pool[Math.floor(Math.random() * pool.length)];
+  
   freq.shownPopupIds = [...shownIds, ad.id].slice(-10);
   localStorage.setItem(AD_FREQUENCY_KEY, JSON.stringify(freq));
   return ad;

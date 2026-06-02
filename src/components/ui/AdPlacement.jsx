@@ -11,13 +11,22 @@ export default function AdPlacement({ type = 'banner', label = 'Advertisement', 
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    const pool = adCreatives.filter(ad => {
+    const liveInventory = JSON.parse(localStorage.getItem("wp_ad_inventory") || "[]").map(ad => ({
+      ...ad,
+      targetCategories: ad.category ? [ad.category] : [],
+      cta: 'Learn More',
+      ctaUrl: '#',
+      color: 'var(--color-primary)'
+    }));
+    const combinedCreatives = [...liveInventory, ...adCreatives];
+
+    const pool = combinedCreatives.filter(ad => {
       if (ad.type !== type) return false;
-      if (category && !ad.targetCategories.includes(category)) return false;
+      if (category && ad.targetCategories && ad.targetCategories.length > 0 && !ad.targetCategories.includes(category)) return false;
       return true;
     });
     if (pool.length === 0) {
-      const fallback = adCreatives.find(ad => ad.type === type) || adCreatives[0];
+      const fallback = combinedCreatives.find(ad => ad.type === type) || combinedCreatives[0];
       if (fallback) pool.push(fallback);
     }
     setAds(pool);

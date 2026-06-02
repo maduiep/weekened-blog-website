@@ -41,6 +41,8 @@ import AdminMessages from "../components/admin/AdminMessages";
 import AdminReceipts from "../components/admin/AdminReceipts";
 import AdminLogs from "../components/admin/AdminLogs";
 import AdminComments from "../components/admin/AdminComments";
+import AdminAdRequests from "../components/admin/AdminAdRequests";
+import { Megaphone } from "lucide-react";
 
 const PLAN_COLORS = {
   weekly: "var(--color-sport-green)",
@@ -891,9 +893,59 @@ export default function AdminPage() {
           >
             <ShieldCheck size={16} /> Security & Logs
           </button>
+          <button
+            onClick={() => setActiveTab("adrequests")}
+            style={{
+              padding: "8px 20px",
+              borderRadius: "8px",
+              border: "none",
+              background: activeTab === "adrequests" ? "white" : "transparent",
+              color:
+                activeTab === "adrequests"
+                  ? "var(--color-primary)"
+                  : "var(--color-text-muted)",
+              fontWeight: 700,
+              cursor: "pointer",
+              transition: "all 0.2s",
+              fontSize: "13px",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              position: "relative",
+            }}
+          >
+            <Megaphone size={16} /> Ad Requests
+            {(() => {
+              const count = JSON.parse(localStorage.getItem("wp_ad_requests") || "[]").filter(r => r.status === 'Pending').length;
+              if (count > 0) {
+                return (
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: "-4px",
+                      right: "-4px",
+                      background: "var(--color-news-red)",
+                      color: "white",
+                      fontSize: "10px",
+                      fontWeight: "bold",
+                      padding: "2px 6px",
+                      borderRadius: "10px",
+                      boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+                    }}
+                  >
+                    {count}
+                  </span>
+                );
+              }
+              return null;
+            })()}
+          </button>
         </div>
 
         <AnimatePresence mode="wait">
+          {activeTab === "adrequests" && (
+            <AdminAdRequests adminUser={adminUser} showToast={showToast} />
+          )}
           {activeTab === "analytics" && (
             <AdminAnalytics 
               showToast={showToast} 
