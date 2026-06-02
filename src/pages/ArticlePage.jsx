@@ -397,7 +397,7 @@ export default function ArticlePage() {
   const isMarkdown = typeof article.content === 'string';
   const allContent = isMarkdown ? article.content : (article.content || []);
 
-  const FREE_LIMIT = 3;
+  const FREE_LIMIT = 5;
   const isOverLimit =
     !hasArticleAccess(article.id) && !isAdmin && viewCount > FREE_LIMIT;
   const hasFullAccess = isAdmin || hasArticleAccess(article.id);
@@ -702,10 +702,18 @@ export default function ArticlePage() {
             <div className="article-content-column">
               <div
                 className="article-body"
+                onCopy={(e) => {
+                  e.preventDefault();
+                  alert("Copying content is disabled to protect intellectual property.");
+                }}
+                onContextMenu={(e) => e.preventDefault()}
                 style={{
                   fontSize: "var(--text-lg)",
                   lineHeight: 1.8,
                   color: "#334155",
+                  userSelect: "none",
+                  WebkitUserSelect: "none",
+                  msUserSelect: "none",
                 }}
               >
                 {!isOverLimit ? (
@@ -926,7 +934,20 @@ export default function ArticlePage() {
                     </button>
                   </div>
                   <div style={{ display: "flex", gap: "12px" }}>
-                    <button className="share-btn-pill">
+                    <button 
+                      className="share-btn-pill"
+                      onClick={() => {
+                        if (navigator.share) {
+                          navigator.share({
+                            title: article?.title,
+                            text: article?.excerpt,
+                            url: window.location.href,
+                          }).catch(console.error);
+                        } else {
+                          alert("Share feature is not supported on this browser.");
+                        }
+                      }}
+                    >
                       <Share2 size={16} /> Share
                     </button>
                     <button className="share-btn-pill">

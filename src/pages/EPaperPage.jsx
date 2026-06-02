@@ -12,6 +12,8 @@ import { ePapers } from "../data/articles";
 import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import InteractiveViewer from "../components/epaper/InteractiveViewer";
+import { checkDeviceAuthorization } from "../utils/drm";
 
 export default function EPaperPage() {
   const { isSubscribed, isLoggedIn, user: authUser } = useAuth();
@@ -20,6 +22,7 @@ export default function EPaperPage() {
   const [downloadError, setDownloadError] = useState(null);
   const [selectedYear, setSelectedYear] = useState("2024");
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeEPaper, setActiveEPaper] = useState(null);
 
   const years = ["2024", "2023", "2022", "2021"];
 
@@ -43,6 +46,20 @@ export default function EPaperPage() {
       navigate("/subscribe");
       return;
     }
+
+    setDownloading(ep.id);
+    const isAuthorized = await checkDeviceAuthorization(authUser.uid, authUser.subscriptionPlan);
+    
+    if (!isAuthorized) {
+      setDownloadError("Device limit reached for this subscription. Please upgrade your plan or log out from other devices.");
+      setDownloading(null);
+      return;
+    }
+
+    // Launch Interactive Viewer instead of direct download
+    setActiveEPaper(ep);
+    setDownloading(null);
+    return;
 
     const downloadKey = `wp_download_count_${ep.id}`;
     const currentCount = parseInt(localStorage.getItem(downloadKey) || '0');
@@ -132,6 +149,14 @@ export default function EPaperPage() {
 
   return (
     <div className="epaper-page">
+      <AnimatePresence>
+        {activeEPaper && (
+          <InteractiveViewer 
+            epaper={activeEPaper} 
+            onClose={() => setActiveEPaper(null)} 
+          />
+        )}
+      </AnimatePresence>
       {/* Page Header */}
       <div
         className="page-header"

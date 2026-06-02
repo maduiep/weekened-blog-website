@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import { Info, X, ExternalLink } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { adCreatives, trackAdImpression, trackAdClick } from '../../data/adInventory';
+import { useAuth } from '../../context/AuthContext';
 
 export default function AdPlacement({ type = 'banner', label = 'Advertisement', category = null }) {
+  const { isSubscribed } = useAuth();
   const [isVisible, setIsVisible] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
@@ -13,9 +15,10 @@ export default function AdPlacement({ type = 'banner', label = 'Advertisement', 
   useEffect(() => {
     const liveInventory = JSON.parse(localStorage.getItem("wp_ad_inventory") || "[]").map(ad => ({
       ...ad,
+      image: ad.imageUrl || ad.image,
       targetCategories: ad.category ? [ad.category] : [],
       cta: 'Learn More',
-      ctaUrl: '#',
+      ctaUrl: ad.link || '#',
       color: 'var(--color-primary)'
     }));
     const combinedCreatives = [...liveInventory, ...adCreatives];
@@ -51,7 +54,7 @@ export default function AdPlacement({ type = 'banner', label = 'Advertisement', 
 
   const ad = ads[currentIndex];
 
-  if (isDismissed) return null;
+  if (isDismissed || isSubscribed) return null;
 
   if (!isVisible) {
     return (

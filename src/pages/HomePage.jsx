@@ -36,7 +36,7 @@ export default function HomePage() {
       <section className="hero-section" id="hero">
         {heroArticles.map((article, i) => (
           <div key={article.id} className={`hero-slide ${i === heroIndex ? 'active' : ''}`}>
-            <img className="hero-slide-image" src={article.image} alt={article.title} />
+            <img className="hero-slide-image" src={article.image} alt={article.title} loading="lazy" />
             <div className="hero-overlay" />
             <div className="hero-content container">
               <div style={{ display: 'flex', gap: '8px', marginBottom: 'var(--space-md)', flexWrap: 'wrap' }}>
@@ -192,7 +192,7 @@ export default function HomePage() {
             {articles.filter(a => a.videoUrl).slice(0, 2).map(article => (
               <div key={article.id} className="video-card-premium" style={{ position: 'relative', borderRadius: 'var(--radius-2xl)', overflow: 'hidden' }}>
                 <Link to={`/article/${article.id}`}>
-                  <div style={{ aspectRatio: '16/9' }}><img src={article.image} alt={article.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>
+                  <div style={{ aspectRatio: '16/9' }}><img src={article.image} alt={article.title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /></div>
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9), transparent)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: 'var(--space-2xl)' }}>
                     <div style={{ width: 50, height: 50, background: 'var(--color-primary)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}><Play size={24} fill="white" /></div>
                     <h3 style={{ color: 'white', margin: 0 }}>{article.title}</h3>

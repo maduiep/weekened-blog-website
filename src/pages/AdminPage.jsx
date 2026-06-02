@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import CMSEditor from "../components/admin/CMSEditor";
+import AdminCMS from "../components/admin/AdminCMS";
 import AdminManagement from "../components/admin/AdminManagement";
 import PlatformSettings from "../components/admin/PlatformSettings";
 import { Link } from "react-router-dom";
@@ -978,9 +979,7 @@ export default function AdminPage() {
             />
           )}
           {activeTab === "cms" && (
-            <motion.div key="cms" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <CMSEditor />
-            </motion.div>
+            <AdminCMS showToast={showToast} />
           )}
           {activeTab === "admins" && (
             <motion.div key="admins" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
