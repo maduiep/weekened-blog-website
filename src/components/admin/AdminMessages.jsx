@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Search, CheckCircle, Eye, Mail } from 'lucide-react';
 
-export default function AdminMessages({ contactMessages, setContactMessages, setSelectedMessage, showToast }) {
+export default function AdminMessages({ contactMessages, setContactMessages, setSelectedMessage, showToast, setModalOpen, setModalType }) {
   const formatDate = (iso) => {
     if (!iso) return "—";
     return new Date(iso).toLocaleDateString("en-GB", {
