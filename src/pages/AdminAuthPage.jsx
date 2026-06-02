@@ -302,6 +302,7 @@ export default function AdminAuthPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             onSubmit={handleSignIn}
+            autoComplete="off"
           >
             <div className="form-group">
               <label className="form-label">Admin Email</label>
@@ -320,6 +321,7 @@ export default function AdminAuthPage() {
                   type="email"
                   className="form-input"
                   placeholder="admin@weekendpost.co.bw"
+                  autoComplete="off"
                   style={{ paddingLeft: 40 }}
                   value={signInData.email}
                   onChange={(e) =>
@@ -351,6 +353,7 @@ export default function AdminAuthPage() {
                   type={showPassword ? "text" : "password"}
                   className="form-input"
                   placeholder="Enter your password"
+                  autoComplete="new-password"
                   style={{ paddingLeft: 40, paddingRight: 44 }}
                   value={signInData.password}
                   onChange={(e) =>
