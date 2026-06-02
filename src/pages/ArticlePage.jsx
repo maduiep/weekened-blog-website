@@ -788,6 +788,10 @@ export default function ArticlePage() {
                               border: "none",
                             }}
                             onClick={() => {
+                              if (!isLoggedIn) {
+                                navigate(`/auth?tab=signup&redirect=${encodeURIComponent(`/article/${id}`)}`);
+                                return;
+                              }
                               setSelectedPlan(storyPassPlan);
                               setShowPayment(true);
                             }}
