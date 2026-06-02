@@ -136,14 +136,59 @@ export default function PaymentModal({ plan, onClose, redirect }) {
       return;
     }
     setUploading(true);
-    setTimeout(() => {
+
+    // Convert file to base64 for storage/preview
+    const reader = new FileReader();
+    reader.onload = () => {
+      const fileData = reader.result; // base64 data URL
+
+      // Store receipt in localStorage for admin review
+      const receipts = JSON.parse(localStorage.getItem("wp_payment_receipts") || "[]");
+      const receiptId = `REC-${Date.now().toString().slice(-8)}`;
+      receipts.unshift({
+        id: receiptId,
+        userId: user?.uid || "unknown",
+        userName: user?.name || "Unknown",
+        userEmail: user?.email || "Unknown",
+        planId: plan.id,
+        planName: isStoryPurchase ? "One-Story Pass" : plan.name,
+        amount: plan.price,
+        currency: plan.currency || "P",
+        fileName: proofFile.name,
+        fileSize: proofFile.size,
+        fileType: proofFile.type,
+        fileData: fileData,
+        submittedAt: new Date().toISOString(),
+        status: "pending", // pending | approved | rejected
+        reviewedBy: null,
+        reviewedAt: null,
+        reviewNote: "",
+      });
+      localStorage.setItem("wp_payment_receipts", JSON.stringify(receipts));
+
+      // Log transaction as pending
+      const transactions = JSON.parse(localStorage.getItem("wp_transactions") || "[]");
+      transactions.push({
+        id: `TXN-${Date.now().toString().slice(-6)}`,
+        receiptId,
+        date: new Date().toISOString(),
+        email: user?.email,
+        planId: plan.id,
+        planName: isStoryPurchase ? "One-Story Pass" : plan.name,
+        amount: plan.price,
+        status: "Pending Verification",
+        method: method.name,
+      });
+      localStorage.setItem("wp_transactions", JSON.stringify(transactions));
+
       setStep("processing");
       setUploading(false);
       setTimeout(() => {
         if (isLoggedIn) grantSubscription(plan.id || "monthly");
         setStep("success");
       }, 2000);
-    }, 1500);
+    };
+    reader.readAsDataURL(proofFile);
   };
 
   const handleConfirmPayment = async (e) => {
