@@ -71,30 +71,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
     e.preventDefault();
     setError("");
     if (method.type === 'mobile-money') {
-      try {
-        const response = await fetch(
-          "http://localhost:3001/api/payments/mobile-money/init",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              amount: plan.price,
-              provider: method.id,
-              phone,
-            }),
-          },
-        );
-        const data = await response.json();
-        if (!response.ok) {
-          throw new Error(data.error || "Initialization failed.");
-        }
-        setError("");
-      } catch (err) {
-        setError(err.message);
-        return;
-      }
+      // Demo mode bypass - no fetch
       setStep("otp");
       setTimeout(() => setDemoSms(true), 1500);
     } else if (method.type === "redirect") {
@@ -199,21 +176,8 @@ export default function PaymentModal({ plan, onClose, redirect }) {
       return;
     }
     
-    if (method.type === 'mobile-money') {
-      try {
-        const response = await fetch("http://localhost:3001/api/payments/mobile-money/verify", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ provider: method.id, phone, otp }),
-        });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error);
-      } catch (err) {
-        setError(err.message);
-        return;
-      }
-    }
-    
+    // Demo mode bypass - no backend verify fetch needed
+
     setStep("processing");
     setDemoSms(false);
     setTimeout(() => {
