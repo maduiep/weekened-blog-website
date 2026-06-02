@@ -33,38 +33,77 @@ import AdPopup from "../components/ui/AdPopup";
 import { getArticleById, articles, getCategoryInfo } from "../data/articles";
 import { useAuth } from "../context/AuthContext";
 
-function CommentSection({ isSubscribed, isLoggedIn, user, articleId }) {
+function CommentSection({ isSubscribed, isLoggedIn, user, articleId, articleTitle }) {
   const canComment =
     isSubscribed || (user?.purchasedStories || []).includes(Number(articleId));
-  const [comments, setComments] = useState([
-    {
-      id: 1,
-      user: "Mpho Molefe",
-      text: "This is a very insightful analysis of the mining sector. We need more of this.",
-      date: "2 hours ago",
-      likes: 5,
-    },
-    {
-      id: 2,
-      user: "Kabelo J.",
-      text: "Interesting point about the supply constraints. I wonder how it affects local SMEs.",
-      date: "5 hours ago",
-      likes: 2,
-    },
-  ]);
+  const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+
+  useEffect(() => {
+    const loadComments = () => {
+      const stored = localStorage.getItem("wp_article_comments");
+      if (stored) {
+        const allComments = JSON.parse(stored);
+        setComments(allComments.filter(c => c.articleId == articleId));
+      } else {
+        const mockComments = [
+          {
+            id: 1,
+            articleId: 1,
+            articleTitle: "Oil price dip masks supply issues",
+            user: "Mpho Molefe",
+            userId: "usr_mock1",
+            text: "This is a very insightful analysis of the mining sector. We need more of this.",
+            date: "2 hours ago",
+            likes: 5,
+            replies: []
+          },
+          {
+            id: 2,
+            articleId: 1,
+            articleTitle: "Oil price dip masks supply issues",
+            user: "Kabelo J.",
+            userId: "usr_mock2",
+            text: "Interesting point about the supply constraints. I wonder how it affects local SMEs.",
+            date: "5 hours ago",
+            likes: 2,
+            replies: []
+          }
+        ];
+        localStorage.setItem("wp_article_comments", JSON.stringify(mockComments));
+        setComments(mockComments.filter(c => c.articleId == articleId));
+      }
+    };
+    loadComments();
+    window.addEventListener("storage", loadComments);
+    return () => window.removeEventListener("storage", loadComments);
+  }, [articleId]);
 
   const handlePost = () => {
     if (!newComment.trim()) return;
     const comment = {
       id: Date.now(),
+      articleId: Number(articleId),
+      articleTitle: articleTitle || "Article",
       user: user?.name || "Anonymous",
+      userId: user?.uid || "usr_anon",
       text: newComment,
-      date: "Just now",
+      date: new Date().toLocaleDateString("en-GB", {
+        day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit"
+      }),
       likes: 0,
+      replies: []
     };
+    
+    const stored = localStorage.getItem("wp_article_comments");
+    const allComments = stored ? JSON.parse(stored) : [];
+    const newAllComments = [comment, ...allComments];
+    localStorage.setItem("wp_article_comments", JSON.stringify(newAllComments));
+    
     setComments([comment, ...comments]);
     setNewComment("");
+    
+    window.dispatchEvent(new Event("storage"));
   };
 
   return (
@@ -219,6 +258,22 @@ function CommentSection({ isSubscribed, isLoggedIn, user, articleId }) {
               >
                 <ThumbsUp size={12} /> {c.likes}
               </button>
+              
+              {c.replies && c.replies.length > 0 && (
+                <div style={{ marginTop: 12, paddingLeft: 12, borderLeft: "2px solid var(--color-border)" }}>
+                  {c.replies.map((r, idx) => (
+                    <div key={idx} style={{ marginBottom: 8 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 2 }}>
+                        <span style={{ fontWeight: 700, fontSize: "12px", color: "var(--color-primary)", display: "flex", alignItems: "center", gap: 4 }}>
+                          <ShieldCheck size={12} /> {r.user}
+                        </span>
+                        <span style={{ fontSize: "10px", color: "var(--color-text-muted)" }}>{r.date}</span>
+                      </div>
+                      <p style={{ fontSize: "12px", color: "var(--color-text)", margin: 0 }}>{r.text}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         ))}
@@ -908,6 +963,7 @@ export default function ArticlePage() {
                   isSubscribed={isSubscribed}
                   user={authUser}
                   articleId={id}
+                  articleTitle={article?.title}
                 />
               </div>
             </div>
