@@ -49,6 +49,15 @@ export default function AdminCMS({ showToast }) {
     }
   };
 
+  const handleVideoUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => setVideoUrl(reader.result);
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSaveArticle = () => {
     setIsSaving(true);
     const newArticle = {
@@ -249,13 +258,25 @@ export default function AdminCMS({ showToast }) {
               <input type="text" placeholder="Brief Summary" value={summary} onChange={e => setSummary(e.target.value)} className="form-input" />
               
               <div style={{ display: 'flex', gap: '16px' }}>
-                <div style={{ flex: 1, position: 'relative' }}>
-                  <input type="text" placeholder="Cover Image URL" value={imageUrl} onChange={e => setImageUrl(e.target.value)} className="form-input" style={{ paddingLeft: '36px' }} />
-                  <ImageIcon size={16} style={{ position: 'absolute', left: 12, top: 12, color: 'var(--color-text-muted)' }} />
+                <div style={{ flex: 1, display: 'flex', gap: '8px' }}>
+                  <div style={{ flex: 1, position: 'relative' }}>
+                    <input type="text" placeholder="Cover Image URL" value={imageUrl} onChange={e => setImageUrl(e.target.value)} className="form-input" style={{ paddingLeft: '36px', width: '100%' }} />
+                    <ImageIcon size={16} style={{ position: 'absolute', left: 12, top: 12, color: 'var(--color-text-muted)' }} />
+                  </div>
+                  <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--color-bg)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', padding: '0 16px', cursor: 'pointer', fontSize: '13px', fontWeight: 600 }}>
+                    Upload
+                    <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} />
+                  </label>
                 </div>
-                <div style={{ flex: 1, position: 'relative' }}>
-                  <input type="text" placeholder="Video Embed URL (Optional)" value={videoUrl} onChange={e => setVideoUrl(e.target.value)} className="form-input" style={{ paddingLeft: '36px' }} />
-                  <Video size={16} style={{ position: 'absolute', left: 12, top: 12, color: 'var(--color-text-muted)' }} />
+                <div style={{ flex: 1, display: 'flex', gap: '8px' }}>
+                  <div style={{ flex: 1, position: 'relative' }}>
+                    <input type="text" placeholder="Video Embed URL (Optional)" value={videoUrl} onChange={e => setVideoUrl(e.target.value)} className="form-input" style={{ paddingLeft: '36px', width: '100%' }} />
+                    <Video size={16} style={{ position: 'absolute', left: 12, top: 12, color: 'var(--color-text-muted)' }} />
+                  </div>
+                  <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--color-bg)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', padding: '0 16px', cursor: 'pointer', fontSize: '13px', fontWeight: 600 }}>
+                    Upload
+                    <input type="file" accept="video/*" onChange={handleVideoUpload} style={{ display: 'none' }} />
+                  </label>
                 </div>
               </div>
 
