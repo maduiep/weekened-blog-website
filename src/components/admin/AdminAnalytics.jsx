@@ -118,6 +118,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                   justify-content: space-between;
                   gap: var(--space-xl);
                   width: 100%;
+                  margin-bottom: var(--space-xl);
                 }
                 .admin-analytics-grid > .admin-card {
                   width: 45%;
@@ -658,7 +659,6 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                   padding: "var(--space-2xl)",
                   borderRadius: "var(--radius-xl)",
                   border: "1px solid var(--color-border)",
-                  gridColumn: "1 / -1",
                 }}
               >
                 <div
