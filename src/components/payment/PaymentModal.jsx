@@ -260,12 +260,12 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                     marginBottom: 2,
                   }}
                 >
-                  <span style={{ fontWeight: 700, fontSize: "13px" }}>
+                  <span style={{ fontWeight: 700, fontSize: "var(--text-sm)" }}>
                     {method.name} Secure
                   </span>
                   <span
                     style={{
-                      fontSize: "11px",
+                      fontSize: "var(--text-xs)",
                       color: "var(--color-text-muted)",
                     }}
                   >
@@ -275,7 +275,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                 <p
                   style={{
                     margin: 0,
-                    fontSize: "13px",
+                    fontSize: "var(--text-sm)",
                     color: "var(--color-text-secondary)",
                     lineHeight: 1.4,
                   }}
@@ -500,12 +500,12 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                             setError("");
                           }}
                         >
-                          <span style={{ opacity: tab === m.id ? 1 : 0.6, fontSize: '24px' }}>
+                          <span style={{ opacity: tab === m.id ? 1 : 0.6, fontSize: "var(--text-2xl)" }}>
                             {m.icon}
                           </span>
                           <span
                             style={{
-                              fontSize: "12px",
+                              fontSize: "var(--text-xs)",
                               fontWeight: 700,
                               color:
                                 tab === m.id
@@ -531,7 +531,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                   >
                     <p
                       style={{
-                        fontSize: "11px",
+                        fontSize: "var(--text-xs)",
                         color: method.color,
                         fontWeight: 700,
                         marginBottom: 4,
@@ -542,7 +542,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                     </p>
                     <p
                       style={{
-                        fontSize: "13px",
+                        fontSize: "var(--text-sm)",
                         margin: 0,
                         color: "var(--color-dark)",
                       }}
@@ -560,7 +560,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                         background: "rgba(239,68,68,0.1)",
                         color: "var(--color-news-red)",
                         borderRadius: "8px",
-                        fontSize: "12px",
+                        fontSize: "var(--text-xs)",
                         display: "flex",
                         alignItems: "center",
                         gap: 8,
@@ -575,7 +575,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                       <motion.form key="form" onSubmit={handleSendOtp}>
                         {method.type === "redirect" ? (
                           <div style={{ textAlign: "center", padding: "20px" }}>
-                            <p style={{ color: "var(--color-text-muted)", fontSize: "14px" }}>
+                            <p style={{ color: "var(--color-text-muted)", fontSize: "var(--text-sm)" }}>
                               {method.instructions}
                             </p>
                           </div>
@@ -637,7 +637,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                                 display: "flex",
                                 justifyContent: "space-between",
                                 marginBottom: 8,
-                                fontSize: "12px",
+                                fontSize: "var(--text-xs)",
                               }}
                             >
                               <span>Bank:</span>{" "}
@@ -648,7 +648,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                                 display: "flex",
                                 justifyContent: "space-between",
                                 marginBottom: 8,
-                                fontSize: "12px",
+                                fontSize: "var(--text-xs)",
                               }}
                             >
                               <span>Account Name:</span>{" "}
@@ -659,7 +659,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                                 display: "flex",
                                 justifyContent: "space-between",
                                 marginBottom: 8,
-                                fontSize: "12px",
+                                fontSize: "var(--text-xs)",
                               }}
                             >
                               <span>Account:</span>{" "}
@@ -672,7 +672,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                                 padding: "10px",
                                 background: "var(--color-bg-alt)",
                                 borderRadius: "6px",
-                                fontSize: "12px",
+                                fontSize: "var(--text-xs)",
                               }}
                             >
                               <span>Reference:</span>
@@ -703,7 +703,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                             padding: "12px",
                             borderRadius: "8px",
                             marginBottom: "16px",
-                            fontSize: "12px",
+                            fontSize: "var(--text-xs)",
                             color: "var(--color-dark)",
                             display: "flex",
                             alignItems: "flex-start",
@@ -724,7 +724,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                             checked={agreeTerms}
                             onChange={(e) => setAgreeTerms(e.target.checked)}
                           />
-                          <span style={{ fontSize: "12px" }}>
+                          <span style={{ fontSize: "var(--text-xs)" }}>
                             I agree to the{" "}
                             <a
                               href="#"
@@ -775,7 +775,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                           </p>
                           <p
                             style={{
-                              fontSize: "12px",
+                              fontSize: "var(--text-xs)",
                               color: "var(--color-text-muted)",
                             }}
                           >
@@ -794,7 +794,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                           }
                           style={{
                             textAlign: "center",
-                            fontSize: "24px",
+                            fontSize: "var(--text-2xl)",
                             letterSpacing: "8px",
                             marginBottom: "20px",
                           }}
@@ -843,7 +843,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                               />
                               <p
                                 style={{
-                                  fontSize: "13px",
+                                  fontSize: "var(--text-sm)",
                                   fontWeight: 700,
                                   margin: 0,
                                 }}
@@ -860,7 +860,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                               />
                               <p
                                 style={{
-                                  fontSize: "13px",
+                                  fontSize: "var(--text-sm)",
                                   fontWeight: 700,
                                   margin: 0,
                                 }}
@@ -901,7 +901,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                         display: "flex",
                         alignItems: "center",
                         gap: 4,
-                        fontSize: "10px",
+                        fontSize: "var(--text-xs)",
                       }}
                     >
                       <Shield size={12} /> SSL Encrypted
@@ -911,7 +911,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                         display: "flex",
                         alignItems: "center",
                         gap: 4,
-                        fontSize: "10px",
+                        fontSize: "var(--text-xs)",
                       }}
                     >
                       <Lock size={12} /> PCI Compliant
@@ -921,7 +921,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
                         display: "flex",
                         alignItems: "center",
                         gap: 4,
-                        fontSize: "10px",
+                        fontSize: "var(--text-xs)",
                       }}
                     >
                       <CheckCircle size={12} /> Secure
@@ -937,3 +937,4 @@ export default function PaymentModal({ plan, onClose, redirect }) {
     </AnimatePresence>
   );
 }
+

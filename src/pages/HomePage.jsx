@@ -130,20 +130,20 @@ export default function HomePage() {
               <div style={{ background: 'white', borderRadius: 'var(--radius-xl)', border: '1px solid var(--color-border)', overflow: 'hidden' }}>
                 <div style={{ background: 'var(--color-news-red)', color: 'white', padding: '12px 20px', display: 'flex', alignItems: 'center', gap: 8 }}>
                   <Zap size={16} fill="white" />
-                  <span style={{ fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 1 }}>Newsroom Live</span>
+                  <span style={{ fontSize: "var(--text-xs)", fontWeight: 800, textTransform: 'uppercase', letterSpacing: 1 }}>Newsroom Live</span>
                   <div className="pulse-dot" style={{ width: 8, height: 8, background: 'white', borderRadius: '50%', marginLeft: 'auto' }} />
                 </div>
                 <div style={{ padding: 'var(--space-lg)' }}>
                   {liveUpdates.map((update, i) => (
                     <div key={update.id} style={{ padding: '12px 0', borderBottom: i === liveUpdates.length - 1 ? 'none' : '1px solid #f1f5f9' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                        <span style={{ fontSize: '10px', color: 'var(--color-primary)', fontWeight: 800, textTransform: 'uppercase' }}>{update.category}</span>
-                        <span style={{ fontSize: '10px', color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: 4 }}><Clock size={10} /> {update.time}</span>
+                        <span style={{ fontSize: "var(--text-xs)", color: 'var(--color-primary)', fontWeight: 800, textTransform: 'uppercase' }}>{update.category}</span>
+                        <span style={{ fontSize: "var(--text-xs)", color: 'var(--color-text-muted)', display: 'flex', alignItems: 'center', gap: 4 }}><Clock size={10} /> {update.time}</span>
                       </div>
-                      <p style={{ fontSize: '13px', margin: 0, lineHeight: 1.4, color: 'var(--color-dark)', fontWeight: 600 }}>{update.text}</p>
+                      <p style={{ fontSize: "var(--text-sm)", margin: 0, lineHeight: 1.4, color: 'var(--color-dark)', fontWeight: 600 }}>{update.text}</p>
                     </div>
                   ))}
-                  <Link to="/search" className="btn btn-ghost btn-sm btn-block" style={{ marginTop: '12px', fontSize: '11px', textAlign: 'center', display: 'block' }}>Full Coverage Archive</Link>
+                  <Link to="/search" className="btn btn-ghost btn-sm btn-block" style={{ marginTop: '12px', fontSize: "var(--text-xs)", textAlign: 'center', display: 'block' }}>Full Coverage Archive</Link>
                 </div>
               </div>
 
@@ -155,8 +155,8 @@ export default function HomePage() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
                   {articles.slice(4, 8).map((art, i) => (
                     <Link key={art.id} to={`/article/${art.id}`} style={{ textDecoration: 'none', color: 'var(--color-dark)', display: 'flex', gap: 12, alignItems: 'center' }}>
-                      <span style={{ fontSize: '20px', fontWeight: 800, color: 'black' }}>0{i+1}</span>
-                      <p style={{ margin: 0, fontSize: '13px', fontWeight: 600, lineHeight: 1.3 }}>{art.title}</p>
+                      <span style={{ fontSize: "var(--text-xl)", fontWeight: 800, color: 'black' }}>0{i+1}</span>
+                      <p style={{ margin: 0, fontSize: "var(--text-sm)", fontWeight: 600, lineHeight: 1.3 }}>{art.title}</p>
                     </Link>
                   ))}
                 </div>
@@ -166,7 +166,7 @@ export default function HomePage() {
               <div style={{ background: 'var(--color-dark)', color: 'white', padding: 'var(--space-xl)', borderRadius: 'var(--radius-xl)', position: 'relative', overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', top: -20, right: -20, width: 100, height: 100, background: 'var(--color-primary)', opacity: 0.1, borderRadius: '50%' }} />
                 <h3 style={{ color: 'white', fontSize: 'var(--text-md)', marginBottom: 8 }}>Partner with Us</h3>
-                <p style={{ fontSize: '12px', opacity: 0.8, marginBottom: 16 }}>Reach 100,000+ weekly readers across Botswana with our digital solutions.</p>
+                <p style={{ fontSize: "var(--text-xs)", opacity: 0.8, marginBottom: 16 }}>Reach 100,000+ weekly readers across Botswana with our digital solutions.</p>
                 <Link to="/solutions" className="btn btn-primary btn-sm btn-block">Explore Advertising</Link>
               </div>
 
@@ -212,12 +212,12 @@ export default function HomePage() {
               <div style={{ background: 'var(--color-bg-alt)', borderRadius: 'var(--radius-xl)', padding: 'var(--space-xl)', display: 'flex', gap: 'var(--space-xl)', alignItems: 'center' }}>
                 <div style={{ width: '120px', height: '160px', background: 'white', borderRadius: '8px', boxShadow: 'var(--shadow-md)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '12px' }}>
                   <FileText size={40} color="var(--color-primary)" />
-                  <span style={{ fontSize: '10px', marginTop: 8, fontWeight: 700 }}>Weekend Post</span>
-                  <span style={{ fontSize: '8px', opacity: 0.6 }}>{ePapers[0].date}</span>
+                  <span style={{ fontSize: "var(--text-xs)", marginTop: 8, fontWeight: 700 }}>Weekend Post</span>
+                  <span style={{ fontSize: "var(--text-xs)", opacity: 0.6 }}>{ePapers[0].date}</span>
                 </div>
                 <div>
                   <h4 style={{ margin: '0 0 8px' }}>{ePapers[0].title}</h4>
-                  <p style={{ fontSize: '13px', color: 'var(--color-text-secondary)', marginBottom: 16 }}>Access the full print replica with high-resolution archival features.</p>
+                  <p style={{ fontSize: "var(--text-sm)", color: 'var(--color-text-secondary)', marginBottom: 16 }}>Access the full print replica with high-resolution archival features.</p>
                   <Link to="/epaper" className="btn btn-primary btn-sm">Read Edition</Link>
                 </div>
               </div>
@@ -229,9 +229,9 @@ export default function HomePage() {
                 <h2 className="section-title"><span className="title-accent" /> Daily Briefing</h2>
               </div>
               <div style={{ background: 'var(--color-dark)', color: 'white', borderRadius: 'var(--radius-xl)', padding: 'var(--space-xl)' }}>
-                <p style={{ fontSize: '14px', opacity: 0.8, marginBottom: 20 }}>Get Botswana's most impactful stories delivered to your inbox daily.</p>
+                <p style={{ fontSize: "var(--text-sm)", opacity: 0.8, marginBottom: 20 }}>Get Botswana's most impactful stories delivered to your inbox daily.</p>
                 <form style={{ display: 'flex', gap: 8 }} onSubmit={e => e.preventDefault()}>
-                  <input type="email" placeholder="email@address.com" style={{ flex: 1, padding: '10px 16px', borderRadius: '8px', border: 'none', fontSize: '13px' }} required />
+                  <input type="email" placeholder="email@address.com" style={{ flex: 1, padding: '10px 16px', borderRadius: '8px', border: 'none', fontSize: "var(--text-sm)" }} required />
                   <button className="btn btn-primary btn-sm">Sign Up</button>
                 </form>
               </div>
@@ -258,3 +258,4 @@ const FileText = ({ size, color }) => (
     <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/>
   </svg>
 );
+

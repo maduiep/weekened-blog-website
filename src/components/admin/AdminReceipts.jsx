@@ -230,7 +230,7 @@ export default function AdminReceipts({
                                       PLAN_COLORS[receipt.planId] ||
                                       "var(--color-primary)",
                                     color: "white",
-                                    fontSize: "10px",
+                                    fontSize: "var(--text-xs)",
                                     padding: "3px 8px",
                                   }}
                                 >
@@ -281,7 +281,7 @@ export default function AdminReceipts({
                                   style={{
                                     padding: "4px 10px",
                                     borderRadius: "20px",
-                                    fontSize: "10px",
+                                    fontSize: "var(--text-xs)",
                                     fontWeight: 800,
                                     textTransform: "uppercase",
                                     background:
@@ -491,7 +491,7 @@ export default function AdminReceipts({
                             >
                               <div
                                 style={{
-                                  fontSize: "10px",
+                                  fontSize: "var(--text-xs)",
                                   fontWeight: 700,
                                   color: "var(--color-text-muted)",
                                   textTransform: "uppercase",
@@ -746,6 +746,7 @@ export default function AdminReceipts({
             </motion.div>
   );
 }
+
 
 
 

@@ -316,7 +316,7 @@ export default function DashboardPage() {
                       style={{
                         flex: 1,
                         fontFamily: "var(--font-mono)",
-                        fontSize: "14px",
+                        fontSize: "var(--text-sm)",
                         background: "white",
                       }}
                     />
@@ -331,7 +331,7 @@ export default function DashboardPage() {
                   {!authUser?.isSubscribed && (
                     <p
                       style={{
-                        fontSize: "12px",
+                        fontSize: "var(--text-xs)",
                         color: "var(--color-news-red)",
                         marginTop: "8px",
                       }}
@@ -372,7 +372,7 @@ export default function DashboardPage() {
                         color: "white",
                         padding: "2px 8px",
                         borderRadius: "4px",
-                        fontSize: "11px",
+                        fontSize: "var(--text-xs)",
                         fontWeight: "bold",
                       }}
                     >
@@ -380,7 +380,7 @@ export default function DashboardPage() {
                     </span>
                     <code
                       style={{
-                        fontSize: "13px",
+                        fontSize: "var(--text-sm)",
                         color: "var(--color-primary)",
                       }}
                     >
@@ -389,7 +389,7 @@ export default function DashboardPage() {
                     <span
                       style={{
                         marginLeft: "auto",
-                        fontSize: "12px",
+                        fontSize: "var(--text-xs)",
                         color: "var(--color-text-muted)",
                       }}
                     >
@@ -412,7 +412,7 @@ export default function DashboardPage() {
                         color: "white",
                         padding: "2px 8px",
                         borderRadius: "4px",
-                        fontSize: "11px",
+                        fontSize: "var(--text-xs)",
                         fontWeight: "bold",
                       }}
                     >
@@ -420,7 +420,7 @@ export default function DashboardPage() {
                     </span>
                     <code
                       style={{
-                        fontSize: "13px",
+                        fontSize: "var(--text-sm)",
                         color: "var(--color-primary)",
                       }}
                     >
@@ -429,7 +429,7 @@ export default function DashboardPage() {
                     <span
                       style={{
                         marginLeft: "auto",
-                        fontSize: "12px",
+                        fontSize: "var(--text-xs)",
                         color: "var(--color-text-muted)",
                       }}
                     >
@@ -452,7 +452,7 @@ export default function DashboardPage() {
                         color: "white",
                         padding: "2px 8px",
                         borderRadius: "4px",
-                        fontSize: "11px",
+                        fontSize: "var(--text-xs)",
                         fontWeight: "bold",
                       }}
                     >
@@ -460,7 +460,7 @@ export default function DashboardPage() {
                     </span>
                     <code
                       style={{
-                        fontSize: "13px",
+                        fontSize: "var(--text-sm)",
                         color: "var(--color-primary)",
                       }}
                     >
@@ -469,7 +469,7 @@ export default function DashboardPage() {
                     <span
                       style={{
                         marginLeft: "auto",
-                        fontSize: "12px",
+                        fontSize: "var(--text-xs)",
                         color: "var(--color-text-muted)",
                       }}
                     >
@@ -485,3 +485,4 @@ export default function DashboardPage() {
     </div>
   );
 }
+

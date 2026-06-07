@@ -187,7 +187,7 @@ export default function AdminLogs({ adminLogs }) {
                               style={{
                                 padding: "4px 8px",
                                 borderRadius: "4px",
-                                fontSize: "10px",
+                                fontSize: "var(--text-xs)",
                                 fontWeight: 700,
                                 textTransform: "uppercase",
                                 background: log.action.includes("DELETED")
@@ -209,7 +209,7 @@ export default function AdminLogs({ adminLogs }) {
                             <span
                               style={{
                                 color: "var(--color-text-muted)",
-                                fontSize: "10px",
+                                fontSize: "var(--text-xs)",
                               }}
                             >
                               ({log.targetUid.substring(0, 8)})
@@ -247,6 +247,7 @@ export default function AdminLogs({ adminLogs }) {
             </motion.div>
   );
 }
+
 
 
 

@@ -40,10 +40,10 @@ export default function CareersPage() {
               style={{ background: 'white', padding: 'var(--space-2xl)', borderRadius: 'var(--radius-xl)', boxShadow: 'var(--shadow-md)', border: '1px solid var(--color-border)' }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-primary)', marginBottom: '12px' }}>
-                <Briefcase size={16} /> <span style={{ fontSize: '12px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px' }}>{job.dept}</span>
+                <Briefcase size={16} /> <span style={{ fontSize: "var(--text-xs)", fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px' }}>{job.dept}</span>
               </div>
               <h3 style={{ fontSize: 'var(--text-xl)', marginBottom: '12px', color: 'var(--color-dark)' }}>{job.title}</h3>
-              <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', fontSize: '14px', color: 'var(--color-text-muted)' }}>
+              <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', fontSize: "var(--text-sm)", color: 'var(--color-text-muted)' }}>
                 <span>{job.type}</span> &bull; <span>{job.location}</span>
               </div>
               <button className="btn btn-ghost" style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -62,3 +62,4 @@ export default function CareersPage() {
     </div>
   );
 }
+

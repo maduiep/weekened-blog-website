@@ -272,7 +272,7 @@ export default function AdminAuthPage() {
                 <p
                   style={{
                     color: "rgba(255,255,255,0.7)",
-                    fontSize: "11px",
+                    fontSize: "var(--text-xs)",
                     lineHeight: 1.4,
                   }}
                 >
@@ -401,7 +401,7 @@ export default function AdminAuthPage() {
               alignItems: "center",
               gap: "10px",
               marginTop: "var(--space-md)",
-              fontSize: "13px",
+              fontSize: "var(--text-sm)",
               color: "var(--color-text-muted)",
               cursor: "pointer",
             }}
@@ -424,7 +424,7 @@ export default function AdminAuthPage() {
                   background: "rgba(0,0,0,0.04)",
                   border: "1px solid var(--color-border)",
                   color: "var(--color-dark)",
-                  fontSize: "13px",
+                  fontSize: "var(--text-sm)",
                   textAlign: "center",
                 }}
               >
@@ -468,7 +468,7 @@ export default function AdminAuthPage() {
                   background: "rgba(0, 126, 151, 0.08)",
                   border: "1px solid rgba(0, 126, 151, 0.15)",
                   color: "var(--color-dark)",
-                  fontSize: "13px",
+                  fontSize: "var(--text-sm)",
                   lineHeight: 1.6,
                 }}
               >
@@ -520,7 +520,7 @@ export default function AdminAuthPage() {
                         padding: 8,
                         borderRadius: 8,
                         border: "1px solid var(--color-border)",
-                        fontSize: 12,
+                        fontSize: "var(--text-xs)",
                       }}
                     />
                     <input
@@ -533,7 +533,7 @@ export default function AdminAuthPage() {
                         padding: 8,
                         borderRadius: 8,
                         border: "1px solid var(--color-border)",
-                        fontSize: 12,
+                        fontSize: "var(--text-xs)",
                       }}
                     />
                     <select
@@ -543,7 +543,7 @@ export default function AdminAuthPage() {
                         padding: 8,
                         borderRadius: 8,
                         border: "1px solid var(--color-border)",
-                        fontSize: 12,
+                        fontSize: "var(--text-xs)",
                       }}
                     >
                       <option value="Editor">Editor</option>
@@ -553,7 +553,7 @@ export default function AdminAuthPage() {
                     <button
                       type="submit"
                       className="btn btn-primary"
-                      style={{ padding: "8px 12px", fontSize: 12 }}
+                      style={{ padding: "8px 12px", fontSize: "var(--text-xs)" }}
                     >
                       Submit
                     </button>
@@ -568,7 +568,7 @@ export default function AdminAuthPage() {
             {error && (
               <div
                 className="auth-alert auth-alert-error"
-                style={{ fontSize: "12px" }}
+                style={{ fontSize: "var(--text-xs)" }}
               >
                 <AlertCircle size={14} /> {error}
               </div>
@@ -576,7 +576,7 @@ export default function AdminAuthPage() {
             {success && (
               <div
                 className="auth-alert auth-alert-success"
-                style={{ fontSize: "12px" }}
+                style={{ fontSize: "var(--text-xs)" }}
               >
                 <CheckCircle size={14} /> {success}
               </div>
@@ -612,3 +612,4 @@ export default function AdminAuthPage() {
     </div>
   );
 }
+

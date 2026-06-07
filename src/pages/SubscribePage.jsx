@@ -274,7 +274,7 @@ export default function SubscribePage() {
                   style={{
                     background: `${method.color}15`,
                     color: method.color,
-                    fontSize: '28px',
+                    fontSize: "var(--text-3xl)",
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -619,3 +619,4 @@ export default function SubscribePage() {
     </>
   );
 }
+

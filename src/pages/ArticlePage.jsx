@@ -234,7 +234,7 @@ export default function ArticlePage() {
                   alignItems: "center",
                   gap: 6,
                   color: "var(--color-sport-green)",
-                  fontSize: "11px",
+                  fontSize: "var(--text-xs)",
                   fontWeight: 700,
                 }}
               >
@@ -282,12 +282,12 @@ export default function ArticlePage() {
                   {article.author.charAt(0)}
                 </div>
                 <div>
-                  <div style={{ fontSize: "14px", fontWeight: 700 }}>
+                  <div style={{ fontSize: "var(--text-sm)", fontWeight: 700 }}>
                     {article.author}
                   </div>
                   <div
                     style={{
-                      fontSize: "11px",
+                      fontSize: "var(--text-xs)",
                       color: "var(--color-text-muted)",
                     }}
                   >
@@ -304,7 +304,7 @@ export default function ArticlePage() {
               />
               <div
                 style={{
-                  fontSize: "13px",
+                  fontSize: "var(--text-sm)",
                   color: "var(--color-text-secondary)",
                   display: "flex",
                   gap: 12,
@@ -349,7 +349,7 @@ export default function ArticlePage() {
                   <source src={article.videoUrl} type="video/mp4" />
                 </video>
                 {article.videoDuration && (
-                  <span style={{ position: 'absolute', bottom: 12, right: 12, background: 'rgba(0,0,0,0.8)', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px', fontWeight: 600 }}>
+                  <span style={{ position: 'absolute', bottom: 12, right: 12, background: 'rgba(0,0,0,0.8)', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: "var(--text-xs)", fontWeight: 600 }}>
                     {article.videoDuration}
                   </span>
                 )}
@@ -423,7 +423,7 @@ export default function ArticlePage() {
                     style={{
                       margin: 0,
                       fontWeight: 700,
-                      fontSize: "13px",
+                      fontSize: "var(--text-sm)",
                     }}
                   >
                     Related Video
@@ -431,7 +431,7 @@ export default function ArticlePage() {
                   <p
                     style={{
                       margin: 0,
-                      fontSize: "11px",
+                      fontSize: "var(--text-xs)",
                       color: "var(--color-text-muted)",
                     }}
                   >
@@ -473,7 +473,7 @@ export default function ArticlePage() {
                 {!isOverLimit ? (
                   <div style={{ position: "relative" }}>
                     {isMarkdown ? (
-                      <div className="article-content markdown-preview" style={{ fontSize: '18px', lineHeight: 1.8 }}>
+                      <div className="article-content markdown-preview" style={{ fontSize: "var(--text-lg)", lineHeight: 1.8 }}>
                         <ReactMarkdown>{visibleContent}</ReactMarkdown>
                       </div>
                     ) : (
@@ -491,7 +491,7 @@ export default function ArticlePage() {
                           top: "10%",
                           left: "5%",
                           opacity: 0.05,
-                          fontSize: "12px",
+                          fontSize: "var(--text-xs)",
                           pointerEvents: "none",
                           userSelect: "none",
                           transform: "rotate(-45deg)",
@@ -657,7 +657,7 @@ export default function ArticlePage() {
                           ? "var(--color-news-red)"
                           : "var(--color-text-muted)",
                         fontWeight: 600,
-                        fontSize: "14px",
+                        fontSize: "var(--text-sm)",
                       }}
                     >
                       <ThumbsUp
@@ -681,7 +681,7 @@ export default function ArticlePage() {
                         gap: 6,
                         color: "var(--color-text-muted)",
                         fontWeight: 600,
-                        fontSize: "14px",
+                        fontSize: "var(--text-sm)",
                       }}
                     >
                       <MessageCircle size={18} /> 12 Comments
@@ -724,9 +724,9 @@ export default function ArticlePage() {
                             <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                               <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>▶</div>
                             </div>
-                            {a.videoDuration && <span style={{ position: 'absolute', bottom: 4, right: 4, background: 'rgba(0,0,0,0.8)', color: 'white', padding: '2px 6px', borderRadius: '4px', fontSize: '10px' }}>{a.videoDuration}</span>}
+                            {a.videoDuration && <span style={{ position: 'absolute', bottom: 4, right: 4, background: 'rgba(0,0,0,0.8)', color: 'white', padding: '2px 6px', borderRadius: '4px', fontSize: "var(--text-xs)" }}>{a.videoDuration}</span>}
                           </div>
-                          <p style={{ fontSize: '12px', fontWeight: 600, marginTop: '6px', lineHeight: 1.3 }}>{a.title}</p>
+                          <p style={{ fontSize: "var(--text-xs)", fontWeight: 600, marginTop: '6px', lineHeight: 1.3 }}>{a.title}</p>
                         </a>
                       ))}
                     </div>
@@ -774,7 +774,7 @@ export default function ArticlePage() {
                         padding: "4px 12px",
                         background: "white",
                         borderRadius: "20px",
-                        fontSize: "11px",
+                        fontSize: "var(--text-xs)",
                         fontWeight: 700,
                         border: "1px solid var(--color-border)",
                         cursor: "pointer",
@@ -834,3 +834,4 @@ export default function ArticlePage() {
     </>
   );
 }
+

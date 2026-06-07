@@ -83,7 +83,7 @@ export default function CategoryPage() {
               <div className="sidebar-widget" style={{ background: 'var(--color-primary)', color: 'white', borderRadius: 'var(--radius-lg)', padding: 'var(--space-xl)', textAlign: 'center' }}>
                 <ShieldCheck size={32} style={{ margin: '0 auto var(--space-md)', color: 'var(--color-gold)' }} />
                 <h4 style={{ color: 'white', border: 'none', padding: 0, marginBottom: 'var(--space-sm)' }}>Support Quality Journalism</h4>
-                <p style={{ fontSize: '12px', opacity: 0.9, marginBottom: 'var(--space-lg)' }}>Get unlimited access to premium business analysis and E-Paper editions.</p>
+                <p style={{ fontSize: "var(--text-xs)", opacity: 0.9, marginBottom: 'var(--space-lg)' }}>Get unlimited access to premium business analysis and E-Paper editions.</p>
                 <Link to="/subscribe" className="btn btn-gold btn-block btn-sm">Join Now</Link>
               </div>
 
@@ -121,3 +121,4 @@ export default function CategoryPage() {
     </>
   );
 }
+

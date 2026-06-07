@@ -247,7 +247,7 @@ export default function EPaperPage() {
                       selectedYear === year
                         ? "white"
                         : "var(--color-text-muted)",
-                    fontSize: "12px",
+                    fontSize: "var(--text-xs)",
                     fontWeight: 700,
                     cursor: "pointer",
                     transition: "all 0.2s",
@@ -279,7 +279,7 @@ export default function EPaperPage() {
               style={{
                 background: "none",
                 border: "none",
-                fontSize: "12px",
+                fontSize: "var(--text-xs)",
                 outline: "none",
               }}
             />
@@ -478,7 +478,7 @@ export default function EPaperPage() {
                       marginTop: "12px",
                       paddingTop: "12px",
                       borderTop: "1px solid var(--color-border)",
-                      fontSize: "10px",
+                      fontSize: "var(--text-xs)",
                       color: "var(--color-news-red)",
                       fontWeight: 700,
                       display: "flex",
@@ -540,7 +540,7 @@ export default function EPaperPage() {
                   style={{
                     marginTop: "16px",
                     color: "var(--color-news-red)",
-                    fontSize: "13px",
+                    fontSize: "var(--text-sm)",
                   }}
                 >
                   <div style={{ marginBottom: 8 }}>{downloadError}</div>
@@ -593,14 +593,14 @@ export default function EPaperPage() {
                     <div className="epaper-cover">
                       <div
                         style={{
-                          fontSize: "2.5rem",
+                          fontSize: "var(--text-5xl)",
                           marginBottom: "0.5rem",
                           color: "var(--color-primary)",
                         }}
                       >
                         📰
                       </div>
-                      <span style={{ fontSize: "14px", fontWeight: 800 }}>
+                      <span style={{ fontSize: "var(--text-sm)", fontWeight: 800 }}>
                         Weekend Post
                       </span>
                       <span className="epaper-cover-date">{ep.date}</span>
@@ -694,3 +694,4 @@ export default function EPaperPage() {
     </div>
   );
 }
+

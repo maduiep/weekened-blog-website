@@ -89,7 +89,7 @@ export default function SearchPage() {
 
           <div className="search-tags" style={{ display: 'flex', justifyContent: 'center', gap: '8px', flexWrap: 'wrap', marginTop: 'var(--space-lg)' }}>
             {POPULAR_TAGS.map(tag => (
-              <button key={tag} className={`tag-pill ${query === tag ? 'active' : ''}`} onClick={() => handleTagClick(tag)} style={{ padding: '6px 16px', borderRadius: '20px', border: '1px solid var(--color-border)', background: query === tag ? 'var(--color-primary)' : 'white', color: query === tag ? 'white' : 'var(--color-text-muted)', fontSize: '12px', fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s' }}>
+              <button key={tag} className={`tag-pill ${query === tag ? 'active' : ''}`} onClick={() => handleTagClick(tag)} style={{ padding: '6px 16px', borderRadius: '20px', border: '1px solid var(--color-border)', background: query === tag ? 'var(--color-primary)' : 'white', color: query === tag ? 'white' : 'var(--color-text-muted)', fontSize: "var(--text-xs)", fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s' }}>
                 {tag}
               </button>
             ))}
@@ -111,7 +111,7 @@ export default function SearchPage() {
                         Found <strong>{results.length}</strong> result{results.length !== 1 ? 's' : ''} for "{debouncedQuery}"
                       </p>
                       <div style={{ display: 'flex', gap: '12px' }}>
-                        <select value={filter} onChange={e => setFilter(e.target.value)} style={{ padding: '6px 28px 6px 12px', borderRadius: '8px', border: '1px solid var(--color-border)', fontSize: '12px', background: 'white', fontWeight: 600, outline: 'none' }}>
+                        <select value={filter} onChange={e => setFilter(e.target.value)} style={{ padding: '6px 28px 6px 12px', borderRadius: '8px', border: '1px solid var(--color-border)', fontSize: "var(--text-xs)", background: 'white', fontWeight: 600, outline: 'none' }}>
                           <option value="all">Relevance</option>
                           <option value="latest">Newest First</option>
                         </select>
@@ -128,7 +128,7 @@ export default function SearchPage() {
                       </div>
                     ) : (
                       <div style={{ textAlign: 'center', padding: 'var(--space-4xl) 0', background: 'white', borderRadius: 'var(--radius-xl)', border: '1px solid var(--color-border)' }}>
-                        <div style={{ fontSize: '4rem', marginBottom: 'var(--space-lg)', opacity: 0.2 }}>🕵️‍♂️</div>
+                        <div style={{ fontSize: "var(--text-6xl)", marginBottom: 'var(--space-lg)', opacity: 0.2 }}>🕵️‍♂️</div>
                         <h3>No matches for your query</h3>
                         <p style={{ color: 'var(--color-text-secondary)', maxWidth: '300px', margin: '0 auto' }}>Try using broader keywords or checking for spelling errors.</p>
                       </div>
@@ -161,8 +161,8 @@ export default function SearchPage() {
                     <Link key={art.id} to={`/article/${art.id}`} style={{ textDecoration: 'none', display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
                       <span style={{ fontSize: 'var(--text-xl)', fontWeight: 800, color: 'black' }}>0{i+1}</span>
                       <div>
-                        <h4 style={{ fontSize: '13px', margin: '0 0 4px', color: 'var(--color-dark)', lineHeight: 1.4 }}>{art.title}</h4>
-                        <span style={{ fontSize: '10px', color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 700 }}>{art.category}</span>
+                        <h4 style={{ fontSize: "var(--text-sm)", margin: '0 0 4px', color: 'var(--color-dark)', lineHeight: 1.4 }}>{art.title}</h4>
+                        <span style={{ fontSize: "var(--text-xs)", color: 'var(--color-text-muted)', textTransform: 'uppercase', fontWeight: 700 }}>{art.category}</span>
                       </div>
                     </Link>
                   ))}
@@ -173,14 +173,14 @@ export default function SearchPage() {
               <div style={{ background: 'var(--color-primary)', color: 'white', padding: 'var(--space-xl)', borderRadius: 'var(--radius-xl)', position: 'relative', overflow: 'hidden' }}>
                 <Bookmark size={40} style={{ position: 'absolute', top: -10, right: -10, opacity: 0.1 }} />
                 <h3 style={{ color: 'white', fontSize: 'var(--text-md)', marginBottom: '8px' }}>Market Intelligence</h3>
-                <p style={{ fontSize: '12px', opacity: 0.8, marginBottom: 'var(--space-lg)', lineHeight: 1.5 }}>Access high-value Botswana economic and industrial reports.</p>
-                <Link to="/solutions" className="btn btn-sm btn-gold btn-block" style={{ fontSize: '11px' }}>Explore Solutions <ArrowRight size={14} /></Link>
+                <p style={{ fontSize: "var(--text-xs)", opacity: 0.8, marginBottom: 'var(--space-lg)', lineHeight: 1.5 }}>Access high-value Botswana economic and industrial reports.</p>
+                <Link to="/solutions" className="btn btn-sm btn-gold btn-block" style={{ fontSize: "var(--text-xs)" }}>Explore Solutions <ArrowRight size={14} /></Link>
               </div>
 
               {/* Help/Support */}
               <div style={{ padding: 'var(--space-lg)', textAlign: 'center' }}>
-                <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', margin: 0 }}>Can't find what you're looking for?</p>
-                <Link to="/contact" style={{ fontSize: '12px', color: 'var(--color-primary)', fontWeight: 700 }}>Contact our Archivist</Link>
+                <p style={{ fontSize: "var(--text-xs)", color: 'var(--color-text-muted)', margin: 0 }}>Can't find what you're looking for?</p>
+                <Link to="/contact" style={{ fontSize: "var(--text-xs)", color: 'var(--color-primary)', fontWeight: 700 }}>Contact our Archivist</Link>
               </div>
             </aside>
           </div>
@@ -196,3 +196,4 @@ export default function SearchPage() {
     </div>
   );
 }
+

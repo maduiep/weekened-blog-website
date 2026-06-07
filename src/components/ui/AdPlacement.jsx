@@ -69,7 +69,7 @@ export default function AdPlacement({ type = 'banner', label = 'Advertisement', 
           alignItems: 'center',
           justifyContent: 'center',
           color: 'var(--color-text-muted)',
-          fontSize: '10px',
+          fontSize: "var(--text-xs)",
           textTransform: 'uppercase',
           letterSpacing: '1px'
         }}
@@ -82,7 +82,7 @@ export default function AdPlacement({ type = 'banner', label = 'Advertisement', 
   return (
     <div className={`ad-container ${type}`} style={{ margin: 'var(--space-xl) 0', position: 'relative' }}>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-        <span className="ad-label" style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--color-text-muted)', letterSpacing: '1px' }}>
+        <span className="ad-label" style={{ fontSize: "var(--text-xs)", textTransform: 'uppercase', color: 'var(--color-text-muted)', letterSpacing: '1px' }}>
           {label}
         </span>
         <div style={{ display: 'flex', gap: '4px' }}>
@@ -112,8 +112,8 @@ export default function AdPlacement({ type = 'banner', label = 'Advertisement', 
               exit={{ opacity: 0 }}
               style={{ position: 'absolute', inset: 0, background: 'rgba(255,255,255,0.95)', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 'var(--space-lg)', textAlign: 'center', backdropFilter: 'blur(4px)' }}
             >
-              <p style={{ fontSize: '11px', color: 'var(--color-dark)', fontWeight: 600, marginBottom: '8px' }}>Why am I seeing this?</p>
-              <p style={{ fontSize: '10px', color: 'var(--color-text-muted)', marginBottom: '12px' }}>This content is delivered by Weekend Post's Digital Solutions Network based on your interests.</p>
+              <p style={{ fontSize: "var(--text-xs)", color: 'var(--color-dark)', fontWeight: 600, marginBottom: '8px' }}>Why am I seeing this?</p>
+              <p style={{ fontSize: "var(--text-xs)", color: 'var(--color-text-muted)', marginBottom: '12px' }}>This content is delivered by Weekend Post's Digital Solutions Network based on your interests.</p>
               <button className="btn btn-sm btn-ghost" onClick={() => setShowInfo(false)}>Close</button>
             </motion.div>
           )}
@@ -191,3 +191,4 @@ export default function AdPlacement({ type = 'banner', label = 'Advertisement', 
     </div>
   );
 }
+

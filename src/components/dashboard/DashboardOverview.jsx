@@ -142,7 +142,7 @@ export default function DashboardOverview({ user, authUser, setActiveTab }) {
                     <span
                       className="badge badge-news"
                       style={{
-                        fontSize: "9px",
+                        fontSize: "var(--text-xs)",
                         background: "#2ecc71",
                         animation: "pulse 2s infinite",
                       }}
@@ -168,7 +168,7 @@ export default function DashboardOverview({ user, authUser, setActiveTab }) {
                     >
                       <div
                         style={{
-                          fontSize: "10px",
+                          fontSize: "var(--text-xs)",
                           fontWeight: 800,
                           color: "var(--color-text-muted)",
                           textTransform: "uppercase",
@@ -184,7 +184,7 @@ export default function DashboardOverview({ user, authUser, setActiveTab }) {
                           gap: "8px",
                           color: "#2ecc71",
                           fontWeight: 700,
-                          fontSize: "13px",
+                          fontSize: "var(--text-sm)",
                         }}
                       >
                         <div
@@ -208,7 +208,7 @@ export default function DashboardOverview({ user, authUser, setActiveTab }) {
                     >
                       <div
                         style={{
-                          fontSize: "10px",
+                          fontSize: "var(--text-xs)",
                           fontWeight: 800,
                           color: "var(--color-text-muted)",
                           textTransform: "uppercase",
@@ -224,7 +224,7 @@ export default function DashboardOverview({ user, authUser, setActiveTab }) {
                           gap: "8px",
                           color: "#2ecc71",
                           fontWeight: 700,
-                          fontSize: "13px",
+                          fontSize: "var(--text-sm)",
                         }}
                       >
                         <div
@@ -248,7 +248,7 @@ export default function DashboardOverview({ user, authUser, setActiveTab }) {
                     >
                       <div
                         style={{
-                          fontSize: "10px",
+                          fontSize: "var(--text-xs)",
                           fontWeight: 800,
                           color: "var(--color-text-muted)",
                           textTransform: "uppercase",
@@ -264,7 +264,7 @@ export default function DashboardOverview({ user, authUser, setActiveTab }) {
                           gap: "8px",
                           color: "#2ecc71",
                           fontWeight: 700,
-                          fontSize: "13px",
+                          fontSize: "var(--text-sm)",
                         }}
                       >
                         <div
@@ -297,3 +297,4 @@ export default function DashboardOverview({ user, authUser, setActiveTab }) {
     </>
   );
 }
+

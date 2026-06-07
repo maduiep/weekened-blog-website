@@ -208,7 +208,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                                 timeRange === range
                                   ? "var(--color-primary)"
                                   : "var(--color-text-muted)",
-                              fontSize: "10px",
+                              fontSize: "var(--text-xs)",
                               fontWeight: 800,
                               textTransform: "uppercase",
                               cursor: "pointer",
@@ -227,7 +227,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                         className="btn btn-sm"
                         style={{
                           padding: "4px 10px",
-                          fontSize: "10px",
+                          fontSize: "var(--text-xs)",
                           background: "var(--color-primary)",
                           color: "white",
                         }}
@@ -322,7 +322,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                               color: "white",
                               padding: "8px 12px",
                               borderRadius: "8px",
-                              fontSize: "10px",
+                              fontSize: "var(--text-xs)",
                               fontWeight: 700,
                               whiteSpace: "nowrap",
                               opacity: 0,
@@ -359,7 +359,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                         </motion.div>
                         <span
                           style={{
-                            fontSize: "10px",
+                            fontSize: "var(--text-xs)",
                             color: "var(--color-text-muted)",
                             textAlign: "center",
                             fontWeight: 700,
@@ -385,7 +385,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                         display: "flex",
                         alignItems: "center",
                         gap: 6,
-                        fontSize: "10px",
+                        fontSize: "var(--text-xs)",
                         color: "var(--color-text-muted)",
                         fontWeight: 600,
                       }}
@@ -405,7 +405,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                         display: "flex",
                         alignItems: "center",
                         gap: 6,
-                        fontSize: "10px",
+                        fontSize: "var(--text-xs)",
                         color: "var(--color-text-muted)",
                         fontWeight: 600,
                       }}
@@ -475,7 +475,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                       >
                         Average Rating
                       </span>
-                      <strong style={{ fontSize: "2rem" }}>
+                      <strong style={{ fontSize: "var(--text-4xl)" }}>
                         {feedbackData.score}
                       </strong>
                       <div
@@ -512,7 +512,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                       >
                         NPS Score
                       </span>
-                      <strong style={{ fontSize: "2rem" }}>
+                      <strong style={{ fontSize: "var(--text-4xl)" }}>
                         {feedbackData.nps}
                       </strong>
                       <div
@@ -549,7 +549,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                       >
                         Positive Mentions
                       </span>
-                      <strong style={{ fontSize: "2rem" }}>
+                      <strong style={{ fontSize: "var(--text-4xl)" }}>
                         {feedbackData.positiveMentions}
                       </strong>
                     </button>
@@ -577,7 +577,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                       >
                         Response Rate
                       </span>
-                      <strong style={{ fontSize: "2rem" }}>
+                      <strong style={{ fontSize: "var(--text-4xl)" }}>
                         {feedbackData.responseRate}
                       </strong>
                     </button>
@@ -754,7 +754,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                           <td>
                             <span
                               className="badge badge-default"
-                              style={{ fontSize: "10px" }}
+                              style={{ fontSize: "var(--text-xs)" }}
                             >
                               Viral
                             </span>
@@ -768,6 +768,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
             </motion.div>
   );
 }
+
 
 
 

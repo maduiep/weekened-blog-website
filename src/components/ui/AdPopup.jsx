@@ -87,7 +87,7 @@ export default function AdPopup({ open, onClose }) {
                     fontWeight: 800,
                     textTransform: "uppercase",
                     letterSpacing: "0.15em",
-                    fontSize: "12px",
+                    fontSize: "var(--text-xs)",
                   }}
                 >
                   <Megaphone size={16} /> Sponsored Reach
@@ -192,3 +192,4 @@ export default function AdPopup({ open, onClose }) {
     </AnimatePresence>
   );
 }
+

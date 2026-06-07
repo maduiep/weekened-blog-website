@@ -102,7 +102,7 @@ export default function App() {
               <h4
                 style={{
                   margin: 0,
-                  fontSize: "13px",
+                  fontSize: "var(--text-sm)",
                   display: "flex",
                   alignItems: "center",
                   gap: 8,
@@ -129,7 +129,7 @@ export default function App() {
                 display: "flex",
                 flexDirection: "column",
                 gap: "10px",
-                fontSize: "12px",
+                fontSize: "var(--text-xs)",
               }}
             >
               <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -242,3 +242,4 @@ export default function App() {
     </div>
   );
 }
+

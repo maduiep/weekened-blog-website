@@ -33,7 +33,7 @@ export default function AdminSidebar({ activeTab, setActiveTab, contactMessages,
               <div>
                 <span
                   style={{
-                    fontSize: "10px",
+                    fontSize: "var(--text-xs)",
                     fontWeight: 800,
                     textTransform: "uppercase",
                     letterSpacing: 1.5,
@@ -106,6 +106,7 @@ export default function AdminSidebar({ activeTab, setActiveTab, contactMessages,
         </aside>
   );
 }
+
 
 
 

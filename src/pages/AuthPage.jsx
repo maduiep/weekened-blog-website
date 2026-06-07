@@ -261,7 +261,7 @@ export default function AuthPage() {
                   <p
                     style={{
                       color: "rgba(255,255,255,0.7)",
-                      fontSize: "11px",
+                      fontSize: "var(--text-xs)",
                       lineHeight: 1.4,
                     }}
                   >
@@ -416,7 +416,7 @@ export default function AuthPage() {
                         background: "rgba(0,0,0,0.04)",
                         border: "1px solid var(--color-border)",
                         color: "var(--color-dark)",
-                        fontSize: "13px",
+                        fontSize: "var(--text-sm)",
                         textAlign: "center",
                       }}
                     >
@@ -462,7 +462,7 @@ export default function AuthPage() {
                       style={{
                         marginTop: 10,
                         textAlign: "center",
-                        fontSize: 12,
+                        fontSize: "var(--text-xs)",
                         color: "var(--color-text-muted)",
                       }}
                     >
@@ -479,7 +479,7 @@ export default function AuthPage() {
                       background: "rgba(0, 126, 151, 0.04)",
                       border: "1px solid rgba(0, 126, 151, 0.08)",
                       color: "var(--color-dark)",
-                      fontSize: "13px",
+                      fontSize: "var(--text-sm)",
                       lineHeight: 1.6,
                       textAlign: "center",
                     }}
@@ -559,7 +559,7 @@ export default function AuthPage() {
                   </div>
                   <div
                     style={{
-                      fontSize: "10px",
+                      fontSize: "var(--text-xs)",
                       color: "var(--color-text-muted)",
                       marginTop: 4,
                     }}
@@ -636,7 +636,7 @@ export default function AuthPage() {
                   </div>
                   <div
                     style={{
-                      fontSize: "10px",
+                      fontSize: "var(--text-xs)",
                       color: "var(--color-text-muted)",
                       marginTop: 4,
                     }}
@@ -712,7 +712,7 @@ export default function AuthPage() {
             {error && (
               <div
                 className="auth-alert auth-alert-error"
-                style={{ fontSize: "12px" }}
+                style={{ fontSize: "var(--text-xs)" }}
               >
                 <AlertCircle size={14} /> {error}
               </div>
@@ -720,7 +720,7 @@ export default function AuthPage() {
             {success && (
               <div
                 className="auth-alert auth-alert-success"
-                style={{ fontSize: "12px" }}
+                style={{ fontSize: "var(--text-xs)" }}
               >
                 <CheckCircle size={14} /> {success}
               </div>
@@ -765,3 +765,4 @@ export default function AuthPage() {
     </div>
   );
 }
+

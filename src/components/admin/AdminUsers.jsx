@@ -178,7 +178,7 @@ export default function AdminUsers({ searchQuery, setSearchQuery, filterStatus, 
                                 style={{
                                   color: "var(--color-sport-green)",
                                   fontWeight: 800,
-                                  fontSize: "10px",
+                                  fontSize: "var(--text-xs)",
                                   textTransform: "uppercase",
                                 }}
                               >
@@ -188,7 +188,7 @@ export default function AdminUsers({ searchQuery, setSearchQuery, filterStatus, 
                               <span
                                 style={{
                                   color: "var(--color-text-muted)",
-                                  fontSize: "10px",
+                                  fontSize: "var(--text-xs)",
                                   textTransform: "uppercase",
                                 }}
                               >
@@ -205,7 +205,7 @@ export default function AdminUsers({ searchQuery, setSearchQuery, filterStatus, 
                                     "var(--color-primary)",
                                   fontWeight: 800,
                                   textTransform: "uppercase",
-                                  fontSize: "10px",
+                                  fontSize: "var(--text-xs)",
                                 }}
                               >
                                 {u.subscriptionTier ||
@@ -222,7 +222,7 @@ export default function AdminUsers({ searchQuery, setSearchQuery, filterStatus, 
                               <span
                                 style={{
                                   color: "var(--color-text-muted)",
-                                  fontSize: "10px",
+                                  fontSize: "var(--text-xs)",
                                 }}
                               >
                                 Free Tier
@@ -362,6 +362,7 @@ export default function AdminUsers({ searchQuery, setSearchQuery, filterStatus, 
             </motion.div>
   );
 }
+
 
 
 

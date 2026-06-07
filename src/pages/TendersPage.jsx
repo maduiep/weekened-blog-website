@@ -33,10 +33,10 @@ export default function TendersPage() {
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
               <tr style={{ background: 'var(--color-bg-alt)', borderBottom: '2px solid var(--color-border)' }}>
-                <th style={{ padding: 'var(--space-lg)', fontSize: '12px', textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>Reference</th>
-                <th style={{ padding: 'var(--space-lg)', fontSize: '12px', textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>Description</th>
-                <th style={{ padding: 'var(--space-lg)', fontSize: '12px', textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>Deadline</th>
-                <th style={{ padding: 'var(--space-lg)', fontSize: '12px', textTransform: 'uppercase', color: 'var(--color-text-muted)', textAlign: 'right' }}>Action</th>
+                <th style={{ padding: 'var(--space-lg)', fontSize: "var(--text-xs)", textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>Reference</th>
+                <th style={{ padding: 'var(--space-lg)', fontSize: "var(--text-xs)", textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>Description</th>
+                <th style={{ padding: 'var(--space-lg)', fontSize: "var(--text-xs)", textTransform: 'uppercase', color: 'var(--color-text-muted)' }}>Deadline</th>
+                <th style={{ padding: 'var(--space-lg)', fontSize: "var(--text-xs)", textTransform: 'uppercase', color: 'var(--color-text-muted)', textAlign: 'right' }}>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -50,7 +50,7 @@ export default function TendersPage() {
                   </td>
                   <td style={{ padding: 'var(--space-lg)', color: 'var(--color-text-secondary)' }}>
                     {tender.deadline}
-                    {tender.status === 'Closed' && <span style={{ marginLeft: '8px', padding: '2px 6px', background: '#ffebee', color: '#c62828', fontSize: '10px', borderRadius: '4px', fontWeight: 'bold' }}>CLOSED</span>}
+                    {tender.status === 'Closed' && <span style={{ marginLeft: '8px', padding: '2px 6px', background: '#ffebee', color: '#c62828', fontSize: "var(--text-xs)", borderRadius: '4px', fontWeight: 'bold' }}>CLOSED</span>}
                   </td>
                   <td style={{ padding: 'var(--space-lg)', textAlign: 'right' }}>
                     <button className="btn btn-sm btn-ghost" disabled={tender.status === 'Closed'} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
@@ -71,3 +71,4 @@ export default function TendersPage() {
     </div>
   );
 }
+

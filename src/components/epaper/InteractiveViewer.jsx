@@ -30,12 +30,12 @@ export default function InteractiveViewer({ epaper, onClose }) {
           <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>
             <X size={20} /> Close
           </button>
-          <span style={{ fontSize: '14px', fontWeight: 600 }}>{epaper.title}</span>
+          <span style={{ fontSize: "var(--text-sm)", fontWeight: 600 }}>{epaper.title}</span>
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <button onClick={() => setZoom(z => Math.max(z - 0.2, 0.5))} style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer' }}><ZoomOut size={18} /></button>
-          <span style={{ fontSize: '12px' }}>{Math.round(zoom * 100)}%</span>
+          <span style={{ fontSize: "var(--text-xs)" }}>{Math.round(zoom * 100)}%</span>
           <button onClick={() => setZoom(z => Math.min(z + 0.2, 2.5))} style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer' }}><ZoomIn size={18} /></button>
           <div style={{ width: 1, height: 24, background: '#333', margin: '0 8px' }} />
           <button style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer' }}><Bookmark size={18} /></button>
@@ -63,25 +63,25 @@ export default function InteractiveViewer({ epaper, onClose }) {
           <div style={{ width: 450, height: 600, padding: 32, position: 'relative', borderRight: '1px solid #ccc' }}>
              {currentPage === 1 ? (
                 <div style={{ textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column' }}>
-                  <h1 style={{ fontSize: '36px', fontFamily: 'serif', marginTop: 'auto', marginBottom: 16 }}>{epaper.title}</h1>
+                  <h1 style={{ fontSize: "var(--text-5xl)", fontFamily: 'serif', marginTop: 'auto', marginBottom: 16 }}>{epaper.title}</h1>
                   <p style={{ color: 'gray', marginBottom: 'auto' }}>{epaper.date}</p>
                 </div>
              ) : (
                 <div style={{ height: '100%' }}>
-                  <h2 style={{ fontSize: '24px', fontFamily: 'serif', marginBottom: 16 }}>Editorial Page {currentPage * 2 - 2}</h2>
+                  <h2 style={{ fontSize: "var(--text-2xl)", fontFamily: 'serif', marginBottom: 16 }}>Editorial Page {currentPage * 2 - 2}</h2>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                     <div style={{ background: '#eee', height: 150 }} />
                     <div style={{ background: '#eee', height: 150 }} />
                   </div>
-                  <p style={{ marginTop: 16, fontSize: '12px', lineHeight: 1.6, color: '#333' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                  <p style={{ marginTop: 16, fontSize: "var(--text-xs)", lineHeight: 1.6, color: '#333' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                 </div>
              )}
           </div>
           <div style={{ width: 450, height: 600, padding: 32, position: 'relative' }}>
              <div style={{ height: '100%' }}>
-                <h2 style={{ fontSize: '24px', fontFamily: 'serif', marginBottom: 16 }}>News Section {currentPage * 2 - 1}</h2>
+                <h2 style={{ fontSize: "var(--text-2xl)", fontFamily: 'serif', marginBottom: 16 }}>News Section {currentPage * 2 - 1}</h2>
                 <div style={{ background: '#eee', height: 200, marginBottom: 16 }} />
-                <p style={{ fontSize: '12px', lineHeight: 1.6, color: '#333' }}>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p style={{ fontSize: "var(--text-xs)", lineHeight: 1.6, color: '#333' }}>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
              </div>
           </div>
 
@@ -93,9 +93,9 @@ export default function InteractiveViewer({ epaper, onClose }) {
             opacity: 0.1, zIndex: 50, overflow: 'hidden'
           }}>
              <div style={{ transform: 'rotate(-45deg)', whiteSpace: 'nowrap', textAlign: 'center' }}>
-               <p style={{ fontSize: '24px', fontWeight: 'bold', margin: 0, color: 'red' }}>LICENSED TO: {user?.email || 'GUEST'}</p>
-               <p style={{ fontSize: '16px', margin: 0, color: 'red' }}>IP/Device: {fingerprint}</p>
-               <p style={{ fontSize: '16px', margin: 0, color: 'red' }}>UNAUTHORIZED SHARING PROHIBITED</p>
+               <p style={{ fontSize: "var(--text-2xl)", fontWeight: 'bold', margin: 0, color: 'red' }}>LICENSED TO: {user?.email || 'GUEST'}</p>
+               <p style={{ fontSize: "var(--text-base)", margin: 0, color: 'red' }}>IP/Device: {fingerprint}</p>
+               <p style={{ fontSize: "var(--text-base)", margin: 0, color: 'red' }}>UNAUTHORIZED SHARING PROHIBITED</p>
              </div>
           </div>
         </div>
@@ -113,3 +113,4 @@ export default function InteractiveViewer({ epaper, onClose }) {
     </div>
   );
 }
+

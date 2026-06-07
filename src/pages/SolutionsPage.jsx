@@ -116,7 +116,7 @@ export default function SolutionsPage() {
               >
                 <div style={{ height: '160px', overflow: 'hidden', position: 'relative' }}>
                   <img src={report.image} alt={report.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  <div style={{ position: 'absolute', top: 12, right: 12, background: 'var(--color-gold)', color: 'white', fontSize: '10px', fontWeight: 800, padding: '4px 8px', borderRadius: '4px', textTransform: 'uppercase' }}>
+                  <div style={{ position: 'absolute', top: 12, right: 12, background: 'var(--color-gold)', color: 'white', fontSize: "var(--text-xs)", fontWeight: 800, padding: '4px 8px', borderRadius: '4px', textTransform: 'uppercase' }}>
                     {report.tag}
                   </div>
                 </div>
@@ -229,7 +229,7 @@ export default function SolutionsPage() {
                   right: 'var(--space-md)',
                   background: item.statusColor,
                   color: 'white',
-                  fontSize: '9px',
+                  fontSize: "var(--text-xs)",
                   fontWeight: 800,
                   padding: '3px 8px',
                   borderRadius: '4px',
@@ -270,3 +270,4 @@ export default function SolutionsPage() {
     </div>
   );
 }
+

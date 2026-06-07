@@ -70,16 +70,16 @@ export default function DashboardAdverts({ adForm, setAdForm, adRequests, handle
                             <img src={ad.imageUrl} alt={ad.title} style={{ width: "80px", height: "60px", objectFit: "cover", borderRadius: "4px", background: "var(--color-bg-alt)" }} onError={(e) => e.target.src="https://placehold.co/80x60/f8fafc/94a3b8?text=AD"} />
                             <div style={{ flex: 1 }}>
                               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: "4px" }}>
-                                <strong style={{ fontSize: "14px" }}>{ad.title}</strong>
+                                <strong style={{ fontSize: "var(--text-sm)" }}>{ad.title}</strong>
                                 <span className="badge" style={{ 
                                   background: ad.status === 'Approved' ? '#e8f8f5' : ad.status === 'Rejected' ? '#fee2e2' : 'var(--color-bg-alt)',
                                   color: ad.status === 'Approved' ? '#2ecc71' : ad.status === 'Rejected' ? 'var(--color-news-red)' : 'var(--color-text-muted)'
                                 }}>{ad.status}</span>
                               </div>
-                              <div style={{ fontSize: "12px", color: "var(--color-text-secondary)" }}>
+                              <div style={{ fontSize: "var(--text-xs)", color: "var(--color-text-secondary)" }}>
                                 {ad.type.toUpperCase()} • {ad.category} • {ad.duration}
                               </div>
-                              <div style={{ fontSize: "11px", color: "var(--color-text-muted)", marginTop: "4px" }}>
+                              <div style={{ fontSize: "var(--text-xs)", color: "var(--color-text-muted)", marginTop: "4px" }}>
                                 Submitted: {new Date(ad.date).toLocaleDateString()}
                               </div>
                             </div>

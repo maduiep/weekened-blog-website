@@ -206,7 +206,7 @@ export default function CommentSection({ isSubscribed, isLoggedIn, user, article
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: "12px",
+                fontSize: "var(--text-xs)",
                 fontWeight: 700,
                 flexShrink: 0,
               }}
@@ -221,18 +221,18 @@ export default function CommentSection({ isSubscribed, isLoggedIn, user, article
                   marginBottom: 4,
                 }}
               >
-                <span style={{ fontWeight: 700, fontSize: "13px" }}>
+                <span style={{ fontWeight: 700, fontSize: "var(--text-sm)" }}>
                   {c.user}
                 </span>
                 <span
-                  style={{ fontSize: "11px", color: "var(--color-text-muted)" }}
+                  style={{ fontSize: "var(--text-xs)", color: "var(--color-text-muted)" }}
                 >
                   {c.date}
                 </span>
               </div>
               <p
                 style={{
-                  fontSize: "13px",
+                  fontSize: "var(--text-sm)",
                   color: "var(--color-text)",
                   lineHeight: 1.5,
                   marginBottom: 8,
@@ -249,7 +249,7 @@ export default function CommentSection({ isSubscribed, isLoggedIn, user, article
                   background: "none",
                   border: "none",
                   color: likedComments.has(c.id) ? "var(--color-primary)" : "var(--color-text-muted)",
-                  fontSize: "11px",
+                  fontSize: "var(--text-xs)",
                   cursor: "pointer",
                 }}
               >
@@ -261,12 +261,12 @@ export default function CommentSection({ isSubscribed, isLoggedIn, user, article
                   {c.replies.map((r, idx) => (
                     <div key={idx} style={{ marginBottom: 8 }}>
                       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 2 }}>
-                        <span style={{ fontWeight: 700, fontSize: "12px", color: "var(--color-primary)", display: "flex", alignItems: "center", gap: 4 }}>
+                        <span style={{ fontWeight: 700, fontSize: "var(--text-xs)", color: "var(--color-primary)", display: "flex", alignItems: "center", gap: 4 }}>
                           <ShieldCheck size={12} /> {r.user}
                         </span>
-                        <span style={{ fontSize: "10px", color: "var(--color-text-muted)" }}>{r.date}</span>
+                        <span style={{ fontSize: "var(--text-xs)", color: "var(--color-text-muted)" }}>{r.date}</span>
                       </div>
-                      <p style={{ fontSize: "12px", color: "var(--color-text)", margin: 0 }}>{r.text}</p>
+                      <p style={{ fontSize: "var(--text-xs)", color: "var(--color-text)", margin: 0 }}>{r.text}</p>
                     </div>
                   ))}
                 </div>
