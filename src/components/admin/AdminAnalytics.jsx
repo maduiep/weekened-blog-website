@@ -115,7 +115,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                 className="admin-analytics-grid"
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
                   gridTemplateRows: "auto 1fr",
                   gap: "var(--space-xl)",
                 }}
@@ -438,7 +438,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                   <div
                     style={{
                       display: "grid",
-                      gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+                      gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
                       gap: "16px",
                     }}
                   >

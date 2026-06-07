@@ -266,7 +266,7 @@ export default function AdminManagement() {
       )}
 
       <div style={{ overflowX: "auto" }}>
-        <table
+        <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw" }}><table
           style={{
             width: "100%",
             borderCollapse: "collapse",
@@ -473,7 +473,7 @@ export default function AdminManagement() {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table></div>
       </div>
 
       {/* History Modal */}

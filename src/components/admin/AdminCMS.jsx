@@ -199,7 +199,7 @@ export default function AdminCMS({ showToast }) {
             {localArticles.length === 0 ? (
               <p style={{ color: 'var(--color-text-muted)' }}>No dynamic articles found. Click "Create Article" to write one.</p>
             ) : (
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw" }}><table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
                   <tr style={{ background: 'var(--color-bg-alt)', textAlign: 'left' }}>
                     <th style={{ padding: '12px', borderBottom: '1px solid var(--color-border)' }}>Title</th>
@@ -227,13 +227,13 @@ export default function AdminCMS({ showToast }) {
                     </tr>
                   ))}
                 </tbody>
-              </table>
+              </table></div>
             )}
           </div>
         )}
 
         {activeTab === 'create-article' && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <input type="text" placeholder="Article Title" value={title} onChange={e => setTitle(e.target.value)} className="form-input" style={{ fontSize: '20px', fontWeight: 700 }} />
               <div style={{ display: 'flex', gap: '16px' }}>
@@ -305,7 +305,7 @@ export default function AdminCMS({ showToast }) {
         )}
 
         {activeTab === 'manage-adverts' && (
-          <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: '32px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
             <div style={{ background: 'var(--color-bg-alt)', padding: '24px', borderRadius: '12px' }}>
               <h4 style={{ marginBottom: 16 }}>Create New Advert</h4>
               <form onSubmit={handleSaveAdvert} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -336,7 +336,7 @@ export default function AdminCMS({ showToast }) {
             
             <div>
               <h4 style={{ marginBottom: 16 }}>Active Advertisements</h4>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 16 }}>
                 {adverts.map(ad => (
                   <div key={ad.id} style={{ border: '1px solid var(--color-border)', borderRadius: '8px', padding: 16 }}>
                     {ad.imageUrl.endsWith('.mp4') ? (

@@ -147,7 +147,7 @@ export default function AdminComments({ adminUser, showToast }) {
       </div>
 
       <div style={{ overflowX: "auto" }}>
-        <table className="admin-table">
+        <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw" }}><table className="admin-table">
           <thead>
             <tr>
               <th>User</th>
@@ -238,7 +238,7 @@ export default function AdminComments({ adminUser, showToast }) {
               </tr>
             )}
           </tbody>
-        </table>
+        </table></div>
       </div>
 
       <AnimatePresence>

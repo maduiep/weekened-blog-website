@@ -28,6 +28,7 @@ import {
   Landmark,
   Clock,
   X,
+  Menu,
   AlertCircle,
   Image,
   MessageSquare,
@@ -90,6 +91,7 @@ export default function AdminPage() {
   const [receiptFilter, setReceiptFilter] = useState("all");
   const [previewReceipt, setPreviewReceipt] = useState(null);
   const [reviewNote, setReviewNote] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const allUsers = getAllUsers();
   const subscribers = allUsers.filter((u) => u.isSubscribed);
@@ -400,19 +402,39 @@ export default function AdminPage() {
         )}
       </AnimatePresence>
 
-      <div style={{ display: "flex", width: "100%", minHeight: "100vh" }}>
+      <div className="admin-layout">
+        <div className="mobile-header">
+          <button className="mobile-menu-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
+            {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
+            <span style={{ fontWeight: 600, color: "var(--color-primary)", fontSize: "18px" }}>Admin Dashboard</span>
+          </button>
+        </div>
+
+        {/* Sidebar Navigation Overlay */}
+        {sidebarOpen && (
+          <div 
+            className="admin-sidebar-overlay" 
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+
         {/* Sidebar Navigation */}
+        <div className={`admin-sidebar-wrapper ${sidebarOpen ? 'open' : ''}`}>
           <AdminSidebar
             activeTab={activeTab}
-            setActiveTab={setActiveTab}
+            setActiveTab={(tab) => {
+              setActiveTab(tab);
+              setSidebarOpen(false);
+            }}
             contactMessages={contactMessages}
             adminRecords={adminRecords}
             paymentReceipts={paymentReceipts}
             adminUsersCount={adminUsersCount}
           />
+        </div>
 
         {/* Main Content Area */}
-        <main style={{ flex: 1, padding: "var(--space-md) var(--space-2xl) var(--space-2xl)", overflowY: "auto", background: "#f8fafc" }}>
+        <main className="admin-main">
           <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
         {activeTab === "analytics" && (
           <AdminOverview
@@ -743,7 +765,52 @@ export default function AdminPage() {
       </AnimatePresence>
 
       <style>{`
+        .admin-layout { display: flex; width: 100%; min-height: 100vh; position: relative; }
+        .admin-main { flex: 1; padding: var(--space-md) var(--space-2xl) var(--space-2xl); overflow-y: auto; background: #f8fafc; max-width: 100%; box-sizing: border-box; }
+        .admin-sidebar-wrapper { display: block; z-index: 1000; }
+        .mobile-header { display: none; }
+        .admin-sidebar-overlay { display: none; }
+
         .admin-analytics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-xl); margin-bottom: var(--space-xl); }
+        @media (max-width: 1024px) {
+          .admin-layout { flex-direction: column; }
+          .admin-sidebar-wrapper { 
+             position: fixed; 
+             left: -300px; 
+             top: 0; 
+             bottom: 0; 
+             transition: left 0.3s ease; 
+             box-shadow: 4px 0 24px rgba(0,0,0,0.1);
+          }
+          .admin-sidebar-wrapper.open { left: 0; }
+          .admin-main { padding: var(--space-md); overflow-x: hidden; max-width: 100%; box-sizing: border-box; }
+          .mobile-header { 
+             display: flex; 
+             align-items: center; 
+             padding: 16px; 
+             background: white; 
+             border-bottom: 1px solid var(--color-border);
+             position: sticky;
+             top: 0;
+             z-index: 900;
+          }
+          .mobile-menu-btn { 
+             display: flex; 
+             align-items: center; 
+             gap: 12px; 
+             background: transparent; 
+             border: none; 
+             cursor: pointer; 
+             padding: 0;
+          }
+          .admin-sidebar-overlay {
+            display: block;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 950;
+          }
+        }
         @media (max-width: 600px) {
           .admin-analytics-grid { grid-template-columns: 1fr; }
           .admin-header { text-align: center; justify-content: center; }

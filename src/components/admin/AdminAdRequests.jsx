@@ -79,7 +79,7 @@ export default function AdminAdRequests({ adminUser, showToast }) {
       </div>
 
       <div className="admin-card" style={{ padding: 0, overflow: "hidden" }}>
-        <table className="admin-table">
+        <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw" }}><table className="admin-table">
           <thead>
             <tr>
               <th>Campaign Details</th>
@@ -213,7 +213,7 @@ export default function AdminAdRequests({ adminUser, showToast }) {
               ))
             )}
           </tbody>
-        </table>
+        </table></div>
       </div>
     </motion.div>
   );

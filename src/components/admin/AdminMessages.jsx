@@ -40,7 +40,7 @@ export default function AdminMessages({ contactMessages, setContactMessages, set
                 </div>
 
                 <div className="table-responsive" style={{ overflowX: "auto" }}>
-                  <table
+                  <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw" }}><table
                     className="admin-table"
                     style={{ width: "100%", borderCollapse: "collapse" }}
                   >
@@ -228,7 +228,7 @@ export default function AdminMessages({ contactMessages, setContactMessages, set
                         ))
                       )}
                     </tbody>
-                  </table>
+                  </table></div>
                 </div>
               </div>
             </motion.div>
