@@ -113,14 +113,21 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
             >
               <style>{`
                 .admin-analytics-grid {
-                  display: grid;
-                  grid-template-columns: 1fr 1fr;
+                  display: flex;
+                  flex-wrap: wrap;
+                  justify-content: space-between;
                   gap: var(--space-xl);
                   width: 100%;
                 }
+                .admin-analytics-grid > .admin-card {
+                  width: 45%;
+                }
+                .admin-analytics-grid > .admin-card.full-width {
+                  width: 100%;
+                }
                 @media (max-width: 900px) {
-                  .admin-analytics-grid {
-                    grid-template-columns: 1fr;
+                  .admin-analytics-grid > .admin-card {
+                    width: 100%;
                   }
                 }
               `}</style>
@@ -577,18 +584,17 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                 </div>
 
                 {/* Conversion Funnel */}
-                <div
-                  className="admin-card"
-                  style={{
-                    background: "white",
-                    padding: "var(--space-2xl)",
-                    borderRadius: "var(--radius-xl)",
-                    border: "1px solid var(--color-border)",
-                    gridColumn: "1 / -1",
-                    height: "100%",
-                    overflow: "visible",
-                  }}
-                >
+                  <div
+                    className="admin-card full-width"
+                    style={{
+                      background: "white",
+                      padding: "var(--space-2xl)",
+                      borderRadius: "var(--radius-xl)",
+                      border: "1px solid var(--color-border)",
+                      height: "100%",
+                      overflow: "visible",
+                    }}
+                  >
                   <h3
                     style={{
                       fontSize: "var(--text-lg)",

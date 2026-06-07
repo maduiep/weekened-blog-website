@@ -436,7 +436,7 @@ export default function AdminPage() {
         {/* Main Content Area */}
         <main className="admin-main">
           <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
-        {activeTab === "analytics" && (
+        {activeTab === "overview" && (
           <AdminOverview
             adminUser={adminUser}
             showToast={showToast}
