@@ -3,22 +3,16 @@ import { LayoutDashboard, BarChart2, Mail, Users, FileText, ShieldCheck, Setting
 export default function AdminSidebar({ activeTab, setActiveTab, contactMessages, adminRecords, paymentReceipts, adminUsersCount }) {
   return (
     <aside
-          style={{
-            width: "280px",
-            background: "white",
-            borderRight: "1px solid var(--color-border)",
-            display: "flex",
-            flexDirection: "column",
-            position: "sticky",
-            top: "70px",
-            height: "calc(100vh - 70px)",
-            overflowY: "auto",
-            flexShrink: 0,
-            padding: "var(--space-xl) var(--space-md)",
-            boxShadow: "4px 0 24px rgba(0,0,0,0.02)",
-            zIndex: 40,
-          }}
-        >
+      className="admin-sidebar-container"
+      style={{
+        background: "white",
+        display: "flex",
+        flexDirection: "column",
+        overflowY: "auto",
+        flexShrink: 0,
+        padding: "var(--space-xl) var(--space-md)",
+      }}
+    >
           <div style={{ marginBottom: "var(--space-2xl)", padding: "0 var(--space-sm)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
               <div
