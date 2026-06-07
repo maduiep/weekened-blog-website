@@ -159,7 +159,7 @@ export default function AdminCMS({ showToast }) {
     <div style={{ background: 'white', borderRadius: 'var(--radius-xl)', border: '1px solid var(--color-border)', overflow: 'hidden' }}>
       
       {/* CMS Tabs */}
-      <div style={{ display: 'flex', borderBottom: '1px solid var(--color-border)', background: 'var(--color-bg-alt)' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', borderBottom: '1px solid var(--color-border)', background: 'var(--color-bg-alt)' }}>
         <button 
           onClick={() => setActiveTab('analytics')}
           style={{ flex: 1, padding: '16px', background: activeTab === 'analytics' ? 'white' : 'transparent', border: 'none', borderBottom: activeTab === 'analytics' ? '2px solid var(--color-primary)' : '2px solid transparent', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
@@ -199,7 +199,8 @@ export default function AdminCMS({ showToast }) {
             {localArticles.length === 0 ? (
               <p style={{ color: 'var(--color-text-muted)' }}>No dynamic articles found. Click "Create Article" to write one.</p>
             ) : (
-              <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw" }}><table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw", paddingBottom: "16px" }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '600px' }}>
                 <thead>
                   <tr style={{ background: 'var(--color-bg-alt)', textAlign: 'left' }}>
                     <th style={{ padding: '12px', borderBottom: '1px solid var(--color-border)' }}>Title</th>
@@ -233,12 +234,12 @@ export default function AdminCMS({ showToast }) {
         )}
 
         {activeTab === 'create-article' && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 350px), 1fr))', gap: '32px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <input type="text" placeholder="Article Title" value={title} onChange={e => setTitle(e.target.value)} className="form-input" style={{ fontSize: '20px', fontWeight: 700 }} />
-              <div style={{ display: 'flex', gap: '16px' }}>
-                <input type="text" placeholder="Slug (e.g. new-article)" value={slug} onChange={e => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-'))} className="form-input" style={{ flex: 1 }} />
-                <select value={category} onChange={e => setCategory(e.target.value)} className="form-input" style={{ width: '150px' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+                <input type="text" placeholder="Slug (e.g. new-article)" value={slug} onChange={e => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-'))} className="form-input" style={{ flex: '1 1 200px' }} />
+                <select value={category} onChange={e => setCategory(e.target.value)} className="form-input" style={{ flex: '1 1 150px' }}>
                   <option value="news">News</option>
                   <option value="business">Business</option>
                   <option value="sport">Sport</option>
@@ -246,19 +247,19 @@ export default function AdminCMS({ showToast }) {
                 </select>
               </div>
               
-              <div style={{ display: 'flex', gap: '16px' }}>
-                <select value={status} onChange={e => setStatus(e.target.value)} className="form-input" style={{ flex: 1 }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+                <select value={status} onChange={e => setStatus(e.target.value)} className="form-input" style={{ flex: '1 1 150px' }}>
                   <option value="Draft">Draft</option>
                   <option value="Review">Pending Review</option>
                   <option value="Published">Published</option>
                 </select>
-                <input type="date" value={publishDate} onChange={e => setPublishDate(e.target.value)} className="form-input" style={{ flex: 1 }} />
+                <input type="date" value={publishDate} onChange={e => setPublishDate(e.target.value)} className="form-input" style={{ flex: '1 1 150px' }} />
               </div>
 
               <input type="text" placeholder="Brief Summary" value={summary} onChange={e => setSummary(e.target.value)} className="form-input" />
               
-              <div style={{ display: 'flex', gap: '16px' }}>
-                <div style={{ flex: 1, display: 'flex', gap: '8px' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+                <div style={{ flex: '1 1 250px', display: 'flex', gap: '8px' }}>
                   <div style={{ flex: 1, position: 'relative' }}>
                     <input type="text" placeholder="Cover Image URL" value={imageUrl} onChange={e => setImageUrl(e.target.value)} className="form-input" style={{ paddingLeft: '36px', width: '100%' }} />
                     <ImageIcon size={16} style={{ position: 'absolute', left: 12, top: 12, color: 'var(--color-text-muted)' }} />
@@ -268,7 +269,7 @@ export default function AdminCMS({ showToast }) {
                     <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} />
                   </label>
                 </div>
-                <div style={{ flex: 1, display: 'flex', gap: '8px' }}>
+                <div style={{ flex: '1 1 250px', display: 'flex', gap: '8px' }}>
                   <div style={{ flex: 1, position: 'relative' }}>
                     <input type="text" placeholder="Video Embed URL (Optional)" value={videoUrl} onChange={e => setVideoUrl(e.target.value)} className="form-input" style={{ paddingLeft: '36px', width: '100%' }} />
                     <Video size={16} style={{ position: 'absolute', left: 12, top: 12, color: 'var(--color-text-muted)' }} />
@@ -305,7 +306,7 @@ export default function AdminCMS({ showToast }) {
         )}
 
         {activeTab === 'manage-adverts' && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 350px), 1fr))', gap: '32px' }}>
             <div style={{ background: 'var(--color-bg-alt)', padding: '24px', borderRadius: '12px' }}>
               <h4 style={{ marginBottom: 16 }}>Create New Advert</h4>
               <form onSubmit={handleSaveAdvert} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -336,7 +337,7 @@ export default function AdminCMS({ showToast }) {
             
             <div>
               <h4 style={{ marginBottom: 16 }}>Active Advertisements</h4>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 16 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 16 }}>
                 {adverts.map(ad => (
                   <div key={ad.id} style={{ border: '1px solid var(--color-border)', borderRadius: '8px', padding: 16 }}>
                     {ad.imageUrl.endsWith('.mp4') ? (
