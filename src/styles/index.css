@@ -929,7 +929,7 @@ select {
 /* Grid Layouts */
 .grid-2 {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 45% 45%; justify-content: space-between;
   gap: var(--space-xl);
 }
 
@@ -2394,7 +2394,7 @@ select.form-input {
   }
 
   .footer-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 45% 45%; justify-content: space-between;
   }
 
   .pricing-grid {
@@ -2436,11 +2436,11 @@ select.form-input {
   }
 
   .grid-3 {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 45% 45%; justify-content: space-between;
   }
 
   .grid-4 {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 45% 45%; justify-content: space-between;
   }
 }
 
@@ -2505,7 +2505,7 @@ select.form-input {
   }
 
   .grid-4 {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 45% 45%; justify-content: space-between;
   }
 
   .article-card-horizontal {
@@ -2555,7 +2555,7 @@ select.form-input {
   }
 
   .payment-methods-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 45% 45%; justify-content: space-between;
     gap: var(--space-md);
   }
 
@@ -3250,7 +3250,7 @@ select.form-input {
    ======================================== */
 @media (max-width: 1024px) {
   .admin-stats-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 45% 45%; justify-content: space-between;
   }
 }
 
@@ -3274,7 +3274,7 @@ select.form-input {
 
   /* Admin */
   .admin-stats-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 45% 45%; justify-content: space-between;
     gap: var(--space-md);
   }
   .admin-table-header {
@@ -3347,7 +3347,7 @@ select.form-input {
     grid-template-columns: 1fr;
   }
   .grid-4 {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 45% 45%; justify-content: space-between;
   }
 
   /* Ticker */
@@ -4073,7 +4073,7 @@ select.form-input {
 
 .admin-analytics-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 45% 45%; justify-content: space-between;
   gap: var(--space-xl);
 }
 @media (max-width: 900px) {

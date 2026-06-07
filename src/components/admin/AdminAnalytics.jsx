@@ -111,6 +111,19 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
+              <style>{`
+                .admin-analytics-grid {
+                  display: grid;
+                  grid-template-columns: 1fr 1fr;
+                  gap: var(--space-xl);
+                  width: 100%;
+                }
+                @media (max-width: 900px) {
+                  .admin-analytics-grid {
+                    grid-template-columns: 1fr;
+                  }
+                }
+              `}</style>
               <div className="admin-analytics-grid">
                 {/* Revenue Breakdown (top-left) */}
                 <div
