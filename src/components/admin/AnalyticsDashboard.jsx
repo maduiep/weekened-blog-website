@@ -13,7 +13,7 @@ export default function AnalyticsDashboard() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       
       {/* KPI Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: '16px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
         {metrics.map((m, i) => (
           <div key={i} style={{ background: 'white', padding: '24px', borderRadius: '12px', border: '1px solid var(--color-border)', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px', color: 'var(--color-text-muted)' }}>
@@ -26,18 +26,22 @@ export default function AnalyticsDashboard() {
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 350px), 1fr))', gap: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
         {/* Audience Growth Chart (Mocked UI) */}
         <div style={{ background: 'white', padding: '24px', borderRadius: '12px', border: '1px solid var(--color-border)' }}>
           <h3 style={{ fontSize: '16px', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '8px' }}><BarChart size={18} /> Audience Growth</h3>
-          <div style={{ height: '300px', display: 'flex', alignItems: 'flex-end', gap: '12px', paddingBottom: '24px', borderBottom: '1px solid #eee' }}>
-            {/* Simple mock bars */}
-            {[40, 65, 45, 80, 55, 90, 75, 100].map((h, i) => (
-              <div key={i} style={{ flex: 1, height: `${h}%`, background: 'var(--color-primary)', borderRadius: '4px 4px 0 0', opacity: 0.8 }} />
-            ))}
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '12px', fontSize: '12px', color: 'var(--color-text-muted)' }}>
-            <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span>
+          <div style={{ overflowX: 'auto', paddingBottom: '8px' }}>
+            <div style={{ minWidth: '400px' }}>
+              <div style={{ height: '300px', display: 'flex', alignItems: 'flex-end', gap: '12px', paddingBottom: '24px', borderBottom: '1px solid #eee' }}>
+                {/* Simple mock bars */}
+                {[40, 65, 45, 80, 55, 90, 75, 100].map((h, i) => (
+                  <div key={i} style={{ flex: 1, height: `${h}%`, background: 'var(--color-primary)', borderRadius: '4px 4px 0 0', opacity: 0.8 }} />
+                ))}
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '12px', fontSize: '12px', color: 'var(--color-text-muted)' }}>
+                <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span>
+              </div>
+            </div>
           </div>
         </div>
 
