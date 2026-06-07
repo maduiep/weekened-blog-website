@@ -107,7 +107,7 @@ export default function AdminComments({ adminUser, showToast }) {
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+        <div style={{ display: "flex", gap: "12px", alignItems: "center", flexWrap: "wrap", width: "100%" }}>
           <div
             style={{
               display: "flex",
@@ -116,6 +116,7 @@ export default function AdminComments({ adminUser, showToast }) {
               background: "#f1f5f9",
               padding: "8px 16px",
               borderRadius: "8px",
+              flex: "1 1 200px"
             }}
           >
             <Search size={16} color="var(--color-text-muted)" />
@@ -129,6 +130,7 @@ export default function AdminComments({ adminUser, showToast }) {
                 background: "transparent",
                 outline: "none",
                 fontSize: "13px",
+                width: "100%"
               }}
             />
           </div>
@@ -139,6 +141,7 @@ export default function AdminComments({ adminUser, showToast }) {
               color: "var(--color-primary)",
               borderRadius: "8px",
               fontWeight: 700,
+              whiteSpace: "nowrap"
             }}
           >
             Total: {comments.length}
@@ -146,8 +149,8 @@ export default function AdminComments({ adminUser, showToast }) {
         </div>
       </div>
 
-      <div style={{ overflowX: "auto" }}>
-        <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw", paddingBottom: "16px" }}><table className="admin-table">
+      <div style={{ overflowX: "auto", width: "100%", paddingBottom: "16px" }}>
+        <table className="admin-table">
           <thead>
             <tr>
               <th>User</th>
