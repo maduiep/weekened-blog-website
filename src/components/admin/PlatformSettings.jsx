@@ -92,7 +92,7 @@ export default function PlatformSettings() {
             </div>
           </form>
         ) : (
-          <div className="admin-table" style={{ width: "100%", borderCollapse: "collapse", minWidth: "600px" }}>
+          <div className="admin-table" style={{ width: "100%" }}>
             <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw", paddingBottom: "16px" }}><table style={{ width: "100%", minWidth: "600px" }}>
               <thead>
                 <tr>
@@ -122,7 +122,7 @@ export default function PlatformSettings() {
       </div>
 
       <div>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--space-md)" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "16px", marginBottom: "var(--space-md)" }}>
           <h3 style={{ fontSize: "18px", display: "flex", alignItems: "center", gap: 8 }}>
             <CreditCard size={20} color="var(--color-primary)" /> Payment Methods
           </h3>
@@ -198,7 +198,7 @@ export default function PlatformSettings() {
             </div>
           </form>
         ) : (
-          <div className="admin-table" style={{ width: "100%", borderCollapse: "collapse", minWidth: "600px" }}>
+          <div className="admin-table" style={{ width: "100%" }}>
             <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw", paddingBottom: "16px" }}><table style={{ width: "100%", minWidth: "600px" }}>
               <thead>
                 <tr>
