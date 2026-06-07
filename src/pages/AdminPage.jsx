@@ -775,11 +775,14 @@ export default function AdminPage() {
           .admin-layout { flex-direction: column; }
           .admin-sidebar-wrapper { 
              position: fixed; 
-             left: -300px; 
              top: 0; 
-             bottom: 0; 
+             left: -280px; 
+             width: 280px; 
+             height: 100vh; 
+             z-index: 900; 
              transition: left 0.3s ease; 
-             box-shadow: 4px 0 24px rgba(0,0,0,0.1);
+             background: white;
+             box-shadow: 2px 0 10px rgba(0,0,0,0.1);
           }
           .admin-sidebar-wrapper.open { left: 0; }
           .admin-main { padding: var(--space-md); overflow-x: hidden; max-width: 100%; box-sizing: border-box; }
@@ -787,11 +790,11 @@ export default function AdminPage() {
              display: flex; 
              align-items: center; 
              padding: 16px; 
-             background: white; 
-             border-bottom: 1px solid var(--color-border);
              position: sticky;
              top: 0;
-             z-index: 900;
+             z-index: 1000;
+             background: white;
+             border-bottom: 1px solid var(--color-border);
           }
           .mobile-menu-btn { 
              display: flex; 
