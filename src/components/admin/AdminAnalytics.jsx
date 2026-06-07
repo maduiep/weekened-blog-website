@@ -116,12 +116,12 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                   display: flex;
                   flex-wrap: wrap;
                   justify-content: space-between;
-                  gap: var(--space-xl);
+                  gap: var(--space-md);
                   width: 100%;
                   margin-bottom: var(--space-xl);
                 }
                 .admin-analytics-grid > .admin-card {
-                  width: 45%;
+                  width: calc(50% - (var(--space-md) / 2));
                 }
                 .admin-analytics-grid > .admin-card.full-width {
                   width: 100%;

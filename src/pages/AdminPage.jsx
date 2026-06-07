@@ -766,7 +766,7 @@ export default function AdminPage() {
 
       <style>{`
         .admin-layout { display: flex; width: 100%; min-height: 100vh; position: relative; }
-        .admin-main { flex: 1; padding: var(--space-md) var(--space-2xl) var(--space-2xl); overflow-y: auto; background: #f8fafc; max-width: 100%; box-sizing: border-box; }
+        .admin-main { flex: 1; padding: var(--space-md) var(--space-lg) var(--space-2xl); overflow-y: auto; background: #f8fafc; max-width: 100%; box-sizing: border-box; }
         .admin-sidebar-wrapper { display: block; z-index: 40; }
         .mobile-header { display: none; }
         .admin-sidebar-overlay { display: none; }
