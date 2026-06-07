@@ -767,11 +767,10 @@ export default function AdminPage() {
       <style>{`
         .admin-layout { display: flex; width: 100%; min-height: 100vh; position: relative; }
         .admin-main { flex: 1; padding: var(--space-md) var(--space-2xl) var(--space-2xl); overflow-y: auto; background: #f8fafc; max-width: 100%; box-sizing: border-box; }
-        .admin-sidebar-wrapper { display: block; z-index: 1000; }
+        .admin-sidebar-wrapper { display: block; z-index: 40; }
         .mobile-header { display: none; }
         .admin-sidebar-overlay { display: none; }
 
-        .admin-analytics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-xl); margin-bottom: var(--space-xl); }
         @media (max-width: 1024px) {
           .admin-layout { flex-direction: column; }
           .admin-sidebar-wrapper { 
@@ -812,7 +811,6 @@ export default function AdminPage() {
           }
         }
         @media (max-width: 600px) {
-          .admin-analytics-grid { grid-template-columns: 1fr; }
           .admin-header { text-align: center; justify-content: center; }
           .admin-header > div { width: 100%; display: flex; justify-content: center; }
           .admin-header h1 { font-size: var(--text-xl); }

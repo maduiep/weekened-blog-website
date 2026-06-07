@@ -10,13 +10,13 @@ export default function AdminSidebar({ activeTab, setActiveTab, contactMessages,
             display: "flex",
             flexDirection: "column",
             position: "sticky",
-            top: 0,
-            height: "100vh",
+            top: "70px",
+            height: "calc(100vh - 70px)",
             overflowY: "auto",
             flexShrink: 0,
             padding: "var(--space-xl) var(--space-md)",
             boxShadow: "4px 0 24px rgba(0,0,0,0.02)",
-            zIndex: 50,
+            zIndex: 40,
           }}
         >
           <div style={{ marginBottom: "var(--space-2xl)", padding: "0 var(--space-sm)" }}>
