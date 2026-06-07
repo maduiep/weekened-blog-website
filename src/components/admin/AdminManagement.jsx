@@ -167,7 +167,7 @@ export default function AdminManagement() {
         >
           <form
             onSubmit={handleAddAdmin}
-            style={{ display: "flex", gap: "16px", alignItems: "flex-end" }}
+            style={{ display: "flex", flexWrap: "wrap", gap: "16px", alignItems: "flex-end" }}
           >
             <div style={{ flex: 1 }}>
               <label
@@ -266,10 +266,10 @@ export default function AdminManagement() {
       )}
 
       <div style={{ overflowX: "auto" }}>
-        <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw" }}><table
+        <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw", paddingBottom: "16px" }}><table
           style={{
             width: "100%",
-            borderCollapse: "collapse",
+            borderCollapse: "collapse", minWidth: "600px",
             fontSize: "14px",
           }}
         >
@@ -567,3 +567,4 @@ export default function AdminManagement() {
     </div>
   );
 }
+

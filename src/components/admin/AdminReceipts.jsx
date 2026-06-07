@@ -169,7 +169,7 @@ export default function AdminReceipts({
                   </div>
                 ) : (
                   <div style={{ overflowX: "auto" }}>
-                    <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw" }}><table className="admin-table">
+                    <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw", paddingBottom: "16px" }}><table className="admin-table">
                       <thead>
                         <tr>
                           <th>Receipt ID</th>
@@ -470,7 +470,7 @@ export default function AdminReceipts({
                         <div
                           style={{
                             display: "grid",
-                            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+                            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))",
                             gap: "12px",
                             marginBottom: "20px",
                           }}

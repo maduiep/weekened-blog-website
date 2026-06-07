@@ -147,7 +147,7 @@ export default function AdminComments({ adminUser, showToast }) {
       </div>
 
       <div style={{ overflowX: "auto" }}>
-        <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw" }}><table className="admin-table">
+        <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw", paddingBottom: "16px" }}><table className="admin-table">
           <thead>
             <tr>
               <th>User</th>
@@ -318,3 +318,4 @@ export default function AdminComments({ adminUser, showToast }) {
     </motion.div>
   );
 }
+

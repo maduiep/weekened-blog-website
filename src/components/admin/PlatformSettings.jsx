@@ -68,7 +68,7 @@ export default function PlatformSettings() {
         {editingPlan ? (
           <form onSubmit={handleSavePlan} style={{ background: "rgba(0,0,0,0.02)", padding: "16px", borderRadius: "8px", border: "1px solid var(--color-border)" }}>
             <h4 style={{ marginBottom: 16 }}>Edit Plan: {editingPlan.name}</h4>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "16px", marginBottom: 16 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: "16px", marginBottom: 16 }}>
               <div>
                 <label style={{ display: "block", fontSize: "12px", marginBottom: 4 }}>Name</label>
                 <input required className="input" value={editingPlan.name} onChange={e => setEditingPlan({...editingPlan, name: e.target.value})} />
@@ -92,8 +92,8 @@ export default function PlatformSettings() {
             </div>
           </form>
         ) : (
-          <div className="admin-table" style={{ width: "100%", borderCollapse: "collapse" }}>
-            <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw" }}><table style={{ width: "100%" }}>
+          <div className="admin-table" style={{ width: "100%", borderCollapse: "collapse", minWidth: "600px" }}>
+            <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw", paddingBottom: "16px" }}><table style={{ width: "100%", minWidth: "600px" }}>
               <thead>
                 <tr>
                   <th style={{ textAlign: "left", padding: "12px", borderBottom: "1px solid var(--color-border)" }}>Name</th>
@@ -137,7 +137,7 @@ export default function PlatformSettings() {
           <form onSubmit={handleSaveMethod} style={{ background: "rgba(0,0,0,0.02)", padding: "16px", borderRadius: "8px", border: "1px solid var(--color-border)" }}>
             <h4 style={{ marginBottom: 16 }}>{editingMethod.isNew ? "Add Payment Method" : "Edit Payment Method"}</h4>
             
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "16px", marginBottom: 16 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: "16px", marginBottom: 16 }}>
               <div>
                 <label style={{ display: "block", fontSize: "12px", marginBottom: 4 }}>Internal ID (no spaces)</label>
                 <input required className="input" value={editingMethod.id} disabled={!editingMethod.isNew} onChange={e => setEditingMethod({...editingMethod, id: e.target.value})} />
@@ -171,7 +171,7 @@ export default function PlatformSettings() {
             {editingMethod.type === 'bank-transfer' && (
               <div style={{ background: "white", padding: 16, borderRadius: 8, border: "1px solid #e2e8f0", marginBottom: 16 }}>
                 <h5 style={{ marginBottom: 12 }}>Bank Details</h5>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "16px" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: "16px" }}>
                   <div>
                     <label style={{ display: "block", fontSize: "12px", marginBottom: 4 }}>Bank Name</label>
                     <input className="input" value={editingMethod.bankDetails?.bankName || ""} onChange={e => setEditingMethod({...editingMethod, bankDetails: {...editingMethod.bankDetails, bankName: e.target.value}})} />
@@ -198,8 +198,8 @@ export default function PlatformSettings() {
             </div>
           </form>
         ) : (
-          <div className="admin-table" style={{ width: "100%", borderCollapse: "collapse" }}>
-            <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw" }}><table style={{ width: "100%" }}>
+          <div className="admin-table" style={{ width: "100%", borderCollapse: "collapse", minWidth: "600px" }}>
+            <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw", paddingBottom: "16px" }}><table style={{ width: "100%", minWidth: "600px" }}>
               <thead>
                 <tr>
                   <th style={{ textAlign: "left", padding: "12px", borderBottom: "1px solid var(--color-border)" }}>Name</th>
@@ -232,3 +232,4 @@ export default function PlatformSettings() {
     </div>
   );
 }
+

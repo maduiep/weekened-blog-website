@@ -82,7 +82,7 @@ export default function CMSEditor() {
         </button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2px', background: 'var(--color-border)', minHeight: '600px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '2px', background: 'var(--color-border)', minHeight: '600px' }}>
         {/* Editor Side */}
         <div style={{ background: 'white', padding: 'var(--space-xl)', display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
           <input 
@@ -172,3 +172,4 @@ export default function CMSEditor() {
     </div>
   );
 }
+

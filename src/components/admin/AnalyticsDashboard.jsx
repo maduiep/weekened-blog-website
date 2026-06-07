@@ -13,7 +13,7 @@ export default function AnalyticsDashboard() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       
       {/* KPI Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: '16px' }}>
         {metrics.map((m, i) => (
           <div key={i} style={{ background: 'white', padding: '24px', borderRadius: '12px', border: '1px solid var(--color-border)', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px', color: 'var(--color-text-muted)' }}>
@@ -26,7 +26,7 @@ export default function AnalyticsDashboard() {
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 350px), 1fr))', gap: '24px' }}>
         {/* Audience Growth Chart (Mocked UI) */}
         <div style={{ background: 'white', padding: '24px', borderRadius: '12px', border: '1px solid var(--color-border)' }}>
           <h3 style={{ fontSize: '16px', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '8px' }}><BarChart size={18} /> Audience Growth</h3>
@@ -63,3 +63,4 @@ export default function AnalyticsDashboard() {
     </div>
   );
 }
+

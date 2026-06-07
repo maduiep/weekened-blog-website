@@ -40,9 +40,9 @@ export default function AdminMessages({ contactMessages, setContactMessages, set
                 </div>
 
                 <div className="table-responsive" style={{ overflowX: "auto" }}>
-                  <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw" }}><table
+                  <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw", paddingBottom: "16px" }}><table
                     className="admin-table"
-                    style={{ width: "100%", borderCollapse: "collapse" }}
+                    style={{ width: "100%", borderCollapse: "collapse", minWidth: "600px" }}
                   >
                     <thead>
                       <tr
