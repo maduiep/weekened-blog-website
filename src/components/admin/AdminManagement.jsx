@@ -115,6 +115,8 @@ export default function AdminManagement() {
           padding: "var(--space-xl)",
           borderBottom: "1px solid var(--color-border)",
           display: "flex",
+          flexWrap: "wrap",
+          gap: "16px",
           justifyContent: "space-between",
           alignItems: "center",
         }}
@@ -169,7 +171,7 @@ export default function AdminManagement() {
             onSubmit={handleAddAdmin}
             style={{ display: "flex", flexWrap: "wrap", gap: "16px", alignItems: "flex-end" }}
           >
-            <div style={{ flex: 1 }}>
+            <div style={{ flex: '1 1 200px' }}>
               <label
                 style={{
                   display: "block",
@@ -194,7 +196,7 @@ export default function AdminManagement() {
                 placeholder="e.g. John Doe"
               />
             </div>
-            <div style={{ flex: 1 }}>
+            <div style={{ flex: '1 1 200px' }}>
               <label
                 style={{
                   display: "block",
@@ -219,7 +221,7 @@ export default function AdminManagement() {
                 placeholder="john@weekendpost.com"
               />
             </div>
-            <div style={{ flex: 1 }}>
+            <div style={{ flex: '1 1 200px' }}>
               <label
                 style={{
                   display: "block",
@@ -257,7 +259,7 @@ export default function AdminManagement() {
             <button
               type="submit"
               className="btn btn-primary"
-              style={{ padding: "10px 20px", height: "42px" }}
+              style={{ padding: "10px 20px", height: "42px", flex: '1 1 150px' }}
             >
               Save Admin
             </button>
