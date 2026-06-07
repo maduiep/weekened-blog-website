@@ -3201,9 +3201,36 @@ select.form-input {
   padding: var(--space-md) var(--space-lg);
   border-top: 1px solid var(--color-border-light);
   vertical-align: middle;
+  background: white; /* Ensure base background so it hides scrolling text */
 }
 
-.admin-table-row:hover td {
+/* Make the last column (Actions) sticky on the right */
+.admin-table th:last-child,
+.admin-table td:last-child {
+  position: sticky;
+  right: 0;
+  z-index: 10;
+}
+
+.admin-table th:last-child {
+  background: var(--color-bg);
+  z-index: 11;
+}
+
+.admin-table td:last-child {
+  background: white;
+}
+
+.admin-table-wrapper.is-scrolled .admin-table th:last-child,
+.admin-table-wrapper.is-scrolled .admin-table td:last-child {
+  box-shadow: -4px 0 12px rgba(0,0,0,0.05); /* Optional shadow effect */
+}
+
+.admin-table tr:hover td {
+  background: var(--color-bg);
+}
+
+.admin-table tr:hover td:last-child {
   background: var(--color-bg);
 }
 

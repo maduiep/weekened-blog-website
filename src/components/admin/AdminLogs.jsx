@@ -247,3 +247,4 @@ export default function AdminLogs({ adminLogs }) {
             </motion.div>
   );
 }
+

@@ -768,3 +768,4 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
             </motion.div>
   );
 }
+

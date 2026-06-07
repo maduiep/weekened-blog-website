@@ -200,7 +200,7 @@ export default function AdminCMS({ showToast }) {
               <p style={{ color: 'var(--color-text-muted)' }}>No dynamic articles found. Click "Create Article" to write one.</p>
             ) : (
               <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw", paddingBottom: "16px" }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '600px', minWidth: '600px' }}>
+                <table className="admin-table" style={{ width: '100%', borderCollapse: 'collapse', minWidth: '600px', minWidth: '600px' }}>
                 <thead>
                   <tr style={{ background: 'var(--color-bg-alt)', textAlign: 'left' }}>
                     <th style={{ padding: '12px', borderBottom: '1px solid var(--color-border)' }}>Title</th>
@@ -360,4 +360,5 @@ export default function AdminCMS({ showToast }) {
     </div>
   );
 }
+
 

@@ -93,7 +93,7 @@ export default function PlatformSettings() {
           </form>
         ) : (
           <div className="admin-table" style={{ width: "100%" }}>
-            <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw", paddingBottom: "16px" }}><table style={{ width: "100%", minWidth: "600px" }}>
+            <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw", paddingBottom: "16px" }}><table className="admin-table" style={{ width: "100%", minWidth: "600px" }}>
               <thead>
                 <tr>
                   <th style={{ textAlign: "left", padding: "12px", borderBottom: "1px solid var(--color-border)" }}>Name</th>
@@ -199,7 +199,7 @@ export default function PlatformSettings() {
           </form>
         ) : (
           <div className="admin-table" style={{ width: "100%" }}>
-            <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw", paddingBottom: "16px" }}><table style={{ width: "100%", minWidth: "600px" }}>
+            <div style={{ overflowX: "auto", width: "100%", maxWidth: "100vw", paddingBottom: "16px" }}><table className="admin-table" style={{ width: "100%", minWidth: "600px" }}>
               <thead>
                 <tr>
                   <th style={{ textAlign: "left", padding: "12px", borderBottom: "1px solid var(--color-border)" }}>Name</th>
@@ -232,4 +232,5 @@ export default function PlatformSettings() {
     </div>
   );
 }
+
 
