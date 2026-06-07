@@ -146,7 +146,7 @@ export default function AdPlacement({ type = 'banner', label = 'Advertisement', 
                   <h3 style={{ margin: '0 0 8px', fontSize: 'var(--text-2xl)', color: 'white', textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>{ad?.title}</h3>
                   <p style={{ margin: 0, fontSize: 'var(--text-md)', color: 'rgba(255,255,255,0.9)', textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}>{ad?.description}</p>
                 </div>
-                <button onClick={() => { trackAdClick(ad?.id); window.location.href = ad?.ctaUrl; }} className="btn btn-lg" style={{ display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)', background: ad?.color, color: 'white', border: 'none' }}>
+                <button onClick={() => { trackAdClick(ad?.id); window.open(ad?.ctaUrl, '_blank'); }} className="btn btn-lg" style={{ display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 4px 15px rgba(0,0,0,0.3)', background: ad?.color, color: 'white', border: 'none' }}>
                   {ad?.cta} <ExternalLink size={16} />
                 </button>
               </div>
@@ -156,7 +156,7 @@ export default function AdPlacement({ type = 'banner', label = 'Advertisement', 
                 <div style={{ padding: 'var(--space-lg)' }}>
                   <h4 style={{ margin: '0 0 8px', color: 'var(--color-dark)', fontSize: 'var(--text-lg)' }}>{ad?.title}</h4>
                   <p style={{ margin: '0 0 16px', fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)' }}>{ad?.description}</p>
-                  <button onClick={() => { trackAdClick(ad?.id); window.location.href = ad?.ctaUrl; }} className="btn btn-sm btn-primary" style={{ width: '100%', background: ad?.color, border: 'none' }}>{ad?.cta}</button>
+                  <button onClick={() => { trackAdClick(ad?.id); window.open(ad?.ctaUrl, '_blank'); }} className="btn btn-sm btn-primary" style={{ width: '100%', background: ad?.color, border: 'none' }}>{ad?.cta}</button>
                 </div>
               </div>
             )}

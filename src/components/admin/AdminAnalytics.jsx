@@ -129,8 +129,6 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                     borderRadius: "var(--radius-xl)",
                     border: "1px solid var(--color-border)",
                     boxShadow: "var(--shadow-sm)",
-                    gridColumn: "1 / 2",
-                    gridRow: "1 / 2",
                   }}
                 >
                   <div
@@ -419,8 +417,6 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                     padding: "var(--space-2xl)",
                     borderRadius: "var(--radius-xl)",
                     border: "1px solid var(--color-border)",
-                    gridColumn: "2 / 3",
-                    gridRow: "1 / 2",
                   }}
                 >
                   <h3
@@ -584,7 +580,6 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                     borderRadius: "var(--radius-xl)",
                     border: "1px solid var(--color-border)",
                     gridColumn: "1 / -1",
-                    gridRow: "2 / 3",
                     height: "100%",
                     overflow: "visible",
                   }}

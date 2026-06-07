@@ -24,10 +24,10 @@ export default function AdPopup({ open, onClose }) {
   const handleCtaClick = useCallback(() => {
     if (ad) {
       trackAdClick(ad.id);
-      navigate(ad.ctaUrl);
+      window.open(ad.ctaUrl, '_blank');
     }
     onClose();
-  }, [ad, navigate, onClose]);
+  }, [ad, onClose]);
 
   if (!ad && open) return null;
 
