@@ -135,7 +135,7 @@ export default function AdminManagement() {
           </h3>
           <p
             style={{
-              fontSize: "13px",
+              fontSize: "var(--text-sm)",
               color: "var(--color-text-muted)",
               marginTop: "4px",
               marginBottom: 0,
@@ -175,7 +175,7 @@ export default function AdminManagement() {
               <label
                 style={{
                   display: "block",
-                  fontSize: "12px",
+                  fontSize: "var(--text-xs)",
                   fontWeight: 600,
                   marginBottom: "4px",
                 }}
@@ -200,7 +200,7 @@ export default function AdminManagement() {
               <label
                 style={{
                   display: "block",
-                  fontSize: "12px",
+                  fontSize: "var(--text-xs)",
                   fontWeight: 600,
                   marginBottom: "4px",
                 }}
@@ -225,7 +225,7 @@ export default function AdminManagement() {
               <label
                 style={{
                   display: "block",
-                  fontSize: "12px",
+                  fontSize: "var(--text-xs)",
                   fontWeight: 600,
                   marginBottom: "4px",
                 }}
@@ -272,7 +272,7 @@ export default function AdminManagement() {
           style={{
             width: "100%",
             borderCollapse: "collapse", minWidth: "600px",
-            fontSize: "14px",
+            fontSize: "var(--text-sm)",
           }}
         >
           <thead>
@@ -288,7 +288,7 @@ export default function AdminManagement() {
                   padding: "16px var(--space-xl)",
                   color: "var(--color-text-muted)",
                   fontWeight: 600,
-                  fontSize: "12px",
+                  fontSize: "var(--text-xs)",
                   textTransform: "uppercase",
                 }}
               >
@@ -299,7 +299,7 @@ export default function AdminManagement() {
                   padding: "16px var(--space-xl)",
                   color: "var(--color-text-muted)",
                   fontWeight: 600,
-                  fontSize: "12px",
+                  fontSize: "var(--text-xs)",
                   textTransform: "uppercase",
                 }}
               >
@@ -310,7 +310,7 @@ export default function AdminManagement() {
                   padding: "16px var(--space-xl)",
                   color: "var(--color-text-muted)",
                   fontWeight: 600,
-                  fontSize: "12px",
+                  fontSize: "var(--text-xs)",
                   textTransform: "uppercase",
                 }}
               >
@@ -321,7 +321,7 @@ export default function AdminManagement() {
                   padding: "16px var(--space-xl)",
                   color: "var(--color-text-muted)",
                   fontWeight: 600,
-                  fontSize: "12px",
+                  fontSize: "var(--text-xs)",
                   textTransform: "uppercase",
                 }}
               >
@@ -339,7 +339,7 @@ export default function AdminManagement() {
                   <div style={{ fontWeight: 600 }}>{admin.name}</div>
                   <div
                     style={{
-                      fontSize: "12px",
+                      fontSize: "var(--text-xs)",
                       color: "var(--color-text-muted)",
                     }}
                   >
@@ -351,7 +351,7 @@ export default function AdminManagement() {
                     style={{
                       padding: "4px 10px",
                       borderRadius: "20px",
-                      fontSize: "12px",
+                      fontSize: "var(--text-xs)",
                       fontWeight: 600,
                       background:
                         admin.role === "Super Admin"
@@ -372,7 +372,7 @@ export default function AdminManagement() {
                       display: "flex",
                       alignItems: "center",
                       gap: "6px",
-                      fontSize: "13px",
+                      fontSize: "var(--text-sm)",
                       fontWeight: 600,
                       color:
                         admin.status === "Active"
@@ -447,7 +447,7 @@ export default function AdminManagement() {
                           border: "none",
                           cursor: "pointer",
                           color: "var(--color-sport-green)",
-                          fontSize: "12px",
+                          fontSize: "var(--text-xs)",
                           fontWeight: 600,
                         }}
                         title="Approve"
@@ -463,7 +463,7 @@ export default function AdminManagement() {
                           border: "none",
                           cursor: "pointer",
                           color: "var(--color-sport-green)",
-                          fontSize: "12px",
+                          fontSize: "var(--text-xs)",
                           fontWeight: 600,
                         }}
                       >
@@ -548,12 +548,12 @@ export default function AdminManagement() {
                     }}
                   />
                   <div>
-                    <div style={{ fontWeight: 600, fontSize: "14px" }}>
+                    <div style={{ fontWeight: 600, fontSize: "var(--text-sm)" }}>
                       {entry.action}
                     </div>
                     <div
                       style={{
-                        fontSize: "12px",
+                        fontSize: "var(--text-xs)",
                         color: "var(--color-text-muted)",
                       }}
                     >
@@ -569,6 +569,7 @@ export default function AdminManagement() {
     </div>
   );
 }
+
 
 
 

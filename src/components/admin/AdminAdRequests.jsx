@@ -131,7 +131,7 @@ export default function AdminAdRequests({ adminUser, showToast }) {
                         <div style={{ fontWeight: 600 }}>{ad.title}</div>
                         <div
                           style={{
-                            fontSize: "12px",
+                            fontSize: "var(--text-xs)",
                             color: "var(--color-text-secondary)",
                           }}
                         >
@@ -146,7 +146,7 @@ export default function AdminAdRequests({ adminUser, showToast }) {
                     </div>
                     <div
                       style={{
-                        fontSize: "12px",
+                        fontSize: "var(--text-xs)",
                         color: "var(--color-text-secondary)",
                       }}
                     >
@@ -156,7 +156,7 @@ export default function AdminAdRequests({ adminUser, showToast }) {
                   <td>
                     <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
                       <Calendar size={12} />
-                      <span style={{ fontSize: "13px" }}>{ad.duration}</span>
+                      <span style={{ fontSize: "var(--text-sm)" }}>{ad.duration}</span>
                     </div>
                   </td>
                   <td>
@@ -201,7 +201,7 @@ export default function AdminAdRequests({ adminUser, showToast }) {
                     ) : (
                       <span
                         style={{
-                          fontSize: "12px",
+                          fontSize: "var(--text-xs)",
                           color: "var(--color-text-muted)",
                         }}
                       >
@@ -218,6 +218,7 @@ export default function AdminAdRequests({ adminUser, showToast }) {
     </motion.div>
   );
 }
+
 
 
 

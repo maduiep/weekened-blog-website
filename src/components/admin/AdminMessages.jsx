@@ -55,7 +55,7 @@ export default function AdminMessages({ contactMessages, setContactMessages, set
                           style={{
                             padding: "var(--space-md)",
                             textAlign: "left",
-                            fontSize: "12px",
+                            fontSize: "var(--text-xs)",
                             color: "var(--color-text-muted)",
                             textTransform: "uppercase",
                             letterSpacing: "0.5px",
@@ -67,7 +67,7 @@ export default function AdminMessages({ contactMessages, setContactMessages, set
                           style={{
                             padding: "var(--space-md)",
                             textAlign: "left",
-                            fontSize: "12px",
+                            fontSize: "var(--text-xs)",
                             color: "var(--color-text-muted)",
                             textTransform: "uppercase",
                             letterSpacing: "0.5px",
@@ -79,7 +79,7 @@ export default function AdminMessages({ contactMessages, setContactMessages, set
                           style={{
                             padding: "var(--space-md)",
                             textAlign: "left",
-                            fontSize: "12px",
+                            fontSize: "var(--text-xs)",
                             color: "var(--color-text-muted)",
                             textTransform: "uppercase",
                             letterSpacing: "0.5px",
@@ -91,7 +91,7 @@ export default function AdminMessages({ contactMessages, setContactMessages, set
                           style={{
                             padding: "var(--space-md)",
                             textAlign: "center",
-                            fontSize: "12px",
+                            fontSize: "var(--text-xs)",
                             color: "var(--color-text-muted)",
                             textTransform: "uppercase",
                             letterSpacing: "0.5px",
@@ -103,7 +103,7 @@ export default function AdminMessages({ contactMessages, setContactMessages, set
                           style={{
                             padding: "var(--space-md)",
                             textAlign: "right",
-                            fontSize: "12px",
+                            fontSize: "var(--text-xs)",
                             color: "var(--color-text-muted)",
                             textTransform: "uppercase",
                             letterSpacing: "0.5px",
@@ -138,7 +138,7 @@ export default function AdminMessages({ contactMessages, setContactMessages, set
                             <td
                               style={{
                                 padding: "var(--space-md)",
-                                fontSize: "14px",
+                                fontSize: "var(--text-sm)",
                                 color: "var(--color-text-muted)",
                               }}
                             >
@@ -149,14 +149,14 @@ export default function AdminMessages({ contactMessages, setContactMessages, set
                                 style={{
                                   fontWeight: 600,
                                   color: "var(--color-dark)",
-                                  fontSize: "14px",
+                                  fontSize: "var(--text-sm)",
                                 }}
                               >
                                 {msg.name}
                               </div>
                               <div
                                 style={{
-                                  fontSize: "12px",
+                                  fontSize: "var(--text-xs)",
                                   color: "var(--color-text-muted)",
                                 }}
                               >
@@ -166,7 +166,7 @@ export default function AdminMessages({ contactMessages, setContactMessages, set
                             <td
                               style={{
                                 padding: "var(--space-md)",
-                                fontSize: "14px",
+                                fontSize: "var(--text-sm)",
                               }}
                             >
                               {msg.subject}
@@ -181,7 +181,7 @@ export default function AdminMessages({ contactMessages, setContactMessages, set
                                 style={{
                                   padding: "4px 10px",
                                   borderRadius: "100px",
-                                  fontSize: "11px",
+                                  fontSize: "var(--text-xs)",
                                   fontWeight: 600,
                                   background:
                                     msg.status === "Resolved"
@@ -213,7 +213,7 @@ export default function AdminMessages({ contactMessages, setContactMessages, set
                                   background: "rgba(0,126,151,0.05)",
                                   color: "var(--color-primary)",
                                   fontWeight: 600,
-                                  fontSize: "12px",
+                                  fontSize: "var(--text-xs)",
                                   padding: "6px 12px",
                                   borderRadius: "6px",
                                   border: "none",
@@ -234,5 +234,6 @@ export default function AdminMessages({ contactMessages, setContactMessages, set
             </motion.div>
   );
 }
+
 
 

@@ -129,7 +129,7 @@ export default function AdminComments({ adminUser, showToast }) {
                 border: "none",
                 background: "transparent",
                 outline: "none",
-                fontSize: "13px",
+                fontSize: "var(--text-sm)",
                 width: "100%"
               }}
             />
@@ -175,7 +175,7 @@ export default function AdminComments({ adminUser, showToast }) {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        fontSize: "12px",
+                        fontSize: "var(--text-xs)",
                         fontWeight: 700,
                       }}
                     >
@@ -183,7 +183,7 @@ export default function AdminComments({ adminUser, showToast }) {
                     </div>
                     <div>
                       <div style={{ fontWeight: 600 }}>{c.user}</div>
-                      <div style={{ fontSize: "11px", color: "var(--color-text-muted)" }}>{c.userId}</div>
+                      <div style={{ fontSize: "var(--text-xs)", color: "var(--color-text-muted)" }}>{c.userId}</div>
                     </div>
                   </div>
                 </td>
@@ -191,7 +191,7 @@ export default function AdminComments({ adminUser, showToast }) {
                   <a 
                     href={`/article/${c.articleId}`} 
                     target="_blank"
-                    style={{ color: "var(--color-primary)", textDecoration: "none", display: "flex", alignItems: "center", gap: 4, fontSize: "13px" }}
+                    style={{ color: "var(--color-primary)", textDecoration: "none", display: "flex", alignItems: "center", gap: 4, fontSize: "var(--text-sm)" }}
                   >
                     {c.articleTitle.substring(0, 40)}{c.articleTitle.length > 40 ? "..." : ""}
                     <ExternalLink size={12} />
@@ -199,18 +199,18 @@ export default function AdminComments({ adminUser, showToast }) {
                 </td>
                 <td>
                   <div style={{ maxWidth: 300 }}>
-                    <div style={{ fontSize: "13px", lineHeight: 1.4, marginBottom: c.replies?.length > 0 ? 8 : 0 }}>
+                    <div style={{ fontSize: "var(--text-sm)", lineHeight: 1.4, marginBottom: c.replies?.length > 0 ? 8 : 0 }}>
                       {c.text}
                     </div>
                     {c.replies?.length > 0 && (
-                      <div style={{ paddingLeft: 8, borderLeft: "2px solid var(--color-border)", fontSize: "12px", color: "var(--color-text-muted)" }}>
+                      <div style={{ paddingLeft: 8, borderLeft: "2px solid var(--color-border)", fontSize: "var(--text-xs)", color: "var(--color-text-muted)" }}>
                         <strong style={{ color: "var(--color-primary)" }}>Admin:</strong> {c.replies[c.replies.length - 1].text}
                         {c.replies.length > 1 && <span style={{ marginLeft: 4 }}>(+{c.replies.length - 1} more)</span>}
                       </div>
                     )}
                   </div>
                 </td>
-                <td style={{ fontSize: "13px", color: "var(--color-text-muted)" }}>
+                <td style={{ fontSize: "var(--text-sm)", color: "var(--color-text-muted)" }}>
                   {c.date}
                 </td>
                 <td>
@@ -278,7 +278,7 @@ export default function AdminComments({ adminUser, showToast }) {
                 <Reply size={20} color="var(--color-primary)" /> Reply to {replyingTo.user}
               </h3>
               
-              <div style={{ padding: "12px", background: "#f8fafc", borderRadius: "8px", marginBottom: "16px", fontSize: "13px", borderLeft: "3px solid var(--color-border)" }}>
+              <div style={{ padding: "12px", background: "#f8fafc", borderRadius: "8px", marginBottom: "16px", fontSize: "var(--text-sm)", borderLeft: "3px solid var(--color-border)" }}>
                 "{replyingTo.text}"
               </div>
 
@@ -321,6 +321,7 @@ export default function AdminComments({ adminUser, showToast }) {
     </motion.div>
   );
 }
+
 
 
 

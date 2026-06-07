@@ -61,7 +61,7 @@ export default function PlatformSettings() {
   return (
     <div style={{ padding: "var(--space-md)", background: "white", borderRadius: "12px", border: "1px solid var(--color-border)" }}>
       <div style={{ marginBottom: "var(--space-2xl)" }}>
-        <h3 style={{ fontSize: "18px", marginBottom: "var(--space-md)", display: "flex", alignItems: "center", gap: 8 }}>
+        <h3 style={{ fontSize: "var(--text-lg)", marginBottom: "var(--space-md)", display: "flex", alignItems: "center", gap: 8 }}>
           <Landmark size={20} color="var(--color-primary)" /> Subscription Plans
         </h3>
         
@@ -70,19 +70,19 @@ export default function PlatformSettings() {
             <h4 style={{ marginBottom: 16 }}>Edit Plan: {editingPlan.name}</h4>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: "16px", marginBottom: 16 }}>
               <div>
-                <label style={{ display: "block", fontSize: "12px", marginBottom: 4 }}>Name</label>
+                <label style={{ display: "block", fontSize: "var(--text-xs)", marginBottom: 4 }}>Name</label>
                 <input required className="input" value={editingPlan.name} onChange={e => setEditingPlan({...editingPlan, name: e.target.value})} />
               </div>
               <div>
-                <label style={{ display: "block", fontSize: "12px", marginBottom: 4 }}>Price</label>
+                <label style={{ display: "block", fontSize: "var(--text-xs)", marginBottom: 4 }}>Price</label>
                 <input required type="number" className="input" value={editingPlan.price} onChange={e => setEditingPlan({...editingPlan, price: Number(e.target.value)})} />
               </div>
               <div>
-                <label style={{ display: "block", fontSize: "12px", marginBottom: 4 }}>Currency</label>
+                <label style={{ display: "block", fontSize: "var(--text-xs)", marginBottom: 4 }}>Currency</label>
                 <input required className="input" value={editingPlan.currency} onChange={e => setEditingPlan({...editingPlan, currency: e.target.value})} />
               </div>
               <div>
-                <label style={{ display: "block", fontSize: "12px", marginBottom: 4 }}>Period</label>
+                <label style={{ display: "block", fontSize: "var(--text-xs)", marginBottom: 4 }}>Period</label>
                 <input required className="input" value={editingPlan.period} onChange={e => setEditingPlan({...editingPlan, period: e.target.value})} />
               </div>
             </div>
@@ -109,7 +109,7 @@ export default function PlatformSettings() {
                     <td style={{ padding: "12px" }}>{plan.currency}{plan.price}</td>
                     <td style={{ padding: "12px" }}>{plan.period}</td>
                     <td style={{ padding: "12px", textAlign: "right" }}>
-                      <button className="btn btn-ghost" onClick={() => setEditingPlan(plan)} style={{ padding: "6px 12px", fontSize: "12px", height: "auto" }}>
+                      <button className="btn btn-ghost" onClick={() => setEditingPlan(plan)} style={{ padding: "6px 12px", fontSize: "var(--text-xs)", height: "auto" }}>
                         <Edit2 size={14} /> Edit
                       </button>
                     </td>
@@ -123,11 +123,11 @@ export default function PlatformSettings() {
 
       <div>
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "16px", marginBottom: "var(--space-md)" }}>
-          <h3 style={{ fontSize: "18px", display: "flex", alignItems: "center", gap: 8 }}>
+          <h3 style={{ fontSize: "var(--text-lg)", display: "flex", alignItems: "center", gap: 8 }}>
             <CreditCard size={20} color="var(--color-primary)" /> Payment Methods
           </h3>
           {!editingMethod && (
-            <button className="btn btn-primary" onClick={addNewMethod} style={{ padding: "6px 12px", fontSize: "12px", height: "auto" }}>
+            <button className="btn btn-primary" onClick={addNewMethod} style={{ padding: "6px 12px", fontSize: "var(--text-xs)", height: "auto" }}>
               <Plus size={14} /> Add Method
             </button>
           )}
@@ -139,19 +139,19 @@ export default function PlatformSettings() {
             
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: "16px", marginBottom: 16 }}>
               <div>
-                <label style={{ display: "block", fontSize: "12px", marginBottom: 4 }}>Internal ID (no spaces)</label>
+                <label style={{ display: "block", fontSize: "var(--text-xs)", marginBottom: 4 }}>Internal ID (no spaces)</label>
                 <input required className="input" value={editingMethod.id} disabled={!editingMethod.isNew} onChange={e => setEditingMethod({...editingMethod, id: e.target.value})} />
               </div>
               <div>
-                <label style={{ display: "block", fontSize: "12px", marginBottom: 4 }}>Display Name</label>
+                <label style={{ display: "block", fontSize: "var(--text-xs)", marginBottom: 4 }}>Display Name</label>
                 <input required className="input" value={editingMethod.name} onChange={e => setEditingMethod({...editingMethod, name: e.target.value})} />
               </div>
               <div>
-                <label style={{ display: "block", fontSize: "12px", marginBottom: 4 }}>Provider</label>
+                <label style={{ display: "block", fontSize: "var(--text-xs)", marginBottom: 4 }}>Provider</label>
                 <input required className="input" value={editingMethod.provider} onChange={e => setEditingMethod({...editingMethod, provider: e.target.value})} />
               </div>
               <div>
-                <label style={{ display: "block", fontSize: "12px", marginBottom: 4 }}>Type</label>
+                <label style={{ display: "block", fontSize: "var(--text-xs)", marginBottom: 4 }}>Type</label>
                 <select className="input" value={editingMethod.type} onChange={e => setEditingMethod({...editingMethod, type: e.target.value})}>
                   <option value="mobile-money">Mobile Money</option>
                   <option value="card">Card / Online</option>
@@ -159,11 +159,11 @@ export default function PlatformSettings() {
                 </select>
               </div>
               <div style={{ gridColumn: "1 / -1" }}>
-                <label style={{ display: "block", fontSize: "12px", marginBottom: 4 }}>Short Description</label>
+                <label style={{ display: "block", fontSize: "var(--text-xs)", marginBottom: 4 }}>Short Description</label>
                 <input required className="input" value={editingMethod.description} onChange={e => setEditingMethod({...editingMethod, description: e.target.value})} />
               </div>
               <div style={{ gridColumn: "1 / -1" }}>
-                <label style={{ display: "block", fontSize: "12px", marginBottom: 4 }}>User Instructions</label>
+                <label style={{ display: "block", fontSize: "var(--text-xs)", marginBottom: 4 }}>User Instructions</label>
                 <input required className="input" value={editingMethod.instructions} onChange={e => setEditingMethod({...editingMethod, instructions: e.target.value})} />
               </div>
             </div>
@@ -173,19 +173,19 @@ export default function PlatformSettings() {
                 <h5 style={{ marginBottom: 12 }}>Bank Details</h5>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: "16px" }}>
                   <div>
-                    <label style={{ display: "block", fontSize: "12px", marginBottom: 4 }}>Bank Name</label>
+                    <label style={{ display: "block", fontSize: "var(--text-xs)", marginBottom: 4 }}>Bank Name</label>
                     <input className="input" value={editingMethod.bankDetails?.bankName || ""} onChange={e => setEditingMethod({...editingMethod, bankDetails: {...editingMethod.bankDetails, bankName: e.target.value}})} />
                   </div>
                   <div>
-                    <label style={{ display: "block", fontSize: "12px", marginBottom: 4 }}>Account Name</label>
+                    <label style={{ display: "block", fontSize: "var(--text-xs)", marginBottom: 4 }}>Account Name</label>
                     <input className="input" value={editingMethod.bankDetails?.accountName || ""} onChange={e => setEditingMethod({...editingMethod, bankDetails: {...editingMethod.bankDetails, accountName: e.target.value}})} />
                   </div>
                   <div>
-                    <label style={{ display: "block", fontSize: "12px", marginBottom: 4 }}>Account Number</label>
+                    <label style={{ display: "block", fontSize: "var(--text-xs)", marginBottom: 4 }}>Account Number</label>
                     <input className="input" value={editingMethod.bankDetails?.accountNumber || ""} onChange={e => setEditingMethod({...editingMethod, bankDetails: {...editingMethod.bankDetails, accountNumber: e.target.value}})} />
                   </div>
                   <div>
-                    <label style={{ display: "block", fontSize: "12px", marginBottom: 4 }}>Branch Code</label>
+                    <label style={{ display: "block", fontSize: "var(--text-xs)", marginBottom: 4 }}>Branch Code</label>
                     <input className="input" value={editingMethod.bankDetails?.branchCode || ""} onChange={e => setEditingMethod({...editingMethod, bankDetails: {...editingMethod.bankDetails, branchCode: e.target.value}})} />
                   </div>
                 </div>
@@ -210,14 +210,14 @@ export default function PlatformSettings() {
               <tbody>
                 {methods.map(method => (
                   <tr key={method.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                    <td style={{ padding: "12px" }}><strong>{method.name}</strong><div style={{fontSize: "12px", color:"var(--color-text-muted)"}}>{method.provider}</div></td>
-                    <td style={{ padding: "12px", fontSize: "13px" }}>{method.type}</td>
+                    <td style={{ padding: "12px" }}><strong>{method.name}</strong><div style={{fontSize: "var(--text-xs)", color:"var(--color-text-muted)"}}>{method.provider}</div></td>
+                    <td style={{ padding: "12px", fontSize: "var(--text-sm)" }}>{method.type}</td>
                     <td style={{ padding: "12px", textAlign: "right" }}>
                       <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
-                        <button className="btn btn-ghost" onClick={() => setEditingMethod(method)} style={{ padding: "6px 12px", fontSize: "12px", height: "auto" }}>
+                        <button className="btn btn-ghost" onClick={() => setEditingMethod(method)} style={{ padding: "6px 12px", fontSize: "var(--text-xs)", height: "auto" }}>
                           <Edit2 size={14} /> Edit
                         </button>
-                        <button className="btn btn-ghost" onClick={() => handleDeleteMethod(method.id)} style={{ padding: "6px 12px", fontSize: "12px", height: "auto", color: "var(--color-news-red)" }}>
+                        <button className="btn btn-ghost" onClick={() => handleDeleteMethod(method.id)} style={{ padding: "6px 12px", fontSize: "var(--text-xs)", height: "auto", color: "var(--color-news-red)" }}>
                           <Trash2 size={14} />
                         </button>
                       </div>
@@ -232,6 +232,7 @@ export default function PlatformSettings() {
     </div>
   );
 }
+
 
 
 

@@ -170,7 +170,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                       </h3>
                       <p
                         style={{
-                          fontSize: "11px",
+                          fontSize: "var(--text-xs)",
                           color: "var(--color-text-muted)",
                           marginTop: 4,
                         }}
@@ -468,7 +468,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                       <span
                         style={{
                           display: "block",
-                          fontSize: "12px",
+                          fontSize: "var(--text-xs)",
                           color: "var(--color-text-muted)",
                           marginBottom: "8px",
                         }}
@@ -481,7 +481,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                       <div
                         style={{
                           marginTop: "8px",
-                          fontSize: "12px",
+                          fontSize: "var(--text-xs)",
                           color: "var(--color-text-muted)",
                         }}
                       >
@@ -505,7 +505,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                       <span
                         style={{
                           display: "block",
-                          fontSize: "12px",
+                          fontSize: "var(--text-xs)",
                           color: "var(--color-text-muted)",
                           marginBottom: "8px",
                         }}
@@ -518,7 +518,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                       <div
                         style={{
                           marginTop: "8px",
-                          fontSize: "12px",
+                          fontSize: "var(--text-xs)",
                           color: "var(--color-text-muted)",
                         }}
                       >
@@ -542,7 +542,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                       <span
                         style={{
                           display: "block",
-                          fontSize: "12px",
+                          fontSize: "var(--text-xs)",
                           color: "var(--color-text-muted)",
                           marginBottom: "8px",
                         }}
@@ -570,7 +570,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                       <span
                         style={{
                           display: "block",
-                          fontSize: "12px",
+                          fontSize: "var(--text-xs)",
                           color: "var(--color-text-muted)",
                           marginBottom: "8px",
                         }}
@@ -622,7 +622,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                             display: "flex",
                             justifyContent: "space-between",
                             marginBottom: "4px",
-                            fontSize: "12px",
+                            fontSize: "var(--text-xs)",
                           }}
                         >
                           <span style={{ fontWeight: 600 }}>{step.stage}</span>
@@ -697,7 +697,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                     <tbody>
                       {analyticsData.topArticles.map((art, i) => (
                         <tr key={i} className="admin-table-row">
-                          <td style={{ fontWeight: 700, fontSize: "13px" }}>
+                          <td style={{ fontWeight: 700, fontSize: "var(--text-sm)" }}>
                             {art.title}
                           </td>
                           <td>
@@ -737,7 +737,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
                                 />
                               </div>
                               <span
-                                style={{ fontSize: "11px", fontWeight: 600 }}
+                                style={{ fontSize: "var(--text-xs)", fontWeight: 600 }}
                               >
                                 {art.engagement}
                               </span>
@@ -768,5 +768,6 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
             </motion.div>
   );
 }
+
 
 

@@ -29,7 +29,7 @@ export default function AdminOverview({ adminUser, showToast, allUsers, subscrib
               <h1 style={{ fontSize: "var(--text-2xl)", margin: 0 }}>
                 Business Overview
               </h1>
-              <p style={{ color: "var(--color-text-muted)", margin: 0, fontSize: "14px" }}>
+              <p style={{ color: "var(--color-text-muted)", margin: 0, fontSize: "var(--text-sm)" }}>
                 Welcome back, {adminUser?.name || "Admin"}. Here's what's happening today.
               </p>
             </div>
@@ -149,7 +149,7 @@ export default function AdminOverview({ adminUser, showToast, allUsers, subscrib
                 </div>
                 <span
                   style={{
-                    fontSize: "11px",
+                    fontSize: "var(--text-xs)",
                     fontWeight: 700,
                     color: stat.color,
                   }}
@@ -183,6 +183,7 @@ export default function AdminOverview({ adminUser, showToast, allUsers, subscrib
     </>
   );
 }
+
 
 
 

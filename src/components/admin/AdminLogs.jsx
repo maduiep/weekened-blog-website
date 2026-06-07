@@ -40,7 +40,7 @@ export default function AdminLogs({ adminLogs }) {
                   </h3>
                   <p
                     style={{
-                      fontSize: "12px",
+                      fontSize: "var(--text-xs)",
                       color: "var(--color-text-muted)",
                       marginTop: "4px",
                     }}
@@ -71,7 +71,7 @@ export default function AdminLogs({ adminLogs }) {
                       <p
                         style={{
                           margin: "6px 0 0",
-                          fontSize: "12px",
+                          fontSize: "var(--text-xs)",
                           color: "var(--color-text-muted)",
                         }}
                       >
@@ -81,7 +81,7 @@ export default function AdminLogs({ adminLogs }) {
                     </div>
                     <span
                       style={{
-                        fontSize: "12px",
+                        fontSize: "var(--text-xs)",
                         color: "var(--color-text-muted)",
                       }}
                     >
@@ -118,12 +118,12 @@ export default function AdminLogs({ adminLogs }) {
                               key={session.sessionId}
                               className="admin-table-row"
                             >
-                              <td style={{ fontSize: "13px", fontWeight: 600 }}>
+                              <td style={{ fontSize: "var(--text-sm)", fontWeight: 600 }}>
                                 {session.userId}
                               </td>
                               <td
                                 style={{
-                                  fontSize: "12px",
+                                  fontSize: "var(--text-xs)",
                                   color: "var(--color-text-muted)",
                                 }}
                               >
@@ -131,7 +131,7 @@ export default function AdminLogs({ adminLogs }) {
                               </td>
                               <td
                                 style={{
-                                  fontSize: "12px",
+                                  fontSize: "var(--text-xs)",
                                   color: "var(--color-text-muted)",
                                 }}
                               >
@@ -139,7 +139,7 @@ export default function AdminLogs({ adminLogs }) {
                               </td>
                               <td
                                 style={{
-                                  fontSize: "12px",
+                                  fontSize: "var(--text-xs)",
                                   color: "var(--color-text-muted)",
                                 }}
                                 title={
@@ -176,7 +176,7 @@ export default function AdminLogs({ adminLogs }) {
                         <tr key={log.id} className="admin-table-row">
                           <td
                             style={{
-                              fontSize: "12px",
+                              fontSize: "var(--text-xs)",
                               color: "var(--color-text-muted)",
                             }}
                           >
@@ -201,10 +201,10 @@ export default function AdminLogs({ adminLogs }) {
                               {log.action.replace(/_/g, " ")}
                             </span>
                           </td>
-                          <td style={{ fontWeight: 600, fontSize: "13px" }}>
+                          <td style={{ fontWeight: 600, fontSize: "var(--text-sm)" }}>
                             {log.adminName}
                           </td>
-                          <td style={{ fontSize: "13px" }}>
+                          <td style={{ fontSize: "var(--text-sm)" }}>
                             {log.targetName}{" "}
                             <span
                               style={{
@@ -217,7 +217,7 @@ export default function AdminLogs({ adminLogs }) {
                           </td>
                           <td
                             style={{
-                              fontSize: "12px",
+                              fontSize: "var(--text-xs)",
                               color: "var(--color-text-muted)",
                             }}
                           >
@@ -247,5 +247,6 @@ export default function AdminLogs({ adminLogs }) {
             </motion.div>
   );
 }
+
 
 

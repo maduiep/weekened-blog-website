@@ -42,7 +42,7 @@ export default function AdminSidebar({ activeTab, setActiveTab, contactMessages,
                 >
                   Platform Control
                 </span>
-                <h1 style={{ fontSize: "16px", margin: 0, fontWeight: 700 }}>
+                <h1 style={{ fontSize: "var(--text-base)", margin: 0, fontWeight: 700 }}>
                   Admin Dashboard
                 </h1>
               </div>
@@ -77,7 +77,7 @@ export default function AdminSidebar({ activeTab, setActiveTab, contactMessages,
                   fontWeight: activeTab === tab.id ? 700 : 500,
                   cursor: "pointer",
                   transition: "all 0.2s",
-                  fontSize: "14px",
+                  fontSize: "var(--text-sm)",
                   position: "relative",
                   textAlign: "left",
                 }}
@@ -91,7 +91,7 @@ export default function AdminSidebar({ activeTab, setActiveTab, contactMessages,
                     style={{
                       background: tab.id === "messages" || tab.id === "admins" || tab.id === "receipts" || tab.id === "adrequests" ? "var(--color-news-red)" : "var(--color-primary)",
                       color: "white",
-                      fontSize: "11px",
+                      fontSize: "var(--text-xs)",
                       fontWeight: "bold",
                       padding: "2px 8px",
                       borderRadius: "100px",
@@ -106,5 +106,6 @@ export default function AdminSidebar({ activeTab, setActiveTab, contactMessages,
         </aside>
   );
 }
+
 
 

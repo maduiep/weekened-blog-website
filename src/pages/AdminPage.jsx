@@ -406,7 +406,7 @@ export default function AdminPage() {
         <div className="mobile-header">
           <button className="mobile-menu-btn" onClick={() => setSidebarOpen(!sidebarOpen)}>
             {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
-            <span style={{ fontWeight: 600, color: "var(--color-primary)", fontSize: "18px" }}>Admin Dashboard</span>
+            <span style={{ fontWeight: 600, color: "var(--color-primary)", fontSize: "var(--text-lg)" }}>Admin Dashboard</span>
           </button>
         </div>
 
@@ -571,7 +571,7 @@ export default function AdminPage() {
                   marginBottom: 12,
                 }}
               >
-                <h3 style={{ margin: 0, fontSize: "18px" }}>
+                <h3 style={{ margin: 0, fontSize: "var(--text-lg)" }}>
                   {modalType === "average" && "Average Rating Details"}
                   {modalType === "nps" && "NPS Score Breakdown"}
                   {modalType === "positive" && "Positive Mentions"}
@@ -659,7 +659,7 @@ export default function AdminPage() {
                         style={{
                           margin: 0,
                           fontWeight: 700,
-                          fontSize: 24,
+                          fontSize: "var(--text-2xl)",
                         }}
                       >
                         {feedbackData.positiveMentions}
@@ -695,7 +695,7 @@ export default function AdminPage() {
                   <div
                     style={{
                       color: "var(--color-text-muted)",
-                      fontSize: "14px",
+                      fontSize: "var(--text-sm)",
                       lineHeight: 1.6,
                     }}
                   >
@@ -852,3 +852,4 @@ export default function AdminPage() {
     </div>
   );
 }
+

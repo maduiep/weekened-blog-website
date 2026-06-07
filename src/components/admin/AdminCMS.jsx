@@ -215,7 +215,7 @@ export default function AdminCMS({ showToast }) {
                     <tr key={article.id}>
                       <td style={{ padding: '12px', borderBottom: '1px solid var(--color-border)', fontWeight: 600 }}>{article.title}</td>
                       <td style={{ padding: '12px', borderBottom: '1px solid var(--color-border)' }}>
-                        <span style={{ padding: '4px 8px', borderRadius: '4px', fontSize: '11px', background: article.status === 'Published' ? 'var(--color-sport-green)' : 'var(--color-gold)', color: article.status === 'Published' ? 'white' : 'black' }}>
+                        <span style={{ padding: '4px 8px', borderRadius: '4px', fontSize: "var(--text-xs)", background: article.status === 'Published' ? 'var(--color-sport-green)' : 'var(--color-gold)', color: article.status === 'Published' ? 'white' : 'black' }}>
                           {article.status || 'Published'}
                         </span>
                       </td>
@@ -236,7 +236,7 @@ export default function AdminCMS({ showToast }) {
         {activeTab === 'create-article' && (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 350px), 1fr))', gap: '32px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <input type="text" placeholder="Article Title" value={title} onChange={e => setTitle(e.target.value)} className="form-input" style={{ fontSize: '20px', fontWeight: 700 }} />
+              <input type="text" placeholder="Article Title" value={title} onChange={e => setTitle(e.target.value)} className="form-input" style={{ fontSize: "var(--text-xl)", fontWeight: 700 }} />
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
                 <input type="text" placeholder="Slug (e.g. new-article)" value={slug} onChange={e => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-'))} className="form-input" style={{ flex: '1 1 200px' }} />
                 <select value={category} onChange={e => setCategory(e.target.value)} className="form-input" style={{ flex: '1 1 150px' }}>
@@ -264,7 +264,7 @@ export default function AdminCMS({ showToast }) {
                     <input type="text" placeholder="Cover Image URL" value={imageUrl} onChange={e => setImageUrl(e.target.value)} className="form-input" style={{ paddingLeft: '36px', width: '100%' }} />
                     <ImageIcon size={16} style={{ position: 'absolute', left: 12, top: 12, color: 'var(--color-text-muted)' }} />
                   </div>
-                  <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--color-bg)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', padding: '0 16px', cursor: 'pointer', fontSize: '13px', fontWeight: 600 }}>
+                  <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--color-bg)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', padding: '0 16px', cursor: 'pointer', fontSize: "var(--text-sm)", fontWeight: 600 }}>
                     Upload
                     <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} />
                   </label>
@@ -274,7 +274,7 @@ export default function AdminCMS({ showToast }) {
                     <input type="text" placeholder="Video Embed URL (Optional)" value={videoUrl} onChange={e => setVideoUrl(e.target.value)} className="form-input" style={{ paddingLeft: '36px', width: '100%' }} />
                     <Video size={16} style={{ position: 'absolute', left: 12, top: 12, color: 'var(--color-text-muted)' }} />
                   </div>
-                  <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--color-bg)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', padding: '0 16px', cursor: 'pointer', fontSize: '13px', fontWeight: 600 }}>
+                  <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--color-bg)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', padding: '0 16px', cursor: 'pointer', fontSize: "var(--text-sm)", fontWeight: 600 }}>
                     Upload
                     <input type="file" accept="video/*" onChange={handleVideoUpload} style={{ display: 'none' }} />
                   </label>
@@ -297,8 +297,8 @@ export default function AdminCMS({ showToast }) {
                 ) : imageUrl ? (
                   <img src={imageUrl} alt="Cover" style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px', marginBottom: 16 }} />
                 ) : null}
-                <h1 style={{ fontSize: '24px', marginBottom: 8 }}>{title || 'Untitled'}</h1>
-                {summary && <p style={{ fontSize: '16px', color: 'gray', fontStyle: 'italic', marginBottom: 16 }}>{summary}</p>}
+                <h1 style={{ fontSize: "var(--text-2xl)", marginBottom: 8 }}>{title || 'Untitled'}</h1>
+                {summary && <p style={{ fontSize: "var(--text-base)", color: 'gray', fontStyle: 'italic', marginBottom: 16 }}>{summary}</p>}
                 <div className="markdown-preview"><ReactMarkdown>{content}</ReactMarkdown></div>
               </div>
             </div>
@@ -346,7 +346,7 @@ export default function AdminCMS({ showToast }) {
                        <img src={ad.imageUrl} style={{ width: '100%', height: '120px', objectFit: 'cover', borderRadius: 4, marginBottom: 8 }} />
                     )}
                     <h5 style={{ margin: '0 0 4px' }}>{ad.title}</h5>
-                    <p style={{ margin: 0, fontSize: '12px', color: 'gray' }}>Placement: <strong>{ad.placement}</strong></p>
+                    <p style={{ margin: 0, fontSize: "var(--text-xs)", color: 'gray' }}>Placement: <strong>{ad.placement}</strong></p>
                     <button onClick={() => handleDeleteAdvert(ad.id)} className="btn btn-sm" style={{ background: 'var(--color-news-red)', color: 'white', marginTop: 12, width: '100%' }}>Remove Advert</button>
                   </div>
                 ))}
@@ -360,6 +360,7 @@ export default function AdminCMS({ showToast }) {
     </div>
   );
 }
+
 
 
 

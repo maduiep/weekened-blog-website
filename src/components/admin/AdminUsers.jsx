@@ -81,7 +81,7 @@ export default function AdminUsers({ searchQuery, setSearchQuery, filterStatus, 
                         borderRadius: "10px",
                         border: "1px solid var(--color-border)",
                         outline: "none",
-                        fontSize: "13px",
+                        fontSize: "var(--text-sm)",
                       }}
                     />
                   </div>
@@ -106,7 +106,7 @@ export default function AdminUsers({ searchQuery, setSearchQuery, filterStatus, 
                             filterStatus === f
                               ? "white"
                               : "var(--color-text-muted)",
-                          fontSize: "12px",
+                          fontSize: "var(--text-xs)",
                           fontWeight: 600,
                           cursor: "pointer",
                         }}
@@ -158,7 +158,7 @@ export default function AdminUsers({ searchQuery, setSearchQuery, filterStatus, 
                                 {u.avatar || u.name.charAt(0)}
                               </div>
                               <div
-                                style={{ fontWeight: 700, fontSize: "13px" }}
+                                style={{ fontWeight: 700, fontSize: "var(--text-sm)" }}
                               >
                                 {u.name}
                               </div>
@@ -166,7 +166,7 @@ export default function AdminUsers({ searchQuery, setSearchQuery, filterStatus, 
                           </td>
                           <td
                             style={{
-                              fontSize: "13px",
+                              fontSize: "var(--text-sm)",
                               color: "var(--color-text-muted)",
                             }}
                           >
@@ -231,7 +231,7 @@ export default function AdminUsers({ searchQuery, setSearchQuery, filterStatus, 
                           </td>
                           <td
                             style={{
-                              fontSize: "12px",
+                              fontSize: "var(--text-xs)",
                               color: "var(--color-text-muted)",
                             }}
                           >
@@ -239,7 +239,7 @@ export default function AdminUsers({ searchQuery, setSearchQuery, filterStatus, 
                           </td>
                           <td
                             style={{
-                              fontSize: "12px",
+                              fontSize: "var(--text-xs)",
                               color: "var(--color-text-muted)",
                             }}
                           >
@@ -247,7 +247,7 @@ export default function AdminUsers({ searchQuery, setSearchQuery, filterStatus, 
                           </td>
                           <td
                             style={{
-                              fontSize: "12px",
+                              fontSize: "var(--text-xs)",
                               color: "var(--color-text-muted)",
                             }}
                           >
@@ -362,5 +362,6 @@ export default function AdminUsers({ searchQuery, setSearchQuery, filterStatus, 
             </motion.div>
   );
 }
+
 
 

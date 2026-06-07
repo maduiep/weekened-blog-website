@@ -115,7 +115,7 @@ export default function AdminReceipts({
                     </h3>
                     <p
                       style={{
-                        fontSize: "12px",
+                        fontSize: "var(--text-xs)",
                         color: "var(--color-text-muted)",
                         marginTop: "4px",
                       }}
@@ -135,7 +135,7 @@ export default function AdminReceipts({
                           background: receiptFilter === f ? "var(--color-primary)" : "white",
                           color: receiptFilter === f ? "white" : "var(--color-text-muted)",
                           fontWeight: 700,
-                          fontSize: "11px",
+                          fontSize: "var(--text-xs)",
                           cursor: "pointer",
                           textTransform: "capitalize",
                         }}
@@ -161,7 +161,7 @@ export default function AdminReceipts({
                       style={{ marginBottom: 16, opacity: 0.3 }}
                     />
                     <h4 style={{ marginBottom: 8 }}>No Receipts Found</h4>
-                    <p style={{ fontSize: "13px" }}>
+                    <p style={{ fontSize: "var(--text-sm)" }}>
                       {receiptFilter === "all"
                         ? "No bank transfer receipts have been uploaded yet."
                         : `No ${receiptFilter} receipts to display.`}
@@ -194,7 +194,7 @@ export default function AdminReceipts({
                                 <span
                                   style={{
                                     fontWeight: 700,
-                                    fontSize: "12px",
+                                    fontSize: "var(--text-xs)",
                                     color: "var(--color-primary)",
                                     fontFamily: "monospace",
                                   }}
@@ -207,14 +207,14 @@ export default function AdminReceipts({
                                   <div
                                     style={{
                                       fontWeight: 700,
-                                      fontSize: "13px",
+                                      fontSize: "var(--text-sm)",
                                     }}
                                   >
                                     {receipt.userName}
                                   </div>
                                   <div
                                     style={{
-                                      fontSize: "11px",
+                                      fontSize: "var(--text-xs)",
                                       color: "var(--color-text-muted)",
                                     }}
                                   >
@@ -238,7 +238,7 @@ export default function AdminReceipts({
                                 </span>
                               </td>
                               <td>
-                                <span style={{ fontWeight: 700, fontSize: "13px" }}>
+                                <span style={{ fontWeight: 700, fontSize: "var(--text-sm)" }}>
                                   {receipt.currency}
                                   {receipt.amount}
                                 </span>
@@ -246,7 +246,7 @@ export default function AdminReceipts({
                               <td>
                                 <div
                                   style={{
-                                    fontSize: "12px",
+                                    fontSize: "var(--text-xs)",
                                     display: "flex",
                                     alignItems: "center",
                                     gap: 4,
@@ -268,7 +268,7 @@ export default function AdminReceipts({
                                     border: "1px solid var(--color-border)",
                                     background: "var(--color-bg-alt)",
                                     cursor: "pointer",
-                                    fontSize: "11px",
+                                    fontSize: "var(--text-xs)",
                                     fontWeight: 600,
                                     color: "var(--color-primary)",
                                   }}
@@ -330,7 +330,7 @@ export default function AdminReceipts({
                                         background: "var(--color-sport-green)",
                                         color: "white",
                                         fontWeight: 700,
-                                        fontSize: "11px",
+                                        fontSize: "var(--text-xs)",
                                         cursor: "pointer",
                                         display: "flex",
                                         alignItems: "center",
@@ -364,7 +364,7 @@ export default function AdminReceipts({
                                         background: "rgba(239,68,68,0.1)",
                                         color: "var(--color-news-red)",
                                         fontWeight: 700,
-                                        fontSize: "11px",
+                                        fontSize: "var(--text-xs)",
                                         cursor: "pointer",
                                         display: "flex",
                                         alignItems: "center",
@@ -377,7 +377,7 @@ export default function AdminReceipts({
                                 ) : (
                                   <span
                                     style={{
-                                      fontSize: "11px",
+                                      fontSize: "var(--text-xs)",
                                       color: "var(--color-text-muted)",
                                     }}
                                   >
@@ -445,7 +445,7 @@ export default function AdminReceipts({
                           <p
                             style={{
                               margin: "4px 0 0",
-                              fontSize: "12px",
+                              fontSize: "var(--text-xs)",
                               color: "var(--color-text-muted)",
                             }}
                           >
@@ -500,7 +500,7 @@ export default function AdminReceipts({
                               >
                                 {item.label}
                               </div>
-                              <div style={{ fontSize: "13px", fontWeight: 600 }}>
+                              <div style={{ fontSize: "var(--text-sm)", fontWeight: 600 }}>
                                 {item.value}
                               </div>
                             </div>
@@ -542,7 +542,7 @@ export default function AdminReceipts({
                                 color="var(--color-primary)"
                                 style={{ marginBottom: 12 }}
                               />
-                              <p style={{ fontWeight: 700, fontSize: "14px" }}>
+                              <p style={{ fontWeight: 700, fontSize: "var(--text-sm)" }}>
                                 {previewReceipt.fileName}
                               </p>
                               <a
@@ -576,7 +576,7 @@ export default function AdminReceipts({
                           <div>
                             <label
                               style={{
-                                fontSize: "12px",
+                                fontSize: "var(--text-xs)",
                                 fontWeight: 700,
                                 color: "var(--color-text-muted)",
                                 display: "block",
@@ -594,7 +594,7 @@ export default function AdminReceipts({
                                 padding: "10px 14px",
                                 borderRadius: "10px",
                                 border: "1px solid var(--color-border)",
-                                fontSize: "13px",
+                                fontSize: "var(--text-sm)",
                                 minHeight: "60px",
                                 resize: "vertical",
                                 marginBottom: "16px",
@@ -708,7 +708,7 @@ export default function AdminReceipts({
                                 gap: 8,
                                 marginBottom: 8,
                                 fontWeight: 700,
-                                fontSize: "14px",
+                                fontSize: "var(--text-sm)",
                                 color:
                                   previewReceipt.status === "approved"
                                     ? "var(--color-sport-green)"
@@ -726,7 +726,7 @@ export default function AdminReceipts({
                             </div>
                             <p
                               style={{
-                                fontSize: "12px",
+                                fontSize: "var(--text-xs)",
                                 color: "var(--color-text-secondary)",
                                 margin: 0,
                               }}
@@ -746,5 +746,6 @@ export default function AdminReceipts({
             </motion.div>
   );
 }
+
 
 
