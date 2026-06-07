@@ -13,7 +13,7 @@ export default function AdminSidebar({ activeTab, setActiveTab, contactMessages,
         padding: "var(--space-xl) var(--space-md)",
       }}
     >
-          <div style={{ marginBottom: "var(--space-2xl)", padding: "0 var(--space-sm)" }}>
+          <div className="admin-sidebar-header" style={{ marginBottom: "var(--space-2xl)", padding: "0 var(--space-sm)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
               <div
                 style={{

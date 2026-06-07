@@ -789,7 +789,7 @@ export default function AdminPage() {
              left: -280px; 
              width: 280px; 
              height: 100vh; 
-             z-index: 900; 
+             z-index: 1050; 
              transition: left 0.3s ease; 
              background: white;
              box-shadow: 2px 0 10px rgba(0,0,0,0.1);
@@ -801,6 +801,10 @@ export default function AdminPage() {
             top: 0;
             height: 100vh;
             box-shadow: none;
+            padding-top: 80px !important;
+          }
+          .admin-sidebar-header {
+            display: none !important;
           }
           .admin-sidebar-wrapper.open { left: 0; }
           .admin-main { padding: var(--space-md); overflow-x: hidden; max-width: 100%; box-sizing: border-box; }
@@ -810,15 +814,15 @@ export default function AdminPage() {
              padding: 16px; 
              position: sticky;
              top: 0;
-             z-index: 1000;
+             z-index: 1100;
              background: white;
              border-bottom: 1px solid var(--color-border);
           }
           .mobile-menu-btn { 
              display: flex; 
              align-items: center; 
-             gap: 12px; 
-             background: transparent; 
+             justify-content: center; 
+             background: none; 
              border: none; 
              cursor: pointer; 
              padding: 0;
@@ -828,7 +832,7 @@ export default function AdminPage() {
             position: fixed;
             inset: 0;
             background: rgba(0,0,0,0.5);
-            z-index: 950;
+            z-index: 1000;
           }
         }
         @media (max-width: 600px) {
