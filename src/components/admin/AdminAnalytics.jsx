@@ -111,15 +111,7 @@ export default function AdminAnalytics({ showToast, setModalType, setModalOpen, 
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              <div
-                className="admin-analytics-grid"
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-                  gridTemplateRows: "auto 1fr",
-                  gap: "var(--space-xl)",
-                }}
-              >
+              <div className="admin-analytics-grid">
                 {/* Revenue Breakdown (top-left) */}
                 <div
                   className="admin-card"
