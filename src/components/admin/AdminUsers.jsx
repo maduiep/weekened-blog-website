@@ -22,6 +22,15 @@ const RANGE_BG = {
 };
 
 export default function AdminUsers({ searchQuery, setSearchQuery, filterStatus, setFilterStatus, filtered, handleRevoke, PLAN_COLORS, adminUser, deleteUser, disconnectUser, showToast }) {
+  const formatDate = (iso) => {
+    if (!iso) return "—";
+    return new Date(iso).toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
   return (
     <motion.div
               key="users"
