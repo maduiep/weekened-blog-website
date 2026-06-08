@@ -765,14 +765,19 @@ export default function AdminPage() {
       </AnimatePresence>
 
       <style>{`
-        .admin-layout { display: flex; width: 100%; min-height: 100vh; position: relative; }
-        .admin-main { flex: 1; padding: 0 var(--space-lg) var(--space-2xl); overflow-y: auto; background: #f8fafc; max-width: 100%; box-sizing: border-box; }
+        body { overflow: hidden !important; }
+        footer, .site-footer { display: none !important; }
+        .admin-layout { display: flex; width: 100%; height: 100%; position: relative; }
+        .admin-main { flex: 1; height: 100%; padding: 0 var(--space-lg) var(--space-2xl); overflow-y: auto; background: #f8fafc; width: calc(100% - 280px); margin-left: 280px; box-sizing: border-box; }
         .admin-sidebar-wrapper { display: block; z-index: 40; }
         .admin-sidebar-container { 
+          position: fixed;
+          top: 160px;
+          bottom: 0;
+          left: 0;
           width: 280px; 
           border-right: 1px solid var(--color-border);
-          height: 100%;
-          overflow-y: auto;
+          overflow-y: hidden;
           box-shadow: 4px 0 24px rgba(0,0,0,0.02);
           z-index: 40;
         }
