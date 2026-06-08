@@ -768,7 +768,7 @@ export default function AdminPage() {
         body { overflow: hidden !important; }
         footer, .site-footer { display: none !important; }
         .admin-layout { display: flex; width: 100%; height: 100%; position: relative; }
-        .admin-main { flex: 1; height: 100%; padding: 0 var(--space-lg) var(--space-2xl); overflow-y: auto; background: #f8fafc; width: calc(100% - 280px); margin-left: 280px; box-sizing: border-box; }
+        .admin-main { flex: 1; height: 100%; padding: var(--space-md) var(--space-lg) var(--space-2xl); overflow-y: auto; background: #f8fafc; width: calc(100% - 280px); margin-left: 280px; box-sizing: border-box; }
         .admin-sidebar-wrapper { display: block; z-index: 40; }
         .admin-sidebar-container { 
           position: fixed;
