@@ -367,7 +367,7 @@ export default function AdminPage() {
   return (
     <div
       className="admin-page"
-      style={{ background: "#f8fafc", height: "calc(100vh - 160px)", overflow: "hidden" }}
+      style={{ background: "#f8fafc", minHeight: "100vh" }}
     >
       {/* Toast */}
       <AnimatePresence>
@@ -765,19 +765,16 @@ export default function AdminPage() {
       </AnimatePresence>
 
       <style>{`
-        body { overflow: hidden !important; }
-        footer, .site-footer { display: none !important; }
-        .admin-layout { display: flex; width: 100%; height: 100%; position: relative; }
-        .admin-main { flex: 1; height: 100%; padding: var(--space-md) var(--space-lg) var(--space-2xl); overflow-y: auto; background: #f8fafc; width: calc(100% - 280px); margin-left: 280px; box-sizing: border-box; }
+        .admin-layout { display: flex; width: 100%; min-height: calc(100vh - 160px); position: relative; }
+        .admin-main { flex: 1; padding: var(--space-md) var(--space-lg) var(--space-2xl); background: #f8fafc; max-width: calc(100% - 280px); box-sizing: border-box; }
         .admin-sidebar-wrapper { display: block; z-index: 40; }
         .admin-sidebar-container { 
-          position: fixed;
-          top: 160px;
-          bottom: 0;
-          left: 0;
           width: 280px; 
           border-right: 1px solid var(--color-border);
-          overflow-y: hidden;
+          position: sticky;
+          top: 120px;
+          height: calc(100vh - 120px);
+          overflow-y: auto;
           box-shadow: 4px 0 24px rgba(0,0,0,0.02);
           z-index: 40;
         }
