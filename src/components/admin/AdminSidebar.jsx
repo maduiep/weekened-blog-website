@@ -10,10 +10,10 @@ export default function AdminSidebar({ activeTab, setActiveTab, contactMessages,
         flexDirection: "column",
         overflowY: "auto",
         flexShrink: 0,
-        padding: "var(--space-md)",
+        padding: "0 var(--space-md) var(--space-md)",
       }}
     >
-          <div className="admin-sidebar-header" style={{ marginBottom: "var(--space-2xl)", padding: "0 var(--space-sm)" }}>
+          <div className="admin-sidebar-header" style={{ marginTop: "var(--space-md)", marginBottom: "var(--space-md)", padding: "0 var(--space-sm)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
               <div
                 style={{

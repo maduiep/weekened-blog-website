@@ -772,8 +772,8 @@ export default function AdminPage() {
           width: 280px; 
           border-right: 1px solid var(--color-border);
           position: sticky;
-          top: 70px;
-          height: calc(100vh - 70px);
+          top: 140px;
+          height: calc(100vh - 140px);
           box-shadow: 4px 0 24px rgba(0,0,0,0.02);
           z-index: 40;
         }
