@@ -367,7 +367,7 @@ export default function AdminPage() {
   return (
     <div
       className="admin-page"
-      style={{ background: "#f8fafc", minHeight: "100vh" }}
+      style={{ background: "#f8fafc", height: "calc(100vh - 160px)", overflow: "hidden" }}
     >
       {/* Toast */}
       <AnimatePresence>
@@ -771,9 +771,8 @@ export default function AdminPage() {
         .admin-sidebar-container { 
           width: 280px; 
           border-right: 1px solid var(--color-border);
-          position: sticky;
-          top: 120px;
-          height: calc(100vh - 120px);
+          height: 100%;
+          overflow-y: auto;
           box-shadow: 4px 0 24px rgba(0,0,0,0.02);
           z-index: 40;
         }
