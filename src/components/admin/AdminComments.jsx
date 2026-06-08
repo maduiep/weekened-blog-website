@@ -242,8 +242,6 @@ export default function AdminComments({ adminUser, showToast }) {
             )}
           </tbody>
         </table></div>
-      </div>
-
       <AnimatePresence>
         {replyingTo && (
           <motion.div
