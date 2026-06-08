@@ -766,14 +766,14 @@ export default function AdminPage() {
 
       <style>{`
         .admin-layout { display: flex; width: 100%; min-height: 100vh; position: relative; }
-        .admin-main { flex: 1; padding: var(--space-md) var(--space-lg) var(--space-2xl); overflow-y: auto; background: #f8fafc; max-width: 100%; box-sizing: border-box; }
+        .admin-main { flex: 1; padding: 0 var(--space-lg) var(--space-2xl); overflow-y: auto; background: #f8fafc; max-width: 100%; box-sizing: border-box; }
         .admin-sidebar-wrapper { display: block; z-index: 40; }
         .admin-sidebar-container { 
           width: 280px; 
           border-right: 1px solid var(--color-border);
           position: sticky;
-          top: 140px;
-          height: calc(100vh - 140px);
+          top: 120px;
+          height: calc(100vh - 120px);
           box-shadow: 4px 0 24px rgba(0,0,0,0.02);
           z-index: 40;
         }
