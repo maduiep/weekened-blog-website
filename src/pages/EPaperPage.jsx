@@ -48,6 +48,7 @@ export default function EPaperPage() {
     }
 
     setDownloading(ep.id);
+    setDownloadError(null);
     const isAuthorized = await checkDeviceAuthorization(authUser.uid, authUser.subscriptionPlan);
     
     if (!isAuthorized) {
@@ -56,92 +57,33 @@ export default function EPaperPage() {
       return;
     }
 
-    // Launch Interactive Viewer instead of direct download
-    setActiveEPaper(ep);
-    setDownloading(null);
-    return;
-
     const downloadKey = `wp_download_count_${ep.id}`;
     const currentCount = parseInt(localStorage.getItem(downloadKey) || '0');
     if (currentCount >= 3) {
       setDownloadError('Download limit reached (3 per edition). Contact support for additional access.');
+      setDownloading(null);
       return;
     }
 
-    setDownloading(ep.id);
-    setDownloadError(null);
-
     try {
-      const session = JSON.parse(localStorage.getItem("wp_session") || "null");
-      const sessionToken = session?.activeSessionId;
-      if (!sessionToken) {
-        throw new Error("Active session token is missing.");
-      }
-
-      const tokenResponse = await fetch(
-        `http://localhost:3001/api/epaper/request-download/${ep.id}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            sessionToken,
-            email: authUser?.email,
-            editionId: ep.id,
-          }),
-        },
-      );
-
-      if (!tokenResponse.ok) {
-        const errorData = await tokenResponse.json();
-        throw new Error(
-          errorData.error || "Unable to generate download token.",
-        );
-      }
-
-      const { downloadToken } = await tokenResponse.json();
-      const endpoint = `http://localhost:3001/api/epaper/download/${ep.id}?token=${downloadToken}&sessionToken=${sessionToken}`;
-      const response = await fetch(endpoint, { method: "GET" });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Download failed.");
-      }
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
+      // Simulate network request
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
       const link = document.createElement("a");
-      link.href = url;
+      link.href = "/pdfs/weekendpost-demo.pdf";
       link.download = `${ep.title.replace(/[^a-z0-9]/gi, "_").toLowerCase()}.pdf`;
       document.body.appendChild(link);
       link.click();
       link.remove();
-      window.URL.revokeObjectURL(url);
 
-      localStorage.setItem(`wp_download_count_${ep.id}`, (parseInt(localStorage.getItem(`wp_download_count_${ep.id}`) || '0') + 1).toString());
+      localStorage.setItem(`wp_download_count_${ep.id}`, (currentCount + 1).toString());
       const logs = JSON.parse(localStorage.getItem('wp_download_log') || '[]');
       logs.push({ editionId: ep.id, email: authUser?.email, timestamp: new Date().toISOString(), deviceInfo: navigator.userAgent.substring(0, 50) });
       localStorage.setItem('wp_download_log', JSON.stringify(logs));
 
-      alert(`Success! ${ep.title} PDF download has started.`);
     } catch (error) {
       console.error("E-Paper download error:", error);
-      // Map common network/fetch errors to friendlier messages
-      let friendly = "Unable to start download. Please try again later.";
-      if (
-        error instanceof TypeError ||
-        /failed to fetch/i.test(error.message || "")
-      ) {
-        friendly =
-          "Cannot contact the download server. Check your network or try again later.";
-      } else if (error.message && /token/i.test(error.message.toLowerCase())) {
-        friendly =
-          "Unable to generate a secure download token. Please sign in again and try.";
-      } else if (error.message) {
-        friendly = error.message;
-      }
-      setDownloadError(friendly);
+      setDownloadError("Unable to start download. Please try again later.");
     } finally {
       setDownloading(null);
     }
