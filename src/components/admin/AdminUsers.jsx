@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Search, ShieldCheck, Mail, CheckCircle, XCircle, CreditCard, Trash2, Eye } from 'lucide-react';
+import { Search, ShieldCheck, Mail, CheckCircle, XCircle, CreditCard, Trash2, Eye, X } from 'lucide-react';
+import { useState } from 'react';
 
 const PLAN_COLORS = {
   weekly: "var(--color-sport-green)",
@@ -22,6 +23,8 @@ const RANGE_BG = {
 };
 
 export default function AdminUsers({ searchQuery, setSearchQuery, filterStatus, setFilterStatus, filtered, handleRevoke, PLAN_COLORS, adminUser, deleteUser, disconnectUser, showToast }) {
+  const [selectedUser, setSelectedUser] = useState(null);
+
   const formatDate = (iso) => {
     if (!iso) return "—";
     return new Date(iso).toLocaleDateString("en-GB", {
@@ -344,6 +347,7 @@ export default function AdminUsers({ searchQuery, setSearchQuery, filterStatus, 
                               <button
                                 className="admin-action-btn"
                                 title="View Details"
+                                onClick={() => setSelectedUser(u)}
                                 style={{
                                   color: "var(--color-primary)",
                                   background: "rgba(0,126,151,0.05)",
@@ -359,6 +363,93 @@ export default function AdminUsers({ searchQuery, setSearchQuery, filterStatus, 
                   </table>
                 </div>
               </div>
+
+              {/* User Details Modal */}
+              {selectedUser && (
+                <div style={{
+                  position: "fixed",
+                  top: 0, left: 0, right: 0, bottom: 0,
+                  background: "rgba(0,0,0,0.5)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  zIndex: 9999,
+                  padding: "var(--space-md)"
+                }}>
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    style={{
+                      background: "white",
+                      borderRadius: "var(--radius-xl)",
+                      width: "100%",
+                      maxWidth: "500px",
+                      overflow: "hidden",
+                      boxShadow: "var(--shadow-xl)"
+                    }}
+                  >
+                    <div style={{
+                      padding: "var(--space-lg)",
+                      borderBottom: "1px solid var(--color-border)",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center"
+                    }}>
+                      <h3 style={{ fontSize: "var(--text-xl)", margin: 0 }}>User Details</h3>
+                      <button 
+                        onClick={() => setSelectedUser(null)}
+                        style={{ background: "none", border: "none", cursor: "pointer", color: "var(--color-text-muted)" }}
+                      >
+                        <X size={20} />
+                      </button>
+                    </div>
+                    <div style={{ padding: "var(--space-lg)", display: "flex", flexDirection: "column", gap: "var(--space-md)" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "var(--space-md)", paddingBottom: "var(--space-md)", borderBottom: "1px solid var(--color-border)" }}>
+                        <div style={{ width: 64, height: 64, borderRadius: "50%", background: "var(--color-primary)", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "var(--text-2xl)", fontWeight: 800 }}>
+                          {selectedUser.avatar || selectedUser.name.charAt(0)}
+                        </div>
+                        <div>
+                          <h4 style={{ fontSize: "var(--text-lg)", margin: "0 0 4px 0" }}>{selectedUser.name}</h4>
+                          <div style={{ color: "var(--color-text-muted)", fontSize: "var(--text-sm)", display: "flex", alignItems: "center", gap: 6 }}>
+                            <Mail size={14} /> {selectedUser.email}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-md)" }}>
+                        <div>
+                          <label style={{ fontSize: "var(--text-xs)", color: "var(--color-text-muted)", textTransform: "uppercase", fontWeight: 700 }}>Role</label>
+                          <div style={{ fontWeight: 600, marginTop: 4 }}>{selectedUser.isAdmin ? "Administrator" : "Standard User"}</div>
+                        </div>
+                        <div>
+                          <label style={{ fontSize: "var(--text-xs)", color: "var(--color-text-muted)", textTransform: "uppercase", fontWeight: 700 }}>Status</label>
+                          <div style={{ fontWeight: 600, marginTop: 4, color: selectedUser.isBlocked ? "var(--color-news-red)" : "var(--color-sport-green)" }}>
+                            {selectedUser.isBlocked ? "Suspended" : "Active"}
+                          </div>
+                        </div>
+                        <div>
+                          <label style={{ fontSize: "var(--text-xs)", color: "var(--color-text-muted)", textTransform: "uppercase", fontWeight: 700 }}>Subscription Plan</label>
+                          <div style={{ fontWeight: 600, marginTop: 4, color: "var(--color-primary)" }}>
+                            {selectedUser.isSubscribed ? (selectedUser.subscriptionPlan ? selectedUser.subscriptionPlan.toUpperCase() : "PAID") : "Free Tier"}
+                          </div>
+                        </div>
+                        <div>
+                          <label style={{ fontSize: "var(--text-xs)", color: "var(--color-text-muted)", textTransform: "uppercase", fontWeight: 700 }}>Active Devices</label>
+                          <div style={{ fontWeight: 600, marginTop: 4 }}>{selectedUser.activeSessionId ? "1 Connected" : "None"}</div>
+                        </div>
+                        <div>
+                          <label style={{ fontSize: "var(--text-xs)", color: "var(--color-text-muted)", textTransform: "uppercase", fontWeight: 700 }}>Joined Date</label>
+                          <div style={{ fontWeight: 600, marginTop: 4 }}>{formatDate(selectedUser.createdAt)}</div>
+                        </div>
+                        <div>
+                          <label style={{ fontSize: "var(--text-xs)", color: "var(--color-text-muted)", textTransform: "uppercase", fontWeight: 700 }}>User ID</label>
+                          <div style={{ fontWeight: 600, marginTop: 4, fontSize: "var(--text-xs)", wordBreak: "break-all" }}>{selectedUser.uid}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                </div>
+              )}
             </motion.div>
   );
 }

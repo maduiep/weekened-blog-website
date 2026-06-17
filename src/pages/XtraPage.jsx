@@ -1,10 +1,14 @@
 import { motion } from "framer-motion";
 import { Download, FileText, Star, Lock, Zap, Award, Globe, ArrowRight } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function XtraPage() {
   const [downloading, setDownloading] = useState(null);
   const [email, setEmail] = useState("");
+  const { isLoggedIn, isSubscribed } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubscribe = () => {
     if (!email || !email.includes("@")) {
@@ -31,7 +35,7 @@ export default function XtraPage() {
       date: "June 15, 2026",
       cover: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800",
       fileSize: "4.2 MB",
-      isFree: true,
+      isFree: false,
     },
     {
       id: 5,
@@ -40,7 +44,7 @@ export default function XtraPage() {
       date: "May 15, 2026",
       cover: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&q=80&w=800",
       fileSize: "5.1 MB",
-      isFree: true,
+      isFree: false,
     },
     {
       id: 4,
@@ -49,7 +53,7 @@ export default function XtraPage() {
       date: "April 15, 2026",
       cover: "https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&q=80&w=800",
       fileSize: "3.8 MB",
-      isFree: true,
+      isFree: false,
     },
     {
       id: 3,
@@ -58,7 +62,7 @@ export default function XtraPage() {
       date: "March 15, 2026",
       cover: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800",
       fileSize: "4.5 MB",
-      isFree: true,
+      isFree: false,
     },
     {
       id: 2,
@@ -67,7 +71,7 @@ export default function XtraPage() {
       date: "February 15, 2026",
       cover: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&q=80&w=800",
       fileSize: "6.2 MB",
-      isFree: true,
+      isFree: false,
     },
     {
       id: 1,
@@ -76,15 +80,29 @@ export default function XtraPage() {
       date: "January 15, 2026",
       cover: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800",
       fileSize: "4.0 MB",
-      isFree: true,
+      isFree: false,
     }
   ];
 
   const handleDownload = (edition) => {
+    if (!isLoggedIn) {
+      navigate("/user-auth?tab=signup");
+      return;
+    }
+    if (!isSubscribed) {
+      navigate("/subscribe");
+      return;
+    }
+
     setDownloading(edition.id);
     setTimeout(() => {
-      alert(`Started downloading: ${edition.title}`);
       setDownloading(null);
+      const link = document.createElement('a');
+      link.href = '/pdfs/weekendpost-demo.pdf';
+      link.download = `${edition.title.replace(/\s+/g, '-')}-Edition.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }, 1500);
   };
 
@@ -127,7 +145,7 @@ export default function XtraPage() {
               fontSize: "var(--text-lg)",
             }}
           >
-            Our premier online-only publication. Deep dives, exclusive interviews, and rich multimedia content. Currently available to download for free.
+            Our premier online-only publication. Deep dives, exclusive interviews, and rich multimedia content. Available exclusively for our subscribers.
           </motion.p>
         </div>
       </div>

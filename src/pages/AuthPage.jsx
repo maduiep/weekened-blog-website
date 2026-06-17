@@ -45,6 +45,9 @@ export default function AuthPage() {
     confirm: "",
     agree: false,
   });
+  
+  // Forgot password form
+  const [forgotEmail, setForgotEmail] = useState("");
 
   const { login, signup, isLoggedIn, adminLogin } = useAuth();
   const navigate = useNavigate();
@@ -114,6 +117,26 @@ export default function AuthPage() {
       setGeneratedOtp("");
       setOtpInput("");
     }
+  };
+
+  const handleForgotPassword = (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+    if (!forgotEmail || !forgotEmail.includes("@")) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setSuccess("If an account exists with that email, we have sent a password reset link.");
+      setForgotEmail("");
+      setTimeout(() => {
+        setTab("signin");
+        setSuccess("");
+      }, 3500);
+    }, 1500);
   };
 
   const handleSignUp = async (e) => {
@@ -280,13 +303,13 @@ export default function AuthPage() {
           <div className="auth-tabs">
             <button
               className={`auth-tab ${tab === "signin" ? "active" : ""}`}
-              onClick={() => setTab("signin")}
+              onClick={() => { setTab("signin"); setError(""); setSuccess(""); }}
             >
               Sign In
             </button>
             <button
               className={`auth-tab ${tab === "signup" ? "active" : ""}`}
-              onClick={() => setTab("signup")}
+              onClick={() => { setTab("signup"); setError(""); setSuccess(""); }}
             >
               Create Account
             </button>
@@ -344,6 +367,7 @@ export default function AuthPage() {
                       Password
                       <a
                         href="#"
+                        onClick={(e) => { e.preventDefault(); setTab("forgot"); }}
                         style={{ fontSize: "var(--text-xs)", fontWeight: 400 }}
                       >
                         Forgot password?
@@ -495,7 +519,7 @@ export default function AuthPage() {
                   </div>
                 )}
               </>
-            ) : (
+            ) : tab === "signup" ? (
               <motion.form
                 key="signup"
                 initial={{ opacity: 0, y: 10 }}
@@ -703,6 +727,60 @@ export default function AuthPage() {
                 >
                   {loading ? "Creating Secure Account..." : "Create Account"}
                 </button>
+              </motion.form>
+            ) : (
+              <motion.form
+                key="forgot"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                onSubmit={handleForgotPassword}
+              >
+                <div style={{ marginBottom: "var(--space-xl)", textAlign: "center", color: "var(--color-text-secondary)", fontSize: "var(--text-sm)" }}>
+                  Enter your email address and we'll send you a link to reset your password.
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Email Address</label>
+                  <div style={{ position: "relative" }}>
+                    <Mail
+                      size={16}
+                      style={{
+                        position: "absolute",
+                        left: 14,
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        color: "var(--color-text-muted)",
+                      }}
+                    />
+                    <input
+                      type="email"
+                      className="form-input"
+                      placeholder="you@example.com"
+                      autoComplete="off"
+                      style={{ paddingLeft: 40 }}
+                      value={forgotEmail}
+                      onChange={(e) => setForgotEmail(e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-lg btn-block"
+                  disabled={loading}
+                  style={{ marginTop: "var(--space-md)" }}
+                >
+                  {loading ? "Sending..." : "Send Reset Link"}
+                </button>
+                <div style={{ marginTop: "var(--space-md)", textAlign: "center" }}>
+                  <a
+                    href="#"
+                    onClick={(e) => { e.preventDefault(); setTab("signin"); }}
+                    style={{ fontSize: "var(--text-sm)", color: "var(--color-text-muted)" }}
+                  >
+                    Back to Sign In
+                  </a>
+                </div>
               </motion.form>
             )}
           </AnimatePresence>
