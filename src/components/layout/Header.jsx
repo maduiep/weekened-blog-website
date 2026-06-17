@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import logo from "../../assets/logo.png";
 import {
   Menu,
   X,
@@ -107,8 +108,8 @@ export default function Header() {
         <div className="container">
           <div className="header-top">
             <div className="header-brand">
-              <Link to="/" className="header-logo">
-                Weekend<span className="logo-accent">Post</span>
+              <Link to="/" className="header-logo" style={{ display: 'flex', alignItems: 'center' }}>
+                <img src={logo} alt="Weekend Post Logo" style={{ height: '40px' }} />
               </Link>
               <span className="header-date">{today}</span>
             </div>

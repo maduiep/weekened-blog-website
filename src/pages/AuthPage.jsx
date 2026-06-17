@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
+import logo from "../assets/logo.png";
 
 export default function AuthPage() {
   const [searchParams] = useSearchParams();
@@ -203,15 +204,9 @@ export default function AuthPage() {
           style={{ position: "relative", zIndex: 2 }}
         >
           <Link to="/" style={{ textDecoration: "none" }}>
-            <h2
-              style={{
-                color: "white",
-                fontSize: "var(--text-3xl)",
-                fontWeight: 800,
-              }}
-            >
-              Weekend<span style={{ color: "var(--color-gold)" }}>Post</span>
-            </h2>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: 'var(--space-md)' }}>
+              <img src={logo} alt="Weekend Post Logo" style={{ height: '50px', filter: 'brightness(0) invert(1)' }} />
+            </div>
           </Link>
           <p
             style={{

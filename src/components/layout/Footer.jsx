@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail } from 'lucide-react';
+import logo from '../../assets/logo.png';
 import { FacebookIcon, TwitterIcon, InstagramIcon, YoutubeIcon } from '../ui/SocialIcons';
 
 export default function Footer() {
@@ -8,8 +9,8 @@ export default function Footer() {
       <div className="container">
         <div className="footer-grid">
           <div>
-            <div className="footer-brand">
-              Weekend<span className="logo-accent">Post</span>
+            <div className="footer-brand" style={{ display: 'flex', alignItems: 'center' }}>
+              <img src={logo} alt="Weekend Post Logo" style={{ height: '40px', filter: 'brightness(0) invert(1)' }} />
             </div>
             <p className="footer-description">
               Botswana's leading independent newspaper, delivering trusted journalism 
