@@ -46,6 +46,7 @@ import AdminReceipts from "../components/admin/AdminReceipts";
 import AdminLogs from "../components/admin/AdminLogs";
 import AdminComments from "../components/admin/AdminComments";
 import AdminAdRequests from "../components/admin/AdminAdRequests";
+import AdminNewsletters from "../components/admin/AdminNewsletters";
 import { Megaphone } from "lucide-react";
 
 const PLAN_COLORS = {
@@ -524,6 +525,9 @@ export default function AdminPage() {
               adminUser={adminUser}
               showToast={showToast}
             />
+          )}
+          {activeTab === "newsletters" && (
+            <AdminNewsletters showToast={showToast} />
           )}
         </AnimatePresence>
           </div>

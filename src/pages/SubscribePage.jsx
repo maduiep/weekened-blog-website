@@ -189,7 +189,7 @@ export default function SubscribePage() {
             <motion.p
               style={{
                 textAlign: "center",
-                marginTop: "var(--space-xl)",
+                marginTop: "var(--space-sm)",
                 fontSize: "var(--text-sm)",
                 color: "var(--color-text-muted)",
               }}
@@ -218,13 +218,7 @@ export default function SubscribePage() {
           >
             Accepted Payment Methods
           </motion.h3>
-          <div
-            className="payment-methods-grid"
-            style={{
-              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-              maxWidth: "900px",
-            }}
-          >
+          <div className="payment-methods-grid">
             {paymentMethods.map((method) => (
               <motion.div
                 key={method.id}
@@ -309,24 +303,38 @@ export default function SubscribePage() {
 
       {/* Testimonials */}
       <section className="section">
-        <div className="container" style={{ maxWidth: "800px" }}>
+        <div className="container" style={{ maxWidth: "1200px" }}>
           <div
             className="section-header"
             style={{ justifyContent: "center", borderBottom: "none" }}
           >
             <h2 className="section-title">What Our Readers Say</h2>
           </div>
-          <div className="grid-2" style={{ gap: "var(--space-xl)" }}>
+          <div className="grid-4" style={{ gap: "var(--space-xl)" }}>
             {[
               {
                 name: "Tebogo M.",
                 text: "Weekend Post keeps me informed about everything happening in Botswana. The E-paper feature is incredibly convenient.",
                 role: "Business Owner, Gaborone",
+                image: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80"
               },
               {
                 name: "Naledi K.",
                 text: "Finally a Botswana news source I can trust with in-depth reporting. The annual subscription is great value.",
                 role: "Teacher, Francistown",
+                image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80"
+              },
+              {
+                name: "Karabo S.",
+                text: "I love the new digital features. Being able to read the news offline has completely changed my morning routine.",
+                role: "Financial Analyst, Maun",
+                image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&w=150&q=80"
+              },
+              {
+                name: "Bakang P.",
+                text: "The exclusive Xtra editions are worth the subscription price alone. Top-tier journalism that you can't find elsewhere.",
+                role: "Marketing Manager, Kasane",
+                image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&q=80"
               },
             ].map((t, i) => (
               <motion.div
@@ -340,6 +348,8 @@ export default function SubscribePage() {
                   background: "var(--color-bg)",
                   borderRadius: "var(--radius-xl)",
                   borderLeft: "4px solid var(--color-gold)",
+                  display: "flex",
+                  flexDirection: "column"
                 }}
               >
                 <div
@@ -358,22 +368,39 @@ export default function SubscribePage() {
                   style={{
                     fontStyle: "italic",
                     color: "var(--color-text-secondary)",
-                    marginBottom: "var(--space-lg)",
+                    marginBottom: "var(--space-xl)",
                     fontSize: "var(--text-md)",
+                    flexGrow: 1
                   }}
                 >
                   "{t.text}"
                 </p>
-                <div style={{ fontWeight: 700, fontSize: "var(--text-sm)" }}>
-                  {t.name}
-                </div>
-                <div
-                  style={{
-                    fontSize: "var(--text-xs)",
-                    color: "var(--color-text-muted)",
-                  }}
-                >
-                  {t.role}
+                <div style={{ display: "flex", alignItems: "center", gap: "var(--space-md)" }}>
+                  <img
+                    src={t.image}
+                    alt={t.name}
+                    style={{
+                      width: "48px",
+                      height: "48px",
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                      border: "2px solid var(--color-gold)",
+                      flexShrink: 0
+                    }}
+                  />
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: "var(--text-sm)" }}>
+                      {t.name}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "var(--text-xs)",
+                        color: "var(--color-text-muted)",
+                      }}
+                    >
+                      {t.role}
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             ))}

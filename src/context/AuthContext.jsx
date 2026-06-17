@@ -334,15 +334,18 @@ export function AuthProvider({ children }) {
         purchasedStories: users[idx].purchasedStories || [],
         subscriptionTier: users[idx].subscriptionTier || null,
       };
-      const isStoryPurchase = planId.startsWith("story:");
+      const isStoryPurchase = planId.startsWith("story:") || planId === "pay-per-story";
 
       if (isStoryPurchase) {
-        const articleId = Number(planId.split(":")[1]);
-        if (!updated.purchasedStories.includes(articleId)) {
-          updated.purchasedStories = [...updated.purchasedStories, articleId];
+        if (planId.startsWith("story:")) {
+          const articleId = Number(planId.split(":")[1]);
+          if (!updated.purchasedStories.includes(articleId)) {
+            updated.purchasedStories = [...updated.purchasedStories, articleId];
+          }
         }
-        updated.subscriptionPlan = "storypass";
-        updated.isSubscribed = updated.isSubscribed || false;
+        updated.subscriptionPlan = "pay-per-story";
+        updated.isSubscribed = false;
+        updated.subscriptionExpiry = null;
       } else {
         const expiryMap = {
           weekly: 7,
@@ -350,15 +353,11 @@ export function AuthProvider({ children }) {
           annual: 365,
           corporate: 365,
           enterprise: 730,
-          storypass: 0,
         };
         const days = expiryMap[planId] || 30;
-        const expiry =
-          planId === "storypass"
-            ? null
-            : new Date(Date.now() + days * 86400000).toISOString();
+        const expiry = new Date(Date.now() + days * 86400000).toISOString();
 
-        updated.isSubscribed = planId !== "storypass";
+        updated.isSubscribed = true;
         updated.subscriptionPlan = planId;
         updated.subscriptionExpiry = expiry;
         if (planId === "corporate") updated.subscriptionTier = "Corporate";

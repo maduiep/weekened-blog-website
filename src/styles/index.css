@@ -1674,7 +1674,7 @@ select {
 
 .pricing-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--space-xl);
   padding: var(--space-2xl) 0;
   align-items: start;
@@ -1684,10 +1684,13 @@ select {
   background: var(--color-white);
   border: 2px solid var(--color-border);
   border-radius: var(--radius-xl);
-  padding: var(--space-2xl);
+  padding: var(--space-2xl) var(--space-xl);
   text-align: center;
   transition: all var(--transition-slow);
   position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .pricing-card:hover {
@@ -1712,12 +1715,14 @@ select {
   transform: translateX(-50%);
   background: var(--color-gold);
   color: var(--color-dark);
-  padding: 5px 20px;
+  padding: 6px 20px;
   border-radius: var(--radius-full);
   font-size: var(--text-xs);
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 1px;
+  white-space: nowrap;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .pricing-name {
@@ -1754,6 +1759,7 @@ select {
 .pricing-features {
   text-align: left;
   margin-bottom: var(--space-xl);
+  flex-grow: 1;
 }
 
 .pricing-feature {

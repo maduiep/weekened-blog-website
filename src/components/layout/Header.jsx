@@ -57,6 +57,7 @@ export default function Header() {
     { label: "Weekend Life", path: "/category/lifestyle" },
     { label: "E-Paper", path: "/epaper" },
     { label: "Solutions", path: "/solutions" },
+    { label: "WeekendPost Xtra", path: "/xtra" },
   ];
 
   const breakingNews = articles.slice(0, 4);
@@ -196,8 +197,8 @@ export default function Header() {
                 </div>
               ) : (
                 <>
-                  <Link to="/subscribe" className="btn btn-primary btn-sm">
-                    Subscribe
+                  <Link to="/subscribe" className="btn btn-primary btn-lg" style={{ background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))", color: "#fff", border: "none" }} aria-label="Subscribe to Weekend Post">
+                 Subscribe
                   </Link>
                   <Link to="/user-auth" className="btn btn-ghost btn-sm">
                     <User size={14} /> Sign In

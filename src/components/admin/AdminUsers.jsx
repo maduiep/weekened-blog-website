@@ -197,7 +197,7 @@ export default function AdminUsers({ searchQuery, setSearchQuery, filterStatus, 
                             )}
                           </td>
                           <td>
-                            {u.isSubscribed ? (
+                            {u.isSubscribed || u.subscriptionPlan === "pay-per-story" ? (
                               <span
                                 style={{
                                   color:
@@ -209,8 +209,8 @@ export default function AdminUsers({ searchQuery, setSearchQuery, filterStatus, 
                                 }}
                               >
                                 {u.subscriptionTier ||
-                                  (u.subscriptionPlan === "storypass"
-                                    ? "Story Pass"
+                                  (u.subscriptionPlan === "pay-per-story"
+                                    ? "Pay Per Story"
                                     : u.subscriptionPlan
                                       ? u.subscriptionPlan
                                           .charAt(0)

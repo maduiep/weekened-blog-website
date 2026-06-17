@@ -45,7 +45,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
 
   const isArticle = redirect && redirect.startsWith("/article/");
   const isStoryPurchase =
-    plan?.id === "storypass" || plan?.id?.startsWith("story:");
+    plan?.id === "pay-per-story" || plan?.id?.startsWith("story:");
   const successRedirect = redirect || "/article/1";
 
   const method = paymentMethods.find(m => m.id === tab) || paymentMethods[0];
@@ -86,7 +86,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
           date: new Date().toISOString(),
           email: user?.email,
           planId: plan.id,
-          planName: isStoryPurchase ? 'One-Story Pass' : plan.name,
+          planName: isStoryPurchase ? 'Pay Per Story' : plan.name,
           amount: plan.price,
           status: 'Paid',
           method: method.name
@@ -130,7 +130,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
         userName: user?.name || "Unknown",
         userEmail: user?.email || "Unknown",
         planId: plan.id,
-        planName: isStoryPurchase ? "One-Story Pass" : plan.name,
+        planName: isStoryPurchase ? "Pay Per Story" : plan.name,
         amount: plan.price,
         currency: plan.currency || "P",
         fileName: proofFile.name,
@@ -153,7 +153,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
         date: new Date().toISOString(),
         email: user?.email,
         planId: plan.id,
-        planName: isStoryPurchase ? "One-Story Pass" : plan.name,
+        planName: isStoryPurchase ? "Pay Per Story" : plan.name,
         amount: plan.price,
         status: "Pending Verification",
         method: method.name,
@@ -190,7 +190,7 @@ export default function PaymentModal({ plan, onClose, redirect }) {
         date: new Date().toISOString(),
         email: user?.email,
         planId: plan.id,
-        planName: isStoryPurchase ? 'One-Story Pass' : plan.name,
+        planName: isStoryPurchase ? 'Pay Per Story' : plan.name,
         amount: plan.price,
         status: 'Paid',
         method: method.name

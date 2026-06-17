@@ -19,6 +19,7 @@ import AdminPage from "./pages/AdminPage";
 import CareersPage from "./pages/CareersPage";
 import TendersPage from "./pages/TendersPage";
 import LegalPage from "./pages/LegalPage";
+import XtraPage from "./pages/XtraPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
@@ -207,6 +208,7 @@ export default function App() {
                   <Route path="/article/:id" element={<ArticlePage />} />
                   <Route path="/subscribe" element={<SubscribePage />} />
                   <Route path="/epaper" element={<EPaperPage />} />
+                  <Route path="/xtra" element={<XtraPage />} />
                   <Route path="/solutions" element={<SolutionsPage />} />
                   <Route path="/contact" element={<ContactPage />} />
                   <Route path="/search" element={<SearchPage />} />
